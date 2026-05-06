@@ -1,5 +1,7 @@
+'use client';
+
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '@/assets/svgs/logo.svg'
 import Typography from '../primitives/inputs/Typography'
 import { Path } from '@/type/type';
@@ -8,27 +10,52 @@ import { Path } from '@/type/type';
 import agent from '@/assets/svgs/agent-portrait.jpg';
 import blueprint from '@/assets/svgs/blueprint-desk.jpg'
 import { paths } from '@/constant/data';
+import Link from 'next/link';
+import { Menu, X } from 'lucide-react';
+import Button from '../primitives/buttons/Button';
 
 
 export function PublicNav() {
-  const links = ["Platform", "Solutions", "Network", "Insights"];
+
+  const items = ["Platform", "Solutions", "Network", "Insights"];
+
+  const [openMenu, setOpenMenu] = useState(false);
+  const [activeItem, setActiveItem] = useState("Platform");
+
+    const handleNavClick = (e: any, item: any) => {
+      e.preventDefault();
+
+      setActiveItem(item); 
+      const sectionId = item.toLowerCase();
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
   return (
-    <header className="absolute top-0 inset-x-0 z-20">
+    <header id='platform' className="top-0 inset-x-0 z-9999 h-20 border-b fixed bg-[#F8FAFC]">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 h-20 flex items-center justify-between">
         <Image src={logo} alt='' loading='lazy' className=''/>
         <nav className="hidden md:flex items-center gap-9 text-sm font-medium text-ink-soft">
-          {links.map((l, i) => (
-            <a key={l} href="#" className={i === 0 ? "text-brand" : "hover:text-ink transition"}>
+          {items.map((l, i) => (
+            <a key={i} href={`#${l.toLowerCase()}`} 
+              onClick={(e) => handleNavClick(e, l)} 
+              className={activeItem === l ? "text-brand border-b border-b-brand" : "hover:text-ink transition"}>
               {l}
             </a>
           ))}
         </nav>
-        <a
-          href="#join"
-          className="inline-flex items-center rounded-full bg-brand px-5 py-2.5 text-sm font-medium text-brand-foreground shadow-sm hover:bg-brand/90 transition"
+        <Link
+          href="/auth/sign-in"
+          className="hidden md:inline-flex items-center rounded-full bg-brand px-5 py-2.5 text-sm font-medium text-brand-foreground shadow-sm hover:bg-brand/90 transition"
         >
           Join the Network
-        </a>
+        </Link>
+        {openMenu ? 
+          <X size={22} className='text-brand cursor-pointer md:hidden' onClick={() => setOpenMenu(false)} />: 
+          <Menu size={22} className='text-brand cursor-pointer md:hidden' onClick={() => setOpenMenu(true)} />
+        }
       </div>
     </header>
   );
@@ -36,7 +63,7 @@ export function PublicNav() {
 
 export function PublicHero() {
   return (
-    <section className="relative pt-32 pb-24 overflow-hidden">
+    <section className="relative pt-32 pb-24 overflow-hidden mt-20">
       <div
         aria-hidden
         className="absolute inset-0 -z-10"
@@ -55,7 +82,7 @@ export function PublicHero() {
       />
       <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-10 items-end">
         <div className="lg:col-span-7">
-          <h1 className="text-[clamp(3rem,7vw,6rem)] leading-[0.95] font-700 text-ink">
+          <h1 className="text-[clamp(3rem,7vw,6rem)] leading-[0.95] font-700 text-ink inline">
             Architect
             <br />
             <span className="text-brand">Your</span>
@@ -86,9 +113,10 @@ export function PublicHero() {
   );
 }
 
+
 export function Framework() {
   return (
-    <section className="py-24 lg:py-32">
+    <section id='solutions' className="py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-10">
         <div className="lg:col-span-5">
           <h2 className="text-4xl lg:text-5xl font-700 text-ink leading-[1.05]">
@@ -121,9 +149,9 @@ export function Framework() {
               className="h-full w-full object-cover"
             />
           </div>
-          <div className="mt-5">
-            <p className="eyebrow">Stability</p>
-            <p className="mt-1 font-600 text-ink">Institutional Trust</p>
+          <div className="mt-5 bg-[#EEF4FF] py-4 px-10 rounded-xl w-fit">
+            <p className="eyebrow text-[#727787] font-semibold uppercase">Stability</p>
+            <p className="mt-1 font-bold text-popover-foreground uppercase">Institutional Trust</p>
           </div>
         </div>
         <div className="lg:col-span-3 space-y-5">
@@ -226,7 +254,7 @@ export function PathCard({ p }: { p: Path }) {
 
 export function Paths() {
   return (
-    <section className="py-24 lg:py-32 bg-surface">
+    <section id='network' className="py-24 lg:py-32 bg-surface">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid lg:grid-cols-12 gap-10 items-end mb-14">
           <div className="lg:col-span-8">
@@ -301,11 +329,29 @@ export function OperatingSystem() {
 }
 
 
+const Plane = ({ points, color, opacity }: { points: string, color: string, opacity: number}) => (
+  <div
+    style={{
+      position: 'absolute',
+      inset: 0,
+      background: color,
+      opacity,
+      clipPath: `polygon(${points})`,
+    }}
+  />
+);
+
 
 
 export function CTA() {
   return (
-    <section id="join" className="relative py-28 overflow-hidden text-white">
+    <section id="insights" className="relative py-28 overflow-hidden text-white bg-[#0F1C2C]">
+      {/* <Plane points="0 0, 60% 0, 30% 100%, 0 100%"
+             color="#243040" opacity={0.6} />
+      <Plane points="40% 0, 100% 0, 100% 60%, 55% 100%"
+             color="#2a3a4d" opacity={0.4} />
+      <Plane points="20% 0, 70% 0, 50% 100%, 10% 100%"
+             color="#1a2535" opacity={0.5} /> */}
       <div
         aria-hidden
         className="absolute inset-0 -z-10"
@@ -330,12 +376,8 @@ export function CTA() {
           Commence?
         </h2>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <button className="rounded-md bg-brand px-6 py-3 text-sm font-600 text-brand-foreground hover:bg-brand/90 transition">
-            Apply to the Network
-          </button>
-          <button className="rounded-md bg-white/10 backdrop-blur px-6 py-3 text-sm font-600 text-white border border-white/20 hover:bg-white/15 transition">
-            Schedule Consultation
-          </button>
+          <Button variant='primary' size='lg'>Apply to the Network</Button>
+          <Button className='bg-[#F8F9FF1A] text-white' size='lg'>Schedule Consultation</Button>
         </div>
       </div>
     </section>
