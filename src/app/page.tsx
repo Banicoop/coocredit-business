@@ -3,7 +3,7 @@ import { CTA, Framework, OperatingSystem, Paths, PublicFooter, PublicHero, Publi
 
 export default function Home() {
   return (
-    <main className="">
+    <main className="min-h-screen bg-background text-ink">
       <PublicNav/>
       <PublicHero/>
       <Framework/>
