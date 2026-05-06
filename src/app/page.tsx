@@ -1,13 +1,15 @@
-import { Insight, PublicFooter, PublicHero, PublicTopbar, Solution } from "@/components/landing/LandingPage";
+import { CTA, Framework, OperatingSystem, Paths, PublicFooter, PublicHero, PublicNav } from "@/components/landing/LandingPage";
 
 
 export default function Home() {
   return (
     <main className="">
-      <PublicTopbar/>
+      <PublicNav/>
       <PublicHero/>
-      <Solution/>
-      <Insight/>
+      <Framework/>
+      <Paths/>
+      <OperatingSystem/>
+      <CTA/>
       <PublicFooter/>
     </main>
   );
