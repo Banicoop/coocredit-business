@@ -1,110 +1,77 @@
-'use client';
-
 import Image from 'next/image'
-import React, { useState } from 'react'
 import logo from '@/assets/svgs/logo.svg'
-import Typography from '../primitives/inputs/Typography'
 import { Path } from '@/type/type';
+import { paths } from '@/constant/data';
+import Button from '../primitives/buttons/Button';
+import { Navbar } from '../ui/Navbar';
 
 // IMAGES
 import agent from '@/assets/svgs/agent-portrait.jpg';
 import blueprint from '@/assets/svgs/blueprint-desk.jpg'
-import { paths } from '@/constant/data';
-import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
-import Button from '../primitives/buttons/Button';
+import heroImage from '@/assets/svgs/hero-cont.svg'
+
+// import { url } from 'node:inspector';
+
+
+const navItems = [
+  { label: "Platform", href: "#platform" },
+  { label: "Solutions", href: "#solutions" },
+  { label: "Network", href: "#network" },
+  { label: "Insights", href: "#insights" },
+];
 
 
 export function PublicNav() {
 
-  const items = ["Platform", "Solutions", "Network", "Insights"];
-
-  const [openMenu, setOpenMenu] = useState(false);
-  const [activeItem, setActiveItem] = useState("Platform");
-
-    const handleNavClick = (e: any, item: any) => {
-      e.preventDefault();
-
-      setActiveItem(item); 
-      const sectionId = item.toLowerCase();
-      const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth" });
-      }
-    };
-
   return (
-    <header id='platform' className="top-0 inset-x-0 z-9999 h-20 border-b fixed bg-[#F8FAFC]">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 h-20 flex items-center justify-between">
-        <Image src={logo} alt='' loading='lazy' className=''/>
-        <nav className="hidden md:flex items-center gap-9 text-sm font-medium text-ink-soft">
-          {items.map((l, i) => (
-            <a key={i} href={`#${l.toLowerCase()}`} 
-              onClick={(e) => handleNavClick(e, l)} 
-              className={activeItem === l ? "text-brand border-b border-b-brand" : "hover:text-ink transition"}>
-              {l}
-            </a>
-          ))}
-        </nav>
-        <Link
-          href="/auth/sign-in"
-          className="hidden md:inline-flex items-center rounded-full bg-brand px-5 py-2.5 text-sm font-medium text-brand-foreground shadow-sm hover:bg-brand/90 transition"
-        >
-          Join the Network
-        </Link>
-        {openMenu ? 
-          <X size={22} className='text-brand cursor-pointer md:hidden' onClick={() => setOpenMenu(false)} />: 
-          <Menu size={22} className='text-brand cursor-pointer md:hidden' onClick={() => setOpenMenu(true)} />
-        }
-      </div>
-    </header>
+    <Navbar
+      logo={logo}
+      items={navItems}
+      trackActive
+      cta={{ label: "Join the Network", href: "/auth/sign-in" }}
+      />
   );
 }
 
 export function PublicHero() {
   return (
-    <section className="relative pt-32 pb-24 overflow-hidden mt-20">
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10"
-        style={{
-          background:
-            "linear-gradient(180deg, oklch(0.985 0.008 255) 0%, oklch(0.96 0.015 255) 100%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute right-0 top-0 h-full w-1/2 -z-10 opacity-60"
-        style={{
-          background:
-            "repeating-linear-gradient(115deg, oklch(0.93 0.012 256) 0 1px, transparent 1px 14px)",
-        }}
-      />
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-10 items-end">
+    <section style={{ 
+          backgroundImage: `url(${heroImage.src})`
+         }} className="relative mt-20 overflow-hidden pt-32 pb-24">
+
+      {/* Content */}
+      <div className="mx-auto grid max-w-7xl items-end gap-10 px-6 lg:grid-cols-12 lg:px-10">
+
+        {/* Left */}
         <div className="lg:col-span-7">
-          <h1 className="text-[clamp(3rem,7vw,6rem)] leading-[0.95] font-700 text-ink inline">
-            Architect
-            <br />
-            <span className="text-brand">Your</span>
-            <br />
-            Financial
-            <br />
+          <h1 className="text-[clamp(3rem,7vw,6rem)] leading-tight font-bold text-ink">
+            Architect <br />
+            <span className="text-brand">Your</span> <br />
+            Financial <br />
             Future.
           </h1>
-          <p className="mt-8 max-w-md text-base text-ink-soft leading-relaxed">
-            Moving beyond the transactional, we build enduring economic structures
-            through field precision and institutional authority.
+
+          <p className="mt-8 max-w-md text-base leading-relaxed text-ink-soft">
+            Moving beyond the transactional, we build enduring economic
+            structures through field precision and institutional authority.
           </p>
         </div>
-        <div className="lg:col-span-5 space-y-6">
+
+        {/* Right */}
+        <div  className="space-y-6 lg:col-span-5 ">
           <div className="flex items-center gap-4">
             <div className="h-px flex-1 bg-brand/60" />
             <span className="eyebrow">The Methodology</span>
           </div>
-          <div className="rounded-2xl bg-white border border-hairline p-6 shadow-[var(--shadow-card)] max-w-sm ml-auto">
-            <h3 className="text-base font-600 text-ink">Tonal Integrity</h3>
-            <p className="mt-2 text-sm text-ink-soft leading-relaxed">
-              Defining financial boundaries through intentional design and structural transparency.
+
+          <div className="ml-auto max-w-sm rounded-2xl border border-hairline bg-brand/5 p-6 shadow-[var(--shadow-card)]">
+            <h3 className="text-base font-semibold text-ink">
+              Tonal Integrity
+            </h3>
+
+            <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+              Defining financial boundaries through intentional design and
+              structural transparency.
             </p>
           </div>
         </div>
@@ -112,6 +79,7 @@ export function PublicHero() {
     </section>
   );
 }
+
 
 
 export function Framework() {
