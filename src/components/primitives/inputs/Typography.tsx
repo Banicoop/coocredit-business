@@ -1,26 +1,34 @@
 import React from "react";
 import clsx from "clsx";
 
+type Variant =
+  | "h1"
+  | "h2"
+  | "h3"
+  | "h4"
+  | "h5"
+  | "h6"
+  | "p"
+  | "small"
+  | "span";
+
 interface TypographyProps {
   children: React.ReactNode;
-  variant?:
-    | "h1"
-    | "h2"
-    | "h3"
-    | "h4"
-    | "h5"
-    | "h6"
-    | "p"
-    | "small"
-    | "span";
-  font?: "inter" | "geist" | "mono" | "atomi"; // add custom fonts
+  variant?: Variant;
+  as?: React.ElementType; // more flexible than variant
+  font?: "inter" | "geist" | "mono" | "atomi";
+  weight?: "normal" | "medium" | "semibold" | "bold";
+  color?: "default" | "muted" | "primary" | 'secondary' | 'tertiary' | 'neutral' | 'active';
+  truncate?: boolean;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
   className?: string;
   onClick?: () => void;
 }
 
-const baseStyles: Record<string, string> = {
-  h1: "text-4xl font-bold",
-  h2: "text-3xl font-semibold",
+const baseStyles: Record<Variant, string> = {
+  h1: "text-4xl font-bold tracking-tight",
+  h2: "text-3xl font-semibold tracking-tight",
   h3: "text-2xl font-semibold",
   h4: "text-xl font-medium",
   h5: "text-lg font-medium",
@@ -30,27 +38,62 @@ const baseStyles: Record<string, string> = {
   span: "text-base",
 };
 
-// Map fonts to your CSS variables (from next/font)
-const fontMap: Record<string, string> = {
+const fontMap = {
   inter: "font-inter",
   geist: "font-sans",
   mono: "font-mono",
-  atomi: "font-atomi", 
+  atomi: "font-atomi",
+};
+
+const weightMap = {
+  normal: "font-normal",
+  medium: "font-medium",
+  semibold: "font-semibold",
+  bold: "font-bold",
+};
+
+const colorMap = {
+  default: "text-[#0F1C2C]",
+  primary: "text-[#546474]",
+  active: 'text-[#1D4ED8]',
+  muted: "text-gray-400",
+  secondary: "text-blue-300",
+  tertiary: "text-blue-400",
+  neutral: "text-blue-100",
 };
 
 const Typography = ({
   children,
   variant = "span",
+  as,
   font = "inter",
-  onClick,
+  weight,
+  color = "default",
+  truncate = false,
+  startIcon,
+  endIcon,
   className,
+  onClick,
 }: TypographyProps) => {
-  const Tag = variant; 
+  const Component = as || variant;
 
   return (
-    <Tag onClick={onClick} className={clsx(baseStyles[variant], fontMap[font], className)}>
-      {children}
-    </Tag>
+    <Component
+      onClick={onClick}
+      className={clsx(
+        baseStyles[variant],
+        fontMap[font],
+        weight && weightMap[weight],
+        colorMap[color],
+        truncate && "truncate",
+        (startIcon || endIcon) && "inline-flex items-center gap-2",
+        className
+      )}
+    >
+      {startIcon && <span className="flex-shrink-0">{startIcon}</span>}
+      <span className="leading-tight">{children}</span>
+      {endIcon && <span className="flex-shrink-0">{endIcon}</span>}
+    </Component>
   );
 };
 

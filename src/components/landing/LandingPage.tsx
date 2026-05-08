@@ -1,83 +1,76 @@
 import Image from 'next/image'
-import React from 'react'
 import logo from '@/assets/svgs/logo.svg'
-import Typography from '../primitives/inputs/Typography'
 import { Path } from '@/type/type';
+import { paths } from '@/constant/data';
+import Button from '../primitives/buttons/Button';
+import { Navbar } from '../ui/Navbar';
 
 // IMAGES
 import agent from '@/assets/svgs/agent-portrait.jpg';
 import blueprint from '@/assets/svgs/blueprint-desk.jpg'
-import { paths } from '@/constant/data';
+import heroImage from '@/assets/svgs/hero-cont.svg'
+
+
+
+const navItems = [
+  { label: "Platform", href: "#platform" },
+  { label: "Solutions", href: "#solutions" },
+  { label: "Network", href: "#network" },
+  { label: "Insights", href: "#insights" },
+];
 
 
 export function PublicNav() {
-  const links = ["Platform", "Solutions", "Network", "Insights"];
+
   return (
-    <header className="absolute top-0 inset-x-0 z-20">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 h-20 flex items-center justify-between">
-        <Image src={logo} alt='' loading='lazy' className=''/>
-        <nav className="hidden md:flex items-center gap-9 text-sm font-medium text-ink-soft">
-          {links.map((l, i) => (
-            <a key={l} href="#" className={i === 0 ? "text-brand" : "hover:text-ink transition"}>
-              {l}
-            </a>
-          ))}
-        </nav>
-        <a
-          href="#join"
-          className="inline-flex items-center rounded-full bg-brand px-5 py-2.5 text-sm font-medium text-brand-foreground shadow-sm hover:bg-brand/90 transition"
-        >
-          Join the Network
-        </a>
-      </div>
-    </header>
+    <Navbar
+      logo={logo}
+      items={navItems}
+      trackActive
+      cta={{ label: "Join the Network", href: "/auth/sign-in" }}
+      />
   );
 }
 
 export function PublicHero() {
   return (
-    <section className="relative pt-32 pb-24 overflow-hidden">
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10"
-        style={{
-          background:
-            "linear-gradient(180deg, oklch(0.985 0.008 255) 0%, oklch(0.96 0.015 255) 100%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute right-0 top-0 h-full w-1/2 -z-10 opacity-60"
-        style={{
-          background:
-            "repeating-linear-gradient(115deg, oklch(0.93 0.012 256) 0 1px, transparent 1px 14px)",
-        }}
-      />
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-10 items-end">
+    <section style={{ 
+          backgroundImage: `url(${heroImage.src})`
+         }} className="relative mt-20 overflow-hidden pt-32 pb-24">
+
+      {/* Content */}
+      <div className="mx-auto grid max-w-7xl items-end gap-10 px-6 lg:grid-cols-12 lg:px-10">
+
+        {/* Left */}
         <div className="lg:col-span-7">
-          <h1 className="text-[clamp(3rem,7vw,6rem)] leading-[0.95] font-700 text-ink">
-            Architect
-            <br />
-            <span className="text-brand">Your</span>
-            <br />
-            Financial
-            <br />
+          <h1 className="text-[clamp(3rem,7vw,6rem)] leading-tight font-bold text-ink">
+            Architect <br />
+            <span className="text-brand">Your</span> <br />
+            Financial <br />
             Future.
           </h1>
-          <p className="mt-8 max-w-md text-base text-ink-soft leading-relaxed">
-            Moving beyond the transactional, we build enduring economic structures
-            through field precision and institutional authority.
+
+          <p className="mt-8 max-w-md text-base leading-relaxed text-ink-soft">
+            Moving beyond the transactional, we build enduring economic
+            structures through field precision and institutional authority.
           </p>
         </div>
-        <div className="lg:col-span-5 space-y-6">
+
+        {/* Right */}
+        <div  className="space-y-6 lg:col-span-5 ">
           <div className="flex items-center gap-4">
             <div className="h-px flex-1 bg-brand/60" />
             <span className="eyebrow">The Methodology</span>
           </div>
-          <div className="rounded-2xl bg-white border border-hairline p-6 shadow-[var(--shadow-card)] max-w-sm ml-auto">
-            <h3 className="text-base font-600 text-ink">Tonal Integrity</h3>
-            <p className="mt-2 text-sm text-ink-soft leading-relaxed">
-              Defining financial boundaries through intentional design and structural transparency.
+
+          <div className="ml-auto max-w-sm rounded-2xl border border-hairline bg-brand/5 p-6 shadow-[var(--shadow-card)]">
+            <h3 className="text-base font-semibold text-ink">
+              Tonal Integrity
+            </h3>
+
+            <p className="mt-2 text-sm leading-relaxed text-ink-soft">
+              Defining financial boundaries through intentional design and
+              structural transparency.
             </p>
           </div>
         </div>
@@ -86,9 +79,11 @@ export function PublicHero() {
   );
 }
 
+
+
 export function Framework() {
   return (
-    <section className="py-24 lg:py-32">
+    <section id='solutions' className="py-24 lg:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-10">
         <div className="lg:col-span-5">
           <h2 className="text-4xl lg:text-5xl font-700 text-ink leading-[1.05]">
@@ -121,9 +116,9 @@ export function Framework() {
               className="h-full w-full object-cover"
             />
           </div>
-          <div className="mt-5">
-            <p className="eyebrow">Stability</p>
-            <p className="mt-1 font-600 text-ink">Institutional Trust</p>
+          <div className="mt-5 bg-[#EEF4FF] py-4 px-10 rounded-xl w-fit">
+            <p className="eyebrow text-[#727787] font-semibold uppercase">Stability</p>
+            <p className="mt-1 font-bold text-popover-foreground uppercase">Institutional Trust</p>
           </div>
         </div>
         <div className="lg:col-span-3 space-y-5">
@@ -226,7 +221,7 @@ export function PathCard({ p }: { p: Path }) {
 
 export function Paths() {
   return (
-    <section className="py-24 lg:py-32 bg-surface">
+    <section id='network' className="py-24 lg:py-32 bg-surface">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid lg:grid-cols-12 gap-10 items-end mb-14">
           <div className="lg:col-span-8">
@@ -301,11 +296,29 @@ export function OperatingSystem() {
 }
 
 
+const Plane = ({ points, color, opacity }: { points: string, color: string, opacity: number}) => (
+  <div
+    style={{
+      position: 'absolute',
+      inset: 0,
+      background: color,
+      opacity,
+      clipPath: `polygon(${points})`,
+    }}
+  />
+);
+
 
 
 export function CTA() {
   return (
-    <section id="join" className="relative py-28 overflow-hidden text-white">
+    <section id="insights" className="relative py-28 overflow-hidden text-white bg-[#0F1C2C]">
+      {/* <Plane points="0 0, 60% 0, 30% 100%, 0 100%"
+             color="#243040" opacity={0.6} />
+      <Plane points="40% 0, 100% 0, 100% 60%, 55% 100%"
+             color="#2a3a4d" opacity={0.4} />
+      <Plane points="20% 0, 70% 0, 50% 100%, 10% 100%"
+             color="#1a2535" opacity={0.5} /> */}
       <div
         aria-hidden
         className="absolute inset-0 -z-10"
@@ -330,12 +343,8 @@ export function CTA() {
           Commence?
         </h2>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <button className="rounded-md bg-brand px-6 py-3 text-sm font-600 text-brand-foreground hover:bg-brand/90 transition">
-            Apply to the Network
-          </button>
-          <button className="rounded-md bg-white/10 backdrop-blur px-6 py-3 text-sm font-600 text-white border border-white/20 hover:bg-white/15 transition">
-            Schedule Consultation
-          </button>
+          <Button variant='primary' size='lg'>Apply to the Network</Button>
+          <Button className='bg-[#F8F9FF1A] text-white' size='lg'>Schedule Consultation</Button>
         </div>
       </div>
     </section>
@@ -348,11 +357,9 @@ export function PublicFooter() {
     <footer className="bg-white border-t border-hairline">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div>
-          <p className="font-display text-lg font-700 text-ink">
-            Coo<span className="text-brand">Credit</span>
-          </p>
+          <Image src={logo} alt='LOGO' className='w-20 h-20' />
           <p className="mt-1 text-xs text-ink-soft">
-            © {new Date().getFullYear()} CooCredit. Financial Architecture. All rights reserved.
+            © {new Date().getFullYear()} CooCredit. <span className='text-brand'>Financial Architecture.</span>  All rights reserved.
           </p>
         </div>
         <div className="flex flex-wrap gap-6 text-xs text-ink-soft">
