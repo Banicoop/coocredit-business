@@ -6,11 +6,11 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement>{
     desc?: string;
     descClass?: string
     wrapperClass?: string;
-    icon?: React.ReactNode;
+    startIcon?: React.ReactNode;
     className?: string;
 }
 
-export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(({label, icon, className, wrapperClass, desc, descClass, ...props}, ref) => {
+export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(({label, startIcon, className, wrapperClass, desc, descClass, ...props}, ref) => {
   return (
     <section className={`flex flex-col gap-1.5 ${wrapperClass}`}>
         {label && (
@@ -20,8 +20,8 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(({label, i
         )}
 
         <div className={`flex flex-row items-center gap-1.5 rounded-lg ${className}`}>
-            {icon && (
-                <span className="">{icon}</span>
+            {startIcon && (
+                <span className="">{startIcon}</span>
             )}
 
             <input 

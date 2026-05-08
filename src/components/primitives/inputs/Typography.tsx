@@ -53,13 +53,13 @@ const weightMap = {
 };
 
 const colorMap = {
-  default: "#0F1C2C",
-  primary: "#546474",
-  active: '#1D4ED8',
+  default: "text-[#0F1C2C]",
+  primary: "text-[#546474]",
+  active: 'text-[#1D4ED8]',
   muted: "text-gray-400",
-  secondary: "text-blue-400",
+  secondary: "text-blue-300",
   tertiary: "text-blue-400",
-  neutral: "text-blue-400",
+  neutral: "text-blue-100",
 };
 
 const Typography = ({

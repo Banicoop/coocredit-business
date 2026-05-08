@@ -29,7 +29,7 @@ const variants: Record<Variant, string> = {
     "border border-blue-500 text-blue-400 ",
 
   ghost:
-    "text-blue-300",
+    "text-[#016AFF]",
 };
 
 const sizes: Record<Size, string> = {
@@ -81,7 +81,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         <span>{loading ? "Loading..." : children}</span>
 
         {/* Right Icon */}
-        {!loading && startIcon && <span className="flex">{startIcon}</span>}
+        {!loading && endIcon && <span className="flex">{endIcon}</span>}
       </button>
     );
   }
