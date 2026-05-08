@@ -10,7 +10,6 @@ import agent from '@/assets/svgs/agent-portrait.jpg';
 import blueprint from '@/assets/svgs/blueprint-desk.jpg'
 import heroImage from '@/assets/svgs/hero-cont.svg'
 
-// import { url } from 'node:inspector';
 
 
 const navItems = [
@@ -358,11 +357,9 @@ export function PublicFooter() {
     <footer className="bg-white border-t border-hairline">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div>
-          <p className="font-display text-lg font-700 text-ink">
-            Coo<span className="text-brand">Credit</span>
-          </p>
+          <Image src={logo} alt='LOGO' className='w-20 h-20' />
           <p className="mt-1 text-xs text-ink-soft">
-            © {new Date().getFullYear()} CooCredit. Financial Architecture. All rights reserved.
+            © {new Date().getFullYear()} CooCredit. <span className='text-brand'>Financial Architecture.</span>  All rights reserved.
           </p>
         </div>
         <div className="flex flex-wrap gap-6 text-xs text-ink-soft">
