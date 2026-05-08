@@ -18,7 +18,7 @@ interface TypographyProps {
   as?: React.ElementType; // more flexible than variant
   font?: "inter" | "geist" | "mono" | "atomi";
   weight?: "normal" | "medium" | "semibold" | "bold";
-  color?: "default" | "muted" | "primary";
+  color?: "default" | "muted" | "primary" | 'secondary' | 'tertiary' | 'neutral' | 'active';
   truncate?: boolean;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
@@ -53,9 +53,13 @@ const weightMap = {
 };
 
 const colorMap = {
-  default: "text-white",
+  default: "#0F1C2C",
+  primary: "#546474",
+  active: '#1D4ED8',
   muted: "text-gray-400",
-  primary: "text-blue-400",
+  secondary: "text-blue-400",
+  tertiary: "text-blue-400",
+  neutral: "text-blue-400",
 };
 
 const Typography = ({
