@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   keywords: [
     'CooCredit', 'Loans', 'Loan', 'Micro Credit', 'Credit', 'Business', 'Transacion'
   ],
-  metadataBase: new URL('https://')
+  // metadataBase: new URL('https://')
 };
 
 export default function RootLayout({

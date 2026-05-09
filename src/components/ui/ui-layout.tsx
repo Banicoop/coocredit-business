@@ -25,4 +25,13 @@ const Flex = ({ children, className = "", style }: UIProps) => {
   );
 };
 
-export { Box, HStack, Flex };
+
+const Grid = ({ children, className = "", style }: UIProps) => {
+  return (
+    <div className={`grid ${className}`} style={style}>
+      {children}
+    </div>
+  );
+};
+
+export { Box, HStack, Flex, Grid };

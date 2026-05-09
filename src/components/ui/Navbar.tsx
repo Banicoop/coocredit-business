@@ -30,7 +30,7 @@ export function Navbar({
   const [openMenu, setOpenMenu] = useState(false);
   const [activeItem, setActiveItem] = useState(items[0]?.href);
 
-  // 👉 Scroll tracking (optional)
+  // Scroll tracking (optional)
   useEffect(() => {
     if (!trackActive) return;
 
@@ -72,7 +72,7 @@ export function Navbar({
   };
 
   return (
-    <header className="fixed top-0 inset-x-0 z-[9999] h-20 border-b bg-[#F8FAFC] backdrop-blur-md">
+    <header className="fixed top-0 inset-x-0 z-9999 h-20 border-b bg-[#F8FAFC] backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 h-full flex items-center justify-between">
 
         {/* Logo */}
@@ -120,7 +120,7 @@ export function Navbar({
       <div
         className={clsx(
           "md:hidden transition-all duration-300 overflow-hidden bg-white border-b",
-          openMenu ? "max-h-[400px] py-4" : "max-h-0"
+          openMenu ? "max-h-100 py-4" : "max-h-0"
         )}
       >
         <div className="flex flex-col px-6 gap-4">

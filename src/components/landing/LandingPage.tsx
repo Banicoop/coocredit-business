@@ -34,7 +34,7 @@ export function PublicNav() {
 
 export function PublicHero() {
   return (
-    <section style={{ 
+    <section id='platform' style={{ 
           backgroundImage: `url(${heroImage.src})`
          }} className="relative mt-20 overflow-hidden pt-32 pb-24">
 
