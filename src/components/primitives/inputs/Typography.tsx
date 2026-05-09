@@ -1,6 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 
+
 type Variant =
   | "h1"
   | "h2"
@@ -16,7 +17,7 @@ interface TypographyProps {
   children: React.ReactNode;
   variant?: Variant;
   as?: React.ElementType; // more flexible than variant
-  font?: "inter" | "geist" | "mono" | "atomi";
+  font?: "inter" | "sans" | "atomic" | 'katibeh';
   weight?: "normal" | "medium" | "semibold" | "bold";
   color?: "default" | "muted" | "primary" | 'secondary' | 'tertiary' | 'neutral' | 'active';
   truncate?: boolean;
@@ -40,9 +41,9 @@ const baseStyles: Record<Variant, string> = {
 
 const fontMap = {
   inter: "font-inter",
-  geist: "font-sans",
-  mono: "font-mono",
-  atomi: "font-atomi",
+  sans: "font-nunito",
+  atomic: "font-atomic",
+  katibeh: 'font-katibeh'
 };
 
 const weightMap = {

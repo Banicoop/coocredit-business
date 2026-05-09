@@ -23,14 +23,14 @@ const SignInPage = () => {
           </div>
 
           <div className="flex flex-1 flex-col gap-4 justify-center p-5">
-            <Typography variant='h2'>Agent Portal Login</Typography>
+            <Typography variant='h2' >Agent Portal Login</Typography>
             <Typography color='primary' className='text-lg'>Please enter your credentials to authenticate.</Typography>
             <TextField startIcon={<UserRound size={18}/>} placeholder='Agent ID or Email' className='bg-[#DBE9FE] py-2.5 px-3.5' />
             <TextField startIcon={<LockKeyhole size={18}/>} placeholder='Secure Password' type='password' className='bg-[#DBE9FE] py-2.5 px-3.5'/>
             <Button size='lg' endIcon={<ArrowRight size={20}/>}>Sign In to Portal</Button>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
-                <input type="checkbox" className='mt-1 cursor-pointer'/>
+                <input type="checkbox" className='cursor-pointer'/>
                 <label htmlFor="">Keep me active</label>
               </div>
               <Link href='/auth/forgot-password' className='text-primary font-semibold text-lg uppercase'>Forget Password</Link>
