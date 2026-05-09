@@ -8,6 +8,7 @@
   --font-sans: var(--font-nunito-sans);
   --font-inter: var(--font-inter-face);
   --font-katibeh: var(--font-katibeh-face);
+  --font-poppins: var(--font-poppins-face);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -67,7 +68,7 @@
 body {
   background: var(--color-background);
   color: var(--color-foreground);
-  font-family:  var(--font-inter), var(--font-mono), var(--font-sans), sans-serif;
+  font-family:  var(--font-inter), var(--font-poppins), var(--font-mono), var(--font-sans), sans-serif;
 }
 
 

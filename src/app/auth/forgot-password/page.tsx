@@ -2,7 +2,7 @@
 
 
 import fp from '@/assets/svgs/fp-page.png';
-import Typography from '@/components/primitives/inputs/Typography';
+import Typography from '@/components/primitives/Typography';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import Button from '@/components/primitives/buttons/Button';
 import { ArrowLeft } from 'lucide-react';

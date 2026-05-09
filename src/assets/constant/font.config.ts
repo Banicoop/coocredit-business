@@ -1,5 +1,3 @@
-import { Inter, Katibeh } from "next/font/google";
-
 import localFont from "next/font/local";
 
 export const atomiAge = localFont({
@@ -33,17 +31,5 @@ export const nunitoSans = localFont({
     },
   ],
   variable: "--font-nunito-sans",
-})
-
-export const inter = Inter({
-  variable: '--font-inter-face',
-  subsets: ['latin']
-})
-
-export const katibeh = Katibeh({
-    variable: '--font-katibeh-face',
-    weight: ['400'],
-    subsets: ['latin'],
-    style: "normal"
 })
 

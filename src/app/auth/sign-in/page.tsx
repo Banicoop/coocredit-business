@@ -1,4 +1,4 @@
-import Typography from '@/components/primitives/inputs/Typography';
+import Typography from '@/components/primitives/Typography';
 import Image from 'next/image';
 import React from 'react'
 import { ArrowRight, LockKeyhole, Shield, UserRound } from 'lucide-react';
