@@ -3,6 +3,7 @@
 
 import Typography from '@/components/primitives/Typography';
 import { agentsSidbar } from '@/constant/sidebar.data';
+import { isActive } from '@/lib/utils';
 import { LogOut, Settings } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,13 +16,15 @@ const AgentsSidebar = () => {
 
   return (
     <aside className='border-r border-r-[#e5e5e5] hidden lg:block w-[256px] h-full overflow-y-auto scrollbar-hide fixed bg-white'>
-        <section className="flex flex-1 flex-col justify-between h-full p-4 gap-6">
+        <section className="flex flex-1 flex-col justify-between h-full p-4 gap-2.5">
             {/* SIDEBAR ITEMS */}
             <div className="flex flex-col gap-2.5">
-                <Image src='/logo.svg' alt='LOGO' width={120} height={30} loading='eager'/>
+                <Image src='/logo.svg' alt='LOGO' width={120} height={30} loading='eager' />
                 {agentsSidbar.map((item) => {
-                    const Icon = item.icon
-                    const active = pathname.startsWith(`${item.href}`)
+                    const Icon = item.icon;
+
+                    const active = isActive(pathname, item.href, '/agents');
+
                     return(
                         <Link href={item.href} key={item.label} className={`flex items-center gap-2 py-3 px-4  transition ${active && 'border-r-4 border-primary bg-[#DBEAFE]'}`}>
                             <Typography startIcon={<Icon size={20}/>} weight={active ? 'semibold': 'medium'} color={active ? 'active': 'primary'}>{item.label}</Typography>

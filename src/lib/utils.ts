@@ -9,8 +9,8 @@ export function cn(...inputs: ClassValue[]) {
 export const fadeUp = { hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } };
 
 
-export const isActive = (pathname: string, href: string) => {
-  if (href === '/dashboard') return pathname === href;
+export const isActive = (pathname: string, href: string, url: string) => {
+  if (href === url) return pathname === href;
   return pathname === href || pathname.startsWith(`${href}/`);
 };
 

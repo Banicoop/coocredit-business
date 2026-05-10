@@ -1,4 +1,4 @@
-import { ActivityIcon, BookOpenCheck, CalendarCheck, LayoutGrid, MapPinHouse, Newspaper, TrendingUp, UserRoundPlus } from "lucide-react";
+import { BookOpenCheck, CalendarCheck, LayoutGrid, MapPinHouse, TrendingUp, UserRoundPlus } from "lucide-react";
 
 export const agentsSidbar = [
     {
@@ -8,27 +8,27 @@ export const agentsSidbar = [
     },
     {
         label: 'Customer Acquisition',
-        href: '#',
+        href: '/agents/customers',
         icon: UserRoundPlus
     },
     {
         label: 'Territory Map',
-        href: '#',
+        href: '/agents/territory',
         icon: MapPinHouse
     },
     {
         label: 'Daily Tasks',
-        href: '#',
+        href: '/agents/daily',
         icon: CalendarCheck
     },
     {
         label: 'Commission Tracker',
-        href: '#',
+        href: '/agents/commisions',
         icon: BookOpenCheck
     },
     {
         label: 'Performance',
-        href: '#',
+        href: '/agents/performance',
         icon: TrendingUp
     },
 ]
