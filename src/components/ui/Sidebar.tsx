@@ -117,7 +117,7 @@ const Sidebar = ({
         {/* BOTTOM ITEMS */}
         {others.length > 0 && (
           <div className="flex flex-col gap-4 p-2">
-            <hr className="bg-[#E5E5E5] h-[1px] w-full border-0" />
+            <hr className="bg-[#E5E5E5] h-0.5 w-full border-0" />
 
             <div className="flex flex-col gap-1">
               {others.map((item) =>

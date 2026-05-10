@@ -59,8 +59,8 @@ const colorMap = {
   primary: "text-[#546474]",
   active: 'text-[#1D4ED8]',
   muted: "text-gray-400",
-  secondary: "text-blue-300",
-  tertiary: "text-blue-400",
+  secondary: "text-[#059669cc]",
+  tertiary: "text-[#059669]",
   neutral: "text-blue-100",
 };
 
