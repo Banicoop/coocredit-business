@@ -1,5 +1,5 @@
 // import { label } from "framer-motion/client";
-import { BookOpenCheck, CalendarCheck, LayoutGrid, LogOut, LucideIcon, MapPinHouse, Settings, TrendingUp, UserRoundPlus } from "lucide-react";
+import { BellRing, BookOpenCheck, CalendarCheck, ChartNoAxesColumn, DollarSign, LayoutGrid, LogOut, LucideIcon, MapPinHouse, MessageSquareWarning, Settings, TrendingUp, UserRoundPlus, UserSearchIcon, UsersRound, Wallet } from "lucide-react";
 
 export const iconMap: Record<string, LucideIcon> = {
     layoutGrid: LayoutGrid,
@@ -8,6 +8,13 @@ export const iconMap: Record<string, LucideIcon> = {
     calendarCheck: CalendarCheck,
     bookOpenCheck: BookOpenCheck,
     trendingUp: TrendingUp,
+    team: UsersRound,
+    pipeline: ChartNoAxesColumn,
+    report: MessageSquareWarning,
+    revenue: DollarSign,
+    alert: BellRing,
+    wallet: Wallet,
+    profile: UserSearchIcon,
     settings: Settings,
     logout: LogOut,
 };
@@ -55,42 +62,42 @@ export const superAgentData = [
   {
     label: 'Team',
     href: '/super-agents/team',
-    icon: ''
+    icon: 'team'
   },
   {
     label: 'Customers',
     href: '/super-agents/customers',
-    icon: ''
+    icon: 'userRoundPlus'
   },
   {
     label: 'Pipeline',
     href: '/super-agents/pipeline',
-    icon: ''
+    icon: 'pipeline'
   },
   {
     label: 'Reports',
     href: '/super-agents/reports',
-    icon: ''
+    icon: 'report'
   },
   {
     label: 'Revenue',
     href: '/super-agents/revenue',
-    icon: ''
+    icon: 'revenue'
   },
   {
     label: 'Alerts',
     href: '/super-agents/alerts',
-    icon: ''
+    icon: 'alert'
   },
   {
     label: 'Wallets',
     href: '/super-agents/wallets',
-    icon: ''
+    icon: 'wallet'
   },
   {
     label: 'Profile',
     href: '/super-agents/profilw',
-    icon: ''
+    icon: 'profile'
   },
 ]
 

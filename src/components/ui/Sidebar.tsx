@@ -5,7 +5,7 @@ import { isActive } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { iconMap } from '@/constant/sidebar.data';
+import { iconMap } from '@/config/sidebar.config';
 
 
 
@@ -100,7 +100,7 @@ const Sidebar = ({
     >
       <section className="flex flex-col justify-between h-full p-4 gap-4">
         {/* TOP */}
-        <div className="flex flex-col gap-2.5">
+        <div className="flex flex-col gap-2.5 h-auto w-auto">
           <Image
             src={logo}
             alt="LOGO"

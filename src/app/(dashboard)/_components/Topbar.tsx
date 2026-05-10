@@ -1,11 +1,18 @@
+'use client';
+
 import { TextField } from '@/components/primitives/inputs/TextField';
 import { BellDot, Search, Timer,  } from 'lucide-react';
-import user from '@/assets/images/user.png'
+import user1 from '@/assets/images/user.png'
 import Image from 'next/image';
 import React from 'react'
 import PageHeader from '@/components/ui/PageHeader';
+import { useUserStore } from '@/store/useAuthStore';
 
 const Topbar = () => {
+
+  const user = useUserStore((state) => state.user);
+
+  if(!user) return null;
 
   return (
     <div className='shadow-sm bg-white'>
@@ -15,9 +22,9 @@ const Topbar = () => {
           <div className="flex items-center gap-3 w-auto h-auto">
              <BellDot size={20} className='text-[#6B7280] cursor-pointer'/>
              <Timer size={20} className='text-[#6B7280] cursor-pointer'/>
-              <PageHeader title='James Udoh' subtitle='Loan Officer' />
+              <PageHeader title={user?.name} subtitle={user?.role} />
  
-              <Image src={user} alt='USER' width={40} height={40} loading='eager'/>
+              <Image src={user1} alt='USER' width={40} height={40} loading='eager'/>
           </div>
         </section>
     </div>

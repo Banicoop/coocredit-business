@@ -1,5 +1,5 @@
 import Sidebar from "@/components/ui/Sidebar";
-import { agentsSidebar, loanOfficerData, managersData, superAgentData } from "@/constant/sidebar.data";
+import { agentsSidebar, loanOfficerData, managersData, superAgentData } from "@/config/sidebar.config";
 
 export const AgentsSidebar = () => {
 
@@ -28,7 +28,7 @@ export const AgentsSidebar = () => {
 
 export const SuperAgentSidebar = () => {
     return(
-        <Sidebar className="bg-[#1D3989]" 
+        <Sidebar className="bg-[#1D3989] text-white" 
         activeBasePath="/super-agents" 
         data={superAgentData}
         others={[
