@@ -46,7 +46,7 @@ const Sidebar = ({
     const content = (
       <div
         className={`
-          flex items-center gap-2 py-3 px-4 transition-all rounded-md
+          flex items-center gap-2 py-3 px-4 transition-all
           ${
             active
               ? 'border-r-4 border-primary bg-[#DBEAFE]'
