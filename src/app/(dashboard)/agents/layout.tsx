@@ -1,6 +1,6 @@
 import React from 'react'
-import AgentsSidebar from '../_components/Sidebar';
-import Topbar from '../_components/Topbar';
+import AgentsSidebar from './_components/Sidebar';
+import Topbar from './_components/Topbar';
 
 const AgentsDashboardlayout = ({children}: {children: React.ReactNode}) => {
   return (

@@ -1,34 +1,45 @@
-import { BookOpenCheck, CalendarCheck, LayoutGrid, MapPinHouse, TrendingUp, UserRoundPlus } from "lucide-react";
+import { BookOpenCheck, CalendarCheck, LayoutGrid, LogOut, LucideIcon, MapPinHouse, Settings, TrendingUp, UserRoundPlus } from "lucide-react";
 
-export const agentsSidbar = [
-    {
-        label: 'Dashbaord',
-        href: '/agents',
-        icon: LayoutGrid
-    },
-    {
-        label: 'Customer Acquisition',
-        href: '/agents/customers',
-        icon: UserRoundPlus
-    },
-    {
-        label: 'Territory Map',
-        href: '/agents/territory',
-        icon: MapPinHouse
-    },
-    {
-        label: 'Daily Tasks',
-        href: '/agents/daily',
-        icon: CalendarCheck
-    },
-    {
-        label: 'Commission Tracker',
-        href: '/agents/commisions',
-        icon: BookOpenCheck
-    },
-    {
-        label: 'Performance',
-        href: '/agents/performance',
-        icon: TrendingUp
-    },
-]
+export const iconMap: Record<string, LucideIcon> = {
+    layoutGrid: LayoutGrid,
+    userRoundPlus: UserRoundPlus,
+    mapPinHouse: MapPinHouse,
+    calendarCheck: CalendarCheck,
+    bookOpenCheck: BookOpenCheck,
+    trendingUp: TrendingUp,
+    settings: Settings,
+    logout: LogOut,
+};
+
+export const agentsSidebar = [
+  {
+    label: 'Dashboard',
+    href: '/agents',
+    icon: 'layoutGrid',
+  },
+  {
+    label: 'Customer Acquisition',
+    href: '/agents/customers',
+    icon: 'userRoundPlus',
+  },
+  {
+    label: 'Territory Map',
+    href: '/agents/territory',
+    icon: 'mapPinHouse',
+  },
+  {
+    label: 'Daily Tasks',
+    href: '/agents/daily',
+    icon: 'calendarCheck',
+  },
+  {
+    label: 'Commission Tracker',
+    href: '/agents/commissions',
+    icon: 'bookOpenCheck',
+  },
+  {
+    label: 'Performance',
+    href: '/agents/performance',
+    icon: 'trendingUp',
+  },
+];
