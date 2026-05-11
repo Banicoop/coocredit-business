@@ -17,7 +17,7 @@ interface TypographyProps {
   children: React.ReactNode;
   variant?: Variant;
   as?: React.ElementType; // more flexible than variant
-  font?: "inter" | "sans" | "atomic" | 'katibeh' | 'poppins';
+  font?: "inter" | "sans" | "atomic" | 'katibeh' | 'poppins' | 'manrope';
   weight?: "normal" | "medium" | "semibold" | "bold";
   color?: "default" | "muted" | "primary" | 'secondary' | 'success' | 'neutral' | 'active';
   truncate?: boolean;
@@ -44,7 +44,8 @@ const fontMap = {
   sans: "font-nunito",
   atomic: "font-atomic",
   katibeh: 'font-katibeh',
-  poppins: 'font-poppins'
+  poppins: 'font-poppins',
+  manrope: 'font-manrope'
 };
 
 const weightMap = {

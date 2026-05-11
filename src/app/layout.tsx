@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
-import { Inter, Katibeh, Poppins } from "next/font/google";
+import { Inter, Katibeh, Poppins, Manrope } from "next/font/google";
 import "./globals.css";
 import { atomiAge, nunitoSans } from "@/assets/constant/font.config";
+
+
+const manrope = Manrope({
+  variable: '--font-manrope-face',
+  subsets: ['latin'],
+  style: ['normal'],
+  weight: ['300', '400', '500', '600', '700', '800']
+})
 
 const poppins = Poppins({
   variable: '--font-poppins-face',
   subsets: ['latin'],
-  style: ['italic', 'italic'],
+  style: ['italic', 'normal'],
   weight: ['300', '400', '500', '600', '700', '800']
 })
 
@@ -51,6 +59,7 @@ export default function RootLayout({
         className={`${inter.variable} 
         ${poppins.variable}
         ${katibeh.variable} 
+        ${manrope.variable}
         ${nunitoSans.variable} 
         ${atomiAge.variable} antialiased`}
       >

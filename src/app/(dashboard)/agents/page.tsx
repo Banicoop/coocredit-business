@@ -3,7 +3,7 @@ import PageHeader from '@/components/ui/PageHeader';
 import { FlexCol, Grid } from '@/components/ui/ui-layout';
 import { ArrowUp } from 'lucide-react';
 import React from 'react'
-import { LoanPipeline, Buttons, Commissions } from './_sections/LoanPipeline';
+import { LoanPipeline, Commissions, Rank } from './_sections/LoanPipeline';
 import RecentApps from './_sections/RecentApps';
 import QuickActions from './_sections/QuickActions';
 
@@ -34,15 +34,16 @@ const AgentDashboard = () => {
       </section>
 
 
-      <div className="flex gap-5">
-        <FlexCol className='gap-4 flex-2'>
+      <div className="flex flex-col lg:flex-row gap-5">
+        <FlexCol className='gap-4 flex-1 lg:flex-2'>
           <LoanPipeline/>
           <RecentApps/>
           <Commissions/>
         </FlexCol>
 
-        <FlexCol className='gap-4 flex-[1.5]'>
+        <FlexCol className='gap-4 flex-1 lg:flex-[1.5]'>
           <QuickActions/>
+          <Rank/>
         </FlexCol>
       </div>
     </main>
