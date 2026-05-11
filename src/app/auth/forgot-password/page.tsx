@@ -2,13 +2,14 @@
 
 
 import fp from '@/assets/svgs/fp-page.png';
-import Typography from '@/components/primitives/inputs/Typography';
+import Typography from '@/components/primitives/Typography';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import Button from '@/components/primitives/buttons/Button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, SendHorizontal } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 const ForgotPasswordPage = () => {
+
   const router = useRouter();
 
   return (
@@ -17,14 +18,8 @@ const ForgotPasswordPage = () => {
       {/* Image Section */}
       <div style={{
         backgroundImage: `url(${fp.src})`
-      }} className="relative hidden lg:flex items-center justify-center bg-primary overflow-hidden">
-        {/* <Image
-          src={fp}
-          alt="Forgot password illustration"
-          priority
-          className="w-full h-full object-contain"
-        /> */}
-      </div>
+      }} className="relative hidden lg:flex items-center justify-center bg-primary overflow-hidden" />
+
 
       {/* Form Section */}
       <div className="flex items-center justify-center px-6 py-10">
@@ -45,7 +40,7 @@ const ForgotPasswordPage = () => {
             className="bg-[#EEF4FF] py-2.5 px-3.5 border"
           />
 
-          <Button size="lg" type='submit'>
+          <Button endIcon={<SendHorizontal size={18} />} size="lg" type='submit'>
             Send Reset Link
           </Button>
 

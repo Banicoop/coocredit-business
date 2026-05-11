@@ -1,6 +1,7 @@
 import React from "react";
 import clsx from "clsx";
 
+
 type Variant =
   | "h1"
   | "h2"
@@ -16,9 +17,9 @@ interface TypographyProps {
   children: React.ReactNode;
   variant?: Variant;
   as?: React.ElementType; // more flexible than variant
-  font?: "inter" | "geist" | "mono" | "atomi";
+  font?: "inter" | "sans" | "atomic" | 'katibeh' | 'poppins' | 'manrope';
   weight?: "normal" | "medium" | "semibold" | "bold";
-  color?: "default" | "muted" | "primary" | 'secondary' | 'tertiary' | 'neutral' | 'active';
+  color?: "default" | "muted" | "primary" | 'secondary' | 'success' | 'neutral' | 'active';
   truncate?: boolean;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
@@ -40,9 +41,11 @@ const baseStyles: Record<Variant, string> = {
 
 const fontMap = {
   inter: "font-inter",
-  geist: "font-sans",
-  mono: "font-mono",
-  atomi: "font-atomi",
+  sans: "font-nunito",
+  atomic: "font-atomic",
+  katibeh: 'font-katibeh',
+  poppins: 'font-poppins',
+  manrope: 'font-manrope'
 };
 
 const weightMap = {
@@ -56,9 +59,9 @@ const colorMap = {
   default: "text-[#0F1C2C]",
   primary: "text-[#546474]",
   active: 'text-[#1D4ED8]',
+  success: "text-[#059669]",
   muted: "text-gray-400",
-  secondary: "text-blue-300",
-  tertiary: "text-blue-400",
+  secondary: "text-[#059669cc]",
   neutral: "text-blue-100",
 };
 

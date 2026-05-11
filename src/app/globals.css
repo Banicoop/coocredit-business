@@ -1,12 +1,16 @@
 @import "tailwindcss";
 
 
-/* Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:wght@500;600;700;800&display=swap");
-
-
 
 @theme inline {
+  /* FONTS */
+  --font-atomic: var(--font-atomic-age);
+  --font-sans: var(--font-nunito-sans);
+  --font-inter: var(--font-inter-face);
+  --font-katibeh: var(--font-katibeh-face);
+  --font-poppins: var(--font-poppins-face);
+  --font-manrope: var(--font-manrope-face);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
@@ -64,7 +68,8 @@
 
 body {
   background: var(--color-background);
-  color: var(--color-foreground);
+  /* color: var(--color-foreground); */
+  font-family:  var(--font-inter), var(--font-poppins), var(--font-mono), var(--font-sans), sans-serif;
 }
 
 
