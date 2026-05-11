@@ -31,6 +31,11 @@ export const agentsSidebar = [
     icon: 'userRoundPlus',
   },
   {
+    label: 'Loan Application',
+    href: '/agents/loans',
+    icon: 'wallet',
+  },
+  {
     label: 'Territory Map',
     href: '/agents/territory',
     icon: 'mapPinHouse',

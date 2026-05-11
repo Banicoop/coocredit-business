@@ -5,7 +5,7 @@ import { BellDot, Search, Timer,  } from 'lucide-react';
 import user1 from '@/assets/images/user.png'
 import Image from 'next/image';
 import React from 'react'
-import PageHeader from '@/components/ui/PageHeader';
+import { ColItem } from '@/components/ui/PageHeader';
 import { useUserStore } from '@/store/useAuthStore';
 
 const Topbar = () => {
@@ -22,7 +22,7 @@ const Topbar = () => {
           <div className="flex items-center gap-3 w-auto h-auto">
              <BellDot size={20} className='text-[#6B7280] cursor-pointer'/>
              <Timer size={20} className='text-[#6B7280] cursor-pointer'/>
-              <PageHeader title={user?.name} subtitle={user?.role} />
+              <ColItem item1={user?.name} item2={user?.role}className2='capitalize' />
  
               <Image src={user1} alt='USER' width={40} height={40} loading='eager'/>
           </div>

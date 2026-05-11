@@ -9,7 +9,9 @@ const AgentsDashboardlayout = ({children}: {children: React.ReactNode}) => {
         <UserSidebar/>
         <div className="flex flex-1 flex-col lg:ml-64">
           <Topbar/>
+          <div className="p-4">
           {children}
+          </div>
         </div>
     </main>
   )
