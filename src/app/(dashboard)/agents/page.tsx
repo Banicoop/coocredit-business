@@ -1,8 +1,13 @@
 import Typography from '@/components/primitives/Typography';
 import PageHeader from '@/components/ui/PageHeader';
-import { Grid } from '@/components/ui/ui-layout';
+import { FlexCol, Grid } from '@/components/ui/ui-layout';
 import { ArrowUp } from 'lucide-react';
 import React from 'react'
+import { LoanPipeline, Buttons, Commissions } from './_sections/LoanPipeline';
+import RecentApps from './_sections/RecentApps';
+import QuickActions from './_sections/QuickActions';
+
+
 
 const Widget = ({title, num, percent}: {title: string, num: number, percent: number}) => {
   return(
@@ -10,7 +15,7 @@ const Widget = ({title, num, percent}: {title: string, num: number, percent: num
       <Typography variant='small' weight='semibold' color='primary'>{title}</Typography>
       <div className="flex items-baseline gap-1">
         <Typography variant='h1' color='default'>{num}</Typography>
-        <Typography variant='small' color='tertiary' startIcon={<ArrowUp size={18}/>}>{percent}%</Typography>
+        <Typography variant='small' color='success' startIcon={<ArrowUp size={18}/>}>{percent}%</Typography>
       </div>
     </Grid>
   )
@@ -27,6 +32,19 @@ const AgentDashboard = () => {
         <Widget title='CONVERSION RATE' num={12} percent={12}/>
         <Widget title='ACTIVE APPLICATIONS' num={12} percent={12}/>
       </section>
+
+
+      <div className="flex gap-5">
+        <FlexCol className='gap-4 flex-2'>
+          <LoanPipeline/>
+          <RecentApps/>
+          <Commissions/>
+        </FlexCol>
+
+        <FlexCol className='gap-4 flex-[1.5]'>
+          <QuickActions/>
+        </FlexCol>
+      </div>
     </main>
   )
 }

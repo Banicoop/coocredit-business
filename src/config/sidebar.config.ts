@@ -116,17 +116,17 @@ export const loanOfficerData = [
   {
     label: 'Portfolio',
     href: '/loan-officer/',
-    icon: ''
+    icon: 'layoutGrid'
   },
   {
     label: 'Repayment',
     href: '/loan-officer/',
-    icon: ''
+    icon: 'layoutGrid'
   },
   {
     label: 'Risk Assessment',
     href: '/loan-officer/',
-    icon: ''
+    icon: 'layoutGrid'
   },
 ]
 
@@ -140,26 +140,26 @@ export const managersData = [
   {
     label: 'Loan Portfolio',
     href: '/manager/portfolio',
-    icon: ''
+    icon: 'layoutGrid'
   },
   {
     label: 'Branch Assets',
     href: '/manager/branch',
-    icon: ''
+    icon: 'layoutGrid'
   },
   {
     label: 'Team Management',
     href: '/manager/team',
-    icon: ''
+    icon: 'layoutGrid'
   },
   {
     label: 'Risk Analytics',
     href: '/manager/analytics',
-    icon: ''
+    icon: 'layoutGrid'
   },
   {
     label: 'Reports',
     href: '/manager/reports',
-    icon: ''
+    icon: 'layoutGrid'
   },
 ]

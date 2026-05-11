@@ -1,3 +1,5 @@
+'use client';
+
 import Typography from '@/components/primitives/Typography';
 import Image from 'next/image';
 import React from 'react'
@@ -5,11 +7,13 @@ import { ArrowRight, LockKeyhole, SendHorizontal, Shield, UserRound } from 'luci
 import Button from '@/components/primitives/buttons/Button';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 import logo from '@/assets/svgs/logo.svg'
 
 
 const SignInPage = () => {
+  
 
   return (
     <main className='p-4 w-full mx-auto my-auto max-w-7xl flex items-center justify-center flex-col flex-1 h-full'>
@@ -22,12 +26,12 @@ const SignInPage = () => {
             <Typography variant='small' startIcon={<Shield size={18} className='text-primary'/>} className='uppercase py-2 px-1.5 bg-white w-fit rounded-sm font-semibold'  font='poppins'>Secure Node Access</Typography>
           </div>
 
-          <div className="flex flex-1 flex-col gap-4 justify-center p-5">
+          <form className="flex flex-1 flex-col gap-4 justify-center p-5">
             <Typography variant='h2' font='poppins'>Agent Portal Login</Typography>
             <Typography color='primary' className='text-lg' font='poppins'>Please enter your credentials to authenticate.</Typography>
             <TextField startIcon={<UserRound size={18}/>} placeholder='Agent ID or Email' className='bg-[#DBE9FE] py-2.5 px-3.5' />
             <TextField startIcon={<LockKeyhole size={18}/>} placeholder='Secure Password' type='password' className='bg-[#DBE9FE] py-2.5 px-3.5'/>
-            <Button size='lg' endIcon={<SendHorizontal size={20}/>}>Sign In to Portal</Button>
+            <Button size='lg' onClick={() => redirect('/agents')} endIcon={<SendHorizontal size={20}/>}>Sign In to Portal</Button>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
                 <input type="checkbox" className='cursor-pointer'/>
@@ -35,7 +39,7 @@ const SignInPage = () => {
               </div>
               <Link href='/auth/forgot-password' className='text-primary font-semibold text-lg uppercase'>Forget Password</Link>
             </div>
-          </div>
+          </form>
         </div>
         <div className="flex p-4 items-end justify-end gap-1.5">
         <Typography variant='span' as='span' className='font-semibold text-lg' color='primary'>New to CooCredit?</Typography>

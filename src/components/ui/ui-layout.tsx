@@ -1,9 +1,9 @@
 import { UIProps } from "@/type/type";
 import React from "react";
 
-const Box = ({ children, className = "", style, onClick }: UIProps) => {
+const FlexBox = ({ children, className = "", style, onClick }: UIProps) => {
   return (
-    <div className={`${className}`} style={style} onClick={onClick}>
+    <div className={`flex border rounded-lg bg-white p-4 ${className}`} style={style}>
       {children}
     </div>
   );
@@ -26,6 +26,15 @@ const Flex = ({ children, className = "", style }: UIProps) => {
 };
 
 
+const FlexCol = ({ children, className = "", style }: UIProps) => {
+  return (
+    <div className={`flex flex-col ${className}`} style={style}>
+      {children}
+    </div>
+  );
+};
+
+
 const Grid = ({ children, className = "", style }: UIProps) => {
   return (
     <div className={`grid ${className}`} style={style}>
@@ -34,4 +43,4 @@ const Grid = ({ children, className = "", style }: UIProps) => {
   );
 };
 
-export { Box, HStack, Flex, Grid };
+export { FlexBox, HStack, Flex, Grid, FlexCol };
