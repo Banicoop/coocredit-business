@@ -22,7 +22,7 @@ const Topbar = () => {
           <div className="flex items-center gap-3 w-auto h-auto">
              <BellDot size={20} className='text-[#6B7280] cursor-pointer'/>
              <Timer size={20} className='text-[#6B7280] cursor-pointer'/>
-              <ColItem item1={user?.name} item2={user?.role}className2='capitalize' />
+              <ColItem item1={user?.name} item2={`Rank: ${user?.role}`} className2='capitalize font-bold' />
  
               <Image src={user1} alt='USER' width={40} height={40} loading='eager'/>
           </div>
