@@ -1,7 +1,7 @@
 import Typography from '@/components/primitives/Typography'
 import { ColItem } from '@/components/ui/PageHeader';
 import { Flex, FlexCol, Grid } from '@/components/ui/ui-layout'
-import { Activity, Award, ChartNoAxesColumn } from 'lucide-react';
+import { Award, ChartNoAxesColumn } from 'lucide-react';
 import React from 'react';
 
 const Pipe = ({className, num, numClassName, label}: {className: string, num: number, numClassName: string, label: string}) => {
