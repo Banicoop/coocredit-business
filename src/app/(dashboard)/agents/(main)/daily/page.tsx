@@ -1,14 +1,24 @@
+'use client';
+
 import Typography from '@/components/primitives/Typography';
 import { ColItem, PageHeader } from '@/components/ui/PageHeader';
 import { ProgressBar } from '@/components/ui/ProgessBar';
 import { Flex } from '@/components/ui/ui-layout';
 import React from 'react'
 import DailyList from './_sections/DailyList';
+import { PlusCircle } from 'lucide-react';
 
 const DailyTaskPage = () => {
   return (
     <article className='grid gap-5'>
-      <PageHeader title='Daily Tasks'/>
+      <PageHeader title='Daily Tasks' actions={[
+        {
+          label: 'New Task',
+          variant: 'primary',
+          icon: <PlusCircle size={20}/>,
+          onClick: () => console.log('CLICKED!!')
+        }
+      ]}/>
 
       <Flex className='bg-card flex-col md:flex-row rounded-xl gap-5 py-4 px-6 items-center justify-between'>
         <div className="flex-1">

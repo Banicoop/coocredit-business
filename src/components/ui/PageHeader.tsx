@@ -31,17 +31,6 @@ export const ColItem = ({item1, item2, className1, className2}: {item1: string, 
   )
 }
 
-// const PageHeader = ({title, subtitle, className}: {title: string, subtitle: string, className?: string}) => {
-//   return (
-//     <div className={`flex flex-col capitalize ${className}`}>
-//         <Typography weight='semibold'>{title}</Typography>
-//         <Typography color='primary'>{subtitle}</Typography>
-//     </div>
-//   )
-// }
-
-// export default PageHeader;
-
 
 export const PageTitle = forwardRef(({title, desc}: {title: string, desc: string}, ref) => {
   return (
@@ -76,7 +65,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
               const content = (
                 <>
                   {action.icon}
-                  <Typography variant="span">{action.label}</Typography>
+                  <Typography variant="span" className={`${action.variant === 'primary' ? 'bg-primary text-white': ''}`}>{action.label}</Typography>
                 </>
               );
 
