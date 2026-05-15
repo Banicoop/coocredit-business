@@ -29,8 +29,8 @@ const SignInPage = () => {
           <form className="flex flex-1 flex-col gap-4 justify-center p-5">
             <Typography variant='h2' font='poppins'>Agent Portal Login</Typography>
             <Typography color='primary' className='text-lg' font='poppins'>Please enter your credentials to authenticate.</Typography>
-            <TextField startIcon={<UserRound size={18}/>} placeholder='Agent ID or Email' className='bg-[#DBE9FE] py-2.5 px-3.5' />
-            <TextField startIcon={<LockKeyhole size={18}/>} placeholder='Secure Password' type='password' className='bg-[#DBE9FE] py-2.5 px-3.5'/>
+            <TextField startIcon={<UserRound size={18}/>} placeholder='Agent ID or Email' className='outline-none' variant='primary' />
+            <TextField startIcon={<LockKeyhole size={18}/>} placeholder='Secure Password' type='password' className='outline-none' variant='primary'/>
             <Button size='lg' onClick={() => redirect('/agents')} endIcon={<SendHorizontal size={20}/>}>Sign In to Portal</Button>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">

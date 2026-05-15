@@ -5,7 +5,7 @@ import fp from '@/assets/svgs/fp-page.png';
 import Typography from '@/components/primitives/Typography';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import Button from '@/components/primitives/buttons/Button';
-import { ArrowLeft, SendHorizontal } from 'lucide-react';
+import { ArrowLeft, Mail, MailCheckIcon, SendHorizontal } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 const ForgotPasswordPage = () => {
@@ -36,8 +36,9 @@ const ForgotPasswordPage = () => {
           <TextField
             label="Email Address"
             type="email"
+            startIcon={<Mail size={18}/>}
             placeholder="e.g. agent.name@coocredit.com"
-            className="bg-[#EEF4FF] py-2.5 px-3.5 border"
+            className="outline-none"
           />
 
           <Button endIcon={<SendHorizontal size={18} />} size="lg" type='submit'>

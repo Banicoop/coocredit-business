@@ -21,7 +21,7 @@ const data = Array.from({length: 30}, () => ({
 const TableTitle = () => (
     <Flex className='w-full flex-col md:flex-row justify-between'>
         <Typography>All Customers</Typography>
-        <TextField startIcon={<Search size={18}/>} className='text-[#6B7280] bg-[#DBE9FE] p-2.5 text-sm ' placeholder='Search by name, ID...'/>
+        <TextField startIcon={<Search size={18}/>} variant='primary' className='outline-none' placeholder='Search by name, ID...'/>
     </Flex>
 )
 
