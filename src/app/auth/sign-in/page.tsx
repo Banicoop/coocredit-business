@@ -3,7 +3,7 @@
 import Typography from '@/components/primitives/Typography';
 import Image from 'next/image';
 import React from 'react'
-import { ArrowRight, LockKeyhole, SendHorizontal, Shield, UserRound } from 'lucide-react';
+import { LockKeyhole, SendHorizontal, Shield, UserRound } from 'lucide-react';
 import Button from '@/components/primitives/buttons/Button';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import Link from 'next/link';

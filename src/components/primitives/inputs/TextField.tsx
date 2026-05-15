@@ -54,8 +54,8 @@ const variantStyles: Record<Variant, string> = {
 
 const sizeStyles: Record<Size, string> = {
   sm: 'px-3 py-2.5 text-sm rounded-lg',
-  md: 'px-4 py-2.5 text-sm rounded-xl',
-  lg: 'px-5 py-2.5 text-base rounded-2xl',
+  md: 'px-4 py-2.5 text-sm rounded-lg',
+  lg: 'px-5 py-2.5 text-base rounded-lg',
 }
 
 export const TextField = forwardRef<
@@ -97,7 +97,7 @@ export const TextField = forwardRef<
         {label && (
           <label
             className={clsx(
-              'text-sm font-medium',
+              'text-sm font-semibold text-[#546474]',
               labelClassName,
             )}
           >
