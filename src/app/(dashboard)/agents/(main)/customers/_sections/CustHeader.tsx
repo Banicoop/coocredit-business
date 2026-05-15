@@ -1,8 +1,12 @@
+'use client';
+
 import Button from '@/components/primitives/buttons/Button';
 import Typography from '@/components/primitives/Typography';
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Flex, Grid } from '@/components/ui/ui-layout';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
+import AddCustomerModal from '../@modals/AddCustomerModal';
 
 const Card = ({label, val, textColor, textColor1, className='bg-white'}: {label: string, val: number, textColor?: string, className?: string, textColor1?: string}) => (
     <Grid className={`px-4 py-2.5 gap-2.5 rounded-xl ${className}`}>
@@ -12,12 +16,14 @@ const Card = ({label, val, textColor, textColor1, className='bg-white'}: {label:
 )
 
 const CustHeader = () => {
+
+    const [openModal, setOpenModal] = useState(false);
     
   return (
     <Grid className="gap-4">
         <Flex className='items-center justify-between w-full'>
             <PageHeader title='Customer Acquisition'/>
-            <Button variant='primary' startIcon={<Plus size={20}/>}>New Customer</Button>
+            <Button variant='primary' startIcon={<Plus size={20}/>} onClick={() => setOpenModal(true)}>New Customer</Button>
         </Flex>
 
         <Grid className='gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-6'>
@@ -28,6 +34,8 @@ const CustHeader = () => {
             <Card label='rejected' val={12} textColor='text-[#BA1A1A]'/>
             <Card className='bg-primary shadow-lg' label='conv. rate' val={12} textColor='text-white' textColor1='text-white'/>
         </Grid>
+
+        <AddCustomerModal open={openModal} setOpen={setOpenModal}/>
     </Grid>
   )
 }
