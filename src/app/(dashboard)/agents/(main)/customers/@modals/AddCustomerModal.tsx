@@ -57,7 +57,7 @@ const AddCustomerModal = ({open, setOpen}: {open: boolean, setOpen: any}) => {
         <Modal.Footer>
             <div className="flex justify-end gap-3">
                 <Button variant='ghost' className='px-4 font-semibold text-lg'>Cancel</Button>
-                <Button  className='px-4 font-semibold text-lg'>Submit</Button>
+                <Button  className='px-4 font-semibold text-lg'>Submit Application</Button>
             </div>
         </Modal.Footer>
     </Modal>

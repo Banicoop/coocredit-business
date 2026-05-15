@@ -7,13 +7,14 @@ import { LockKeyhole, SendHorizontal, Shield, UserRound } from 'lucide-react';
 import Button from '@/components/primitives/buttons/Button';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import logo from '@/assets/svgs/logo.svg'
 
 
 const SignInPage = () => {
-  
+
+  const router = useRouter();
 
   return (
     <main className='p-4 w-full mx-auto my-auto max-w-7xl flex items-center justify-center flex-col flex-1 h-full'>
@@ -31,7 +32,7 @@ const SignInPage = () => {
             <Typography color='primary' className='text-lg' font='poppins'>Please enter your credentials to authenticate.</Typography>
             <TextField startIcon={<UserRound size={18}/>} placeholder='Agent ID or Email' className='outline-none' variant='primary' />
             <TextField startIcon={<LockKeyhole size={18}/>} placeholder='Secure Password' type='password' className='outline-none' variant='primary'/>
-            <Button size='lg' onClick={() => redirect('/agents')} endIcon={<SendHorizontal size={20}/>}>Sign In to Portal</Button>
+            <Button size='lg' onClick={() => router.push('/agents')} endIcon={<SendHorizontal size={20}/>}>Sign In to Portal</Button>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
                 <input type="checkbox" className='cursor-pointer'/>
