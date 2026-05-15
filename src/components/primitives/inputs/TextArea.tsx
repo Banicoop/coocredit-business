@@ -13,9 +13,9 @@ interface TextFieldProps extends TextareaHTMLAttributes<HTMLTextAreaElement>{
 }
 
 
-export const TextArea = forwardRef<HTMLTextAreaElement, TextFieldProps>(({ label, startIcon, className = 'bg-[#DBE9FE] text-[#94A3B8] p-2.5', wrapperClass, desc, descClass, ...props}, ref) => {
+export const TextArea = forwardRef<HTMLTextAreaElement, TextFieldProps>(({ label, startIcon, className = 'bg-[#DBE9FE] text-[#94A3B8] p-1', wrapperClass, desc, descClass, ...props}, ref) => {
   return (
-    <section className={`flex flex-col gap-1.5 ${wrapperClass}`}>
+    <section className={`flex flex-col gap-2 ${wrapperClass}`}>
         {label && (
           <label className="text-sm font-semibold text-[#546474]">
             {label}
@@ -28,7 +28,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextFieldProps>(({ label
             )}
 
             <textarea 
-                className={`w-full outline-none transition-all border-none` 
+                className={`w-full outline-none transition-all border-none p-2.5` 
             }
             ref={ref}
             {...props}

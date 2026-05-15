@@ -1,3 +1,6 @@
+import Button from '@/components/primitives/buttons/Button';
+import CustomSelect from '@/components/primitives/inputs/CustomSelect';
+import { MultiSelect } from '@/components/primitives/inputs/MultipleSelect';
 import { TextArea } from '@/components/primitives/inputs/TextArea';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import { Modal } from '@/components/primitives/modals/Modal';
@@ -34,8 +37,29 @@ const AddCustomerModal = ({open, setOpen}: {open: boolean, setOpen: any}) => {
                     label='Residential Address' 
                     wrapperClass='col-span-2' 
                     placeholder='Street name, landmark, and state'/>
+                
+                <CustomSelect label='Bank Name' wrapperClass='h-10.5' options={[{label: 'Select Customer Bank', value: 'bank1'}]}/>
+
+                <TextField 
+                    label='Account Number' 
+                    variant='primary' 
+                    placeholder='Bank Account Number'/>
+
+                <CustomSelect label='Loan Product' wrapperClass='h-10.5' options={[{label: 'SME GRE Loan', value: 'loan1'}]}/>
+
+                <TextField 
+                    label='Requested Amount (N)' 
+                    variant='primary' 
+                    placeholder='e.g N50,000'/>
             </div>
         </Modal.Body>
+
+        <Modal.Footer>
+            <div className="flex justify-end gap-3">
+                <Button variant='ghost' className='px-4 font-semibold text-lg'>Cancel</Button>
+                <Button  className='px-4 font-semibold text-lg'>Submit</Button>
+            </div>
+        </Modal.Footer>
     </Modal>
   )
 }
