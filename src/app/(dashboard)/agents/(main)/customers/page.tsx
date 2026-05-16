@@ -5,11 +5,13 @@ import CustHeader from './_sections/CustHeader';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import Typography from '@/components/primitives/Typography';
 import { Flex } from '@/components/ui/ui-layout';
-import { EllipsisVertical, Search } from 'lucide-react';
-import React from 'react';
+import { Eye, Search } from 'lucide-react';
 import { ProgressBar } from '@/components/ui/ProgessBar';
+import { ActionDropdown } from '@/components/ui/ActionDropDown';
+
 
 const data = Array.from({length: 30}, () => ({
+  id: '1',
   customerName: 'Divine Maduka',
   customerID: '#CUST-8821',
   loanAmount: 50000,
@@ -61,10 +63,18 @@ const AgentsCustomersPage = () => {
       )
     },
     {
-      key: 'Actions',
+      key: 'id',
       title: 'Actions',
-      render: (row: any) => (
-        <EllipsisVertical size={20} className='text-primary' />
+      render: (id: string) => (
+        <ActionDropdown 
+          actions={[
+            {
+              label: 'View Details',
+              href: `/agents/customers/${id}`,
+              variant: 'primary',
+              icon: Eye
+            }
+          ]}/>
       )
     },
   ]

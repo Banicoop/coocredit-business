@@ -58,6 +58,7 @@ const Sidebar = ({
           startIcon={<Icon size={20} />}
           weight={active ? 'semibold' : 'medium'}
           color={active ? 'active' : 'primary'}
+          className='text-xs'
         >
           {item.label}
         </Typography>
