@@ -16,6 +16,11 @@ const SignInPage = () => {
 
   const router = useRouter();
 
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    router.push('/agents');
+  }
+
   return (
     <main className='p-4 w-full mx-auto my-auto max-w-7xl flex items-center justify-center flex-col flex-1 h-full'>
       <section className="flex flex-col bg-[#FFFFFF] rounded-2xl min-h-100 shadow-2xl w-fit">
@@ -27,12 +32,12 @@ const SignInPage = () => {
             <Typography variant='small' startIcon={<Shield size={18} className='text-primary'/>} className='uppercase py-2 px-1.5 bg-white w-fit rounded-sm font-semibold'  font='poppins'>Secure Node Access</Typography>
           </div>
 
-          <form className="flex flex-1 flex-col gap-4 justify-center p-5">
+          <form className="flex flex-1 flex-col gap-4 justify-center p-5" onSubmit={handleSubmit}>
             <Typography variant='h2' font='poppins'>Agent Portal Login</Typography>
             <Typography color='primary' className='text-lg' font='poppins'>Please enter your credentials to authenticate.</Typography>
-            <TextField startIcon={<UserRound size={18}/>} placeholder='Agent ID or Email' className='outline-none' variant='primary' />
-            <TextField startIcon={<LockKeyhole size={18}/>} placeholder='Secure Password' type='password' className='outline-none' variant='primary'/>
-            <Button size='lg' onClick={() => router.push('/agents')} endIcon={<SendHorizontal size={20}/>}>Sign In to Portal</Button>
+            <TextField startIcon={<UserRound size={18}/>} placeholder='Agent ID or Email' className='outline-none' variant='primary' required />
+            <TextField startIcon={<LockKeyhole size={18}/>} placeholder='Secure Password' type='password' className='outline-none' variant='primary' required/>
+            <Button size='lg'type='submit' endIcon={<SendHorizontal size={20}/>}>Sign In to Portal</Button>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
                 <input type="checkbox" className='cursor-pointer'/>
