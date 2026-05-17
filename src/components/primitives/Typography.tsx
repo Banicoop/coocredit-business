@@ -35,8 +35,8 @@ const baseStyles: Record<Variant, string> = {
   h5: "text-lg font-medium",
   h6: "text-base font-medium",
   p: "text-base",
-  small: "text-sm",
-  span: "text-base",
+  small: "text-xs",
+  span: "text-sm",
 };
 
 const fontMap = {

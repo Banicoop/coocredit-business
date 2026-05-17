@@ -27,7 +27,7 @@ export function PublicNav() {
       logo={logo}
       items={navItems}
       trackActive
-      cta={{ label: "Join the Network", href: "/auth/sign-in" }}
+      cta={{ label: "Sign In", href: "/auth/sign-in" }}
       />
   );
 }
