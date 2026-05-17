@@ -14,7 +14,6 @@ const data = Array.from({length: 30}, () => ({
   id: '1',
   customerName: 'Divine Maduka',
   customerID: '#CUST-8821',
-  loanAmount: 50000,
   status: 'approved',
   date: '12th May, 2016',
   creditScore: 60
@@ -39,13 +38,6 @@ const AgentsCustomersPage = () => {
       title: 'Status',
       render: (value: string) => (
         <Typography variant='small' className='capitalize'>{value}</Typography>
-      )
-    },
-    {
-      key: 'loanAmount',
-      title: 'Loan Amount',
-      render: (value: number) => (
-        <Typography>₦{value.toLocaleString()}</Typography>
       )
     },
     {
