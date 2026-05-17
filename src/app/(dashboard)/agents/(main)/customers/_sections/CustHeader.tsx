@@ -21,7 +21,7 @@ const CustHeader = () => {
     
   return (
     <Grid className="gap-4">
-        <Flex className='items-center justify-between w-full'>
+        <Flex className='flex-col md:flex-row items-start md:items-center justify-between gap-2.5 w-full'>
             <PageHeader title='Customer Acquisition'/>
             <Button variant='primary' startIcon={<Plus size={20}/>} onClick={() => setOpenModal(true)}>New Customer</Button>
         </Flex>

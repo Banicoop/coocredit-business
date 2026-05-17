@@ -1,6 +1,5 @@
 import Button from '@/components/primitives/buttons/Button';
 import CustomSelect from '@/components/primitives/inputs/CustomSelect';
-import { MultiSelect } from '@/components/primitives/inputs/MultipleSelect';
 import { TextArea } from '@/components/primitives/inputs/TextArea';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import { Modal } from '@/components/primitives/modals/Modal';

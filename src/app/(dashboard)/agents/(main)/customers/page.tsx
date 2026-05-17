@@ -21,7 +21,7 @@ const data = Array.from({length: 30}, () => ({
 }))
 
 const TableTitle = () => (
-    <Flex className='w-full flex-col md:flex-row justify-between'>
+    <Flex className='w-full flex-col md:flex-row  gap-2.5 items-start md:items-center justify-between'>
         <Typography>All Customers</Typography>
         <TextField startIcon={<Search size={18}/>} variant='primary' className='outline-none' placeholder='Search by name, ID...'/>
     </Flex>
