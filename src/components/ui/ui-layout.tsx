@@ -43,4 +43,12 @@ const Grid = ({ children, className = "", style }: UIProps) => {
   );
 };
 
-export { FlexBox, HStack, Flex, Grid, FlexCol };
+const GridItem = ({ children, className = "", style }: UIProps) => {
+  return (
+    <div className={`grid border rounded-lg bg-white p-4 ${className}`} style={style}>
+      {children}
+    </div>
+  );
+};
+
+export { FlexBox, HStack, Flex, Grid, FlexCol, GridItem };
