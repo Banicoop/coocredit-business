@@ -5,10 +5,9 @@ import { Flex, FlexCol, Grid } from '@/components/ui/ui-layout';
 import { Briefcase, CircleAlert, DollarSign, MapPinCheck, MapPinCheckInsideIcon, User, UserRoundCheck } from 'lucide-react';
 import Image from 'next/image';
 
-import { FinChannel, ScoreCard } from '../components';
+import { BankInfo, FieldAssets, ScoreCard } from '..';
 import demoImage from '@/assets/svgs/map.png';
-import customer from '@/assets/images/cust-verification.png'
-import shop from '@/assets/images/shop-location.png'
+
 
 
 const LeadReviewPage = () => {
@@ -47,17 +46,10 @@ const LeadReviewPage = () => {
                 <Grid className='gap-4 bg-card rounded-lg shadow-sm px-4 py-6 grid grid-cols-2 h-fit'>
                     <TitleText label='Financial Settlement Channels' className='col-span-2'/>
 
-                    <FinChannel/>
-                    <FinChannel/>
+                    <BankInfo/>
+                    <BankInfo/>
                 </Grid>
-
-                <Grid className='gap-4 rounded-lg px-4 py-6 grid grid-cols-2 h-fit'>
-                    <TitleText label='Fieldwork Evidence' className='col-span-2'/>
-
-                    <Image src={customer} alt='' className='h-40 w-full rounded-lg object-cover' />
-                    <Image src={shop} alt='' className='h-40 w-full rounded-lg object-cover'/>
-                </Grid>
-
+                <FieldAssets />
             </Grid>
 
 
