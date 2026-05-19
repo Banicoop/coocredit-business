@@ -2,6 +2,7 @@
 
 import { TextField } from '@/components/primitives/inputs/TextField';
 import { BasicTable } from '@/components/primitives/tables/BasicTable';
+import Typography from '@/components/primitives/Typography';
 import { ActionDropdown } from '@/components/ui/ActionDropDown';
 import { Tabs } from '@/components/ui/Tabs';
 import { Flex } from '@/components/ui/ui-layout';
@@ -11,7 +12,7 @@ import React from 'react';
 const data = Array.from({length: 20}, (() => ({
     applicant: 'John Okonkwo',
     loanAmount: 40000,
-    status: 'Submitted',
+    status: 'Approved',
     date: '5th Jun, 2026'
 })))
 
@@ -59,7 +60,10 @@ const LoanHistory = () => {
         },
         {
             key: 'status',
-            title: 'Status'
+            title: 'Status',
+            render: (val: string) => (
+                <Typography variant='small' className='bg-[#CCFBF1] px-1.5 py-1' color='active'>{val}</Typography>
+            )
         },
         {
             key: 'date',

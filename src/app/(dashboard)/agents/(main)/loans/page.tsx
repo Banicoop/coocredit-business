@@ -4,7 +4,7 @@ import React from 'react'
 import { LoanWidget } from './_sections/LoanItems';
 import LoanHistory from './_sections/LoanHistory';
 import Typography from '@/components/primitives/Typography';
-import { AlertTriangle, SendHorizontal, TimerOff, TimerReset, TrendingUpDown } from 'lucide-react';
+import { AlertTriangle, SendHorizontal, TimerOff, TimerReset, TrendingUpDown, Columns3, FlipVertical2, Columns3Cog } from 'lucide-react';
 import { ProgressBar } from '@/components/ui/ProgessBar';
 
 const Loans = () => {
@@ -16,10 +16,10 @@ const Loans = () => {
         {/* MAIN */}
         <Grid className='col-span-4 gap-y-4'>
           <Grid className='grid-cols-2 lg:grid-cols-4 gap-3.5'>
-            <LoanWidget label='SUBMITTED' val='47' textColor='text-primary' borderColor='border-primary' icon={<SendHorizontal size={20} className='text-primary mt-auto'/>}/>
-            <LoanWidget label='Pending Approval' val='17' textColor='text-[#A43700]' borderColor='border-[#A43700]' icon={''}/>
-            <LoanWidget label='APPROVED' val='4' textColor='text-[#506070]' borderColor='border-[#506070]' icon={''}/>
-            <LoanWidget label='DISBURSED' val='26' textColor='text-[#059669]' borderColor='border-[#059669]' icon={''}/>
+            <LoanWidget label='SUBMITTED' val='47' textColor='text-primary' borderColor='border-primary' icon={<SendHorizontal size={20} className='text-primary '/>}/>
+            <LoanWidget label='Pending Approval' val='17' textColor='text-[#A43700]' borderColor='border-[#A43700]' icon={<FlipVertical2 size={20} className='text-[#A43700] ' />}/>
+            <LoanWidget label='APPROVED' val='4' textColor='text-[#506070]' borderColor='border-[#506070]' icon={<Columns3Cog size={20} className='text-[#506070]' />}/>
+            <LoanWidget label='DISBURSED' val='26' textColor='text-[#059669]' borderColor='border-[#059669]' icon={<Columns3 size={20} className='text-[#059669]' />}/>
           </Grid>
           <LoanHistory/>
         </Grid>
