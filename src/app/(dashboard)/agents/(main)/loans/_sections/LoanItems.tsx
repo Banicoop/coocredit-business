@@ -2,11 +2,19 @@ import { ColItem } from '@/components/ui/PageHeader';
 import { SendHorizontal } from 'lucide-react';
 import React from 'react';
 
-export const LoanWidget = () => (
-    <div className="flex items-end justify-between border-l-2 border-l-primary rounded-sm p-4 shadow-sm bg-card">
-        <ColItem item1='SUBMITTED' item2='47' className1='' className2='text-[24px]'/>
+type LProps = {
+    label: string;
+    val: string;
+    borderColor: string;
+    textColor: string;
+    icon?: React.ReactNode
+}
+
+export const LoanWidget = ({label, val, borderColor, textColor, icon}: LProps) => (
+    <div className={`flex items-end justify-between border-l-4 rounded-sm p-4 shadow-sm bg-card ${borderColor}`}>
+        <ColItem item1={label} item2={val} className1='text-[#546474] text-sm' className2={`text-[24px] ${textColor}`}/>
         <span className='h-full flex'>
-            <SendHorizontal size={20} className='text-primary mt-auto'/>
+            {icon}
         </span>
     </div>
 )

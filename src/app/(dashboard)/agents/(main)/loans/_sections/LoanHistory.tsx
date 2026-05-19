@@ -1,10 +1,48 @@
+'use client'
+
+import { TextField } from '@/components/primitives/inputs/TextField';
 import { BasicTable } from '@/components/primitives/tables/BasicTable';
+import { ActionDropdown } from '@/components/ui/ActionDropDown';
+import { Tabs } from '@/components/ui/Tabs';
 import { Flex } from '@/components/ui/ui-layout';
-import React from 'react'
+import { EyeClosedIcon, Search } from 'lucide-react';
+import React from 'react';
+
+const data = Array.from({length: 20}, (() => ({
+    applicant: 'John Okonkwo',
+    loanAmount: 40000,
+    status: 'Submitted',
+    date: '5th Jun, 2026'
+})))
+
+
+const tabs = [
+    {
+        label: 'All',
+        value: 'all'
+    },
+    {
+        label: 'Pending',
+        value: 'pending'
+    },
+    {
+        label: 'Approved',
+        value: 'approved'
+    },
+    {
+        label: 'Disbursed',
+        value: 'disbursed'
+    },
+    {
+        label: 'Rejected',
+        value: 'rejected'
+    },
+]
 
 const Title = () => (
-    <Flex>
-        A
+    <Flex className='flex-col gap-4 xl:flex-row'>
+        <Tabs items={tabs} defaultValue='all' className='hidden md:flex' />
+        <TextField variant='secondary' placeholder='Search Loans, applicants and keywords' wrapperClassName='w-full' startIcon={<Search size={18}/>}/>
     </Flex>
 )
 
@@ -21,19 +59,31 @@ const LoanHistory = () => {
         },
         {
             key: 'status',
-            title: 'Statua'
+            title: 'Status'
         },
         {
             key: 'date',
             title: 'Date'
         },
         {
-            key: 'actions',
-            title: 'Actions'
+            key: '',
+            title: 'Actions',
+            render: (val: any) => (
+                <ActionDropdown 
+                    actions={[
+                        {
+                            label: 'View Details',
+                            onClick: () => console.log('Clicked!!'),
+                            icon: EyeClosedIcon,
+                            variant: 'primary'
+                        }
+                    ]}
+                />
+            )
         },
     ]
   return (
-    <BasicTable columns={columns} data={[]} title={<Title/>} pageSize={6} pagination/>
+    <BasicTable columns={columns} data={data ?? []} title={<Title/>} pageSize={6} pagination/>
   )
 }
 
