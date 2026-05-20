@@ -55,6 +55,7 @@ const weightMap = {
   bold: "font-bold",
 };
 
+// #16A34A 
 const colorMap = {
   default: "text-[#0F1C2C]",
   primary: "text-[#546474]",

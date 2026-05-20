@@ -1,13 +1,9 @@
-
 'use client';
 
 import React from 'react';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import clsx from 'clsx';
-import {
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export type TableColumn<T> = {
   key: keyof T | string;
@@ -15,7 +11,12 @@ export type TableColumn<T> = {
   width?: string;
   align?: 'left' | 'center' | 'right';
 
-  render?: (value: any, row: T, index: number) => React.ReactNode;
+  // Render only a cell
+  render?: (
+    value: any,
+    row: T,
+    index: number,
+  ) => React.ReactNode;
 };
 
 export type BasicTableProps<T> = {
@@ -33,6 +34,16 @@ export type BasicTableProps<T> = {
   emptyMessage?: string;
 
   className?: string;
+
+  /**
+   * Render an entire row manually
+   * If provided, it overrides the default row rendering
+   */
+  renderRow?: (
+    row: T,
+    index: number,
+    columns: TableColumn<T>[],
+  ) => React.ReactNode;
 };
 
 export function BasicTable<T extends Record<string, any>>({
@@ -45,6 +56,7 @@ export function BasicTable<T extends Record<string, any>>({
   pageSize = 10,
   emptyMessage = 'No data available.',
   className,
+  renderRow,
 }: BasicTableProps<T>) {
   const [page, setPage] = React.useState(1);
 
@@ -79,7 +91,7 @@ export function BasicTable<T extends Record<string, any>>({
 
       <ScrollArea.Root className="w-full overflow-hidden">
         <ScrollArea.Viewport className="w-full">
-          <div className="min-w-[700px]">
+          <div className="min-w-100">
             <table className="w-full border-collapse">
               <thead className="sticky top-0 z-10 bg-gray-50">
                 <tr>
@@ -90,7 +102,8 @@ export function BasicTable<T extends Record<string, any>>({
                       className={clsx(
                         'border-b border-gray-200 px-6 py-4 text-sm font-semibold text-gray-700',
                         {
-                          'text-left': column.align === 'left' || !column.align,
+                          'text-left':
+                            column.align === 'left' || !column.align,
                           'text-center': column.align === 'center',
                           'text-right': column.align === 'right',
                         },
@@ -113,35 +126,54 @@ export function BasicTable<T extends Record<string, any>>({
                     </td>
                   </tr>
                 ) : paginatedData.length > 0 ? (
-                  paginatedData.map((row, rowIndex) => (
-                    <tr
-                      key={rowIndex}
-                      className="transition hover:bg-gray-50"
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.key as keyof T];
+                  paginatedData.map((row, rowIndex) => {
+                    // CUSTOM ROW RENDERING
+                    if (renderRow) {
+                      return (
+                        <React.Fragment key={rowIndex}>
+                          {renderRow(row, rowIndex, columns)}
+                        </React.Fragment>
+                      );
+                    }
 
-                        return (
-                          <td
-                            key={String(column.key)}
-                            className={clsx(
-                              'border-b border-gray-100 px-6 py-4 text-sm text-gray-700',
-                              {
-                                'text-left':
-                                  column.align === 'left' || !column.align,
-                                'text-center': column.align === 'center',
-                                'text-right': column.align === 'right',
-                              },
-                            )}
-                          >
-                            {column.render
-                              ? column.render(value, row, rowIndex)
-                              : value}
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  ))
+                    // DEFAULT ROW RENDERING
+                    return (
+                      <tr
+                        key={rowIndex}
+                        className="transition hover:bg-gray-50"
+                      >
+                        {columns.map((column) => {
+                          const value = row[column.key as keyof T];
+
+                          return (
+                            <td
+                              key={String(column.key)}
+                              className={clsx(
+                                'border-b border-gray-100 px-6 py-4 text-sm text-gray-700',
+                                {
+                                  'text-left':
+                                    column.align === 'left' ||
+                                    !column.align,
+                                  'text-center':
+                                    column.align === 'center',
+                                  'text-right':
+                                    column.align === 'right',
+                                },
+                              )}
+                            >
+                              {column.render
+                                ? column.render(
+                                    value,
+                                    row,
+                                    rowIndex,
+                                  )
+                                : value}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })
                 ) : (
                   <tr>
                     <td
@@ -165,14 +197,11 @@ export function BasicTable<T extends Record<string, any>>({
       {pagination && totalPages > 1 && (
         <div className="flex items-center justify-between border-t border-gray-100 px-6 py-4">
           <p className="text-sm text-gray-500">
-            Page
-            {' '}
+            Page{' '}
             <span className="font-medium text-gray-700">
               {page}
-            </span>
-            {' '}
-            of
-            {' '}
+            </span>{' '}
+            of{' '}
             <span className="font-medium text-gray-700">
               {totalPages}
             </span>
@@ -200,3 +229,4 @@ export function BasicTable<T extends Record<string, any>>({
     </div>
   );
 }
+
