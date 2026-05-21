@@ -1,8 +1,11 @@
+import { PageHeader } from '@/components/ui/PageHeader';
 import React from 'react'
 
 const AgentPerformance = () => {
   return (
-    <div>page</div>
+    <div>
+      <PageHeader title='Performance' />
+    </div>
   )
 }
 

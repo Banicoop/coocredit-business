@@ -11,7 +11,7 @@ import React from 'react'
 import user from '@/assets/images/user.png'
 import { ColItem } from '@/components/ui/PageHeader';
 
-const data = Array.from({length: 4}, (() => ({
+const data = Array.from({length: 3}, (() => ({
     user: {
         name: 'Bisi Akindele',
         location: '0.4 km away • Ikeja, Lagos'
@@ -53,7 +53,7 @@ const Nearest = () => {
     ]
 
   return (
-   <BasicTable columns={columns} data={data} title={<TableTitle/>}/>
+   <BasicTable columns={columns} data={data ?? []} title={<TableTitle/>}/>
   )
 }
 
