@@ -8,6 +8,7 @@ import { Flex } from '@/components/ui/ui-layout';
 import { Eye, Search } from 'lucide-react';
 import { ProgressBar } from '@/components/ui/ProgessBar';
 import { ActionDropdown } from '@/components/ui/ActionDropDown';
+import CustomerCharts from './_sections/CustomerCharts';
 
 
 const data = Array.from({length: 30}, () => ({
@@ -75,6 +76,7 @@ const AgentsCustomersPage = () => {
   return (
     <main className='grid gap-5'>
       <CustHeader/>
+      <CustomerCharts/>
       <BasicTable columns={columns} data={data ?? []} title={<TableTitle/>} pagination pageSize={5}/>
     </main>
   )
