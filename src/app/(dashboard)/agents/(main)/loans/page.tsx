@@ -4,7 +4,7 @@ import React from 'react'
 import { LoanWidget } from './_sections/LoanItems';
 import LoanHistory from './_sections/LoanHistory';
 import Typography from '@/components/primitives/Typography';
-import { AlertTriangle, SendHorizontal, TimerOff, TimerReset, TrendingUpDown, Columns3, FlipVertical2, Columns3Cog } from 'lucide-react';
+import { AlertTriangle, SendHorizontal, TimerOff, TrendingUpDown, Columns3, FlipVertical2, Columns3Cog } from 'lucide-react';
 import { ProgressBar } from '@/components/ui/ProgessBar';
 
 const Loans = () => {
@@ -27,7 +27,7 @@ const Loans = () => {
         {/* LEFT COLUMN */}
         <Grid className='col-span-4 md:col-span-2 h-fit'>
           <Grid className='gap-4'>
-            <GridItem className='border-t-4 border-t-primary gap-2.5'>
+            <GridItem className='border-t-4 border-t-primary gap-2.5 bg-card'>
               <Typography variant='h4' weight='bold' color='active' startIcon={<TrendingUpDown size={24} />}>Application Insights</Typography>
 
               <Flex className='gap-2'>

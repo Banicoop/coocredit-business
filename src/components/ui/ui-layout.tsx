@@ -43,9 +43,9 @@ const Grid = ({ children, className = "", style }: UIProps) => {
   );
 };
 
-const GridItem = ({ children, className = "bg-white", style }: UIProps) => {
+const GridItem = ({ children, className = "", style }: UIProps) => {
   return (
-    <div className={`grid border rounded-lg p-4 ${className}`} style={style}>
+    <div className={`grid border rounded-lg p-4 bg-white ${className}`} style={style}>
       {children}
     </div>
   );

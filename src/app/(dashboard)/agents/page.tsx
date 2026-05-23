@@ -6,6 +6,7 @@ import React from 'react'
 import { LoanPipeline, Commissions, Rank } from './_sections/LoanPipeline';
 import RecentApps from './_sections/RecentApps';
 import QuickActions from './_sections/QuickActions';
+import DailyTasks from './_sections/DailyTasks';
 
 
 
@@ -42,6 +43,7 @@ const AgentDashboard = () => {
         </FlexCol>
 
         <FlexCol className='gap-4 flex-1 lg:flex-[1.5]'>
+          <DailyTasks/>
           <QuickActions/>
           <Rank/>
         </FlexCol>
