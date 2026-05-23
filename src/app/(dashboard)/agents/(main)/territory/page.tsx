@@ -58,7 +58,7 @@ const AgentsTerritoryPage = () => {
         <Nearest/>
         <Grid className='md:grid-cols-2 gap-4'>
           <Grid className='rounded-lg bg-primary h-fit py-4 px-5'>
-            <PinOff size={24} className='text-muted'/>
+            <PinOff size={24} className='text-white'/>
             <Typography variant='h2' weight='bold' color='light'>15</Typography>
             <Typography color='light'>New Prospects Identified</Typography>
           </Grid>

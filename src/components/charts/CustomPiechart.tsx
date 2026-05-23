@@ -3,6 +3,7 @@
 import { Label, Pie, PieChart, Tooltip, TooltipIndex } from 'recharts';
 import { GridItem } from '../ui/ui-layout';
 import { ReactNode } from 'react';
+import { cn } from '@/lib/utils';
 
 
 export default function CustomPieChart({
@@ -11,7 +12,8 @@ export default function CustomPieChart({
   data,
   label,
   title,
-  footer
+  footer,
+  className
 }: {
     isAnimationActive?: boolean;  
     defaultIndex?: TooltipIndex;
@@ -19,14 +21,15 @@ export default function CustomPieChart({
     label?: any;
     title?: ReactNode;
     footer?: ReactNode;
+    className?: string;
 }) {
 
 
   return (
-    <GridItem>
-        {title && <h3>{title}</h3>}
+    <GridItem className={cn('gap-4', className)}>
+        {title && <div>{title}</div>}
         <PieChart
-        style={{ width: '100%', height: '100%', maxWidth: '500px', maxHeight: '80vh', aspectRatio: 1 }}
+        style={{ width: '100%', height: '100%', maxHeight: '80vh', aspectRatio: 1 }}
         responsive
         >
         <Pie
