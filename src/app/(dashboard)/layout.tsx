@@ -1,6 +1,7 @@
 import React from 'react'
 import UserSidebar from './_components/Sidebar';
 import Topbar from './_components/Topbar';
+import MobileSidebar from './_components/MobileSidebar';
 
 
 const AgentsDashboardlayout = ({children}: {children: React.ReactNode}) => {
@@ -9,6 +10,7 @@ const AgentsDashboardlayout = ({children}: {children: React.ReactNode}) => {
         <UserSidebar/>
         <div className="flex flex-1 flex-col lg:ml-64">
           <Topbar/>
+          <MobileSidebar/>
           <div className="p-4">
           {children}
           </div>
