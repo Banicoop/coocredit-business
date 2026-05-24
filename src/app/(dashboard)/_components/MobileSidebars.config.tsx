@@ -6,14 +6,24 @@ import { agentsSidebar, loanOfficerData, managersData, superAgentData } from '@/
 import { useUserStore } from '@/store/useAuthStore';
 import Image from 'next/image';
 
-import user1 from '@/assets/svgs/user.svg';
+import user1 from '@/assets/images/user.png';
+import logo from '@/assets/svgs/logo.svg';
 import MobileSidebar from '@/components/ui/MobileSidebar';
+import { Flex } from '@/components/ui/ui-layout';
+import { MenuIcon } from 'lucide-react';
 
 
 export const AgentMobileSidebar = () => {
-    const [open, setOpen] = useState(false);
+
     const user = useUserStore((s) => s.user);
+    const [open, setOpen] = useState(false);
+
   return (
+    <>
+    <Flex className='justify-between p-2.5 w-full border-b lg:hidden'>
+      <Image src={logo} alt='Logo' width={120} height={40}/>
+      <MenuIcon size={24} onClick={() => setOpen(true)} className='text-primary cursor-pointer'/>
+    </Flex>
     <MobileSidebar
         open={open}
         onClose={() => setOpen(false)}
@@ -43,6 +53,7 @@ export const AgentMobileSidebar = () => {
           </div>
         }
         />
+      </>
   )
 }
 

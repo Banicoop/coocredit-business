@@ -14,11 +14,11 @@ const AgentsTerritoryPage = () => {
   return (
     <Grid className='gap-5'>
       <PageHeader title='Territory Map'/>
-      <Grid className='grid-cols-4 gap-4'>
-        <Grid className='col-span-3'>
-          <Image src={map} alt='' className='w-full h-full' loading='lazy' />
+      <Grid className='lg:grid-cols-4 gap-4'>
+        <Grid className='lg:col-span-3'>
+          <Image src={map} alt='' className='w-full h-full lg:col-span-2' loading='lazy' />
         </Grid>
-        <Grid className='col-span-1 h-fit'>
+        <Grid className='lg:col-span-1 h-fit'>
           <Grid className='bg-[#DBEAFE] rounded-lg px-2.5 py-4 gap-2.5'>
             <Typography variant='p' weight='semibold'>Territory health</Typography>
 

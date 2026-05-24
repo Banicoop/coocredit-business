@@ -2,14 +2,10 @@
 
 import React, { useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { X } from 'lucide-react';
-
-import { cn } from '@/lib/utils';
+import { cn, isActive } from '@/lib/utils';
 import Typography from '@/components/primitives/Typography';
-
-import user1 from '@/assets/svgs/user.svg';
 import { iconMap } from '@/config/sidebar.config';
 
 export type SidebarItem = {
@@ -73,7 +69,7 @@ const MobileSidebar = ({
       <div
         onClick={onClose}
         className={cn(
-          'fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px] transition-all duration-300',
+          'fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px] transition-opacity duration-300 lg:hidden',
           open
             ? 'visible opacity-100'
             : 'invisible opacity-0'
@@ -97,7 +93,7 @@ const MobileSidebar = ({
 
             <Typography
               weight="bold"
-              className="text-lg text-neutral-900"
+              className="text-lg "
             >
               {title}
             </Typography>
@@ -118,9 +114,9 @@ const MobileSidebar = ({
         <div className="flex-1 overflow-y-auto px-3 py-4">
           <nav className="flex flex-col gap-1">
             {items.map((item) => {
-              const isActive =
-                pathname === item.href ||
-                pathname.startsWith(`${item.href}/`);
+              const active = isActive(pathname, item.href, item.href);
+                // pathname === item.href ||
+                // pathname.startsWith(`${item.href}/`);
 
               const Icon = item.icon ? iconMap[item.icon] : undefined;
 
@@ -132,7 +128,7 @@ const MobileSidebar = ({
                   className={cn(
                     'group flex items-center gap-3 rounded-xl px-4 py-3',
                     'transition-all duration-200',
-                    isActive
+                    active
                       ? 'bg-primary/10 text-primary'
                       : 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900'
                   )}
@@ -142,7 +138,7 @@ const MobileSidebar = ({
                       size={20}
                       className={cn(
                         'transition-colors',
-                        isActive
+                        active
                           ? 'text-primary'
                           : 'text-neutral-500 group-hover:text-neutral-900'
                       )}
@@ -150,7 +146,7 @@ const MobileSidebar = ({
                   )}
 
                   <Typography
-                    weight={isActive ? 'semibold' : 'medium'}
+                    weight={active ? 'semibold' : 'medium'}
                     className="text-sm"
                   >
                     {item.label}

@@ -1,9 +1,8 @@
 import Button from '@/components/primitives/buttons/Button';
 import { BasicTable } from '@/components/primitives/tables/BasicTable';
 import Typography from '@/components/primitives/Typography';
-import { Flex } from '@/components/ui/ui-layout';
+import { FlexCol } from '@/components/ui/ui-layout';
 import { Download } from 'lucide-react';
-import React from 'react';
 
 
 const data = Array.from({length: 40}, (() => ({
@@ -15,10 +14,10 @@ const data = Array.from({length: 40}, (() => ({
 })))
 
 const TableTitle = () => (
-    <Flex className='justify-between'>
+    <FlexCol className='md:flex-row md:items-center md:justify-between gap-4'>
         <Typography variant='h4' weight='bold'>Commission History</Typography>
         <Button startIcon={<Download size={20} />}>Download</Button>
-    </Flex>
+    </FlexCol>
 )
 
 const CommissionHistory = () => {
