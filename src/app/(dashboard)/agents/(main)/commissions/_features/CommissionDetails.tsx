@@ -46,6 +46,13 @@ const CommissionDetails = ({open, setOpen}: any) => {
                     title='DETAILED SPLIT' 
                     items={list} currencySymbol='₦'/>
 
+                <hr className='h-1'/>
+
+                <Flex className='w-full justify-between'>
+                    <Typography variant='p' weight='semibold'>Total Earnings</Typography>
+                    <Typography variant='p' weight='semibold' color='active'>₦2,450</Typography>
+                </Flex>
+
                 <DetailedSlip 
                     title='Timeline' 
                     items={list2} />

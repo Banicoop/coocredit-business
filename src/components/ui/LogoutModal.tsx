@@ -12,19 +12,22 @@ type Props = {
 
 const LogoutModal = ({open, setOpen}: Props) => {
   return (
-    <Modal open={open} onOpenChange={setOpen}>
+    <Modal open={open} onOpenChange={setOpen} >
+        <Modal.Header title='Ready to Leave?'/>
         <Modal.Body>
-            <FlexCol className='gap-2'>
+            <FlexCol className='gap-4'>
                 <Flex className='justify-center p-4 rounded-full bg-accent w-fit mx-auto'>
                     <LogOut size={18} className='text-primary'/>
                 </Flex>
-                <Typography>Ready to Leave?</Typography>
-                <Typography color='primary'>You are about to log out of CooCredit. Make sure all your field collection data has been synced to the central server.</Typography>
+                <Typography variant='p' color='primary' className='text-center'>You are about to log out of CooCredit. Make sure all your field collection data has been synced to the central server.</Typography>
 
                 <Button>Log Out Now</Button>
-                <Button variant='outline'>Cancel and Stay</Button>
+                <Button variant='ghost' className='border' onClick={() => setOpen(false)}>Cancel and Stay</Button>
             </FlexCol>
         </Modal.Body>
+        <Modal.Footer>
+                <Typography color='primary' className='text-center w-full'>SESSION SECURITY: AES-256 ENCRYPTED</Typography>
+        </Modal.Footer>
     </Modal>
   )
 }
