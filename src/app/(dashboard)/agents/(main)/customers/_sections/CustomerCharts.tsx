@@ -99,14 +99,14 @@ const CustomerCharts = () => {
                   dataKey: 'approved',
                   label: 'Approved',
                   color: '#0053CC',
-                  stackId: 'name',
+                  stackId: 'a',
                   radius: [0, 0 , 0, 0],
                 },
                 {
                   dataKey: 'submitted',
                   label: 'Submitted',
                   color: '#DBE9FE',
-                  stackId: 'name',
+                  stackId: 'a',
                   radius: [0, 0 , 0, 0],
                 },
               ]}

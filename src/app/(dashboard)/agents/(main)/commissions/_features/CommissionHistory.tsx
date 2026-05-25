@@ -1,8 +1,12 @@
+'use client';
+
 import Button from '@/components/primitives/buttons/Button';
 import { BasicTable } from '@/components/primitives/tables/BasicTable';
 import Typography from '@/components/primitives/Typography';
 import { FlexCol } from '@/components/ui/ui-layout';
-import { Download } from 'lucide-react';
+import { Download, EllipsisVertical } from 'lucide-react';
+import { useState } from 'react';
+import CommissionDetails from './CommissionDetails';
 
 
 const data = Array.from({length: 40}, (() => ({
@@ -21,6 +25,8 @@ const TableTitle = () => (
 )
 
 const CommissionHistory = () => {
+
+    const [open, setOpen] = useState(false)
 
     const columns = [
         {
@@ -41,12 +47,27 @@ const CommissionHistory = () => {
         },
         {
             key: 'status',
-            title:'Status'
+            title:'Status',
+            render: (val: string) => (
+                <Typography color='active' className='py-1 px-2 rounded-sm bg-[#0053CC1A] text-[10px]'>{val}</Typography>
+            )
         },
+        {
+            key: '',
+            title: 'Actions',
+            render: () => (
+                <EllipsisVertical size={24} 
+                    className='text-primary cursor-pointer' 
+                    onClick={() => setOpen(true)}/>
+            )
+        }
     ]
 
   return (
-    <BasicTable columns={columns} data={data ?? []} title={<TableTitle/>} pageSize={8} pagination/>
+    <>
+        <BasicTable columns={columns} data={data ?? []} title={<TableTitle/>} pageSize={8} pagination/>
+        <CommissionDetails open={open} setOpen={setOpen}/>
+    </>
   )
 }
 
