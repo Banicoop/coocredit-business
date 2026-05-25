@@ -30,8 +30,8 @@ const PerformanceScore = () => {
 
             <Typography weight='semibold' className='text-[#DAE2FFB2] uppercase mt-2.5'>Next Reward</Typography>
 
-            <Flex className='border p-2.5 bg-[#FFFFFF1A] border-[#FFFFFF1A] rounded-lg'>
-                <Flame size={32} className='text-card' />
+            <Flex className='border p-2.5 bg-[#FFFFFF1A] border-[#FFFFFF1A] rounded-lg gap-1.5'>
+                <Flame size={20} className='text-card' />
                 <ColItem 
                     item1='0.5% Commission Bonus' 
                     item2='Activates at 1,000 pts' 
