@@ -1,7 +1,7 @@
 'use client';
 
 import Typography from '@/components/primitives/Typography';
-import { isActive } from '@/lib/utils';
+import { cn, isActive } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -18,6 +18,7 @@ type SidebarItem = {
 
 type SidebarProps = {
   className?: string;
+  className1?: string;
   data: SidebarItem[];
   others?: SidebarItem[];
   logo?: string;
@@ -26,6 +27,7 @@ type SidebarProps = {
 
 const Sidebar = ({
   className = '',
+  className1,
   data,
   others = [],
   logo = '/logo.svg',
@@ -50,7 +52,7 @@ const Sidebar = ({
           ${
             active
               ? 'border-r-4 border-primary bg-[#DBEAFE]'
-              : 'hover:bg-gray-100'
+              : ''
           }
         `}
       >
@@ -58,7 +60,7 @@ const Sidebar = ({
           startIcon={<Icon size={20} />}
           weight={active ? 'semibold' : 'medium'}
           color={active ? 'active' : 'primary'}
-          className='text-xs'
+          className={cn('text-xs', className1)}
         >
           {item.label}
         </Typography>
