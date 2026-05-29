@@ -10,6 +10,8 @@ import React from 'react'
 
 import user from '@/assets/images/user.png'
 import { ColItem } from '@/components/ui/PageHeader';
+import { EllipsisVertical } from 'lucide-react';
+import CustomerLocation from '../@modal/CustomerLocation';
 
 const data = Array.from({length: 3}, (() => ({
     user: {
@@ -29,8 +31,10 @@ const TableTitle = () => (
         <Link href='#' className='text-primary'>View All</Link>
     </Flex>
 )
-// ₦250,000
+
 const Nearest = () => {
+
+    const [open, setOpen] = React.useState(false);
 
     const columns = [
         {
@@ -50,10 +54,20 @@ const Nearest = () => {
                 <ColItem item1={`₦${val.amount.toLocaleString()}`} item2={val.status} className1='text-primary' className2='text-[#16A34A]'/>
             )
         },
+        {
+            key: 'id',
+            title: '',
+            render: (val: any) => (
+                <EllipsisVertical onClick={() => setOpen(true)} size={20} className='text-primary cursor-pointer'/>
+            )
+        },
     ]
 
   return (
-   <BasicTable columns={columns} data={data ?? []} title={<TableTitle/>}/>
+    <>
+        <BasicTable columns={columns} data={data ?? []} title={<TableTitle/>}/>
+        <CustomerLocation open={open} setOpen={setOpen}/>
+    </>
   )
 }
 

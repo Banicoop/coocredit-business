@@ -1,6 +1,6 @@
 import { TitleText } from '@/components/primitives/buttons/BackButton';
 import Typography from '@/components/primitives/Typography';
-import { ColItem } from '@/components/ui/PageHeader';
+import { ColItem, PageHeader } from '@/components/ui/PageHeader';
 import { Flex, FlexCol, Grid } from '@/components/ui/ui-layout';
 import { Briefcase, CircleAlert, DollarSign, MapPinCheck, MapPinCheckInsideIcon, User, UserRoundCheck } from 'lucide-react';
 import Image from 'next/image';
@@ -14,6 +14,7 @@ const LeadReviewPage = () => {
 
   return (
     <FlexCol className='gap-5'>
+        <PageHeader title='Lead Review'/>
         <Flex className='bg-[#DBEAFE] rounded-lg py-4 px-2.5 md:px-6 w-full flex-col md:flex-row gap-4 justify-between'>
             <FlexCol className='gap-2.5'>
                 <Flex className='gap-2.5'>

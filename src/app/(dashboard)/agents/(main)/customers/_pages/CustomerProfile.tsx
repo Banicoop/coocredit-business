@@ -7,6 +7,7 @@ import React from 'react';
 
 import user from '@/assets/images/user.png'
 import { BioData, BankInfo, FieldAssets, FinCard } from '..';
+import Link from 'next/link';
 
 const CustomerProfile = () => {
 
@@ -15,11 +16,14 @@ const CustomerProfile = () => {
       <Grid className='gap-5 md:grid-cols-3'>
         <GridItem className='md:col-span-2'>
           <FlexCol className='gap-2.5 px-4 py-3 w-full'>
-            <Flex className='gap-x-1.5'>
-              <Image src={user} alt='USER' className='h-30 w-30 rounded-md object-cover' loading='lazy' />
-              <ColItem item1='Amara Okafor' 
-                item2='CU-8842-XN • Member since 2021' 
-                className1='text-[24px] text-[#0F1C2C] font-semibold' className2='text-[#546474]'/>
+            <Flex className='gap-x-1.5 justify-between'>
+              <Flex>
+                <Image src={user} alt='USER' className='h-30 w-30 rounded-md object-cover' loading='lazy' />
+                <ColItem item1='Amara Okafor' 
+                  item2='CU-8842-XN • Member since 2021' 
+                  className1='text-[24px] text-[#0F1C2C] font-semibold' className2='text-[#546474]'/>
+              </Flex>
+              <Link href='/agents/customers/id/referrals' className='p-2 rounded-lg bg-primary text-card font-semibold shadow-sm'>Referrals</Link>
             </Flex>
               <Grid className='grid-cols-2 md:grid-cols-4 gap-x-2 w-full'>
                 <ColItem item1='Address' item2='-' className1='text-ink' className2='text-[#0F1C2C] font-semibold text-[18px]'/>

@@ -1,27 +1,36 @@
+'use client';
+
+import LogoutModal from "@/components/ui/LogoutModal";
 import Sidebar from "@/components/ui/Sidebar";
 import { agentsSidebar, loanOfficerData, managersData, superAgentData } from "@/config/sidebar.config";
+import { useState } from "react";
 
 export const AgentsSidebar = () => {
 
+    const [open, setOpen] = useState(false);
+
   return (
-    <Sidebar className='bg-white' 
-        data={agentsSidebar} 
-        activeBasePath="/agents" 
-        others={[
-            {
-                label: 'Settings',
-                href: '/settings',
-                icon: 'settings',
+    <>
+        <Sidebar className='bg-white' 
+            data={agentsSidebar} 
+            activeBasePath="/agents" 
+            others={[
+                {
+                    label: 'Settings',
+                    href: '/settings',
+                    icon: 'settings',
+                },
+                {
+                    label: 'Logout',
+                    icon: 'logout',
+                    onClick: () => {
+                        setOpen(true)
+                },
             },
-            {
-                label: 'Logout',
-                icon: 'logout',
-                onClick: () => {
-                    console.log('logout');
-            },
-        },
-    ]}
-    />
+        ]}
+        />
+        <LogoutModal open={open} setOpen={setOpen}/>
+    </>
   )
 }
 

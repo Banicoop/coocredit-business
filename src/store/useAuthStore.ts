@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-type Role = 'agents' | 'super_agent' | 'loan_officer' | 'manager';
+type Role = 'agent' | 'super_agent' | 'loan_officer' | 'manager';
 
 type User = {
   id: string;

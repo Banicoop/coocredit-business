@@ -4,11 +4,16 @@ import Typography from '@/components/primitives/Typography';
 import { ColItem, PageHeader } from '@/components/ui/PageHeader';
 import { ProgressBar } from '@/components/ui/ProgessBar';
 import { Flex } from '@/components/ui/ui-layout';
-import React from 'react'
+import React, { useState } from 'react'
 import DailyList from './_sections/DailyList';
 import { PlusCircle } from 'lucide-react';
+import NewTask from './_sections/NewTask';
+import CompletedTasks from './_sections/CompletedTasks';
 
 const DailyTaskPage = () => {
+
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <article className='grid gap-5'>
       <PageHeader title='Daily Tasks' actions={[
@@ -16,7 +21,7 @@ const DailyTaskPage = () => {
           label: 'New Task',
           variant: 'primary',
           icon: <PlusCircle size={20}/>,
-          onClick: () => console.log('CLICKED!!')
+          onClick: () => setOpenModal(true)
         }
       ]}/>
 
@@ -38,6 +43,10 @@ const DailyTaskPage = () => {
       </Flex>
 
       <DailyList/>
+
+      <CompletedTasks/>
+
+      <NewTask open={openModal} setOpen={setOpenModal}/>
     </article>
   )
 }

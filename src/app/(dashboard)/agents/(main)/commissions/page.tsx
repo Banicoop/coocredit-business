@@ -1,8 +1,9 @@
 import Typography from '@/components/primitives/Typography';
 import { PageHeader } from '@/components/ui/PageHeader';
-import { FlexCol, Grid, GridItem } from '@/components/ui/ui-layout';
+import { FlexCol, Grid } from '@/components/ui/ui-layout';
 import React from 'react';
 import CommissionHistory from './_features/CommissionHistory';
+import MonthEarningCharts from './_features/MonthEarningCharts';
 
 interface CardItemProps {
   textColor?: string;
@@ -23,11 +24,12 @@ const AgentCommission = () => {
     <Grid className='gap-6'>
       <PageHeader title='Commission Tracker' />
       <Grid className='grid-cols-2 md:grid-cols-4 gap-5'>
-        <CardItem title='Earning Today' val='₦250,000' className='border-l-primary border-l-4'/>
-        <CardItem title='This month' val='₦250,000' className='border-l-[#506070] border-l-4'/>
-        <CardItem title='Pending' val='₦27,000' className='border-l-[#A43700] border-l-4'/>
+        <CardItem title='Earning Today' val='₦250,000' className='border-l-primary border-l-4' textColor='text-primary'/>
+        <CardItem title='This month' val='₦250,000' className='border-l-[#506070] border-l-4' textColor='text-[#506070]'/>
+        <CardItem title='Pending' val='₦27,000' className='border-l-[#A43700] border-l-4' textColor='text-[#A43700]'/>
         <CardItem title='Paid out' val='₦12,000' className='bg-primary' textColor='text-white'/>
       </Grid>
+      <MonthEarningCharts/>
       <CommissionHistory/>
     </Grid>
   )

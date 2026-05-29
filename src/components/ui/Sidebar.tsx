@@ -71,7 +71,7 @@ const Sidebar = ({
         <button
           key={item.label}
           onClick={item.onClick}
-          className="w-full text-left"
+          className="w-full text-left cursor-pointer"
         >
           {content}
         </button>
