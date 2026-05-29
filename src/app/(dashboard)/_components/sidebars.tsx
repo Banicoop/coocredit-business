@@ -37,19 +37,21 @@ export const AgentsSidebar = () => {
 
 export const SuperAgentSidebar = () => {
     return(
-        <Sidebar className="bg-[#1D3989] text-white" 
-        activeBasePath="/super-agents" 
-        data={superAgentData}
-        others={[
-            {
-                label: 'Logout',
-                icon: 'logout',
-                onClick: () => {
-                    console.log('logout');
+        <Sidebar 
+            className="bg-[#1D3989]" 
+            className1="text-white"
+            activeBasePath="/super-agents" 
+            data={superAgentData}
+            others={[
+                {
+                    label: 'Logout',
+                    icon: 'logout',
+                    onClick: () => {
+                        console.log('logout');
+                    }
                 }
-            }
-            
-        ]}
+                
+            ]}
         />
     )
 }
