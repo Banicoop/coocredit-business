@@ -7,7 +7,7 @@ import Typography from '@/components/primitives/Typography';
 import DetailedSlip from '@/components/ui/DetailSlip';
 // import { PageHeader } from '@/components/ui/PageHeader';
 import ReferralList from './_sections/ReferralList';
-import { Bomb, MapPinCheck, Timer, TrendingUp, UserCircle, UserRoundKey } from 'lucide-react';
+import { Bomb, Copy, MapPinCheck, Megaphone, Timer, TrendingUp, UserCircle, UserRoundKey } from 'lucide-react';
 import network from '@/assets/images/shop-location.png'
 import { ColItem } from '@/components/ui/PageHeader';
 
@@ -35,6 +35,23 @@ const Referrals = () => {
                     <DetailedSlip title='PROFESSIONAL INFO' className='bg-accent p-3.5 rounded-lg w-full' items={details2}/>
                 </FlexCol>
             </GridItem>
+            <GridItem className='gap-2'>
+                <Flex className='gap-1.5'>
+                    <Flex className='bg-[#D6E4F9] p-2 rounded-lg'>
+                        <Megaphone size={20} className='text-primary' />
+                    </Flex>
+                    <ColItem item1='Referral bonus' item2='₦2,500' className1='' className2='text-primary text-[10px] bg-[#D6E4F9] rounded-sm w-fit py-0.5 px-2 font-bold'/>
+                </Flex>
+                <Typography color='primary'>Earn rewards for every successful onboarding through your network.</Typography>
+                <Typography variant='small' color='primary'>YOUR REFERRAL LINK</Typography>
+                <Flex className='justify-between gap-2.5'>
+                    <Typography variant='small' color='primary' weight='bold' className='p-2 rounded-md bg-[#EEF4FF] w-full'>coocredit.ag/sarah-chen-882</Typography>
+                    <Flex className='p-2 rounded-md bg-primary'>
+                        <Copy size={16} className='text-card cursor-pointer' />
+                    </Flex>
+                </Flex>
+                 <Typography variant='small' color='primary'>Quick share</Typography>
+            </GridItem>
             <GridItem>
                 <Typography weight='semibold' className='text-[18px]'>Referral Bonus</Typography>
                 <ColItem item1='Total Earned' item2='₦248,500' className1='text-[#546474] text-sm' className2='text-[24px] font-bold text-primary'/>
@@ -52,7 +69,7 @@ const Referrals = () => {
             </Flex>
             <ReferralList/>
             <Grid className='gap-4 grid-cols-2'>
-                <GridItem className='gap-4'>
+                <GridItem className='gap-4 h-fit'>
                     <Typography weight='semibold' startIcon={<MapPinCheck size={18} className='text-primary'/>}>Network Reach</Typography>
 
                     <Image src={network} alt='' className='rounded-lg object-cover w-full h-25' />
