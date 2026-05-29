@@ -2,13 +2,36 @@ import Typography from '@/components/primitives/Typography';
 import { ColItem } from '@/components/ui/PageHeader';
 import { ProgressBar } from '@/components/ui/ProgessBar';
 import { Flex, FlexCol, Grid, GridItem } from '@/components/ui/ui-layout';
-import { Award, Flame } from 'lucide-react';
+import { Award, Flame, Star } from 'lucide-react';
 import React from 'react'
 
 const PerformanceScore = () => {
   return (
     <Grid className='md:grid-cols-2 lg:grid-cols-3 gap-5'>
-        <GridItem className='lg:col-span-2'>A</GridItem>
+        <GridItem className='grid-cols-2 lg:col-span-2 gap-2.5'>
+            <Grid className='h-fit gap-4'>
+                <Typography color='primary'>TOTAL AGENT SCORE</Typography>
+                <Typography variant='h1' className='text-[40px]' endIcon={<span className='text-sm text-[#546474]'>/ 100</span>}>87 </Typography>
+                <Typography 
+                    startIcon={
+                    <Flex className='p-1 rounded-full bg-primary'>
+                        <Star size={10} className='text-card'/>
+                    </Flex>} 
+                    className='bg-accent w-fit h-fit rounded-lg py-1 px-4 text-primary'>Top 5% Nationwide</Typography>
+                
+                <Grid className='grid-cols-2 gap-2.5'>
+                    <FlexCol className='bg-accent px-2.5 py-4 rounded-lg'>
+                        <Typography color='primary' weight='bold' variant='p'>GLOBAL RANK</Typography>
+                        <Typography variant='h5' weight='semibold'>No. 4</Typography>
+                    </FlexCol>
+                    <FlexCol className='bg-accent px-2.5 py-4 rounded-lg'>
+                        <Typography color='primary' weight='bold' variant='p'>GROWTH</Typography>
+                        <Typography variant='h5' className='text-chart-5' weight='semibold'>+12.4%</Typography>
+                    </FlexCol>
+                </Grid>
+            </Grid>
+            <Grid>B</Grid>
+        </GridItem>
         <Grid className='bg-primary rounded-lg p-4 gap-2.5'>
             <Flex className='justify-between'>
                 <FlexCol>
