@@ -15,12 +15,12 @@ const UserSidebar = () => {
     setUser({
       id: '1',
       name: 'Ebenezer Oladepo',
-      role: 'agents'
+      role: 'agent'
     })
   }, [])
 
     const sidebarMap = {
-        agents: <AgentsSidebar/>,
+        agent: <AgentsSidebar/>,
         super_agent: <SuperAgentSidebar/>,
         loan_officer: <LoanOfficerSidebar/>,
         manager: <ManagersSidebar/>
