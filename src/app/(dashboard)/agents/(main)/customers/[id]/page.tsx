@@ -5,7 +5,7 @@ import CustomerProfile from '../_pages/CustomerProfile';
 
 const CustomerDetails = () => {
 
-  const type = true;
+  const type = false;
 
   return (
     <FlexCol className='gap-4'>

@@ -1,6 +1,7 @@
 import React from 'react';
 import Typography from '@/components/primitives/Typography';
 import { Flex } from '@/components/ui/ui-layout';
+import { cn } from '@/lib/utils';
 
 type SplitItem = {
   title: string;
@@ -11,15 +12,17 @@ type DetailedSplitProps = {
   title: string;
   items: SplitItem[];
   currencySymbol?: string;
+  className?: string
 };
 
 const DetailedSlip: React.FC<DetailedSplitProps> = ({
   title,
   items,
   currencySymbol ,
+  className
 }) => {
   return (
-    <div className='gap-2'>
+    <div className={cn('gap-2', className)}>
       <Typography color="primary" weight="semibold">
         {title}
       </Typography>

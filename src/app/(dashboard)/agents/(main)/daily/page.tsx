@@ -8,6 +8,7 @@ import React, { useState } from 'react'
 import DailyList from './_sections/DailyList';
 import { PlusCircle } from 'lucide-react';
 import NewTask from './_sections/NewTask';
+import CompletedTasks from './_sections/CompletedTasks';
 
 const DailyTaskPage = () => {
 
@@ -42,6 +43,8 @@ const DailyTaskPage = () => {
       </Flex>
 
       <DailyList/>
+
+      <CompletedTasks/>
 
       <NewTask open={openModal} setOpen={setOpenModal}/>
     </article>
