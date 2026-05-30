@@ -77,7 +77,7 @@ const LoanHistory = () => {
                     actions={[
                         {
                             label: 'View Details',
-                            onClick: () => console.log('Clicked!!'),
+                            href: '/agents/loans/slug',
                             icon: EyeClosedIcon,
                             variant: 'primary'
                         }
