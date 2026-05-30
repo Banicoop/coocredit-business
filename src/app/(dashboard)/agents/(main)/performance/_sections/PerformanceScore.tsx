@@ -8,7 +8,7 @@ import React from 'react'
 const PerformanceScore = () => {
   return (
     <Grid className='md:grid-cols-2 lg:grid-cols-3 gap-5'>
-        <GridItem className='grid-cols-2 lg:col-span-2 gap-2.5'>
+        <GridItem className='md:grid-cols-2 lg:col-span-2 gap-2.5'>
             <Grid className='h-fit gap-4'>
                 <Typography color='primary'>TOTAL AGENT SCORE</Typography>
                 <Typography variant='h1' className='text-[40px]' endIcon={<span className='text-sm text-[#546474]'>/ 100</span>}>87 </Typography>
