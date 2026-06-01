@@ -8,12 +8,13 @@ interface TextFieldProps extends TextareaHTMLAttributes<HTMLTextAreaElement>{
     desc?: string;
     descClass?: string
     wrapperClass?: string;
+    endIcon?: React.ReactNode;
     startIcon?: React.ReactNode;
     className?: string;
 }
 
 
-export const TextArea = forwardRef<HTMLTextAreaElement, TextFieldProps>(({ label, startIcon, className = 'bg-[#DBE9FE] text-[#94A3B8] p-1', wrapperClass, desc, descClass, ...props}, ref) => {
+export const TextArea = forwardRef<HTMLTextAreaElement, TextFieldProps>(({ label, startIcon, endIcon, className = 'bg-[#DBE9FE] text-[#94A3B8] p-1', wrapperClass, desc, descClass, ...props}, ref) => {
   return (
     <section className={`flex flex-col gap-2 ${wrapperClass}`}>
         {label && (
@@ -33,6 +34,10 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextFieldProps>(({ label
             ref={ref}
             {...props}
             />
+
+             {endIcon && (
+                <span className="">{endIcon}</span>
+            )}
         </div>
 
         {desc && (

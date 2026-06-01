@@ -1,12 +1,13 @@
 import Button from '@/components/primitives/buttons/Button';
-import { Flex, FlexBox, FlexCol } from '@/components/ui/ui-layout';
+import { Flex, FlexBox, FlexCol, Grid } from '@/components/ui/ui-layout';
 import Image from 'next/image';
-import React from 'react'
-
-import user from '@/assets/images/user.png'
 import { ColItem } from '@/components/ui/PageHeader';
 import Typography from '@/components/primitives/Typography';
 import { BadgeCheck, Download, FileChartColumn, Mail, MapPinCheckIcon, Phone,  } from 'lucide-react';
+import React from 'react'
+
+import user from '@/assets/images/user.png'
+import bg from '@/assets/images/shop-location.png'
 
 
 const items = [
@@ -27,6 +28,13 @@ const items = [
   },
 ]
 
+const documents = Array.from({ length: 4 }, (_, i) => ({
+  id: i + 1,
+  name: 'Valid National ID Card',
+  type: 'jpg',
+  size: `${(Math.random() * 2 + 0.5).toFixed(2)} MB`,
+}));  
+
 const LoanGuarantor = () => {
   return (
     <FlexCol className='gap-6'>
@@ -37,7 +45,7 @@ const LoanGuarantor = () => {
       </Flex>
 
         {/* Customer Information */}
-      <Flex className='gap-4 md:flex-row items-start'>
+      <FlexCol className='gap-4 md:flex-row items-start'>
         <FlexCol className='gap-5 flex-1'>
         <FlexBox className='flex-col gap-5'>
           <Flex className='gap-2'>
@@ -85,18 +93,19 @@ const LoanGuarantor = () => {
         </FlexCol>
 
           {/* Gurantor Documents */}
-        <FlexBox className='flex-1 lg:flex-[1.5] flex-col gap-2.5'>
+        <FlexBox className='flex-1 lg:flex-[1.5] flex-col gap-5'>
             <Typography color='primary' weight='semibold'>GUARANTOR DOCUMENTS</Typography>
 
-            <Flex>
-              <FlexCol className='bg-accent p-4 rounded-lg gap-2.5'>
+            <Grid className='gap-5 grid-cols-1 lg:grid-cols-2 '>
+              {documents.map((doc) => (
+                <FlexCol className='bg-accent py-4 px-6 rounded-lg gap-2.5' key={doc.id}>
                 <Flex className='gap-4'>
                   <div className="w-12 h-12 rounded-lg bg-card flex items-center justify-center">
                     <FileChartColumn size={24} className='text-primary'/>
                   </div>
                   <ColItem 
-                    item1='Signed Guarantor Form' 
-                    item2='PDF • 1.2 MB' 
+                    item1={doc.name} 
+                    item2={`${doc.type} • ${doc.size}`} 
                     className1='text-base text-[#0F1C2C] font-bold' className2='text-[#546474] text-xs'/>
                 </Flex>
                 <Flex className='gap-4'>
@@ -106,9 +115,12 @@ const LoanGuarantor = () => {
                   </Flex>
                 </Flex>
               </FlexCol>
-            </Flex>
+              ))}
+            </Grid>
+
+            <Image src={bg} height={200} alt='' className='self-center mt-4 w-full'/>
         </FlexBox>
-      </Flex>
+      </FlexCol>
     </FlexCol>
   )
 }
