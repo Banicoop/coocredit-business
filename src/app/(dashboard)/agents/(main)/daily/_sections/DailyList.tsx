@@ -2,6 +2,8 @@ import { Grid } from '@/components/ui/ui-layout';
 import React from 'react'
 import DailyCard from './DailyCard';
 import { Tabs } from '@/components/ui/Tabs';
+import { TextField } from '@/components/primitives/inputs/TextField';
+import { Search } from 'lucide-react';
 
 
 const tabs = [
@@ -31,7 +33,9 @@ const DailyList = () => {
   return (
     <Grid className='gap-4'>
         
-        <Tabs items={tabs} defaultValue='all'/>
+        <Tabs items={tabs} defaultValue='all' className='hidden md:flex'/>
+
+        <TextField variant='primary' startIcon={<Search size={20} />} placeholder='Search tasks, customers...' wrapperClassName='md:hidden'/>
 
         <Grid className='grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
             <DailyCard

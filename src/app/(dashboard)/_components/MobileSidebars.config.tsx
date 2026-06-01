@@ -9,8 +9,8 @@ import Image from 'next/image';
 import user1 from '@/assets/images/user.png';
 import logo from '@/assets/svgs/logo.svg';
 import MobileSidebar from '@/components/ui/MobileSidebar';
-import { Flex } from '@/components/ui/ui-layout';
-import { MenuIcon } from 'lucide-react';
+import { Flex, FlexCol } from '@/components/ui/ui-layout';
+import { LogOutIcon, MenuIcon } from 'lucide-react';
 
 
 export const AgentMobileSidebar = () => {
@@ -30,27 +30,31 @@ export const AgentMobileSidebar = () => {
         items={agentsSidebar}
         title="Agent Panel"
         footer={
-            <div className="flex items-center gap-3 rounded-2xl bg-neutral-50 p-3">
-            <Image
-              src={user1}
-              alt="user"
-              width={44}
-              height={44}
-              className="rounded-full"
-            />
+          <FlexCol className='gap-1.5 p-3'>
+            <Flex className="gap-3 rounded-2xl bg-neutral-50">
+              <Image
+                src={user1}
+                alt="user"
+                width={44}
+                height={44}
+                className="rounded-full"
+              />
 
-            <div>
-              <Typography weight="semibold">
-                {user?.name || 'No Name'}
-              </Typography>
+              <FlexCol>
+                <Typography weight="semibold">
+                  {user?.name || 'No Name'}
+                </Typography>
 
-              <Typography
-                className="uppercase text-primary"
-              >
-                {user?.role}
-              </Typography>
-            </div>
-          </div>
+                <Typography
+                  className="uppercase text-primary"
+                >
+                  {user?.role}
+                </Typography>
+              </FlexCol>
+            </Flex>
+            <Typography variant='p' weight='semibold' className='cursor-pointer' startIcon={<LogOutIcon size={18} />}>Logout</Typography>
+
+          </FlexCol>
         }
         />
       </>

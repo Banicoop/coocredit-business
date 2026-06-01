@@ -9,7 +9,7 @@ import React from 'react'
 import user from '@/assets/images/user.png';
 
 
-const data = Array.from({length: 4}, (() => ({
+const data = Array.from({length: 8}, (() => ({
     customer: {
         name: 'Adewale Johnson',
         ID: 'Retailer • ID #29402'
@@ -49,7 +49,12 @@ const ReferralList = () => {
         },
     ]
   return (
-    <BasicTable columns={columns} data={data ?? []} title={<Typography variant='p'>Referral Network</Typography>}/>
+    <BasicTable 
+        columns={columns} 
+        pagination={true}
+        pageSize={5}
+        data={data ?? []} 
+        title={<Typography variant='p'>Referrals</Typography>}/>
   )
 }
 

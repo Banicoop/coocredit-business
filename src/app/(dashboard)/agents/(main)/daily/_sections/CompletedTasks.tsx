@@ -15,8 +15,8 @@ const CompletedTasks = () => {
     <GridItem className='gap-4'>
         <Typography variant='h4' weight='bold' startIcon={<CircleCheck size={20} className='text-primary mt-1' />}>Completed Tasks (4)</Typography>
 
-        {data.map((d) => (
-            <Flex className='justify-between border-b border-b-[#F8FAFC] py-2'>
+        {data.map((d, index) => (
+            <Flex key={index} className='justify-between border-b border-b-[#F8FAFC] py-2'>
                 <Flex className='gap-4'>
                     <Typography variant='small' weight='bold' color='primary'>{d.time}</Typography>
                     <Typography weight='semibold'>{d.customerName} — {d.task}</Typography>
