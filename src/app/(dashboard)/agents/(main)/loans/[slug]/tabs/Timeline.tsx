@@ -3,7 +3,8 @@
 import Typography from '@/components/primitives/Typography';
 import clsx from 'clsx';
 import React from 'react';
-import { Check, Zap } from 'lucide-react';
+import { Check } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export interface TimelineItem {
   id: string;
@@ -18,9 +19,10 @@ export interface TimelineItem {
 
 interface TimelineProps {
   items: TimelineItem[];
+  className?: string;
 }
 
-const Timeline = ({ items }: TimelineProps) => {
+const Timeline = ({ items, className }: TimelineProps) => {
   return (
     <div className='relative'>
       {items.map((item, index) => {
@@ -43,9 +45,9 @@ const Timeline = ({ items }: TimelineProps) => {
             </div>
 
             {/* Content */}
-            <div className='flex-1 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm'>
+            <div className={cn('flex-1 rounded-2xl p-5 shadow-sm', item.status === 'RUNNING' ? 'bg-blue-100 border-l-4 border-l-primary' : 'bg-white border border-slate-100')}>
               <div className='flex flex-col gap-3 md:flex-row md:items-start md:justify-between'>
-                <div>
+                <div className='flex flex-col gap-1'>
                   <Typography
                     weight='semibold'
                     className='text-lg'

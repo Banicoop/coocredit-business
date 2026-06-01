@@ -46,6 +46,7 @@ const timelineData = [
 
 
 const LoanTimeline = () => {
+
   return (
     <Timeline items={timelineData} />
   )
