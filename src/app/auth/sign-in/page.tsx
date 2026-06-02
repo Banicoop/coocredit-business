@@ -10,8 +10,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import logo from '@/assets/svgs/logo.svg';
+import { useUserStore } from '@/store/useAuthStore';
 
 const SignInPage = () => {
+  const { setUser } = useUserStore();
   const router = useRouter();
   const [email, setEmail] = useState('');
 
@@ -20,15 +22,39 @@ const SignInPage = () => {
 
     switch (email.toLowerCase()) {
       case 'agent@test.com':
+        setUser({
+          id: '1',
+          name: 'Test Agent',
+          role: 'agent',
+      });
         router.push('/agents');
         break;
 
       case 'superagent@test.com':
+        setUser({
+          id: '2',
+          name: 'Super Agent',
+          role: 'super_agent',
+        });
         router.push('/super-agent');
         break;
 
       case 'manager@test.com':
+        setUser({
+          id: '3',
+          name: 'Test Manager',
+          role: 'manager',
+      });
         router.push('/managers');
+        break;
+
+      case 'loanofficer@test.com':
+        setUser({
+          id: '3',
+          name: 'Test Manager',
+          role: 'manager',
+      });
+        router.push('/loan-officer');
         break;
 
       default:

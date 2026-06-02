@@ -1,7 +1,7 @@
 'use client';
 
 import { AgentsSidebar, LoanOfficerSidebar, ManagersSidebar, SuperAgentSidebar } from './sidebars';
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 import { SidebarSkeleton } from '@/helpers/skeleton';
 import { useUserStore } from '@/store/useAuthStore';
 
@@ -9,15 +9,8 @@ import { useUserStore } from '@/store/useAuthStore';
 
 const UserSidebar = () => {
 
-  const { user, setUser } = useUserStore();
+  const { user } = useUserStore();
 
-  useEffect(() => {
-    setUser({
-      id: '1',
-      name: 'Ebenezer Oladepo',
-      role: 'super_agent',
-    })
-  }, [])
 
     const sidebarMap = {
         agent: <AgentsSidebar/>,
