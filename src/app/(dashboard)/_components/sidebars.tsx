@@ -40,7 +40,8 @@ export const SuperAgentSidebar = () => {
         <Sidebar 
             className="bg-[#1D3989]" 
             className1="text-white"
-            activeBasePath="/super-agents" 
+            styles="border-0 bg-[#FFFFFF1A] rounded-md"
+            activeBasePath="/super-agent" 
             data={superAgentData}
             others={[
                 {
@@ -59,7 +60,10 @@ export const SuperAgentSidebar = () => {
 
 export const LoanOfficerSidebar = () => {
     return(
-        <Sidebar className="bg-[#1D3989]" 
+        <Sidebar 
+        className="bg-[#0F2557]" 
+        className1="text-white"
+        styles="border-0 bg-[#2563EB] rounded-md"
         activeBasePath="/loan-officer" 
         data={loanOfficerData}
         others={[
@@ -80,6 +84,8 @@ export const LoanOfficerSidebar = () => {
 export const ManagersSidebar = () => {
     return(
         <Sidebar className="bg-[#1D3989]" 
+         className1="text-white"
+        styles="border-0 bg-[#FFFFFF1A] rounded-md"
         activeBasePath="/manager" 
         data={managersData}
         others={[

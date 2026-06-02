@@ -15,7 +15,7 @@ const UserSidebar = () => {
     setUser({
       id: '1',
       name: 'Ebenezer Oladepo',
-      role: 'agent',
+      role: 'super_agent',
     })
   }, [])
 
