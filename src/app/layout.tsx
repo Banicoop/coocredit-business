@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Katibeh, Poppins, Manrope } from "next/font/google";
 import "./globals.css";
 import { atomiAge, nunitoSans } from "@/assets/constant/font.config";
+import { Toaster } from 'sonner';
 
 
 const manrope = Manrope({
@@ -64,6 +65,7 @@ export default function RootLayout({
         ${atomiAge.variable} antialiased`}
       >
         {children}
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );

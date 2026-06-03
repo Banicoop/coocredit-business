@@ -61,47 +61,47 @@ export const agentsSidebar = [
 export const superAgentData = [
   {
     label: 'Dashbaord',
-    href: '/super-agents',
+    href: '/super-agent',
     icon: 'layoutGrid'
   },
   {
     label: 'Team',
-    href: '/super-agents/team',
+    href: '/super-agent/team',
     icon: 'team'
   },
   {
     label: 'Customers',
-    href: '/super-agents/customers',
+    href: '/super-agent/customers',
     icon: 'userRoundPlus'
   },
   {
     label: 'Pipeline',
-    href: '/super-agents/pipeline',
+    href: '/super-agent/pipeline',
     icon: 'pipeline'
   },
   {
     label: 'Reports',
-    href: '/super-agents/reports',
+    href: '/super-agent/reports',
     icon: 'report'
   },
   {
     label: 'Revenue',
-    href: '/super-agents/revenue',
+    href: '/super-agent/revenue',
     icon: 'revenue'
   },
   {
     label: 'Alerts',
-    href: '/super-agents/alerts',
+    href: '/super-agent/alerts',
     icon: 'alert'
   },
   {
     label: 'Wallets',
-    href: '/super-agents/wallets',
+    href: '/super-agent/wallet',
     icon: 'wallet'
   },
   {
     label: 'Profile',
-    href: '/super-agents/profilw',
+    href: '/super-agent/profile',
     icon: 'profile'
   },
 ]

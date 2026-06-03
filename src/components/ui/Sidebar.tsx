@@ -23,6 +23,7 @@ type SidebarProps = {
   others?: SidebarItem[];
   logo?: string;
   activeBasePath?: string;
+  styles?: string
 };
 
 const Sidebar = ({
@@ -31,6 +32,7 @@ const Sidebar = ({
   data,
   others = [],
   logo = '/logo.svg',
+  styles,
   activeBasePath = '',
 }: SidebarProps) => {
   const pathname = usePathname();
@@ -51,8 +53,7 @@ const Sidebar = ({
           flex items-center gap-2 py-3 px-4 transition-all
           ${
             active
-              ? 'border-r-4 border-primary bg-[#DBEAFE]'
-              : ''
+              ? cn('border-r-4 border-primary bg-[#DBEAFE]', styles) : '' 
           }
         `}
       >
