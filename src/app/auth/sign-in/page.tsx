@@ -11,8 +11,11 @@ import { useRouter } from 'next/navigation';
 
 import logo from '@/assets/svgs/logo.svg';
 import { useUserStore } from '@/store/useAuthStore';
+import { toast } from 'sonner';
+
 
 const SignInPage = () => {
+  
   const { setUser } = useUserStore();
   const router = useRouter();
   const [email, setEmail] = useState('');
@@ -58,7 +61,7 @@ const SignInPage = () => {
         break;
 
       default:
-        alert('Invalid test email');
+        toast.warning('Invalid test email. Please use a valid test email.')
     }
   };
 
