@@ -1,10 +1,10 @@
 import Typography from '@/components/primitives/Typography';
 import { ProgressBar } from '@/components/ui/ProgessBar';
 import { Flex, FlexBox, Grid, GridItem } from '@/components/ui/ui-layout';
-import { ArrowDown, DollarSignIcon, User2, UserPlus, Users } from 'lucide-react';
+import { DollarSignIcon, User2, UserPlus, Users, ChevronDown } from 'lucide-react';
 import React from 'react'
 import TeamSnapShot from './TeamSnapShot';
-import { Action, Activity } from './DashbaordActions';
+import { Action, Activity } from './cards';
 
 interface CardProp {
     icon: React.ReactNode;
@@ -90,7 +90,7 @@ const DashboardStats = () => {
                         time={activity.time}/>
                 ))}
 
-                <Typography variant='small' color='primary' weight='semibold' endIcon={<ArrowDown size={16}/>} className='text-center w-full justify-center cursor-pointer'>View All Activities</Typography>
+                <Typography variant='small' color='primary' weight='semibold' endIcon={<ChevronDown size={16}/>} className='text-center w-full justify-center cursor-pointer'>View All Activities</Typography>
             </GridItem>
         </Grid>
     </Grid>
