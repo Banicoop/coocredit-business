@@ -1,9 +1,9 @@
 import Typography from '@/components/primitives/Typography';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Flex, FlexBox, FlexCol } from '@/components/ui/ui-layout';
-import { CheckCircle, HistoryIcon, Shield, ShieldAlert, UserPlus } from 'lucide-react';
+import { CheckCircle, HistoryIcon, ShieldAlert, UserPlus } from 'lucide-react';
 import React from 'react'
-import AgentsList from './_sections/Agents';
+import AgentsList from './_sections/AgentsList';
 
 
 const Card1 = ({label, val, endIcon}: {label: string, val: number, endIcon?:React.ReactNode}) => (
@@ -28,13 +28,14 @@ const Card = ({className, icon, label, value, other}: {className?: string, icon?
 
 const TeamsPage = () => {
   return (
-    <FlexCol className='gap-5'>
+    <FlexCol className='gap-7'>
       <PageHeader 
         title='Team Management'
         description='Monitor and manage your agent network performance.' 
         actions={[{
           label: 'Add New Agent',
           variant: 'primary',
+          href: '/super-agent/team/new',
           icon: <UserPlus size={18}/>
         }]} />
       
@@ -55,7 +56,7 @@ const TeamsPage = () => {
             className='border-b-chart-2'
             icon={<CheckCircle size={20} className='text-chart-2'/>}/>
           <Card 
-            label='Total Agents' 
+            label='Inactive' 
             className='border-b-chart-5'
             value={200} 
             icon={<HistoryIcon size={20} className='text-chart-5'/>}/>
