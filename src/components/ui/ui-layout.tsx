@@ -3,7 +3,7 @@ import React from "react";
 
 const FlexBox = ({ children, className = "", style, onClick }: UIProps) => {
   return (
-    <div className={`flex border rounded-lg bg-white p-4 ${className}`} style={style}>
+    <div className={`flex border rounded-lg bg-white p-4 ${className}`} style={style} onClick={onClick}>
       {children}
     </div>
   );

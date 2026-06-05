@@ -1,13 +1,15 @@
 import { BackButton } from '@/components/primitives/buttons/BackButton';
 import { PageHeader } from '@/components/ui/PageHeader';
-import { Flex, FlexCol, Grid } from '@/components/ui/ui-layout';
+import { FlexCol, Grid } from '@/components/ui/ui-layout';
 import { Pencil, SendHorizonalIcon } from 'lucide-react';
 import Typography from '@/components/primitives/Typography';
 import KYCCompliance, { FinScore } from './_sections/KYCCompliance';
 import { RecentLoan } from './_sections/RecentLoan';
 import Image from 'next/image';
-
 import customer from '@/assets/svgs/agent-portrait.jpg'
+import { FinActions, RelatManager } from './_sections/FinInfo';
+import DetailedSlip from '@/components/ui/DetailSlip';
+import { CapitalAllocationCard } from './_sections/cards';
 
 
 const Card = ({label, val}: {label: string, val: string}) => (
@@ -43,6 +45,7 @@ const CustomerDetails = () => {
         </FlexCol>
 
         <Grid className='grid-cols-3 gap-5'>
+            {/* LEFT */}
             <Grid className='col-span-2 grid-cols-2 gap-2.5'>
                 <Grid className='p-4 col-span-2 rounded-lg bg-primary/90'>
                     <Typography className='text-card/70'>TOTAL PORTFOLIO VALUE</Typography>
@@ -57,9 +60,33 @@ const CustomerDetails = () => {
                 <FinScore/>
                 <RecentLoan className='col-span-2'/>
             </Grid>
-            <Grid>B</Grid>
+             {/* RIGHT */}
+            <Grid className='gap-4 h-fit'>
+                <RelatManager/>
+                <DetailedSlip 
+                    className='bg-[#00164E] p-4 rounded-lg gap-2.5'
+                    className1='flex-col items-start mt-3'
+                    title='BUSINESS CONTACT'
+                    titleTextClass='text-card'
+                    textClass1='text-card/40'
+                    textClass2='text-card'
+                    items={[{title: 'PRIMARY EMAIL', val: 'finance@orizonrealestate.com.ng'}, 
+                        {title: 'PHONE NUMBER', val: '+234 802 000 1234'}, 
+                        {title: 'REGISTERED ADDRESS', val: '45 Marina Street, Lagos Island, Lagos State, Nigeria.'}]}
+                    />
+                <FinActions/>
+                <CapitalAllocationCard 
+                    title='CAPITAL ALLOCATION'
+                    items={[
+                        {label: 'Commercial Realty', val: 65, className:'bg-[#1D3989]'},
+                        {label: 'Residential Dev', val: 25, className:'bg-primary'},
+                        {label: 'Asset Mgmt', val: 10, className:'bg-primary/60'},
+                    ]}
+                />
+            </Grid>
         </Grid>
     </Grid>
   )
 }
+
 export default CustomerDetails;
