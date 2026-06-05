@@ -1,18 +1,15 @@
+'use client';
+
 import Typography from '@/components/primitives/Typography';
 import { Flex, FlexCol, GridItem } from '@/components/ui/ui-layout';
-import { CheckCircle2, CircleEllipsis } from 'lucide-react';
-import React from 'react'
+import { useState } from 'react';
+import Card from './cards';
 
-const Card = ({label, isUploaded = false}: {label: string, isUploaded?: boolean}) => (
-    <Flex className={`p-2.5 rounded-lg gap-2.5 justify-between ${isUploaded ? 'bg-accent': 'border border-dashed border-chart-2'}`}>
-        
-        <Typography 
-            startIcon={isUploaded ?
-        <CheckCircle2 size={24} className='text-primary font-bold'/>: 
-        <CircleEllipsis size={24} className='text-primary font-bold'/>} weight='semibold'>{label}</Typography>
-        <Typography color={isUploaded ? 'primary': 'active'} weight='semibold'>{isUploaded ? 'Verfied': 'Upload'}</Typography> 
-    </Flex>
-)
+type DocumentItem = {
+  label: string;
+  isUploaded: boolean;
+  file?: File;
+};
 
 
 export const FinScore = () => {
@@ -31,17 +28,74 @@ export const FinScore = () => {
 }
 
 const KYCCompliance = () => {
+  const [documents, setDocuments] = useState<DocumentItem[]>([
+    {
+      label: 'Business Registration (CAC)',
+      isUploaded: true,
+    },
+    {
+      label: 'Tax Clearance Certificate',
+      isUploaded: true,
+    },
+    {
+      label: 'Utility Bill (Last 3 Months)',
+      isUploaded: false,
+    },
+  ]);
+
+  const handleUpload = (label: string, file: File) => {
+    console.log('Uploading:', label, file);
+
+    setDocuments((prev) =>
+      prev.map((doc) =>
+        doc.label === label
+          ? {
+              ...doc,
+              file,
+              isUploaded: true,
+            }
+          : doc
+      )
+    );
+
+    // Call your upload API here
+    // await uploadDocument(file)
+  };
+
+  const completion = Math.round(
+    (documents.filter((doc) => doc.isUploaded).length /
+      documents.length) *
+      100
+  );
+
   return (
-    <GridItem className='gap-4'>
-        <Flex className='justify-between'>
-            <Typography color='primary2' weight='semibold'>KYC Compliance</Typography>
-            <Typography color='primary2' weight='semibold' className='py-1 px-2.5 bg-accent rounded-lg text-lg' >95% Complete</Typography>
-        </Flex>
-        <Card label='Business Registration (CAC)' isUploaded/>
-        <Card label='Tax Clearance Certificate' isUploaded/>
-        <Card label='Utility Bill (Last 3 Months)' />
+    <GridItem className="gap-4">
+      <Flex className="justify-between items-center">
+        <Typography color="primary2" weight="semibold">
+          KYC Compliance
+        </Typography>
+
+        <Typography
+          color="primary2"
+          weight="semibold"
+          className="py-1 px-2.5 bg-accent rounded-lg text-lg"
+        >
+          {completion}% Complete
+        </Typography>
+      </Flex>
+
+      {documents.map((document) => (
+        <Card
+          key={document.label}
+          label={document.label}
+          isUploaded={document.isUploaded}
+          onUpload={(file) =>
+            handleUpload(document.label, file)
+          }
+        />
+      ))}
     </GridItem>
-  )
-}
+  );
+};
 
 export default KYCCompliance;
