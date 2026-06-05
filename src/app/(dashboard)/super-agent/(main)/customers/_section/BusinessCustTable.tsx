@@ -8,6 +8,8 @@ import Typography from '@/components/primitives/Typography';
 import Image from 'next/image';
 
 import user from '@/assets/svgs/agent-portrait.jpg';
+import { ActionDropdown } from '@/components/ui/ActionDropDown';
+import { EyeIcon } from 'lucide-react';
 
 const data = Array.from({length: 10}, (() => ({
 
@@ -91,6 +93,18 @@ const BusinessCustTable = () => {
                 <Typography color='success' className='py-1 px-3 rounded-md bg-accent'>verified</Typography>
             )
         },
+        {
+            key: 'id',
+            title: 'Actions',
+            render: (val: string) => (
+                <ActionDropdown 
+                actions={[{
+                    label: 'View Details',
+                    href: '/super-agent/customers/123',
+                    icon: EyeIcon,
+                }]}/>
+            )
+        },
     ]
 
   return (
@@ -104,3 +118,8 @@ const BusinessCustTable = () => {
 }
 
 export default BusinessCustTable;
+
+
+{/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639m2.036-.908a1.012 1.012 0 011.412-.47m2.036.908a1.012 1.012 0 010-.639m2.036-.908a1.012 1.012 0 011.412-.47m2.036.908a1.012 1.012 0 010-.639M17.502 18.362a1.012 1.012 0 01-1.412.47m-2.036-.908a1.012 1.012 0 010-.639m-2.036-.908a1.012 1.012 0 011.412-.47m-2.036.908a1.012 1.012 0 010-.639m2.036-.908a1.012 1.012 0 011.412-.47m2.036.908a1.012 1.012 0 010-.639" />
+</svg> */}
