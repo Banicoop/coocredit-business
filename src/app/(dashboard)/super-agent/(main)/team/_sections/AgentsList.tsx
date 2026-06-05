@@ -1,12 +1,12 @@
-import { Flex, Grid } from '@/components/ui/ui-layout';
+import { Flex, FlexCol, Grid } from '@/components/ui/ui-layout';
 import AgentCard from './AgentCard';
 import CustomSelect from '@/components/primitives/inputs/CustomSelect';
 import Typography from '@/components/primitives/Typography';
 
 const AgentsList = () => {
   return (
-    <Grid className='gap-4'>
-        <Flex className='p-2.5 rounded-lg bg-[#DBE9FE] justify-between'>
+    <Grid className='gap-4'>        
+        <FlexCol className='p-2.5 rounded-lg bg-[#DBE9FE] justify-between md:flex-row'>
             <Flex className='gap-3'>
                 <CustomSelect 
                 wrapperClass='flex items-center gap-1.5'
@@ -30,7 +30,7 @@ const AgentsList = () => {
 
             </Flex>
             <Typography color='primary' weight='semibold'>Showing 174 total agents</Typography>
-        </Flex>
+        </FlexCol>
         {/* CARD LIST */}
         <Grid className='md:grid-cols-3 gap-5'>
             <AgentCard/>
