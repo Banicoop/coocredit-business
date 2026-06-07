@@ -5,6 +5,16 @@ import React from 'react'
 import Typography from '../primitives/Typography';
 import Link from "next/link";
 import { forwardRef } from "react";
+import { cn } from '@/lib/utils';
+
+
+interface ColItemProps {
+  item1: string, 
+  item2: string, 
+  className?: string;
+  className1?: string, 
+  className2?: string
+}
 
 interface ActionButton {
   label: string;
@@ -22,9 +32,9 @@ interface PageHeaderProps {
 }
 
 
-export const ColItem = ({item1, item2, className1, className2}: {item1: string, item2: string, className1?: string, className2?: string}) => {
+export const ColItem = ({item1, item2, className, className1, className2}: ColItemProps) => {
   return(
-    <div className="flex flex-col">
+    <div className={cn("flex flex-col", className)}>
       <Typography className={className1}>{item1}</Typography>
       <Typography className={className2}>{item2}</Typography>
     </div>
