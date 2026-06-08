@@ -6,7 +6,7 @@ import Typography from '@/components/primitives/Typography';
 const AgentsList = () => {
   return (
     <Grid className='gap-4'>        
-        <FlexCol className='p-2.5 rounded-lg bg-[#DBE9FE] justify-between md:flex-row'>
+        <FlexCol className='p-2.5 rounded-lg bg-[#DBE9FE] justify-between md:flex-row md:items-center'>
             <Flex className='gap-3'>
                 <CustomSelect 
                 wrapperClass='flex items-center gap-1.5'
