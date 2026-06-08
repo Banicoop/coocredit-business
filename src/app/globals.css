@@ -64,6 +64,7 @@
   --color-hairline: var(--hairline);
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
+  --color-primary2: var(--primary2)
 }
 
 body {

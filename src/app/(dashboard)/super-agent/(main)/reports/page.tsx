@@ -1,9 +1,11 @@
-import { ColItem, PageHeader } from '@/components/ui/PageHeader';
-import { Flex, FlexCol, Grid, GridItem } from '@/components/ui/ui-layout';
-import { Calendar, Download, Ellipsis, Info, TrendingUp } from 'lucide-react';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { Grid, GridItem } from '@/components/ui/ui-layout';
+import { AlertTriangle, Calendar, CheckCircleIcon, Download, Ellipsis, Info, SquareArrowOutUpRight, TrendingUp, UserPlusIcon } from 'lucide-react';
 import Typography from '@/components/primitives/Typography';
-import { TargetCard } from './_sections/reportCards';
+import { LiveLedger, TargetCard } from './_sections/reportCards';
 import Performance from './_sections/Performance';
+import OnBoardingChart from './_sections/OnBoardingChart';
+import LoanDistribution from './_sections/LoanDistribution';
 
 
 const ReportsPage = () => {
@@ -48,6 +50,22 @@ const ReportsPage = () => {
             percent={44}/>
         </GridItem>
         <Performance className='col-span-2'/>
+
+        <OnBoardingChart className='col-span-2'/>
+
+        <LoanDistribution/>
+
+        <LiveLedger 
+          title='Live Transaction Ledger'
+          activity={<Typography color='active' endIcon={<SquareArrowOutUpRight size={16}/>}>View Audit Log</Typography>}
+          items={[
+            {info: '₦250,000 Disbursement', desc: 'Client: Adebayo Logistics', id: 'LID-9281', icon: <CheckCircleIcon className='text-primary'/>, timestamp: '2 min ago'},
+            {info: 'Repayment Overdue', desc: 'Client: Sarah’s Bakery', id: 'LID-8812', icon: <AlertTriangle size={22} className='text-chart-5'/>, timestamp: '1h ago'},
+            {info: 'New Merchant Onboarded', desc: 'Agent: Chinonso Okafor', id: 'UID-4402', icon: <UserPlusIcon className='text-primary'/>, timestamp: '2h ago'},
+            {info: 'KYC Verification Success', desc: 'Agent: Babatunde Sulaiman', id: 'UID-5519', icon: <CheckCircleIcon className='text-primary'/>, timestamp: '3h ago'},
+          ]}
+          className='col-span-3'
+        />
       </Grid>
     </Grid>
   )
