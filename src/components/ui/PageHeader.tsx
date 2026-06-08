@@ -20,12 +20,16 @@ interface ActionButton {
   label: string;
   icon?: React.ReactNode;
   onClick?: () => void;
+  textClassName?: string;
+  className?: string;
   href?: string;
   variant?: "primary" | "secondary";
 }
 
 interface PageHeaderProps {
   title: string;
+  titleClass?: string;
+  descClass?: string
   description?: string;
   actions?: ActionButton[];
   className?: string;
@@ -42,10 +46,10 @@ export const ColItem = ({item1, item2, className, className1, className2}: ColIt
 }
 
 
-export const PageTitle = forwardRef(({title, desc}: {title: string, desc: string}, ref) => {
+export const ContentTitle = forwardRef(({title, desc}: {title: string, desc: string | number}, ref) => {
   return (
-    <div className="flex gap-1" >
-      <span className="text-[#64748B] text-sm font-medium">{title} {'>'}</span> 
+    <div className="flex flex-col" >
+      <span className="text-[#64748B] text-sm font-medium">{title}</span> 
       <span className="text-[#0F172A] text-sm font-medium">{desc}</span>
     </div>
   );
@@ -54,7 +58,7 @@ export const PageTitle = forwardRef(({title, desc}: {title: string, desc: string
 
 
 export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
-  ({ title, description, actions = [], className }, ref) => {
+  ({ title, description, titleClass, descClass, actions = [], className }, ref) => {
     return (
       <div
         ref={ref}
@@ -62,9 +66,9 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
       >
         {/* Left Content */}
         <div className="flex flex-col gap-1">
-          <Typography variant="h2">{title}</Typography>
+          <Typography variant="h2" className={titleClass}>{title}</Typography>
           {description && (
-            <Typography color='primary'>{description}</Typography>
+            <Typography color='primary' className={descClass}>{description}</Typography>
           )}
         </div>
 
@@ -73,10 +77,10 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
           <div className="flex items-center gap-2">
             {actions.map((action, index) => {
               const content = (
-                <>
-                  {action.icon}
-                  <Typography variant="span" className={`${action.variant === 'primary' ? 'bg-primary text-white': ''}`}>{action.label}</Typography>
-                </>
+                  <Typography 
+                    startIcon={action.icon} 
+                    variant="span" 
+                    className={cn(`${action.variant === 'primary' ? 'bg-primary text-white': ''}`, action.textClassName)}>{action.label}</Typography>
               );
 
               // If it's a link
@@ -85,11 +89,11 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                   <Link
                     key={index}
                     href={action.href}
-                    className={`flex items-center justify-center gap-1 py-2 px-5 rounded-lg text-sm w-full md:w-fit ${
+                    className={cn(`flex items-center justify-center gap-1 py-2 px-5 rounded-lg text-sm w-full md:w-fit ${
                       action.variant === "primary"
                         ? "bg-primary text-white"
                         : "bg-white border border-[#E2E8F0] text-[#334155]"
-                    }`}
+                    }`, action.className)}
                   >
                     {content}
                   </Link>
@@ -101,11 +105,11 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
                 <div
                   key={index}
                   onClick={action.onClick}
-                  className={`flex items-center justify-center cursor-pointer gap-1 py-2 px-5 rounded-lg text-sm w-full md:w-fit ${
+                  className={cn(`flex items-center justify-center cursor-pointer gap-1 py-2 px-5 rounded-lg text-sm w-full md:w-fit ${
                     action.variant === "primary"
                       ? "bg-[#136DEC] text-white"
                       : "bg-white border border-[#E2E8F0] text-[#334155]"
-                  }`}
+                  }`, action.className)}
                 >
                   {content}
                 </div>
@@ -118,7 +122,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
   }
 );
 
-PageTitle.displayName = 'PageTitle';
+ContentTitle.displayName = 'ContentTitle';
 PageHeader.displayName = "PageHeader";
 
 
