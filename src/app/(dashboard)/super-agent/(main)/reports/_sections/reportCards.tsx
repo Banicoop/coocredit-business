@@ -57,7 +57,7 @@ export const LiveLedger = ({title, activity, items, className}: LiveLedgerProps)
 
             <Grid className='md:grid-cols-2 gap-4'>
                 {items.map((item) => (
-                    <Grid className='grid-cols-[1fr_auto] items-center justify-between'>
+                    <Grid className='grid-cols-[1fr_auto] items-center justify-between' key={item.info}>
                         <Flex className='gap-2'>
                             <Flex className='p-2.5 rounded-full bg-card'>
                                 {item.icon}
