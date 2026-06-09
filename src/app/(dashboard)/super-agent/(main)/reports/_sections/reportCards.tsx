@@ -1,31 +1,9 @@
 import { ColItem } from '@/components/ui/PageHeader';
 import { Flex, FlexCol, Grid } from '@/components/ui/ui-layout';
-import { AlertTriangle, SquareArrowOutUpRight, TrendingUp } from 'lucide-react';
 import Typography from '@/components/primitives/Typography';
-import { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { LiveLedgerProps, TargetCardProps } from '../types';
 
-interface TargetCardProps {
-    percent: number;
-    label: string;
-    val: string;
-    desc: ReactNode
-}
-
-interface Card {
-    info: string;
-    desc: string;
-    id: string;
-    icon: ReactNode
-    timestamp: string;
-}
-
-interface LiveLedgerProps {
-    title: string;
-    activity: ReactNode;
-    className: string
-    items: Card[];
-}
 
 export const TargetCard = ({percent, label, val, desc}: TargetCardProps) => {
     return(
