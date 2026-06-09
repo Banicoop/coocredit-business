@@ -64,7 +64,8 @@
   --color-hairline: var(--hairline);
   --font-display: var(--font-display);
   --font-sans: var(--font-sans);
-  --color-primary2: var(--primary2)
+  --color-primary2: var(--primary2);
+  --color-tertiary: var(--tertiary);
 }
 
 body {
@@ -136,6 +137,7 @@ body {
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
   --primary2: #00164E;
+  --tertiary: #EAF5FF;
 }
 
 
