@@ -6,13 +6,13 @@ import React, { ReactNode } from 'react';
 import BusinessCustTable from './_section/BusinessCustTable';
 
 
-const Card = ({icon, label, info, num}: {icon: React.ReactNode, label: string, info: React.ReactNode, num: string}) => (
+export const Card = ({icon, label, info, num}: {icon: React.ReactNode, label: string, info?: React.ReactNode, num: string}) => (
   <FlexBox className='flex-col h-32'>
-    <Flex className='justify-between mb-1.5'>
+    <Flex className='justify-between mb-1.5 items-start'>
       <Flex className='p-2 rounded-full bg-accent h-fit'>
         {icon}
       </Flex>
-      {info}
+      {info && <div>{info}</div>}
     </Flex>
     <Typography color='primary' weight='medium'>{label}</Typography>
     <Typography variant='h3' color='primary2'>{num}</Typography>

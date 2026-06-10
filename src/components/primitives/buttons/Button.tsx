@@ -1,7 +1,7 @@
 import React, { forwardRef, ButtonHTMLAttributes, ReactNode } from "react";
 import clsx from "clsx";
 
-type Variant = "primary" | "secondary" | "tertiary" | "outline" | "ghost";
+type Variant = "primary" | "secondary" | "tertiary" | "outline" | "ghost" | "light";
 type Size = "sm" | "md" | "lg";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -30,6 +30,9 @@ const variants: Record<Variant, string> = {
 
   ghost:
     "text-[#016AFF]",
+
+  light:
+    "bg-card text-[#0053CC]",
 };
 
 const sizes: Record<Size, string> = {

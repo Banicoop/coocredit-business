@@ -1,8 +1,16 @@
-import React from 'react'
+import { Grid } from '@/components/ui/ui-layout';
+import RevenueWidget from './_sections/RevenueWidget';
+import RevenueCharts from './_sections/RevenueCharts';
+import RevenueTable from './_sections/RevenueTable';
+
 
 const RevenuePage = () => {
   return (
-    <div>page</div>
+    <Grid className='gap-5'>
+      <RevenueWidget/>
+      <RevenueCharts/>
+      <RevenueTable/>
+    </Grid>
   )
 }
 

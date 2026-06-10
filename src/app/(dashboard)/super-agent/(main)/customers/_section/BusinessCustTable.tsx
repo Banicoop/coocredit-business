@@ -5,15 +5,25 @@ import { Tabs } from '@/components/ui/Tabs';
 import { Flex } from '@/components/ui/ui-layout';
 import { ColItem } from '@/components/ui/PageHeader';
 import Typography from '@/components/primitives/Typography';
-import Image from 'next/image';
-
-import user from '@/assets/svgs/agent-portrait.jpg';
 import { ActionDropdown } from '@/components/ui/ActionDropDown';
 import { EyeIcon } from 'lucide-react';
 
-const data = Array.from({length: 10}, (() => ({
 
+const data = Array.from({length: 10}, (() => ({
+    business: {
+        name: 'Dangote Refinery Hub',
+        location: 'Lekki Free Zone, Lagos'
+    },
+    category: 'SME Premium',
+    volume: {
+        amount: 12450000,
+        type: 'ACTIVE LEDGER'
+    },
+    agent: 'Ebenezer Oladepo',
+    status: 'verified',
+    id: 1
 })))
+
 
 const tabs = [
     {
@@ -41,14 +51,14 @@ const BusinessCustTable = () => {
         {
             key: 'business',
             title: 'BUSINESS ENTITY',
-            render: (val: any) => (
+            render: (business: any) => (
                 <Flex className='gap-1.5'>
                     <Flex className='w-10 h-10 rounded-full font-bold bg-primary flex justify-center'>
                         <Typography className='text-center text-card'>A</Typography>
                     </Flex>
                     <ColItem 
-                        item1='Dangote Refinery Hub' 
-                        item2='Lekki Free Zone, Lagos' 
+                        item1={business.name} 
+                        item2={business.location}
                         className1='text-ink font-semibold' 
                         className2='text-ring'/>
                 </Flex>
@@ -61,7 +71,7 @@ const BusinessCustTable = () => {
                 <Typography 
                 className='py-1 px-3 rounded-md bg-accent text-brand'
                 startIcon={<div className='w-2 h-2 rounded-full bg-brand'/>}
-                variant='small'>SME Premium</Typography>
+                variant='small'>{val}</Typography>
             )
         },
         {
@@ -69,8 +79,8 @@ const BusinessCustTable = () => {
             title: 'TOTAL VOLUME',
             render: (val: any) => (
                 <ColItem
-                    item1='₦12,450,000' 
-                    item2='ACTIVE LEDGER' 
+                    item1={`₦${val.amount}`} 
+                    item2={val.type}
                     className1='text-ink' 
                     className2='text-chart-2 text-[10px]'
                 />
@@ -79,28 +89,22 @@ const BusinessCustTable = () => {
         {
             key: 'agent',
             title: 'ASSIGNED AGENT',
-            render: (val: any) => (
-                <Flex className='gap-1.5'>
-                    <Image src={user} alt='AGENT' width={30} height={30} className='rounded-full object-cover h-auto w-auto'/>
-                    <Typography variant='small'>Emeka Obi</Typography>
-                </Flex>
-            )
         },
         {
             key: 'status',
             title: 'STATUS',
-            render: (val: string) => (
-                <Typography color='success' className='py-1 px-3 rounded-md bg-accent'>verified</Typography>
+            render: (status: string) => (
+                <Typography color='success' className='py-1 px-3 rounded-md bg-accent capitalize'>{status}</Typography>
             )
         },
         {
             key: 'id',
             title: 'Actions',
-            render: (val: string) => (
+            render: (id: number) => (
                 <ActionDropdown 
                 actions={[{
                     label: 'View Details',
-                    href: '/super-agent/customers/123',
+                    href: `/super-agent/customers/${id}`,
                     icon: EyeIcon,
                 }]}/>
             )

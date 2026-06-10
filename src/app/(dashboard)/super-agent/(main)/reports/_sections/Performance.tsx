@@ -12,9 +12,9 @@ import { ContentTitle } from '@/components/ui/PageHeader';
 import { ProgressBar } from '@/components/ui/ProgessBar';
 
 const data = Array.from({length: 10}, (() => ({
-    userDetails: {
-        userName: '',
-        location: ''
+    user: {
+        userName: 'Chinonso Okafor',
+        location: 'Lagos Main Branch'
     },
     deal: 125,
     value: '8.4M',
@@ -37,7 +37,9 @@ const Performance = ({className}: {className:string}) => {
             render: (userDetails: any) => (
                 <Flex className='gap-2.5'>
                     <Image src={user} alt='AGENT' width={50} height={50} className='rounded-full' />
-                    <ContentTitle title='Chinonso Okafor' desc='Lagos Main Branch'/>
+                    <ContentTitle 
+                        title={userDetails.userName} 
+                        desc={userDetails.location}/>
                 </Flex>
             )
         },
@@ -59,9 +61,9 @@ const Performance = ({className}: {className:string}) => {
             key: 'percent',
             title: '',
             render: (deal: number) => (
-                <Flex className='gap-2.5 w-20'>
+                <Flex className='gap-2.5 w-25'>
                     <ProgressBar value={deal} className='bg-chart-2'/>
-                    <Typography weight='bold' className='text-chart-2'>{deal}%</Typography>
+                    {/* <Typography weight='bold' className='text-chart-2'>{deal}%</Typography> */}
                 </Flex>
             )
         },

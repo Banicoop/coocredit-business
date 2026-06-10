@@ -1,15 +1,9 @@
 import { ColItem } from '@/components/ui/PageHeader';
 import { Flex, FlexCol, Grid } from '@/components/ui/ui-layout';
-import { TrendingUp } from 'lucide-react';
 import Typography from '@/components/primitives/Typography';
-import { ReactNode } from 'react';
+import { cn } from '@/lib/utils';
+import { LiveLedgerProps, TargetCardProps } from '../types';
 
-interface TargetCardProps {
-    percent: number;
-    label: string;
-    val: string;
-    desc: ReactNode
-}
 
 export const TargetCard = ({percent, label, val, desc}: TargetCardProps) => {
     return(
@@ -29,3 +23,35 @@ export const TargetCard = ({percent, label, val, desc}: TargetCardProps) => {
             </FlexCol>
         </Grid>
 )}
+
+
+export const LiveLedger = ({title, activity, items, className}: LiveLedgerProps) => {
+    return(
+        <Grid className={cn('gap-3 p-4 rounded-lg bg-[#EAF5FF] border', className)}>
+            <Grid className='grid-cols-[1fr_auto] items-center justify-between'>
+                <Typography variant='h3' color='primary2'>{title}</Typography>
+                <div>{activity}</div>
+            </Grid>
+
+            <Grid className='md:grid-cols-2 gap-4'>
+                {items.map((item) => (
+                    <Grid className='grid-cols-[1fr_auto] items-center justify-between' key={item.info}>
+                        <Flex className='gap-2'>
+                            <Flex className='p-2.5 rounded-full bg-card'>
+                                {item.icon}
+                            </Flex>
+                            <ColItem 
+                                item1={item.info} 
+                                item2={`${item.desc} • ${item.timestamp}`}
+                                className1='text-primary2 font-semibold text-[18px]'
+                                className2='text-ring'
+                            />
+                        </Flex>
+                        <Typography weight='semibold' color='primary'>{item.id}</Typography>
+                    </Grid>
+                ))
+                }
+            </Grid>
+        </Grid>
+    )
+}
