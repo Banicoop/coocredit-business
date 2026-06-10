@@ -13,7 +13,7 @@ export const Card = () => (
                 <AlertTriangle size={20} className='text-destructive'/>
             </div>
             <FlexCol>
-                <Typography weight='semibold' color='primary2' endIcon={<span className='text-[10px] px-2 py-0.5 rounded-md bg-[crimson] text-card font-bold'>Suspicious</span>}>Unusual Rapid Outflow</Typography>
+                <Typography weight='semibold' color='primary2' endIcon={<span className='text-[10px] px-2 py-0.5 rounded-md bg-chart-5 text-card font-bold'>Suspicious</span>}>Unusual Rapid Outflow</Typography>
                 <Typography>Merchant #8821 initiated ₦14,500,000 in split transfers within 120 seconds. Origin: Ikeja Hub.</Typography>
             </FlexCol>
         </Flex>

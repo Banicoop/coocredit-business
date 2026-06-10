@@ -4,11 +4,8 @@ import { BasicTable } from '@/components/primitives/tables/BasicTable';
 import { ColItem } from '@/components/ui/PageHeader';
 import { Flex } from '@/components/ui/ui-layout';
 import { Download, FilterIcon } from 'lucide-react';
-import Image from 'next/image';
 import Typography from '@/components/primitives/Typography';
-import React from 'react';
 
-import user from '@/assets/images/user.png';
 
 
 const data = Array.from({length: 10}, (() => ({
@@ -42,13 +39,6 @@ const RevenueTable = () => {
         {
             key: 'user',
             title: 'Client Name',
-            width: '200px',
-            render: (details: any) => (
-                <Flex>
-                    <Image src={user} alt='CLIENT' width={50} height={50} className='rounded-full' />
-                    <Typography color='primary2' variant='small'>{details}</Typography>
-                </Flex>
-            )
         },
         {
             key: 'loanType',
