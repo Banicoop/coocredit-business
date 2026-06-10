@@ -2,9 +2,10 @@ import Button from '@/components/primitives/buttons/Button';
 import Typography from '@/components/primitives/Typography';
 import { ColItem, PageHeader } from '@/components/ui/PageHeader';
 import { Flex, Grid, GridItem } from '@/components/ui/ui-layout';
-import { ChevronRight, DollarSign, PlusCircle, Wallet2 } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Binary, ChevronRight, CircleQuestionMark, DollarSign, FileText, FingerprintPattern, KeyRound, Monitor, PlusCircle, ShieldCheck, ShieldCogCorner, Wallet2 } from 'lucide-react';
 import Image from 'next/image';
-import React from 'react'
+
 
 const SuperAgentProfilePage = () => {
   return (
@@ -26,7 +27,7 @@ const SuperAgentProfilePage = () => {
 
       <Grid className='md:grid-cols-2 lg:grid-cols-3 gap-7'>
         {/* PERSONAL DETAILS */}
-        <Grid className='col-span-2 gap-8 grid-cols-2'>
+        <Grid className='col-span-2 gap-8 grid-cols-2 h-fit'>
           <GridItem className='gap-5 grid-cols-2 p-8 col-span-2'>
             <Flex className='justify-between items-start col-span-2'>
               <ColItem 
@@ -78,22 +79,55 @@ const SuperAgentProfilePage = () => {
               <div className="p-2.5 bg-card rounded-full">
                 <DollarSign size={20} className='text-primary'/>
               </div>
-              <ColItem item1='Naira Vault' item2='₦2,450,000.00' className1='text-ring' className2='text-primary2 font-bold text-[20px]'/>
+              <ColItem item1='COMMISSION POOL' item2='₦2,450,000.00' className1='text-ring' className2='text-primary2 font-bold text-[20px]'/>
             </Flex>
 
-            <Button className='bg-primary2 font-semibold'>Withdraw Liquidity</Button>
+            <Button size='lg' className='bg-primary2 font-semibold'>Withdraw Liquidity</Button>
           </GridItem>
         </Grid>
 
         {/* SECURITY */}
         <Grid className='gap-8 h-fit'>
-          <Grid className='gap-4 p-4 bg-tertiary border rounded-lg'>
+          {/* DEVICES FORTIFICATION */}
+          <Grid className='gap-4 p-8 bg-tertiary border rounded-lg'>
             <ColItem item1='Fortification' item2='Biometric and credential security.' className2='text-ring' className1='text-primary2 text-[20px]'/>
 
-            <Button size='lg' variant='light' startIcon={''} endIcon={<ChevronRight size={20}/>} className='font-bold text-primary2'>Transaction PIN</Button>
+            <Button size='lg' variant='light' startIcon={<FingerprintPattern size={20} className='text-primary mt-1'/>} endIcon={<ChevronRight size={20}/>} className='font-bold text-primary2 justify-start text-[12px]'>Touch ID Authentication</Button>
+            <Button size='lg' variant='light' startIcon={<Binary size={20} className='text-primary mt-1'/>} endIcon={<ChevronRight size={20}/>} className='font-bold text-primary2 justify-start text-[12px]'>Transaction PIN</Button>
+            <Button size='lg' variant='light' startIcon={<KeyRound size={20} className='text-primary mt-1'/>} endIcon={<ChevronRight size={20}/>} className='font-bold text-primary2 justify-start text-[12px]'>Change Password</Button>
+            <Button size='lg' variant='light' startIcon={<Monitor size={20} className='text-primary mt-1'/>} endIcon={<ChevronRight size={20}/>} className='font-bold text-primary2 justify-start text-[12px]'>Device Management (4)</Button>
           </Grid>
+
+        {/* Archive & Legals */}
+        <GridItem className={cn('gap-4 p-8')}>
+          <ColItem item1='Archive & Legals' item2='Access contracts and compliance logs.' className2='text-ring' className1='text-primary2 text-[20px]'/>
+
+          <Typography startIcon={<FileText size={20}/>} color='primary' weight='semibold'>Agent Agreement 2024</Typography>
+          <Typography startIcon={<ShieldCheck size={20}/>} color='primary' weight='semibold'>Compliance Certificate</Typography>
+          <Typography startIcon={<ShieldCogCorner size={20}/>} color='primary' weight='semibold'>Privacy Protocols</Typography>
+          <Typography startIcon={<CircleQuestionMark size={20}/>} color='primary' weight='semibold'>Service Desk Escalation</Typography>
+
+          <ColItem 
+            item1='VERSION 4.2.0-PRIME'
+            item2='Revoke All Sessions'
+            className1='text-ring'
+            className2='text-chart-5 font-bold cursor-pointer'
+            className={cn('justify-center items-center gap-2.5 pt-4 border-t-2 border-t-[#F1F5F9]')}/>
+        </GridItem>
         </Grid>
       </Grid>
+
+      <Flex className='justify-between py-5 border-t-2 '>
+        <Flex className='gap-4'>
+          <Typography variant='small' weight='semibold' color='primary'>© 2024 Azure Meridian Ledger Systems •</Typography>
+          <Typography variant='small' weight='semibold' color='primary'>End-to-End Encryption Enabled </Typography>
+        </Flex>
+        <Flex className='gap-4'>
+          <Typography variant='small' weight='semibold' color='primary'>API ACCESS</Typography>
+          <Typography variant='small' weight='semibold' color='primary'>SYSTEM STATUS</Typography>
+          <Typography variant='small' weight='semibold' color='primary'>TERMINATE ACCESS</Typography>
+        </Flex>
+      </Flex>
     </Grid>
   )
 }
