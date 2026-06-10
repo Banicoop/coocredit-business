@@ -1,7 +1,7 @@
 import Button from '@/components/primitives/buttons/Button';
 import { ColItem } from '@/components/ui/PageHeader';
 import { Flex, FlexCol, Grid } from '@/components/ui/ui-layout';
-import { ArrowDownToLine, LockKeyhole, Plus, TrendingUp } from 'lucide-react';
+import { ArrowDownToLine, LockKeyhole, Plus, ShieldCheck, TrendingUp } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react'
 import Transactions from './_sections/Transactions';
@@ -69,9 +69,22 @@ const WalletPage = () => {
         <Card2 
           label='LOCKED FUNDS' 
           amt={(1150000).toLocaleString()} 
-          other={<LockKeyhole className='text-primary ' size={20}/>}
+          other={<LockKeyhole className='text-ring' size={20}/>}
           extra={<span className="text-xs text-ring">Pending confirmation for 3 transactions</span>}
         />
+
+        <Grid className='gap-2 bg-primary2 p-5 rounded-lg'>
+          <Typography variant='h5' startIcon={<ShieldCheck size={18}/>} color='light'>Security Center</Typography>
+          <Flex className='justify-between'>
+            <Typography className='text-card/70'>2-Factor Authentication</Typography>
+          </Flex>
+          <Flex className='justify-between'>
+            <Typography className='text-card/70'>Transaction Limits</Typography>
+            <Typography variant='small' weight='semibold' className='p-1.5 text-card bg-card/10'>₦5M / DAY</Typography>
+          </Flex>
+
+          <Button size='lg' className='bg-card/10 font-semibold text-card'>Upgrade Tier Status</Button>
+        </Grid>
       </Grid>
     </Grid>
   )
