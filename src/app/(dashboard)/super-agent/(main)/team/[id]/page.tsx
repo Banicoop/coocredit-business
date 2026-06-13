@@ -1,34 +1,19 @@
-import { PageHeader } from '@/components/ui/PageHeader';
-import { Flex, FlexBox, FlexCol, Grid } from '@/components/ui/ui-layout';
+import { ColItem, PageHeader } from '@/components/ui/PageHeader';
+import { Flex, FlexCol, Grid } from '@/components/ui/ui-layout';
 import Image from 'next/image';
 import Typography from '@/components/primitives/Typography';
-import { ProgressBar } from '@/components/ui/ProgessBar';
-import React from 'react';
-
-import user from '@/assets/svgs/agent-portrait.jpg'
 import CustomersList from '../_sections/CustomersList';
+import { BackButton } from '@/components/primitives/buttons/BackButton';
+import user from '@/assets/svgs/agent-portrait.jpg'
+import map from '@/assets/svgs/map2.svg'
+import { ActivityCard, Card } from '../_sections/cards';
 
-interface CardProps {
-    title: string;
-    content: React.ReactNode;
-    desc: string;
-    value: number;
-    className: string
-}
-
-const Card = ({title, content, desc, value, className}: CardProps) => (
-    <FlexBox className='flex-col gap-2'>
-        <Typography color='primary'>{title}</Typography>
-        <div>{content}</div>
-        <Typography variant='small' color='primary'>{desc}</Typography>
-        <ProgressBar value={value} className={className}/>
-    </FlexBox>
-)
 
 const TeamDetails = () => {
 
   return (
     <Grid className='gap-7'>
+        <BackButton/>
         <Flex className='gap-2.5 w-full'>
         <Image src={user} alt='AGENT' width={60} height={60} className='rounded-lg'/>
         <PageHeader
@@ -78,7 +63,23 @@ const TeamDetails = () => {
             </Grid>
 
             {/* ACTIVITY & OTHERS */}
-            <Grid>B</Grid>
+            <Grid className='h-fit gap-6'>
+                <FlexCol className='bg-card shadow-sm border rounded-xl'>
+                    <ColItem 
+                        item1='Field Coverage' 
+                        item2='Lagos Mainland & Surulere Cluster' 
+                        className='p-4'
+                        className1='text-xl text-primary2' className2='text-ring'/>
+                    <Image src={map} alt='MAP LOCATION' className='h-60 w-full object-cover' />
+                </FlexCol>
+                <FlexCol className='bg-tertiary border p-6 rounded-lg gap-2'>
+                    <Typography variant='h4' color='primary2'>Recent Activity</Typography>
+                    <ActivityCard/>
+                    <ActivityCard/>
+                    <ActivityCard/>
+                    <Typography color='active' className='text-center font-bold border-t pt-4 cursor-pointer'>View All Logs</Typography>
+                </FlexCol>
+            </Grid>
         </Grid>
     </Grid>
   )
