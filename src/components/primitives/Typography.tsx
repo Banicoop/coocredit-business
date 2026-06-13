@@ -19,7 +19,7 @@ interface TypographyProps {
   as?: React.ElementType; // more flexible than variant
   font?: "inter" | "sans" | "atomic" | 'katibeh' | 'poppins' | 'manrope';
   weight?: "normal" | "medium" | "semibold" | "bold";
-  color?: "default" | "muted" | "primary" | "primary2" | 'secondary' | 'success' | 'neutral' | 'active' | 'light' | 'destructive';
+  color?: "default" | "muted" | "primary" | "primary2" | 'secondary' | 'success' | 'neutral' | 'active' | 'light' | 'destructive' | 'pending';
   truncate?: boolean;
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
@@ -67,7 +67,7 @@ const colorMap = {
   neutral: "text-blue-100",
   light: "text-[#FFFFFF]",
   destructive: "text-[#93000A]",
-
+  pending: 'text-chart-5'
 };
 
 const Typography = ({
