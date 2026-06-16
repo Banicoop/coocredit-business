@@ -14,3 +14,14 @@ export interface UIProps {
   style?: React.CSSProperties;
   onClick?: () => void;
 }
+
+
+export interface PipeLineProps {
+    className: string
+    num: number
+    numClassName: string
+    label: string
+    last?: boolean
+    lastClassName?: string
+    stage: string
+}

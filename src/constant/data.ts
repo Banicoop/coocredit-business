@@ -1,4 +1,4 @@
-import { Path } from "@/type/type";
+import { Path } from "@/types/types";
 
 
 export const paths: Path[] = [

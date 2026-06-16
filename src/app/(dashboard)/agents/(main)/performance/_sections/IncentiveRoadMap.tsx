@@ -1,24 +1,10 @@
 import Typography from '@/components/primitives/Typography';
 import { ColItem } from '@/components/ui/PageHeader';
+import { PipeLine } from '@/components/ui/PipeLine';
 import { Flex, FlexCol, Grid, GridItem } from '@/components/ui/ui-layout';
 import { Sparkles } from 'lucide-react';
 import React from 'react'
 
-const Pipe = ({className, num, numClassName, label, last, stage}: {className: string, num: number, numClassName: string, label: string, last?: boolean, stage: string}) => {
-  return(
-  <FlexCol className='gap-2.5 justify-center'>
-    <div className="flex items-center">
-      <div className={`h-10 w-10 rounded-full text-center flex items-center justify-center ${className}`}>
-        <Typography variant='h6' weight='bold' className={`text-center mb-1 ${numClassName}`}>{num}</Typography>
-      </div>
-      {!last && <hr className='h-0.4 w-10 md:w-15 xl:w-20 bg-[#E5EFFF] mt-1'/>}
-    </div>
-    <FlexCol>
-        <Typography weight='semibold'>{label}</Typography>
-        <Typography variant='small' color='primary'>{stage}</Typography>
-    </FlexCol>
-  </FlexCol>
-)}
 
 const IncentiveRoadMap = () => {
   return (
@@ -26,10 +12,10 @@ const IncentiveRoadMap = () => {
         <GridItem className='gap-4'>
             <Typography weight='bold' variant='h4'>Incentive Roadmap</Typography>
             <Flex>
-                <Pipe label='Base' stage='Achieved' className='bg-primary' numClassName='text-white' num={1}/>
-                <Pipe label='Silver' stage='Achieved' className='bg-primary' numClassName='text-white' num={2}/>
-                <Pipe label='Gold' stage='128 left' className='border-4 border-primary' numClassName='text-primary' num={3}/>
-                <Pipe label='Diamond' stage='Locked' className='bg-[#E5EFFF]' numClassName='text-[#546474]' num={4} last={true}/>
+                <PipeLine label='Base' stage='Achieved' className='bg-primary' numClassName='text-white' num={1}/>
+                <PipeLine label='Silver' stage='Achieved' className='bg-primary' numClassName='text-white' num={2}/>
+                <PipeLine label='Gold' stage='128 left' className='border-4 border-primary' numClassName='text-primary' num={3}/>
+                <PipeLine label='Diamond' stage='Locked' className='bg-[#E5EFFF]' numClassName='text-[#546474]' num={4} last={true}/>
             </Flex>
             <Grid className='grid-cols-2 gap-4'>
                 <GridItem>

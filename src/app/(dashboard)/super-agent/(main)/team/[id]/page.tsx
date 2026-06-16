@@ -7,6 +7,7 @@ import { BackButton } from '@/components/primitives/buttons/BackButton';
 import user from '@/assets/svgs/agent-portrait.jpg'
 import map from '@/assets/svgs/map2.svg'
 import { ActivityCard, Card } from '../_sections/cards';
+import { PipeLine } from '@/components/ui/PipeLine';
 
 
 const TeamDetails = () => {
@@ -58,7 +59,33 @@ const TeamDetails = () => {
 
         <Grid className='lg:grid-cols-3 gap-4'>
             {/* MAIN */}
-            <Grid className='col-span-2'>
+            <Grid className='col-span-2 gap-6'>
+                <Grid className='p-6 bg-tertiary border rounded-lg gap-4 shadow-sm'>
+                    <Typography variant='h5'>Loan Cycle Overview</Typography>
+                    <Flex>
+                        <PipeLine 
+                            label='Application' stage='24 Pending' 
+                            className='bg-primary' 
+                            lastClassName=''
+                            numClassName='text-white' num={1}/>
+                        <PipeLine 
+                            label='Underwriting' stage='12 Active' 
+                            className='bg-primary' 
+                             lastClassName=''
+                            numClassName='text-white' num={2}/>
+                        <PipeLine 
+                            label='Disbursement' stage='₦4.2M Today' 
+                            className='border-4 border-primary' 
+                             lastClassName=''
+                            numClassName='text-primary' num={3}/>
+                        <PipeLine 
+                            label='Repayment' stage='92% On-time' 
+                            className='bg-[#E5EFFF]' 
+                             lastClassName=''
+                            numClassName='text-[#546474]' 
+                            num={4} last={true}/>
+                    </Flex>
+                </Grid>
                 <CustomersList/>
             </Grid>
 
