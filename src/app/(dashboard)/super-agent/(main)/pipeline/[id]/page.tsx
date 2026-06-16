@@ -1,9 +1,11 @@
 import { BackButton } from '@/components/primitives/buttons/BackButton';
 import { PageHeader } from '@/components/ui/PageHeader';
-import { Grid } from '@/components/ui/ui-layout';
+import { Grid, GridItem } from '@/components/ui/ui-layout';
 import React from 'react'
 import ProfileCard from '../_section/ProfileCard';
 import RepaymentTerms from '../_section/RepaymentTerms';
+import { DisbursementDestnation } from '../_section/OtherInfo';
+import Typography from '@/components/primitives/Typography';
 
 const LoanPipelineDetails = () => {
   return (
@@ -31,14 +33,17 @@ const LoanPipelineDetails = () => {
         />
 
         {/* MAIN */}
-        <Grid className='col-span-2 gap-4'>
+        <Grid className='col-span-2 gap-4 h-fit'>
             <ProfileCard/>
             <RepaymentTerms/>
         </Grid>
 
         {/* OTHER INFO */}
-        <Grid>
-            B
+        <Grid className='gap-6 h-fit'>
+            <DisbursementDestnation/>
+            <GridItem>
+                <Typography>Required Documentation</Typography>
+            </GridItem>
         </Grid>
    </Grid>
   )

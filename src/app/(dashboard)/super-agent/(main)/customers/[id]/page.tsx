@@ -6,11 +6,11 @@ import Typography from '@/components/primitives/Typography';
 import KYCCompliance, { FinScore } from './_sections/KYCCompliance';
 import { RecentLoan } from './_sections/RecentLoan';
 import Image from 'next/image';
-import customer from '@/assets/svgs/agent-portrait.jpg'
 import { FinActions, RelatManager } from './_sections/FinInfo';
 import DetailedSlip from '@/components/ui/DetailSlip';
 import { CapitalAllocationCard } from './_sections/cards';
 
+import { Images } from '@/assets/constant/images'
 
 const Card = ({label, val}: {label: string, val: string}) => (
     <FlexCol className='p-2.5 rounded-lg bg-[#FFFFFF1A]'>
@@ -21,10 +21,10 @@ const Card = ({label, val}: {label: string, val: string}) => (
 
 const CustomerDetails = () => {
   return (
-    <Grid className='gap-4'>
+    <Grid className='gap-7'>
         <BackButton/>
-        <FlexCol className='gap-2.5 md:flex-row w-full'>
-            <Image src={customer} alt='customer' width={50} height={50} className='rounded-full h-auto w-auto'/>
+        <FlexCol className='gap-4 md:flex-row w-full'>
+            <Image src={Images.agent} alt='customer' width={50} height={50} className='rounded-lg h-auto w-auto'/>
             <PageHeader 
                 className='w-full'
                 title='Orizon Real Estate' 
@@ -44,13 +44,13 @@ const CustomerDetails = () => {
             />
         </FlexCol>
 
-        <Grid className='grid-cols-3 gap-5'>
-            {/* LEFT */}
-            <Grid className='col-span-2 grid-cols-2 gap-2.5'>
-                <Grid className='p-4 col-span-2 rounded-lg bg-primary/90'>
+        <Grid className='grid-cols-3 gap-7'>
+            {/* MAIN */}
+            <Grid className='col-span-2 grid-cols-2 gap-6'>
+                <Grid className='p-6 col-span-2 rounded-lg gap-4 bg-primary/90'>
                     <Typography className='text-card/70'>TOTAL PORTFOLIO VALUE</Typography>
                     <Typography variant='h1' className='text-card'>₦842,500,000.00</Typography>
-                    <Grid className='grid-cols-3 gap-2'>
+                    <Grid className='grid-cols-3 gap-4'>
                         <Card label='Active Loans' val='₦ 124.5M'/>
                         <Card label='Available Credit' val='₦ 50.0M'/>
                         <Card label='Total Interest Earned' val='₦ 12.8M'/>
@@ -61,10 +61,10 @@ const CustomerDetails = () => {
                 <RecentLoan className='col-span-2'/>
             </Grid>
              {/* RIGHT */}
-            <Grid className='gap-4 h-fit'>
+            <Grid className='gap-6 h-fit'>
                 <RelatManager/>
                 <DetailedSlip 
-                    className='bg-[#00164E] p-4 rounded-lg gap-2.5'
+                    className='bg-primary2 p-6 rounded-lg gap-2.5'
                     className1='flex-col items-start mt-3'
                     title='BUSINESS CONTACT'
                     titleTextClass='text-card'

@@ -4,6 +4,7 @@ import Typography from '@/components/primitives/Typography';
 import { Flex, FlexCol, GridItem } from '@/components/ui/ui-layout';
 import { useState } from 'react';
 import Card from './cards';
+import { cn } from '@/lib/utils';
 
 type DocumentItem = {
   label: string;
@@ -69,7 +70,7 @@ const KYCCompliance = () => {
   );
 
   return (
-    <GridItem className="gap-4">
+    <GridItem className={cn('gap-6')}>
       <Flex className="justify-between items-center">
         <Typography color="primary2" weight="semibold">
           KYC Compliance
