@@ -48,14 +48,14 @@ const SignInPage = () => {
           name: 'Test Manager',
           role: 'manager',
       });
-        router.push('/managers');
+        router.push('/manager');
         break;
 
       case 'loanofficer@test.com':
         setUser({
           id: '3',
-          name: 'Test Manager',
-          role: 'manager',
+          name: 'Loan Officer',
+          role: 'loan_officer',
       });
         router.push('/loan-officer');
         break;

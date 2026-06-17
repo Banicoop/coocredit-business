@@ -5,6 +5,7 @@ import Sidebar from "@/components/ui/Sidebar";
 import { agentsSidebar, loanOfficerData, managersData, superAgentData } from "@/config/sidebar.config";
 import { useState } from "react";
 
+
 export const AgentsSidebar = () => {
 
     const [open, setOpen] = useState(false);
@@ -52,7 +53,7 @@ export const SuperAgentSidebar = () => {
                     label: 'Logout',
                     icon: 'logout',
                     onClick: () => {
-                        console.log('logout');
+                        setOpen(true)
                     }
                 }
                 
@@ -71,17 +72,17 @@ export const LoanOfficerSidebar = () => {
     return(
         <>
             <Sidebar 
-            className="bg-[#0F2557]" 
+            className="bg-primary2" 
             className1="text-white"
-            styles="border-0 bg-[#2563EB] rounded-md"
-            activeBasePath="/loan-officer" 
+            styles="border-0 bg-primary rounded-md"
+            activeBasePath="/loan-officer"
             data={loanOfficerData}
             others={[
                 {
                     label: 'Logout',
                     icon: 'logout',
                     onClick: () => {
-                        console.log('logout');
+                        setOpen(true)
                     }
                 }
                 
@@ -99,9 +100,7 @@ export const ManagersSidebar = () => {
 
     return(
         <>
-            <Sidebar className="bg-[#1D3989]" 
-            className1="text-white"
-            styles="border-0 bg-[#FFFFFF1A] rounded-md"
+            <Sidebar className="bg-white" 
             activeBasePath="/manager" 
             data={managersData}
             others={[
@@ -109,7 +108,7 @@ export const ManagersSidebar = () => {
                     label: 'Logout',
                     icon: 'logout',
                     onClick: () => {
-                        console.log('logout');
+                        setOpen(true);
                     }
                 }
                 

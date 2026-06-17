@@ -1,5 +1,5 @@
-// import { label } from "framer-motion/client";
-import { BellRing, BookOpenCheck, CalendarCheck, ChartNoAxesColumn, DollarSign, LayoutGrid, LogOut, LucideIcon, MapPinHouse, MessageSquareWarning, Settings, TrendingUp, UserRoundPlus, UserSearchIcon, UsersRound, Wallet } from "lucide-react";
+
+import { BellRing, BookOpenCheck, CalendarCheck, ChartNoAxesColumn, DollarSign, LayoutGrid, LogOut, LucideIcon, MapPinHouse, MessageSquareWarning, Settings, TrendingUp, UserRoundPlus, UserSearchIcon, UsersRound, Wallet, AlertTriangle, NotepadText, BriefcaseBusiness, CreditCard } from "lucide-react";
 
 export const iconMap: Record<string, LucideIcon> = {
     layoutGrid: LayoutGrid,
@@ -17,6 +17,10 @@ export const iconMap: Record<string, LucideIcon> = {
     profile: UserSearchIcon,
     settings: Settings,
     logout: LogOut,
+    notePadText: NotepadText,
+    alertTriangle: AlertTriangle,
+    portfolio: BriefcaseBusiness,
+    repayment: CreditCard
 };
 
 export const agentsSidebar = [
@@ -114,24 +118,24 @@ export const loanOfficerData = [
     icon: 'layoutGrid'
   },
   {
-    label: 'Application',
-    href: '/loan-officer/',
-    icon: ''
+    label: 'Applications',
+    href: '/loan-officer/applications',
+    icon: 'notePadText'
   },
   {
     label: 'Portfolio',
-    href: '/loan-officer/',
-    icon: 'layoutGrid'
+    href: '/loan-officer/portfolio',
+    icon: 'portfolio'
   },
   {
     label: 'Repayment',
-    href: '/loan-officer/',
-    icon: 'layoutGrid'
+    href: '/loan-officer/repayments',
+    icon: 'repayment'
   },
   {
     label: 'Risk Assessment',
-    href: '/loan-officer/',
-    icon: 'layoutGrid'
+    href: '/loan-officer/risks',
+    icon: 'alertTriangle'
   },
 ]
 
