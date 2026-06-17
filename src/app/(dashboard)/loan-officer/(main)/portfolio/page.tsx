@@ -1,9 +1,12 @@
+import { Grid } from '@/components/ui/ui-layout';
 import React from 'react'
 
-const ApplicationsPage = () => {
+const PortfolioPage = () => {
   return (
-    <div>ApplicationsPage</div>
+    <Grid>
+      S
+    </Grid>
   )
 }
 
-export default ApplicationsPage;
+export default PortfolioPage;

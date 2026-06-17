@@ -33,3 +33,10 @@ export interface CardWidgetProps {
   info?: React.ReactNode, 
   num: string
 }
+
+export interface ActivityCardProps {
+    title: string;
+    description: string;
+    time: string;
+    icon?: React.ReactNode;
+}

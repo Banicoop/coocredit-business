@@ -1,8 +1,10 @@
-import { Flex, FlexCol, Grid } from '@/components/ui/ui-layout';
+import { Grid } from '@/components/ui/ui-layout';
 import LoanOfficerOverview from './_sections/LoanOfficerOverview';
 import CardSection from './_sections/CardSection';
 import RepaymentChart from './_sections/RepaymentChart';
-import Typography from '@/components/primitives/Typography';
+import { RecentActivities } from '@/components/ui/RecentActivities';
+import { recentActivities } from '@/constant/data';
+import HPAppsTable from './_sections/HPAppsTable';
 
 
 const LoanOfficerDashboard = () => {
@@ -12,12 +14,12 @@ const LoanOfficerDashboard = () => {
       <CardSection/>
       <Grid className='md:grid-cols-2 lg:grid-cols-3 gap-4'>
         <RepaymentChart className='lg:col-span-2'/>
-        {/* <FlexCol>
-          <Flex>
-            <Typography>Recent Activ</Typography>
-          </Flex>
-        </FlexCol> */}
+         <RecentActivities
+              activities={recentActivities}
+              // onViewAll={() => router.push('/activity-logs')}
+          />
       </Grid>
+      <HPAppsTable/>
     </Grid>
   )
 }

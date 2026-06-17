@@ -7,7 +7,9 @@ import { BackButton } from '@/components/primitives/buttons/BackButton';
 import user from '@/assets/svgs/agent-portrait.jpg'
 import map from '@/assets/svgs/map2.svg'
 import { Card } from '../_sections/cards';
-import { ActivityCard, PipeLine } from '@/components/ui/cards';
+import { PipeLine } from '@/components/ui/cards';
+import { recentActivities } from '@/constant/data';
+import { RecentActivities } from '@/components/ui/RecentActivities';
 
 
 const TeamDetails = () => {
@@ -99,13 +101,10 @@ const TeamDetails = () => {
                         className1='text-xl text-primary2' className2='text-ring'/>
                     <Image src={map} alt='MAP LOCATION' className='h-60 w-full object-cover' />
                 </FlexCol>
-                <FlexCol className='bg-tertiary border p-6 rounded-lg gap-2'>
-                    <Typography variant='h4' color='primary2'>Recent Activity</Typography>
-                    <ActivityCard/>
-                    <ActivityCard/>
-                    <ActivityCard/>
-                    <Typography color='active' className='text-center font-bold border-t pt-4 cursor-pointer'>View All Logs</Typography>
-                </FlexCol>
+                <RecentActivities
+                    activities={recentActivities}
+                    // onViewAll={() => router.push('/activity-logs')}
+                />;
             </Grid>
         </Grid>
     </Grid>

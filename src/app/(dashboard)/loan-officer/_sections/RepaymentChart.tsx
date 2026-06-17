@@ -64,7 +64,7 @@ const RepaymentChart = ({className}: {className: string}) => {
 
   return (
     <CustomBarChart
-        className={cn('', className)}
+        className={cn('gap-4', className)}
         data={data} 
         title={<BarTitle/>}
         xDataKey="name"

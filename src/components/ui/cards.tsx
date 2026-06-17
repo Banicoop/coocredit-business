@@ -1,7 +1,7 @@
 import { FC } from "react"
 import Typography from "../primitives/Typography"
 import { Flex, FlexBox, FlexCol } from "./ui-layout"
-import { CardWidgetProps, PipeLineProps } from "@/types/types"
+import { ActivityCardProps, CardWidgetProps, PipeLineProps } from "@/types/types"
 import { cn } from "@/lib/utils"
 import { PlusCircle } from "lucide-react"
 
@@ -40,15 +40,24 @@ export const PipeLine:FC<PipeLineProps> = ({className, num, numClassName, label,
  }
  
 
-export const ActivityCard = () => (
+export const ActivityCard = ({
+    title,
+    description,
+    time,
+    icon = <PlusCircle size={18} className="text-primary" />
+}: ActivityCardProps) => (
     <Flex className="gap-2 items-start">
         <Flex className="p-2 rounded-xl bg-card">
-            <PlusCircle size={18} className="text-primary" />
+            {icon}
         </Flex>
+
         <FlexCol>
-            <Typography weight="semibold">Repayment Collected</Typography>
-            <Typography color="primary">₦25,000 from Amina Bello</Typography>
-            <Typography color="primary" variant="small">10:20 AM</Typography>
+            <Typography weight="semibold">{title}</Typography>
+            <Typography color="primary">{description}</Typography>
+            <Typography color="primary" variant="small">
+                {time}
+            </Typography>
         </FlexCol>
     </Flex>
-)
+);
+
