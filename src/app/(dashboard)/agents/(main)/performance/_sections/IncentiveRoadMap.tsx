@@ -1,6 +1,6 @@
 import Typography from '@/components/primitives/Typography';
 import { ColItem } from '@/components/ui/PageHeader';
-import { PipeLine } from '@/components/ui/PipeLine';
+import { PipeLine } from '@/components/ui/cards';
 import { Flex, FlexCol, Grid, GridItem } from '@/components/ui/ui-layout';
 import { Sparkles } from 'lucide-react';
 import React from 'react'

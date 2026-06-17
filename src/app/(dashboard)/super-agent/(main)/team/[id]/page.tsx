@@ -6,8 +6,8 @@ import CustomersList from '../_sections/CustomersList';
 import { BackButton } from '@/components/primitives/buttons/BackButton';
 import user from '@/assets/svgs/agent-portrait.jpg'
 import map from '@/assets/svgs/map2.svg'
-import { ActivityCard, Card } from '../_sections/cards';
-import { PipeLine } from '@/components/ui/PipeLine';
+import { Card } from '../_sections/cards';
+import { ActivityCard, PipeLine } from '@/components/ui/cards';
 
 
 const TeamDetails = () => {

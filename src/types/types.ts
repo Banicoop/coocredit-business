@@ -25,3 +25,11 @@ export interface PipeLineProps {
     lastClassName?: string
     stage: string
 }
+
+
+export interface CardWidgetProps {
+  icon: React.ReactNode, 
+  label: string, 
+  info?: React.ReactNode, 
+  num: string
+}
