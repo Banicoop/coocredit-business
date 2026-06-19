@@ -7,7 +7,8 @@ import { View } from 'lucide-react';
 import React from 'react'
 
 
-const data = Array.from({length: 10}, () => ({
+const data = Array.from({length: 10}, (_, i) => ({
+    id: `${i + 1}`,
     customer: {
         name: 'Starlight Logistics',
         business: 'Commercial Credit'

@@ -9,3 +9,9 @@ export interface PortfolioCardProps {
     desc: string;
     isNegative?: boolean
 }
+
+export interface SummaryCardProps {
+    title: string;
+    desc: string | number
+    others: ReactNode
+};
