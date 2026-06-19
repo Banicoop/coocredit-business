@@ -1,8 +1,8 @@
 import { ColItem, PageHeader } from '@/components/ui/PageHeader';
 import { Flex, FlexCol, Grid } from '@/components/ui/ui-layout';
 import { Calendar, CircleEllipsis, Timer, TrendingUp, TriangleAlert } from 'lucide-react';
-import { Card } from '../../customers/page';
 import Typography from '@/components/primitives/Typography';
+import { CardWidget } from '@/components/ui/cards';
 
 const RevenueWidget = () => {
   return (
@@ -51,16 +51,16 @@ const RevenueWidget = () => {
                 </Flex>
             </FlexCol>
             <Grid className='col-span-3 grid-cols-2 gap-4'>
-                <Card label='Growth Rate' num='Steady Ascent' 
+                <CardWidget label='Growth Rate' num='Steady Ascent' 
                     icon={<TrendingUp size={20} className='text-primary'/>} 
                     info={<Typography color='success' className='py-1 px-2.5 rounded-md bg-accent font-semibold'>+12.5%</Typography>}/>
-                <Card label='Platinum Tier' num='Platinum Tier' 
+                <CardWidget label='Platinum Tier' num='Platinum Tier' 
                     icon={<CircleEllipsis size={20} className='text-primary'/>}
                     info={<span className='text-ring text-xs'>Top 5%</span>}/>
-                <Card label='Portfolio Risk' num='Minimal (2%)' 
+                <CardWidget label='Portfolio Risk' num='Minimal (2%)' 
                     icon={<TriangleAlert size={20} className='text-destructive'/>}
                     info={<span className='text-ring text-xs'>4 overdue</span>}/>
-                <Card label='Avg. Payout Cycle' num='3.5 Days' 
+                <CardWidget label='Avg. Payout Cycle' num='3.5 Days' 
                     icon={<Timer size={20} className='text-ink'/>}
                     />
             </Grid>
