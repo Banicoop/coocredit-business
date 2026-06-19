@@ -8,6 +8,7 @@ import Typography from '@/components/primitives/Typography';
 export type TabItem<T extends string> = {
   label: T;
   content: React.ReactNode;
+  count?: number
 };
 
 type TabsProps<T extends string> = {
@@ -40,11 +41,12 @@ export function Tabs2<T extends string>({ tabs, defaultValue, className }: TabsP
               <Typography
                 variant="span"
                 className={cn(
-                  'font-semibold text-sm md:text-lg',
+                  'font-semibold text-sm gap-1 md:text-lg',
                   isActive ? 'text-[#136DEC]' : 'text-[#64748B]'
                 )}
               >
                 {tab.label}
+               ({tab.count}) 
               </Typography>
             </div>
           );

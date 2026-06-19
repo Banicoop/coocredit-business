@@ -1,3 +1,5 @@
+'use client';
+
 import { Flex, FlexBox, FlexCol } from '@/components/ui/ui-layout';
 import Image from 'next/image';
 import Typography from '@/components/primitives/Typography';
@@ -7,9 +9,24 @@ import { ColItem } from '@/components/ui/PageHeader';
 import user from '@/assets/images/user.png';
 import agent from '@/assets/svgs/agents.svg';
 import Button from '@/components/primitives/buttons/Button';
+import { useRouter } from 'next/navigation';
+
+type AgentType = 'pending' | 'active' | 'inactive';
 
 
-const AgentCard = () => {
+const AgentCard = ({type}: {type: AgentType}) => {
+
+    const router = useRouter();
+
+    const handleClick = () => {
+        if(type === 'active'){
+            router.push('/super-agent/team/id')
+        } else {
+            return;
+        }
+    }
+
+    
   return (
     <FlexBox className='flex-col gap-1'>
         <Flex className='justify-between items-start'>
@@ -21,7 +38,11 @@ const AgentCard = () => {
                         item2='Agent ID: AGT-992384' 
                         className1='font-bold text-lg' 
                         className2='text-ring text-xs'/>
-                    <Typography color='success' weight='semibold' startIcon={<div className='w-2 h-2 rounded-full bg-chart-2'/>} className='bg-muted p-1 px-4 rounded-md w-fit'>Active</Typography>
+                    <Typography 
+                    color={type === 'active' ? 'active': type === 'inactive' ? 'destructive': 'pending'} 
+                    weight='semibold' 
+                    startIcon={<div className={`w-2 h-2 rounded-full ${type === 'pending' ? 'bg-chart-5': type === 'active' ? 'bg-primary': 'bg-destructive'}`}/>} 
+                    className='bg-muted p-1 px-4 rounded-md w-fit capitalize'>{type === 'pending' ? 'KYC PENDING': `${type}`}</Typography>
                 </FlexCol>
             </Flex>
             <EllipsisVertical size={24} className='text-ring cursor-pointer'/>
@@ -36,16 +57,22 @@ const AgentCard = () => {
                 className1='text-ring font-bold capitalize' 
                 className2='text-accent-foreground font-bold'/>
             <ColItem 
-                item1='Comm. Earned' 
-                item2='₦245,000' 
+                item1={type === 'active' ? 'Comm. Earned': type === 'pending' ? 'DOCUMENTS': 'LAST ACTIVE'} 
+                item2={type === 'active' ? '₦245,000': type === 'pending' ? 'Pending Review': '8 Days Ago'} 
                 className1='text-ring font-bold capitalize' 
-                className2='text-primary font-bold'
+                className2={`font-bold ${type === 'active' ? 'text-primary': type === 'pending' ? 'text-chart-5': 'text-destructive'}`}
                 />
         </Flex>
 
         <Flex className='justify-between py-4'>
             <Image src={agent} alt='Agents' width={50} height={16} />
-            <Button variant='ghost' endIcon={<ArrowRightIcon size={18} className=''/>}>View Performance</Button>
+            <Button 
+            onClick={handleClick}
+            className={type === 'active' ? 'bg-primary' : 
+                type === 'pending' ? 'bg-chart-5': 'bg-destructive'}
+            endIcon={<ArrowRightIcon size={18} />}>
+                {type === 'active' ? 'View Performance':  type === 'inactive' ? 'Re-engage Agent': 'Complete KYC'}
+            </Button>
         </Flex>
     </FlexBox>
   )

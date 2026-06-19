@@ -1,4 +1,4 @@
-import { UIProps } from "@/type/type";
+import { UIProps } from "@/types/types";
 import React from "react";
 
 const FlexBox = ({ children, className = "", style, onClick }: UIProps) => {

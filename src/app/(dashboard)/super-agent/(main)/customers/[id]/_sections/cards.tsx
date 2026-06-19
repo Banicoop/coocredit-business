@@ -6,6 +6,7 @@ import Typography from '@/components/primitives/Typography';
 import { Flex, FlexBox, FlexCol, Grid, GridItem } from '@/components/ui/ui-layout';
 import { ProgressBar } from '@/components/ui/ProgessBar';
 import { CapitalAllocationProps, CardProps, FinCardsProps } from '../../type';
+import { cn } from '@/lib/utils';
 
 
 export const FinActionsCards = ({title, actions}: FinCardsProps) => {
@@ -26,10 +27,10 @@ export const FinActionsCards = ({title, actions}: FinCardsProps) => {
 
 export const CapitalAllocationCard = ({title, items}: CapitalAllocationProps) => {
   return(
-    <GridItem className='gap-2'>
+    <GridItem className={cn('gap-4 p-6')}>
       <Typography color='primary' weight='semibold'>{title}</Typography>
       {items.map((item) => (
-        <FlexCol className='gap-2' key={item.label}>
+        <FlexCol className='gap-2.5' key={item.label}>
           <Flex className='justify-between w-full'>
             <Typography variant='small' color='primary2'>{item.label}</Typography>
             <Typography weight='semibold'>{item.val}%</Typography>

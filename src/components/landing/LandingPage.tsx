@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import logo from '@/assets/svgs/logo.svg'
-import { Path } from '@/type/type';
+import { Path } from '@/types/types';
 import { paths } from '@/constant/data';
 import Button from '../primitives/buttons/Button';
 import { Navbar } from '../ui/Navbar';

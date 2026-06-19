@@ -3,19 +3,21 @@
 import Button from '@/components/primitives/buttons/Button';
 import { BasicTable } from '@/components/primitives/tables/BasicTable';
 import Typography from '@/components/primitives/Typography';
+import { ActionDropdown } from '@/components/ui/ActionDropDown';
 import { ColItem } from '@/components/ui/PageHeader';
 import { ProgressBar } from '@/components/ui/ProgessBar';
 import { Flex } from '@/components/ui/ui-layout';
-import { Download } from 'lucide-react';
+import { Download, Eye } from 'lucide-react';
 import React from 'react'
 
 
-const data = Array.from({length: 10}, (() => ({
+const data = Array.from({length: 10}, ((_, i) => ({
+    id: `${i + 1}`,
     user: {
         userName: 'Adekunle & Sons Ltd',
         desc: 'Agro-Processing Sector'
     },
-    id: 'LN-2024-8891',
+    loanId: 'LN-2024-8891',
     loanAmount: '₦12,500,000',
     stage: 'UNDER REVIEW',
     riskScore: 70
@@ -48,7 +50,7 @@ const ActiveCreditList = () => {
             )
         },
         {
-            key: 'id',
+            key: 'loanId',
             title: 'APPLICATION ID'
         },
         {
@@ -70,6 +72,22 @@ const ActiveCreditList = () => {
                     <ProgressBar value={val} className='bg-chart-2' />
                     <Typography  variant='small' weight='semibold' className='text-chart-2'>{val}%</Typography>
                 </Flex>
+            )
+        },
+        {
+            key: 'id',
+            title: 'Actions',
+            render: (id: string) => (
+                <ActionDropdown 
+                    actions={[
+                        {
+                            label: 'Loan Details',
+                            variant: 'primary',
+                            icon: Eye,
+                            href: `/super-agent/pipeline/${id}`
+                        }
+                ]} 
+                />
             )
         },
     ]

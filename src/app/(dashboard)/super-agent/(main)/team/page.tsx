@@ -57,15 +57,15 @@ const TeamsPage = () => {
             icon={<CheckCircle size={20} className='text-chart-2'/>}/>
           <Card 
             label='Inactive' 
-            className='border-b-chart-5'
+            className='border-b-destructive'
             value={200} 
-            icon={<HistoryIcon size={20} className='text-chart-5'/>}/>
+            icon={<HistoryIcon size={20} className='text-destructive'/>}/>
           <Card 
             label='KYC Pending' 
-            className='border-b-primary'
-            other={<Typography className='px-2 py-1 rounded-lg bg-accent text-primary'>Priority</Typography>}
+            className='border-b-chart-5'
+            other={<Typography color='pending' className='px-2 py-1 rounded-lg bg-accent'>Priority</Typography>}
             value={120} 
-            icon={<ShieldAlert size={20} className='text-primary'/>}/>
+            icon={<ShieldAlert size={20} className='text-chart-5'/>}/>
         </Flex>
       </FlexCol>
 

@@ -1,4 +1,4 @@
-import { Path } from "@/type/type";
+import { Path } from "@/types/types";
 
 
 export const paths: Path[] = [
@@ -36,3 +36,26 @@ export const paths: Path[] = [
     cta: "Join Management",
   },
 ];
+
+
+export const recentActivities = [
+    {
+        id: '1',
+        title: 'Repayment Collected',
+        description: '₦25,000 from Amina Bello',
+        time: '10:20 AM'
+    },
+    {
+        id: '2',
+        title: 'Loan Approved',
+        description: '₦150,000 for John Doe',
+        time: '09:45 AM'
+    },
+    {
+        id: '3',
+        title: 'New Customer Added',
+        description: 'Sarah James registered',
+        time: '08:30 AM'
+    }
+];
+
