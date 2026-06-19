@@ -1,9 +1,9 @@
 import { FC } from "react"
 import Typography from "../primitives/Typography"
-import { Flex, FlexBox, FlexCol } from "./ui-layout"
-import { ActivityCardProps, CardWidgetProps, PipeLineProps } from "@/types/types"
+import { Flex, FlexBox, FlexCol, GridItem } from "./ui-layout"
+import { ActivityCardProps, CardWidgetProps, PipeLineProps, LoanOfficerCardWidgetProps } from "@/types/types"
 import { cn } from "@/lib/utils"
-import { PlusCircle } from "lucide-react"
+import { PlusCircle, TrendingDown, TrendingUp } from "lucide-react"
 
 export const PipeLine:FC<PipeLineProps> = ({className, num, numClassName, label, last, stage, lastClassName}) => {
   return(
@@ -61,3 +61,23 @@ export const ActivityCard = ({
     </Flex>
 );
 
+
+export const LoanOfficerCardWidget:React.FC<LoanOfficerCardWidgetProps> = ({icon, percent, title, amount, desc, isNegative, className}) => {
+  return (
+    <GridItem className={cn('gap-2 p-6', className)}>
+        <Flex className='justify-between'>
+            <Flex className='p-2.5 rounded-full bg-accent'>
+                {icon}
+            </Flex>
+        <Typography 
+            startIcon={isNegative ? <TrendingDown size={14}/>: <TrendingUp size={14}/>}
+            color={isNegative ? 'destructive': 'success'} 
+            variant='small' 
+            className='py-1 px-2 rounded-lg bg-accent font-semibold'>{isNegative ? '-': '+'} {percent} %</Typography>
+        </Flex>
+        <Typography color='primary'>{title}</Typography>
+        <Typography color='primary2' variant='h2'>{amount}</Typography>
+        <Typography variant='small' color='primary'>{desc}</Typography>
+    </GridItem>
+  )
+}

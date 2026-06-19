@@ -8,7 +8,7 @@ import { ProgressBar } from '@/components/ui/ProgessBar';
 import { cn } from '@/lib/utils';
 import { ShieldCheck, ShieldHalf } from 'lucide-react';
 
-const InfoItem = ({title, val}: {title: string, val: string}) => (
+export const InfoItem = ({title, val}: {title: string, val: string}) => (
     <ColItem
         item1={title} 
         item2={val} 

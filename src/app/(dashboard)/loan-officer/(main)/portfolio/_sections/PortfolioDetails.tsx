@@ -2,9 +2,8 @@
 
 import { Tabs } from '@/components/ui/Tabs';
 import { Grid } from '@/components/ui/ui-layout';
-import PortfolioSummary from '../tabs/PortfolioSummary';
 import { useState } from 'react';
-import RecentInstallment from '../tabs/RecentInstallment';
+import { PortfolioSummary, RecentInstallment } from '../(tabs)';
 
 
 
@@ -29,13 +28,15 @@ const tabs = [
 
 const LoanPortfolioDetails = () => {
 
-    // const [active, setActive] = useState('')
+    const [activeTab, setActiveTab] = useState('summary');
 
   return (
     <Grid className='gap-5'>
-        <Tabs items={tabs} defaultValue='summary' />
+        <Tabs items={tabs} defaultValue='summary' onChange={setActiveTab} />
         <PortfolioSummary/>
         <RecentInstallment/>
+        {/* <LoanRestructure/>
+        <LoanWriteOff/> */}
     </Grid>
   )
 }

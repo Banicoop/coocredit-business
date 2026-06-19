@@ -40,3 +40,13 @@ export interface ActivityCardProps {
     time: string;
     icon?: React.ReactNode;
 }
+
+export interface LoanOfficerCardWidgetProps {
+    icon: React.ReactNode;
+    percent: number;
+    title: string;
+    amount: number | string;
+    desc: string | React.ReactNode;
+    isNegative?: boolean;
+    className?: string
+}
