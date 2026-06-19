@@ -43,10 +43,11 @@ export interface ActivityCardProps {
 
 export interface LoanOfficerCardWidgetProps {
     icon: React.ReactNode;
-    percent: number;
+    percent: number | React.ReactNode;
     title: string;
     amount: number | string;
     desc: string | React.ReactNode;
     isNegative?: boolean;
+    suffix?: boolean;
     className?: string
 }

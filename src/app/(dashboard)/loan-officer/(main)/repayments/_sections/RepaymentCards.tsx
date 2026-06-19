@@ -1,8 +1,12 @@
 import Typography from '@/components/primitives/Typography';
 import { ColItem } from '@/components/ui/PageHeader';
-import { FlexCol, Grid, GridItem } from '@/components/ui/ui-layout';
+import { Flex, FlexCol, Grid, GridItem } from '@/components/ui/ui-layout';
 import React from 'react'
 import { InfoItem } from '../../portfolio/(tabs)/PortfolioSummary';
+import { DollarSign, Landmark } from 'lucide-react';
+import { LoanOfficerCardWidget } from '@/components/ui/cards';
+import { ProgressBar } from '@/components/ui/ProgessBar';
+import Button from '@/components/primitives/buttons/Button';
 
 const RepaymentCards = () => {
   return (
@@ -19,6 +23,38 @@ const RepaymentCards = () => {
                 <InfoItem title='Forecast' val='89.5%'/>
             </Grid>
         </GridItem>
+        <Grid className='grid-cols-2 h-fit col-span-2 gap-4'>
+            <LoanOfficerCardWidget
+                icon={<DollarSign size={20} className='text-primary' />}
+                percent={'1.2% overdue'}
+                isNegative
+                title='Total Amount Due' 
+                desc={
+                <Flex className='gap-2'>
+                    <ProgressBar value={60} className='bg-primary'/>
+                    <Typography color='active' variant='small' weight='semibold'>60%</Typography>
+                </Flex>}
+                amount={`₦${(428502070).toLocaleString()}`}/>
+            <LoanOfficerCardWidget
+                icon={<Landmark size={20} className='text-chart-2' />}
+                percent={'On track'}
+                title='Total Collected' 
+                desc={
+                <Flex className='gap-2'>
+                    <ProgressBar value={70} className='bg-chart-2'/>
+                    <Typography color='success' variant='small' weight='semibold'>70%</Typography>
+                </Flex>}
+                amount={`₦${(428502070).toLocaleString()}`}/>
+            <Flex className='col-span-2 rounded-lg bg-primary2 p-4 gap-2.5'>
+                <ColItem 
+                    item1='14 High-Risk Accounts Detected' 
+                    item2='Manual intervention required for delinquent accounts exceeding 30 days.'
+                    className1='text-card font-semibold'
+                    className2='text-card/40'
+                />
+                <Button variant='light'>Review Now</Button>
+            </Flex>
+        </Grid>
     </Grid>
   )
 }

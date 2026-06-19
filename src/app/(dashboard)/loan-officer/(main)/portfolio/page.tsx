@@ -14,22 +14,24 @@ const PortfolioPage = () => {
         <Grid className='grid-cols-2 lg:grid-cols-4 gap-4'>
           <LoanOfficerCardWidget
             icon={<FileText size={20} className='text-primary' />}
-            percent={0.5}
+            percent={0.5} suffix
             title='TOTAL LOAN VOLUME' 
             desc='Active disbursements across 1,240 accounts' 
             amount={`₦${(428502070).toLocaleString()}`}/>
           <LoanOfficerCardWidget icon={<Activity size={20} color='green'/>}
-            percent={3.4}
+            percent={3.4} suffix
             title='AVERAGE BALANCE' 
             desc='Per capita exposure within risk limits' 
             amount={`₦${(34556).toLocaleString()}`}/>
           <LoanOfficerCardWidget 
             icon={<AlertTriangle size={20} color='red' />}
             percent={0.2} isNegative 
+            suffix
             title='DELINQUENCY (30+DP)' 
             desc='Currently under collection monitoring' 
             amount='1.45%'/>
           <LoanOfficerCardWidget 
+            suffix
             icon={<Banknote size={20} color='#9333EA'/>}
             percent={0.8} title='PORTFOLIO YIELD' 
             desc='Net interest margin for Q3 period' 

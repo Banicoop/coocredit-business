@@ -62,7 +62,7 @@ export const ActivityCard = ({
 );
 
 
-export const LoanOfficerCardWidget:React.FC<LoanOfficerCardWidgetProps> = ({icon, percent, title, amount, desc, isNegative, className}) => {
+export const LoanOfficerCardWidget:React.FC<LoanOfficerCardWidgetProps> = ({icon, percent, title, amount, desc, isNegative, className, suffix}) => {
   return (
     <GridItem className={cn('gap-2 p-6', className)}>
         <Flex className='justify-between'>
@@ -73,7 +73,7 @@ export const LoanOfficerCardWidget:React.FC<LoanOfficerCardWidgetProps> = ({icon
             startIcon={isNegative ? <TrendingDown size={14}/>: <TrendingUp size={14}/>}
             color={isNegative ? 'destructive': 'success'} 
             variant='small' 
-            className='py-1 px-2 rounded-lg bg-accent font-semibold'>{isNegative ? '-': '+'} {percent} %</Typography>
+            className='py-1 px-2 rounded-lg bg-accent font-semibold'>{isNegative ? '-': '+'} {percent} {suffix && '%'}</Typography>
         </Flex>
         <Typography color='primary'>{title}</Typography>
         <Typography color='primary2' variant='h2'>{amount}</Typography>
