@@ -33,10 +33,10 @@ const AgentsList = () => {
         </FlexCol>
         {/* CARD LIST */}
         <Grid className='md:grid-cols-3 gap-5'>
-            <AgentCard type='active'/>
-            <AgentCard type='inactive'/>
-            <AgentCard type='pending'/>
-            <AgentCard type='active'/>
+            <AgentCard/>
+            <AgentCard/>
+            <AgentCard/>
+            <AgentCard/>
         </Grid>
     </Grid>
   )
