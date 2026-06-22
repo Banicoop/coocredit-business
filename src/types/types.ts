@@ -28,9 +28,10 @@ export interface PipeLineProps {
 
 
 export interface CardWidgetProps {
-  icon: React.ReactNode, 
-  label: string, 
-  info?: React.ReactNode, 
+  icon: React.ReactNode;
+  label: string;
+  info?: React.ReactNode;
+  others?: React.ReactNode;
   num: string
 }
 
