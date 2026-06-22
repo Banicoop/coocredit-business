@@ -8,7 +8,6 @@ import Typography from '@/components/primitives/Typography';
 export type TabItem<T extends string> = {
   label: T;
   content: React.ReactNode;
-  count?: number
 };
 
 type TabsProps<T extends string> = {
@@ -46,7 +45,7 @@ export function Tabs2<T extends string>({ tabs, defaultValue, className }: TabsP
                 )}
               >
                 {tab.label}
-               ({tab.count}) 
+              {/* {tabs.count && ({tab.count})} */}
               </Typography>
             </div>
           );

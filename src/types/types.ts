@@ -23,7 +23,7 @@ export interface PipeLineProps {
     label: string
     last?: boolean
     lastClassName?: string
-    stage: string
+    stage?: string
 }
 
 
