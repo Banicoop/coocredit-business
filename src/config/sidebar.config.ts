@@ -1,8 +1,9 @@
 
-import { BellRing, BookOpenCheck, CalendarCheck, ChartNoAxesColumn, DollarSign, LayoutGrid, LogOut, LucideIcon, MapPinHouse, MessageSquareWarning, Settings, TrendingUp, UserRoundPlus, UserSearchIcon, UsersRound, Wallet, AlertTriangle, NotepadText, BriefcaseBusiness, CreditCard } from "lucide-react";
+import { BellRing, BookOpenCheck, CalendarCheck, ChartNoAxesColumn, DollarSign, LayoutGrid, LogOut, LucideIcon, MapPinHouse, MessageSquareWarning, Settings, TrendingUp, UserRoundPlus, UserSearchIcon, UsersRound, Wallet, AlertTriangle, NotepadText, BriefcaseBusiness, CreditCard, Landmark, ShieldCog, ShieldHalf, LayoutDashboard } from "lucide-react";
 
 export const iconMap: Record<string, LucideIcon> = {
     layoutGrid: LayoutGrid,
+    dashboardLayout: LayoutDashboard,
     userRoundPlus: UserRoundPlus,
     mapPinHouse: MapPinHouse,
     calendarCheck: CalendarCheck,
@@ -20,7 +21,9 @@ export const iconMap: Record<string, LucideIcon> = {
     notePadText: NotepadText,
     alertTriangle: AlertTriangle,
     portfolio: BriefcaseBusiness,
-    repayment: CreditCard
+    repayment: CreditCard,
+    landmark: Landmark,
+    shieldHalf: ShieldHalf
 };
 
 export const agentsSidebar = [
@@ -144,31 +147,31 @@ export const managersData = [
   {
     label: 'Overview',
     href: '/manager',
-    icon: 'layoutGrid'
+    icon: 'dashboardLayout'
   },
   {
     label: 'Loan Portfolio',
     href: '/manager/portfolio',
-    icon: 'layoutGrid'
+    icon: 'notePadText'
   },
   {
     label: 'Branch Assets',
     href: '/manager/branch',
-    icon: 'layoutGrid'
+    icon: 'landmark'
   },
   {
     label: 'Team Management',
     href: '/manager/team',
-    icon: 'layoutGrid'
+    icon: 'team'
   },
   {
     label: 'Risk Analytics',
     href: '/manager/analytics',
-    icon: 'layoutGrid'
+    icon: 'shieldHalf'
   },
   {
     label: 'Reports',
     href: '/manager/reports',
-    icon: 'layoutGrid'
+    icon: 'report'
   },
 ]
