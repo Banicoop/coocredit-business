@@ -10,23 +10,20 @@ import user from '@/assets/images/user.png';
 import agent from '@/assets/svgs/agents.svg';
 import Button from '@/components/primitives/buttons/Button';
 import { useRouter } from 'next/navigation';
+import { useAgentStatus } from '@/store/useAgentStatus';
 
-type AgentType = 'pending' | 'active' | 'inactive';
 
 
-const AgentCard = ({type}: {type: AgentType}) => {
+const AgentCard = () => {
+
+    const { status } = useAgentStatus()
 
     const router = useRouter();
 
     const handleClick = () => {
-        if(type === 'active'){
-            router.push('/super-agent/team/id')
-        } else {
-            return;
-        }
+        router.push('/super-agent/team/id');
     }
 
-    
   return (
     <FlexBox className='flex-col gap-1'>
         <Flex className='justify-between items-start'>
@@ -39,10 +36,10 @@ const AgentCard = ({type}: {type: AgentType}) => {
                         className1='font-bold text-lg' 
                         className2='text-ring text-xs'/>
                     <Typography 
-                    color={type === 'active' ? 'active': type === 'inactive' ? 'destructive': 'pending'} 
+                    color={status === 'active' ? 'active': status === 'inactive' ? 'destructive': 'pending'} 
                     weight='semibold' 
-                    startIcon={<div className={`w-2 h-2 rounded-full ${type === 'pending' ? 'bg-chart-5': type === 'active' ? 'bg-primary': 'bg-destructive'}`}/>} 
-                    className='bg-muted p-1 px-4 rounded-md w-fit capitalize'>{type === 'pending' ? 'KYC PENDING': `${type}`}</Typography>
+                    startIcon={<div className={`w-2 h-2 rounded-full ${status === 'pending' ? 'bg-chart-5': status === 'active' ? 'bg-primary': 'bg-destructive'}`}/>} 
+                    className='bg-muted p-1 px-4 rounded-md w-fit capitalize'>{status === 'pending' ? 'KYC PENDING': `${status}`}</Typography>
                 </FlexCol>
             </Flex>
             <EllipsisVertical size={24} className='text-ring cursor-pointer'/>
@@ -57,10 +54,10 @@ const AgentCard = ({type}: {type: AgentType}) => {
                 className1='text-ring font-bold capitalize' 
                 className2='text-accent-foreground font-bold'/>
             <ColItem 
-                item1={type === 'active' ? 'Comm. Earned': type === 'pending' ? 'DOCUMENTS': 'LAST ACTIVE'} 
-                item2={type === 'active' ? '₦245,000': type === 'pending' ? 'Pending Review': '8 Days Ago'} 
+                item1={status === 'active' ? 'Comm. Earned': status === 'pending' ? 'DOCUMENTS': 'LAST ACTIVE'} 
+                item2={status === 'active' ? '₦245,000': status === 'pending' ? 'Pending Review': '8 Days Ago'} 
                 className1='text-ring font-bold capitalize' 
-                className2={`font-bold ${type === 'active' ? 'text-primary': type === 'pending' ? 'text-chart-5': 'text-destructive'}`}
+                className2={`font-bold ${status === 'active' ? 'text-primary': status === 'pending' ? 'text-chart-5': 'text-destructive'}`}
                 />
         </Flex>
 
@@ -68,10 +65,10 @@ const AgentCard = ({type}: {type: AgentType}) => {
             <Image src={agent} alt='Agents' width={50} height={16} />
             <Button 
             onClick={handleClick}
-            className={type === 'active' ? 'bg-primary' : 
-                type === 'pending' ? 'bg-chart-5': 'bg-destructive'}
+            className={status === 'active' ? 'bg-primary' : 
+                status === 'pending' ? 'bg-chart-5': 'bg-destructive'}
             endIcon={<ArrowRightIcon size={18} />}>
-                {type === 'active' ? 'View Performance':  type === 'inactive' ? 'Re-engage Agent': 'Complete KYC'}
+                {status === 'active' ? 'View Performance':  status === 'inactive' ? 'Re-engage Agent': 'Complete KYC'}
             </Button>
         </Flex>
     </FlexBox>
