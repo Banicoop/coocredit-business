@@ -18,6 +18,7 @@ const PortfolioPage = () => {
           {
             label: 'New Transaction',
             variant: 'primary',
+            href: '/manager/portfolio/new',
             icon: <Plus size={18}/>
           },
         ]}
