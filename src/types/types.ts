@@ -32,7 +32,8 @@ export interface CardWidgetProps {
   label: string;
   info?: React.ReactNode;
   others?: React.ReactNode;
-  num: string
+  num: string;
+  className?: string
 }
 
 export interface ActivityCardProps {
