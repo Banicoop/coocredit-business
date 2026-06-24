@@ -23,10 +23,10 @@ export const PipeLine:FC<PipeLineProps> = ({className, num, numClassName, label,
 
 
 
- export const CardWidget:FC<CardWidgetProps> = ({icon, label, info, num, others}) => {
+ export const CardWidget:FC<CardWidgetProps> = ({icon, label, info, num, others, className}) => {
 
    return(
-    <FlexBox className='flex-col h-32'>
+    <FlexBox className={cn('flex-col min-h-32', className)}>
       <Flex className='justify-between mb-1.5 items-start'>
         <Flex className='p-2 rounded-full bg-accent h-fit'>
           {icon}
