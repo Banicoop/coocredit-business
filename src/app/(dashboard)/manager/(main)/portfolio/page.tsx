@@ -4,6 +4,7 @@ import { Dumbbell, Plus } from 'lucide-react';
 import RiskBucket from './_sections/RiskBucket';
 import Typography from '@/components/primitives/Typography';
 import { CashTransCard, RiskEventCard } from './_sections/cards';
+import PRACharts from './_sections/PRACharts';
 
 
 
@@ -22,6 +23,7 @@ const PortfolioPage = () => {
         ]}
       />
       <Grid className='grid-cols-4 gap-5'>
+        <PRACharts className='col-span-4'/>
         <RiskBucket className='col-span-4'/>
         <GridItem className='col-span-2 gap-3'>
           <Typography weight='semibold' variant='h5'>Cash Transactions</Typography>
