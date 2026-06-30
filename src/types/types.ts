@@ -1,3 +1,22 @@
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+export interface FetchOptions<TBody = unknown> {
+  method?: HttpMethod;
+  body?: TBody;
+  headers?: Record<string, string>;
+  token?: string;
+  tags?: string[];         // Next.js cache tags for revalidation
+  cache?: RequestCache;
+  revalidate?: number;     // Next.js ISR revalidation in seconds
+}
+
+export interface ApiResponse<TData> {
+  data: TData | null;
+  error: string | null;
+  status: number;
+}
+
+
 export type Path = {
   num: string;
   title: string;
@@ -6,6 +25,7 @@ export type Path = {
   bullets: string[];
   cta: string;
   featured?: boolean;
+  href: string;
 };
 
 export interface UIProps {
@@ -53,3 +73,4 @@ export interface LoanOfficerCardWidgetProps {
     suffix?: boolean;
     className?: string
 }
+

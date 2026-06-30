@@ -9,6 +9,7 @@ import { Navbar } from '../ui/Navbar';
 import agent from '@/assets/svgs/agent-portrait.jpg';
 import blueprint from '@/assets/svgs/blueprint-desk.jpg'
 import heroImage from '@/assets/svgs/hero-cont.svg'
+import Link from 'next/link';
 
 
 
@@ -27,7 +28,7 @@ export function PublicNav() {
       logo={logo}
       items={navItems}
       trackActive
-      cta={{ label: "Sign In", href: "/auth/sign-in" }}
+      cta={{ label: "Admin Sign In", href: "/auth/sign-in/admin" }}
       />
   );
 }
@@ -205,16 +206,16 @@ export function PathCard({ p }: { p: Path }) {
           </li>
         ))}
       </ul>
-      <button
+      <Link href={p.href}
         className={
-          "mt-7 w-full rounded-md py-3 text-xs font-600 tracking-[0.18em] uppercase transition " +
+          "mt-7 w-full flex items-center justify-center rounded-md py-3 text-xs font-600 tracking-[0.18em] uppercase transition " +
           (featured
             ? "bg-white text-brand hover:bg-white/90"
-            : "border border-ink/15 text-ink hover:bg-ink hover:text-white")
+            : "border border-ink/15 text-ink hover:bg-ink hover:text-white hover:cursor-pointer")
         }
       >
         {p.cta}
-      </button>
+      </Link>
     </div>
   );
 }

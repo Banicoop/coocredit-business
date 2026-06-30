@@ -2,74 +2,21 @@
 
 import Typography from '@/components/primitives/Typography';
 import Image from 'next/image';
-import React, { useActionState, useState } from 'react';
+import { useActionState } from 'react';
 import { LockKeyhole, SendHorizontal, Shield, UserRound } from 'lucide-react';
 import Button from '@/components/primitives/buttons/Button';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-
 import logo from '@/assets/svgs/logo.svg';
-import { useUserStore } from '@/store/useAuthStore';
-import { toast } from 'sonner';
 import { ActionState, adminLogin } from '@/lib/auth.actions';
 
 
 const initialState: ActionState = { error: null, success: false };
 
-const SignInPage = () => {
-  
-  const router = useRouter();
+const AdminSignInPage = () => {
 
   const [state, formAction, isPending] = useActionState(adminLogin, initialState);
-  const { setUser } = useUserStore();
-  // const [email, setEmail] = useState('');
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // switch (email.toLowerCase()) {
-    //   case 'agent@test.com':
-    //     setUser({
-    //       id: '1',
-    //       name: 'Test Agent',
-    //       role: 'agent',
-    //   });
-    //     router.push('/agents');
-    //     break;
-
-    //   case 'superagent@test.com':
-    //     setUser({
-    //       id: '2',
-    //       name: 'Super Agent',
-    //       role: 'super_agent',
-    //     });
-    //     router.push('/super-agent');
-    //     break;
-
-    //   case 'manager@test.com':
-    //     setUser({
-    //       id: '3',
-    //       name: 'Test Manager',
-    //       role: 'manager',
-    //   });
-    //     router.push('/manager');
-    //     break;
-
-    //   case 'loanofficer@test.com':
-    //     setUser({
-    //       id: '3',
-    //       name: 'Loan Officer',
-    //       role: 'loan_officer',
-    //   });
-    //     router.push('/loan-officer');
-    //     break;
-
-    //   default:
-    //     toast.warning('Invalid test email. Please use a valid test email.')
-    // }
-  };
-
+ 
   return (
     <main className='p-4 w-full mx-auto my-auto max-w-7xl flex items-center justify-center flex-col flex-1 h-full'>
       <section className='flex flex-col bg-[#FFFFFF] rounded-2xl min-h-100 shadow-2xl w-fit'>
@@ -94,7 +41,7 @@ const SignInPage = () => {
 
           <form action={formAction} className='flex flex-1 flex-col gap-4 justify-center p-5'>
             <Typography variant='h2' font='poppins'>
-              Agent Portal Login
+              Admin Portal
             </Typography>
 
             <Typography color='primary' className='text-lg' font='poppins'>
@@ -103,14 +50,13 @@ const SignInPage = () => {
 
             <TextField
               startIcon={<UserRound size={18} />}
-              placeholder='Agent ID or Email'
+              placeholder='Please Enter a valid Email'
               id='email'
               name='email'
+              type='email'
               className='outline-none'
               autoComplete="email"
               variant='primary'
-              // value={email}
-              // onChange={(e) => setEmail(e.target.value)}
               required
             />
 
@@ -163,4 +109,4 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+export default AdminSignInPage;
