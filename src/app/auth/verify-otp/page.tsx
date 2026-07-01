@@ -33,7 +33,7 @@ const AdminVerifyOTPPage = () => {
     router.push('/manager');
   }
 
-}, [state.success, state, state.message]);
+}, [state.success, state.error, state.message]);
 
  
   return (

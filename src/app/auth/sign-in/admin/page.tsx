@@ -29,9 +29,9 @@ const AdminSignInPage = () => {
  
   return (
     <main className='p-4 w-full mx-auto my-auto max-w-7xl flex items-center justify-center flex-col flex-1 h-full'>
-      <section className='flex flex-col bg-[#FFFFFF] rounded-2xl min-h-100 shadow-2xl w-fit'>
+      <section className='flex flex-col bg-card rounded-2xl min-h-100 shadow-2xl w-fit'>
         <div className='flex max-w-5xl'>
-          <div className='hidden lg:flex flex-1 flex-col gap-2 bg-[#EEF4FF] py-4 px-6 h-full rounded-tl-2xl'>
+          <div className='hidden lg:flex flex-1 flex-col gap-2 bg-[#EEF4FF] p-8 h-full rounded-tl-2xl'>
             <Image src={logo} alt='LOGO' loading='eager' />
             <Typography variant='h1' className='text-[36px]' font='poppins'>
               Empowering Growth Through Every Transaction.
@@ -40,16 +40,16 @@ const AdminSignInPage = () => {
               Access the agent terminal to manage portfolios and facilitate financial inclusion in your teritory
             </Typography>
             <Typography
-              variant='small'
+              // variant='small'
               startIcon={<Shield size={18} className='text-primary' />}
-              className='uppercase py-2 px-1.5 bg-white w-fit rounded-sm font-semibold'
+              className='uppercase py-2 px-2.5 bg-card w-fit rounded-sm text-xs font-semibold'
               font='poppins'
             >
               Secure Node Access
             </Typography>
           </div>
 
-          <form action={formAction} className='flex flex-1 flex-col gap-4 justify-center p-5'>
+          <form action={formAction} className='flex flex-1 flex-col gap-4 justify-center p-8'>
             <Typography variant='h2' font='poppins'>
               Admin Portal
             </Typography>
