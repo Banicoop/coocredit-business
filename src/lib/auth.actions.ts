@@ -146,3 +146,61 @@ export const verifyOTP = async (_prevState: ActionState, formData: FormData): Pr
     message: response.message, 
   };
 };
+
+
+export const agentSignIn = async (
+  _prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> => {
+  const phoneNumber = formData.get('phoneNumber') as string | null;
+  const password = formData.get('password') as string | null;
+
+
+    // ── Basic validation ──
+    if (!password || !phoneNumber) {
+      return { error: 'Phone number and password are required.', success: false };
+    }
+    // if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    //   return { error: 'Please enter a valid email address.', success: false };
+    // }
+
+    // ── Call backend ──
+    const result = await SERVER.post<LoginResponseEnvelope, { phoneNumber: string, password: string }>(
+      'admin/auth/login',
+      { password, phoneNumber }
+    );
+
+    const response = result.data;
+
+    console.log('adminLogin result:', result);
+
+    if (!response) {
+      return {
+        error: result.error ?? 'Login failed: Please try again later',
+        success: false,
+      };
+    }
+
+  const { success, statusCode, data } = response;
+
+  if (!success || statusCode !== 200) {
+    return {
+      error: result.error || 'Login failed: Please try again later',
+      success: false,
+    };
+  }
+
+  const agent = data.admin.id;
+
+  const cookieStore = await cookies();
+
+  cookieStore.set('agent', agent, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 60 * 5,
+    path: '/',
+  });
+
+  redirect('/agents');
+};
