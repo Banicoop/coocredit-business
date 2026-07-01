@@ -9,6 +9,7 @@ export const paths: Path[] = [
     desc: "Focused on local impact. Navigating the terrain to identify and build the first layer of economic opportunity.",
     bullets: ["Regional Outreach", "Community Vetting"],
     cta: "Select Path",
+    href: '/auth/sign-in/agents'
   },
   {
     num: "02",
@@ -18,6 +19,7 @@ export const paths: Path[] = [
     bullets: ["Hub Management", "Strategic Deployment"],
     cta: "Begin Onboarding",
     featured: true,
+    href: '/auth/sign-in/super-agent'
   },
   {
     num: "03",
@@ -26,6 +28,7 @@ export const paths: Path[] = [
     desc: "The analytical heart of the system. Ensuring structural integrity through meticulous approval protocols.",
     bullets: ["Risk Analysis", "Capital Allocation"],
     cta: "Engine Path",
+    href: '/auth/sign-in/loan-officer'
   },
   {
     num: "04",
@@ -34,6 +37,7 @@ export const paths: Path[] = [
     desc: "Orchestrating growth across multiple territories. Oversight of operational efficiency and strategic node expansion.",
     bullets: ["Territory Optimization", "Strategic Resource Allocation"],
     cta: "Join Management",
+    href: '/auth/sign-in/admin'
   },
 ];
 

@@ -1,13 +1,6 @@
+import { User } from '@/types/types';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-
-type Role = 'agent' | 'super_agent' | 'loan_officer' | 'manager';
-
-type User = {
-  id: string;
-  name: string;
-  role: Role;
-};
 
 type UserState = {
   user: User | null;

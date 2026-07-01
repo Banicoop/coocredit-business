@@ -2,69 +2,40 @@
 
 import Typography from '@/components/primitives/Typography';
 import Image from 'next/image';
-import React, { useState } from 'react';
-import { LockKeyhole, SendHorizontal, Shield, UserRound } from 'lucide-react';
+import { useActionState, useEffect } from 'react';
+import { ArrowRight, Shield, UserRound } from 'lucide-react';
 import Button from '@/components/primitives/buttons/Button';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import Link from 'next/link';
+import logo from '@/assets/svgs/logo.svg';
+import { verifyOTP } from '@/lib/auth.actions';
+import { toast } from 'sonner';
+import { ActionState, User } from '@/types/types';
+import { useUserStore } from '@/store/useAuthStore';
 import { useRouter } from 'next/navigation';
 
-import logo from '@/assets/svgs/logo.svg';
-import { useUserStore } from '@/store/useAuthStore';
-import { toast } from 'sonner';
 
 
-const SignInPage = () => {
-  
+const initialState: ActionState = { error: null, success: false };
+
+const AdminVerifyOTPPage = () => {
+
   const { setUser } = useUserStore();
   const router = useRouter();
-  const [email, setEmail] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const [state, formAction, isPending] = useActionState(verifyOTP, initialState);
 
-    switch (email.toLowerCase()) {
-      case 'agent@test.com':
-        setUser({
-          id: '1',
-          name: 'Test Agent',
-          role: 'agent',
-      });
-        router.push('/agents');
-        break;
+  useEffect(() => {
+    if (state.success && state.data) {
+    const admin = state.data as User;
+    setUser(admin);
+    toast.success(state.message || 'Login successful');
+    router.push('/manager');
+  }
 
-      case 'superagent@test.com':
-        setUser({
-          id: '2',
-          name: 'Super Agent',
-          role: 'super_agent',
-        });
-        router.push('/super-agent');
-        break;
+}, [state.success, state, state.message]);
 
-      case 'manager@test.com':
-        setUser({
-          id: '3',
-          name: 'Test Manager',
-          role: 'manager',
-      });
-        router.push('/manager');
-        break;
-
-      case 'loanofficer@test.com':
-        setUser({
-          id: '3',
-          name: 'Loan Officer',
-          role: 'loan_officer',
-      });
-        router.push('/loan-officer');
-        break;
-
-      default:
-        toast.warning('Invalid test email. Please use a valid test email.')
-    }
-  };
-
+ 
   return (
     <main className='p-4 w-full mx-auto my-auto max-w-7xl flex items-center justify-center flex-col flex-1 h-full'>
       <section className='flex flex-col bg-[#FFFFFF] rounded-2xl min-h-100 shadow-2xl w-fit'>
@@ -87,47 +58,40 @@ const SignInPage = () => {
             </Typography>
           </div>
 
-          <form className='flex flex-1 flex-col gap-4 justify-center p-5' onSubmit={handleSubmit}>
+          <form action={formAction} className='flex flex-1 flex-col gap-4 justify-center p-5'>
             <Typography variant='h2' font='poppins'>
-              Agent Portal Login
+             Two-Factor Authentication
             </Typography>
 
             <Typography color='primary' className='text-lg' font='poppins'>
-              Please enter your credentials to authenticate.
+             Check your email inbox for a 4-digit OTP. Enter it below
             </Typography>
 
             <TextField
               startIcon={<UserRound size={18} />}
-              placeholder='Agent ID or Email'
-              className='outline-none'
+              placeholder='Please Enter the 4-digit OTP'
+              name='otp'
+              type='number'
+              className='outline-none w-full'
+              autoComplete="otp"
               variant='primary'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              desc={`${state.error ? state.error: ''}`}
+              error={state.error ? true: false}
+              descClassName='text-xs text-destructive font-bold'
               required
             />
 
-            <TextField
-              startIcon={<LockKeyhole size={18} />}
-              placeholder='Secure Password'
-              type='password'
-              className='outline-none'
-              variant='primary'
-              required
-            />
-
-            <Button size='lg' type='submit' endIcon={<SendHorizontal size={20} />}>
-              Sign In to Portal
+            <Button loading={isPending} type='submit' endIcon={<ArrowRight size={18} />}>
+              Continue
             </Button>
 
             <div className='flex items-center justify-between'>
-              <div className='flex items-center gap-1'>
-                <input type='checkbox' className='cursor-pointer' />
-                <label>Keep me active</label>
-              </div>
-
-              <Link href='/auth/forgot-password' className='text-primary font-semibold text-lg uppercase'>
-                Forget Password
+              <Link href='/auth/sign-in/admin' className='text-primary font-semibold text-sm uppercase'>
+                Back to Sign In
               </Link>
+              <Button size='sm' disabled>
+                Resend OTP
+              </Button>
             </div>
           </form>
         </div>
@@ -146,4 +110,5 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+export default AdminVerifyOTPPage;
+

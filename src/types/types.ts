@@ -1,3 +1,95 @@
+export type Role = 'agent' | 'super_agent' | 'loan_officer' | 'manager' | 'super_admin';
+
+export type User = {
+  accessToken: string;
+  refreshToken: string;
+  admin: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    username: string;
+    role: Role;
+    availableBalance: number;
+    emailVerified: boolean;
+    kycLevel: number;
+    country: string;
+    kycDocuments: any[];
+    phoneNumber: string;
+    phoneVerified: boolean;
+    identityScore: number
+  }
+};
+
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+export interface FetchOptions<TBody = unknown> {
+  method?: HttpMethod;
+  body?: TBody;
+  headers?: Record<string, string>;
+  token?: string;
+  tags?: string[];         // Next.js cache tags for revalidation
+  cache?: RequestCache;
+  timeout?: number;         // Timeout in milliseconds
+  query?: Record<string, string | number | boolean | undefined | null>; // Query parameters
+  signal?: AbortSignal;    // For request cancellation
+  revalidate?: number;     // Next.js ISR revalidation in seconds
+}
+
+export interface ApiResponse<TData> {
+  data: TData | null;
+  error: string | null;
+  status: number;
+  headers: Headers;
+}
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+
+export interface otpPayload {
+  otp: string;
+  adminId: string;
+}
+
+// Matches your actual API envelope
+export interface LoginResponseEnvelope {
+  success: boolean;
+  status: string;
+  message: string;
+  statusCode: number;
+  data: {
+    admin: {
+      id: string;
+      email: string;
+    };
+    otp?: string; 
+  };
+  timeStamp: string;
+}
+
+// Matches your actual API envelope
+export interface VerifyOTPResponse {
+  success: boolean;
+  message: string;
+  statusCode: number;
+  data?: {
+    admin: any;
+    accessToken: string;
+    refreshToken: string;
+  };
+}
+
+export interface ActionState<T = unknown> {
+  success: boolean;
+  message?: string | null;
+  error?: string | null;
+  data?: T;
+}
+
+
 export type Path = {
   num: string;
   title: string;
@@ -6,6 +98,7 @@ export type Path = {
   bullets: string[];
   cta: string;
   featured?: boolean;
+  href: string;
 };
 
 export interface UIProps {
@@ -53,3 +146,4 @@ export interface LoanOfficerCardWidgetProps {
     suffix?: boolean;
     className?: string
 }
+
