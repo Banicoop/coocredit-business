@@ -1,7 +1,8 @@
 'use server';
 
 import { ActionState, LoginResponseEnvelope, LoginPayload, VerifyOTPResponse, otpPayload } from "@/types/types";
-import { SERVER } from "@/utils/server";
+import { SERVER } from "@/utils/fetchUtil";
+// import { SERVER } from "@/utils/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
