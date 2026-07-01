@@ -23,7 +23,7 @@ const LogoutModal = ({open, setOpen}: Props) => {
     
     const handleLogout = () => {
         setUser(null);
-        router.push('/auth/sign-in');
+        router.push('/auth/sign-in/admin');
     }
 
 
