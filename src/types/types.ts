@@ -7,6 +7,9 @@ export interface FetchOptions<TBody = unknown> {
   token?: string;
   tags?: string[];         // Next.js cache tags for revalidation
   cache?: RequestCache;
+  timeout?: number;         // Timeout in milliseconds
+  query?: Record<string, string | number | boolean | undefined | null>; // Query parameters
+  signal?: AbortSignal;    // For request cancellation
   revalidate?: number;     // Next.js ISR revalidation in seconds
 }
 
@@ -14,6 +17,7 @@ export interface ApiResponse<TData> {
   data: TData | null;
   error: string | null;
   status: number;
+  headers: Headers;
 }
 
 

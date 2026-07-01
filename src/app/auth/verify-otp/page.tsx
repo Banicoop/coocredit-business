@@ -1,9 +1,9 @@
 import React from 'react'
 
-const AuthForm = () => {
+const VerifyOtp = () => {
   return (
     <div>AuthForm</div>
   )
 }
 
-export default AuthForm;
+export default VerifyOtp;

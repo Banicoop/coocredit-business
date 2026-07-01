@@ -16,6 +16,7 @@ const initialState: ActionState = { error: null, success: false };
 const AdminSignInPage = () => {
 
   const [state, formAction, isPending] = useActionState(adminLogin, initialState);
+
  
   return (
     <main className='p-4 w-full mx-auto my-auto max-w-7xl flex items-center justify-center flex-col flex-1 h-full'>
@@ -51,10 +52,10 @@ const AdminSignInPage = () => {
             <TextField
               startIcon={<UserRound size={18} />}
               placeholder='Please Enter a valid Email'
-              id='email'
+              // id='email'
               name='email'
               type='email'
-              className='outline-none'
+              className='outline-none w-full'
               autoComplete="email"
               variant='primary'
               required
@@ -63,11 +64,11 @@ const AdminSignInPage = () => {
             <TextField
               startIcon={<LockKeyhole size={18} />}
               placeholder='Secure Password'
-              id="password"
+              // id="password"
               name='password'
               type='password'
               autoComplete="current-password"
-              className='outline-none'
+              className='outline-none w-full'
               variant='primary'
               required
             />
@@ -88,12 +89,6 @@ const AdminSignInPage = () => {
             </div>
           </form>
         </div>
-
-        {state.error && (
-        <p role="alert" className="text-red-600 text-sm text-center">
-          {state.error}
-        </p>
-      )}
 
         <div className='flex p-4 items-end justify-end gap-1.5'>
           <Typography variant='span' as='span' className='font-semibold text-lg' color='primary'>
