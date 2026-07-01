@@ -12,7 +12,8 @@ import { useRouter } from 'next/navigation';
 import logo from '@/assets/svgs/logo.svg';
 import { useUserStore } from '@/store/useAuthStore';
 import { toast } from 'sonner';
-import { ActionState, adminLogin } from '@/lib/auth.actions';
+import { adminLogin } from '@/lib/auth.actions';
+import { ActionState } from '@/types/types';
 
 
 const initialState: ActionState = { error: null, success: false };
@@ -23,52 +24,7 @@ const SignInPage = () => {
 
   const [state, formAction, isPending] = useActionState(adminLogin, initialState);
   const { setUser } = useUserStore();
-  // const [email, setEmail] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    // switch (email.toLowerCase()) {
-    //   case 'agent@test.com':
-    //     setUser({
-    //       id: '1',
-    //       name: 'Test Agent',
-    //       role: 'agent',
-    //   });
-    //     router.push('/agents');
-    //     break;
-
-    //   case 'superagent@test.com':
-    //     setUser({
-    //       id: '2',
-    //       name: 'Super Agent',
-    //       role: 'super_agent',
-    //     });
-    //     router.push('/super-agent');
-    //     break;
-
-    //   case 'manager@test.com':
-    //     setUser({
-    //       id: '3',
-    //       name: 'Test Manager',
-    //       role: 'manager',
-    //   });
-    //     router.push('/manager');
-    //     break;
-
-    //   case 'loanofficer@test.com':
-    //     setUser({
-    //       id: '3',
-    //       name: 'Loan Officer',
-    //       role: 'loan_officer',
-    //   });
-    //     router.push('/loan-officer');
-    //     break;
-
-    //   default:
-    //     toast.warning('Invalid test email. Please use a valid test email.')
-    // }
-  };
 
   return (
     <main className='p-4 w-full mx-auto my-auto max-w-7xl flex items-center justify-center flex-col flex-1 h-full'>
@@ -92,7 +48,7 @@ const SignInPage = () => {
             </Typography>
           </div>
 
-          <form action={formAction} className='flex flex-1 flex-col gap-4 justify-center p-5'>
+          <form action={formAction} className='flex flex-1 flex-col gap-4 justify-center p-8'>
             <Typography variant='h2' font='poppins'>
               Agent Portal Login
             </Typography>
@@ -104,13 +60,11 @@ const SignInPage = () => {
             <TextField
               startIcon={<UserRound size={18} />}
               placeholder='Agent ID or Email'
-              id='email'
-              name='email'
-              className='outline-none'
+              id='phoneNumber'
+              name='phoneNumber'
+              className='outline-none w-full'
               autoComplete="email"
               variant='primary'
-              // value={email}
-              // onChange={(e) => setEmail(e.target.value)}
               required
             />
 
