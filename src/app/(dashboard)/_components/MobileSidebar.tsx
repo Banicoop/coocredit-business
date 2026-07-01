@@ -15,14 +15,15 @@ const MobileSidebar = () => {
         agent: <AgentMobileSidebar/>,
         super_agent: <SuperAgentMobileSidebar/>,
         loan_officer: <LoanOfficerMobileSidebar/>,
-        manager: <ManagerMobileSidebar/>
+        manager: <ManagerMobileSidebar/>,
+        super_admin: <ManagerMobileSidebar/>,
     }
     
-    if(!user?.role) return null;
+    if(!user?.admin.role) return null;
 
   return (
      <Suspense fallback={<SidebarSkeleton/>}>
-      {config[user.role]}
+      {config[user.admin.role]}
     </Suspense>
   )
 }

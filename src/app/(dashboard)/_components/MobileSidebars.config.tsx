@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Typography from '@/components/primitives/Typography';
 import { agentsSidebar, loanOfficerData, managersData, superAgentData } from '@/config/sidebar.config';
 import { useUserStore } from '@/store/useAuthStore';
@@ -35,20 +35,18 @@ export const AgentMobileSidebar = () => {
               <Image
                 src={user1}
                 alt="user"
-                width={44}
-                height={44}
-                className="rounded-full"
+                className="rounded-full h-14 w-14 object-cover"
               />
 
               <FlexCol>
                 <Typography weight="semibold">
-                  {user?.name || 'No Name'}
+                  {user?.admin.firstName || 'No Name'}
                 </Typography>
 
                 <Typography
                   className="uppercase text-primary"
                 >
-                  {user?.role}
+                  {user?.admin.role}
                 </Typography>
               </FlexCol>
             </Flex>
@@ -74,21 +72,19 @@ export const SuperAgentMobileSidebar = () => {
         <div className="flex items-center gap-3 rounded-2xl bg-neutral-50 p-3">
           <Image
             src={user1}
-            alt="user"
-            width={44}
-            height={44}
-            className="rounded-full"
+            alt="Super Agent"
+            className="rounded-full h-14 w-14 object-cover"
           />
 
           <div>
             <Typography weight="semibold">
-              {user?.name || 'No Name'}
+              {user?.admin.username || 'No Name'}
             </Typography>
 
             <Typography
               className="uppercase text-primary"
             >
-              {user?.role}
+              {user?.admin.role}
             </Typography>
           </div>
         </div>
@@ -110,21 +106,19 @@ export const LoanOfficerMobileSidebar = () => {
         <div className="flex items-center gap-3 rounded-2xl bg-neutral-50 p-3">
           <Image
             src={user1}
-            alt="user"
-            width={44}
-            height={44}
-            className="rounded-full"
+            alt="Loan Officer"
+            className="rounded-full h-14 w-14 object-cover"
           />
 
           <div>
             <Typography weight="semibold">
-              {user?.name || 'No Name'}
+              {user?.admin.firstName || 'No Name'}
             </Typography>
 
             <Typography
               className="uppercase text-primary"
             >
-              {user?.role}
+              {user?.admin.role}
             </Typography>
           </div>
         </div>
@@ -146,21 +140,19 @@ export const ManagerMobileSidebar = () => {
         <div className="flex items-center gap-3 rounded-2xl bg-neutral-50 p-3">
           <Image
             src={user1}
-            alt="user"
-            width={44}
-            height={44}
-            className="rounded-full"
+            alt="Manager"
+            className="rounded-full h-14 w-14 object-cover"
           />
 
           <div>
             <Typography weight="semibold">
-              {user?.name || 'No Name'}
+              {user?.admin.firstName || 'No Name'}
             </Typography>
 
             <Typography
               className="uppercase text-primary"
             >
-              {user?.role}
+              {user?.admin.role}
             </Typography>
           </div>
         </div>
