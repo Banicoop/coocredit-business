@@ -1,10 +1,11 @@
-// // middleware.ts
+// middleware.ts
 
 import { NextRequest, NextResponse } from "next/server";
 
 
 export function proxy(request: NextRequest) {
   const role = request.cookies.get('role')?.value;
+  console.log('Middleware role:', role);
   const pathname = request.nextUrl.pathname;
 
   // Agent routes
@@ -30,8 +31,8 @@ export function proxy(request: NextRequest) {
 
   // Manager routes
   if (pathname.startsWith('/manager')) {
-    if (role !== 'manager') {
-      return NextResponse.redirect(new URL('/auth/sign-in', request.url));
+    if (role !== 'super_admin' && role !== 'manager') {
+      return NextResponse.redirect(new URL('/auth/sign-in/admin', request.url));
     }
   }
 

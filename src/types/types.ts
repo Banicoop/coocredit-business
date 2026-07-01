@@ -1,3 +1,26 @@
+export type Role = 'agent' | 'super_agent' | 'loan_officer' | 'manager' | 'super_admin';
+
+export type User = {
+  accessToken: string;
+  refreshToken: string;
+  admin: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    username: string;
+    role: Role;
+    availableBalance: number;
+    emailVerified: boolean;
+    kycLevel: number;
+    country: string;
+    kycDocuments: any[];
+    phoneNumber: string;
+    phoneVerified: boolean;
+    identityScore: number
+  }
+};
+
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 export interface FetchOptions<TBody = unknown> {
@@ -48,28 +71,23 @@ export interface LoginResponseEnvelope {
 }
 
 // Matches your actual API envelope
-export interface verifyOTPResponseEnvelope {
+export interface VerifyOTPResponse {
   success: boolean;
-  status: string;
   message: string;
   statusCode: number;
-  accessToken: string;
-  refreshToken: string;
-  data: {
-    admin: {
-      id: string;
-      email: string;
-    };
-    otp?: string; 
+  data?: {
+    admin: any;
+    accessToken: string;
+    refreshToken: string;
   };
-  timeStamp: string;
 }
 
-export interface ActionState {
-  error: string | null;
+export interface ActionState<T = unknown> {
   success: boolean;
+  message?: string | null;
+  error?: string | null;
+  data?: T;
 }
-
 
 
 export type Path = {

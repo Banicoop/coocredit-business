@@ -1,6 +1,6 @@
 'use server';
 
-import { ActionState, LoginResponseEnvelope, LoginPayload, verifyOTPResponseEnvelope, otpPayload } from "@/types/types";
+import { ActionState, LoginResponseEnvelope, LoginPayload, VerifyOTPResponse, otpPayload } from "@/types/types";
 import { SERVER } from "@/utils/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -35,7 +35,7 @@ export const adminLogin = async (
 
     if (!response) {
       return {
-        error: result.error ?? 'Login failed.',
+        error: result.error ?? 'Login failed: Please try again later',
         success: false,
       };
     }
@@ -44,7 +44,7 @@ export const adminLogin = async (
 
   if (!success || statusCode !== 200) {
     return {
-      error: result.error ?? 'Login failed.',
+      error: result.error || 'Login failed: Please try again later',
       success: false,
     };
   }
@@ -65,65 +65,84 @@ export const adminLogin = async (
 };
 
 
+export const verifyOTP = async (_prevState: ActionState, formData: FormData): Promise<ActionState> => {
 
-export const verifyOTP = async (_prevState: ActionState, formData: FormData) => {
+  const otp = formData.get('otp') as string | null;
 
-  const otp = formData.get('otp') as string | null
-    // ── Persist tokens in secure, httpOnly cookies ──
   const cookieStore = await cookies();
 
   const adminId = cookieStore.get('otp_admin_id')?.value;
 
   if (!adminId) {
-     return {
-        error: 'Expired session. Please log in again.',
-        success: false,
-      };
-  }
-
-  const result = await SERVER.post<verifyOTPResponseEnvelope, otpPayload>('admin/auth/verifyToken',
-    { adminId, otp: otp ?? '' }
-  );
-
-  console.log('verifyOTP result:', result);
-
-    const response = result.data;
-
-    console.log('adminLogin result:', result);
-
-    if (!response) {
-      return {
-        error: result.error ?? 'Login failed.',
-        success: false,
-      };
-    }
-
-  const { success, statusCode, data, accessToken, refreshToken } = response;
-
-  if (!success || statusCode !== 200) {
     return {
-      error: result.error ?? 'Login failed.',
+      error: 'Expired session. Please log in again.',
       success: false,
     };
   }
 
-  cookieStore.set('access_token', accessToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 60 * 15, // 15 minutes
-  });
+  const result = await SERVER.post<VerifyOTPResponse, otpPayload>(
+    'admin/auth/verifyToken',
+    {
+      adminId,
+      otp: otp ?? '',
+    }
+  );
 
-  if (refreshToken) {
+  if (!result.data) {
+    return {
+      success: false,
+      error: result.error || 'Unable to verify OTP. Please try again.',
+    };
+  }
+
+  const response = result.data;
+
+  const { success, statusCode, message, data } = response;
+
+  if (!success || statusCode !== 200 || !data) {
+    return {
+      success: false,
+      error: message || 'Unable to verify OTP. Please try again.',
+    };
+  }
+
+  const { accessToken, refreshToken, admin } = data;
+   
+   cookieStore.set('access_token', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 15,
+    });
+    
     cookieStore.set('refresh_token', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 60 * 60 * 24 * 7,
     });
-  }
 
-  redirect('/manager');
-}
+    cookieStore.set('role', admin.role, {
+      httpOnly: false, 
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+    cookieStore.set('admin', admin, {
+      httpOnly: false, 
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+  return {
+    success: true,
+    data,
+    message: response.message, 
+  };
+};

@@ -10,7 +10,9 @@ import Link from 'next/link';
 import logo from '@/assets/svgs/logo.svg';
 import { verifyOTP } from '@/lib/auth.actions';
 import { toast } from 'sonner';
-import { ActionState } from '@/types/types';
+import { ActionState, User } from '@/types/types';
+import { useUserStore } from '@/store/useAuthStore';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -18,13 +20,20 @@ const initialState: ActionState = { error: null, success: false };
 
 const AdminVerifyOTPPage = () => {
 
+  const { setUser } = useUserStore();
+  const router = useRouter();
+
   const [state, formAction, isPending] = useActionState(verifyOTP, initialState);
 
   useEffect(() => {
-    if(state.error){
-      toast.error(state.error);
-    }
-  }, [state.error]);
+    if (state.success && state.data) {
+    const admin = state.data as User;
+    setUser(admin);
+    toast.success(state.message || 'Login successful');
+    router.push('/manager');
+  }
+
+}, [state.success, state, state.message]);
 
  
   return (
