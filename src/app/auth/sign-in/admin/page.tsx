@@ -2,13 +2,16 @@
 
 import Typography from '@/components/primitives/Typography';
 import Image from 'next/image';
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
 import { LockKeyhole, SendHorizontal, Shield, UserRound } from 'lucide-react';
 import Button from '@/components/primitives/buttons/Button';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import Link from 'next/link';
 import logo from '@/assets/svgs/logo.svg';
-import { ActionState, adminLogin } from '@/lib/auth.actions';
+import { adminLogin } from '@/lib/auth.actions';
+import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
+import { ActionState } from '@/types/types';
 
 
 const initialState: ActionState = { error: null, success: false };
@@ -16,6 +19,12 @@ const initialState: ActionState = { error: null, success: false };
 const AdminSignInPage = () => {
 
   const [state, formAction, isPending] = useActionState(adminLogin, initialState);
+
+  useEffect(() => {
+    if(state.error){
+      toast.error(state.error);
+    }
+  }, [state.error]);
 
  
   return (
@@ -52,24 +61,28 @@ const AdminSignInPage = () => {
             <TextField
               startIcon={<UserRound size={18} />}
               placeholder='Please Enter a valid Email'
-              // id='email'
               name='email'
               type='email'
               className='outline-none w-full'
               autoComplete="email"
               variant='primary'
+              desc={state.error ?? ''}
+              error={state.error ? true: false}
+              descClassName={cn('text-xs font-bold')}
               required
             />
 
             <TextField
               startIcon={<LockKeyhole size={18} />}
               placeholder='Secure Password'
-              // id="password"
               name='password'
               type='password'
               autoComplete="current-password"
               className='outline-none w-full'
               variant='primary'
+              desc={state.error ?? ''}
+              error={state.error ? true: false}
+              descClassName={cn('text-xs font-bold')}
               required
             />
 
@@ -83,7 +96,7 @@ const AdminSignInPage = () => {
                 <label>Keep me active</label>
               </div>
 
-              <Link href='/auth/forgot-password' className='text-primary font-semibold text-lg uppercase'>
+              <Link href='/auth/forgot-password' className='text-primary font-semibold text-sm uppercase'>
                 Forget Password
               </Link>
             </div>

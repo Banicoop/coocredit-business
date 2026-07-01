@@ -1,34 +1,10 @@
 'use server';
 
+import { ActionState, LoginResponseEnvelope, LoginPayload, verifyOTPResponseEnvelope, otpPayload } from "@/types/types";
 import { SERVER } from "@/utils/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-interface LoginPayload {
-  email: string;
-  password: string;
-}
-
-// Matches your actual API envelope
-interface LoginResponseEnvelope {
-  success: boolean;
-  status: string;
-  message: string;
-  statusCode: number;
-  data: {
-    admin: {
-      id: string;
-      email: string;
-    };
-    otp?: string; 
-  };
-  timeStamp: string;
-}
-
-export interface ActionState {
-  error: string | null;
-  success: boolean;
-}
 
 // ─── Server Action ──────────────────────────────────────────────────────────
 export const adminLogin = async (
@@ -54,6 +30,8 @@ export const adminLogin = async (
     );
 
     const response = result.data;
+
+    console.log('adminLogin result:', result);
 
     if (!response) {
       return {
@@ -97,24 +75,55 @@ export const verifyOTP = async (_prevState: ActionState, formData: FormData) => 
   const adminId = cookieStore.get('otp_admin_id')?.value;
 
   if (!adminId) {
-    redirect('/admin-login'); // guard against someone hitting the OTP page directly
+     return {
+        error: 'Expired session. Please log in again.',
+        success: false,
+      };
   }
 
-  // cookieStore.set('access_token', data.accessToken, {
-  //   httpOnly: true,
-  //   secure: process.env.NODE_ENV === 'production',
-  //   sameSite: 'lax',
-  //   path: '/',
-  //   maxAge: 60 * 15, // 15 minutes
-  // });
+  const result = await SERVER.post<verifyOTPResponseEnvelope, otpPayload>('admin/auth/verifyToken',
+    { adminId, otp: otp ?? '' }
+  );
 
-  // if (data.refreshToken) {
-  //   cookieStore.set('refresh_token', data.refreshToken, {
-  //     httpOnly: true,
-  //     secure: process.env.NODE_ENV === 'production',
-  //     sameSite: 'lax',
-  //     path: '/',
-  //     maxAge: 60 * 60 * 24 * 7, // 7 days
-  //   });
-  // }
+  console.log('verifyOTP result:', result);
+
+    const response = result.data;
+
+    console.log('adminLogin result:', result);
+
+    if (!response) {
+      return {
+        error: result.error ?? 'Login failed.',
+        success: false,
+      };
+    }
+
+  const { success, statusCode, data, accessToken, refreshToken } = response;
+
+  if (!success || statusCode !== 200) {
+    return {
+      error: result.error ?? 'Login failed.',
+      success: false,
+    };
+  }
+
+  cookieStore.set('access_token', accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 60 * 15, // 15 minutes
+  });
+
+  if (refreshToken) {
+    cookieStore.set('refresh_token', refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+    });
+  }
+
+  redirect('/manager');
 }

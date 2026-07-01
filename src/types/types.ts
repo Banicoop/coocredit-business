@@ -20,6 +20,57 @@ export interface ApiResponse<TData> {
   headers: Headers;
 }
 
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+
+export interface otpPayload {
+  otp: string;
+  adminId: string;
+}
+
+// Matches your actual API envelope
+export interface LoginResponseEnvelope {
+  success: boolean;
+  status: string;
+  message: string;
+  statusCode: number;
+  data: {
+    admin: {
+      id: string;
+      email: string;
+    };
+    otp?: string; 
+  };
+  timeStamp: string;
+}
+
+// Matches your actual API envelope
+export interface verifyOTPResponseEnvelope {
+  success: boolean;
+  status: string;
+  message: string;
+  statusCode: number;
+  accessToken: string;
+  refreshToken: string;
+  data: {
+    admin: {
+      id: string;
+      email: string;
+    };
+    otp?: string; 
+  };
+  timeStamp: string;
+}
+
+export interface ActionState {
+  error: string | null;
+  success: boolean;
+}
+
+
 
 export type Path = {
   num: string;
