@@ -2,7 +2,6 @@
 
 import { ActionState, LoginResponseEnvelope, LoginPayload, VerifyOTPResponse, otpPayload } from "@/types/types";
 import { SERVER } from "@/utils/fetchUtil";
-// import { SERVER } from "@/utils/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -65,7 +64,7 @@ export const adminLogin = async (
   redirect('/auth/verify-otp');
 };
 
-
+// FOR ADMIN ONLY
 export const verifyOTP = async (_prevState: ActionState, formData: FormData): Promise<ActionState> => {
 
   const otp = formData.get('otp') as string | null;
@@ -161,13 +160,10 @@ export const agentSignIn = async (
     if (!password || !phoneNumber) {
       return { error: 'Phone number and password are required.', success: false };
     }
-    // if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    //   return { error: 'Please enter a valid email address.', success: false };
-    // }
 
     // ── Call backend ──
     const result = await SERVER.post<LoginResponseEnvelope, { phoneNumber: string, password: string }>(
-      'admin/auth/login',
+      'agents/auth/login',
       { password, phoneNumber }
     );
 
@@ -203,5 +199,5 @@ export const agentSignIn = async (
     path: '/',
   });
 
-  redirect('/agents');
+  redirect('/agent');
 };

@@ -28,10 +28,14 @@ export function PublicNav() {
       logo={logo}
       items={navItems}
       trackActive
-      cta={{ label: "Admin Sign In", href: "/auth/sign-in/admin" }}
+      cta={[
+        { label: "Admin Portal", href: "/auth/sign-in/admin" }, 
+        { label: "Agent Login", href: "/auth/sign-in/agent", className: 'bg-card border border-ring text-ring hover:bg-card/80' }]
+      }
       />
   );
 }
+
 
 export function PublicHero() {
   return (
