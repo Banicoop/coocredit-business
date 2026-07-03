@@ -12,18 +12,18 @@ const MobileSidebar = () => {
     const { user } = useUserStore();
 
     const config = {
-        agent: <AgentMobileSidebar/>,
+        field_agent: <AgentMobileSidebar/>,
         super_agent: <SuperAgentMobileSidebar/>,
         loan_officer: <LoanOfficerMobileSidebar/>,
         manager: <ManagerMobileSidebar/>,
         super_admin: <ManagerMobileSidebar/>,
     }
     
-    if(!user?.admin?.role) return null;
+    if(!user?.user?.role) return null;
 
   return (
      <Suspense fallback={<SidebarSkeleton/>}>
-      {config[user.admin.role]}
+      {config[user.user.role]}
     </Suspense>
   )
 }

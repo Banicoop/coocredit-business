@@ -13,18 +13,18 @@ const UserSidebar = () => {
 
 
     const sidebarMap = {
-        agent: <AgentsSidebar/>,
+        field_agent: <AgentsSidebar/>,
         super_agent: <SuperAgentSidebar/>,
         loan_officer: <LoanOfficerSidebar/>,
         manager: <ManagersSidebar/>,
         super_admin: <ManagersSidebar/>,
     }
 
-    if(!user?.admin?.role) return null;
+    if(!user?.user?.role) return null;
 
   return (
     <Suspense fallback={<SidebarSkeleton/>}>
-      {sidebarMap[user?.admin?.role as keyof typeof sidebarMap] || null}
+      {sidebarMap[user?.user?.role as keyof typeof sidebarMap] || null}
     </Suspense>
   )
 }

@@ -10,22 +10,22 @@ export function proxy(request: NextRequest) {
 
   // Agent routes
   if (pathname.startsWith('/agents')) {
-    if (role !== 'agent') {
-      return NextResponse.redirect(new URL('/auth/sign-in', request.url));
+    if (role !== 'field_agent') {
+      return NextResponse.redirect(new URL('/auth/sign-in/agent', request.url));
     }
   }
 
   // Super Agent routes
   if (pathname.startsWith('/super-agent')) {
     if (role !== 'super_agent') {
-      return NextResponse.redirect(new URL('/auth/sign-in', request.url));
+      return NextResponse.redirect(new URL('/auth/sign-in/super-agent', request.url));
     }
   }
 
   // Loan officer routes
   if (pathname.startsWith('/loan-officer')) {
     if (role !== 'loan_officer') {
-      return NextResponse.redirect(new URL('/auth/sign-in', request.url));
+      return NextResponse.redirect(new URL('/auth/sign-in/agent', request.url));
     }
   }
 
@@ -41,9 +41,9 @@ export function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/agents/:path*',
-    '/super-agents/:path*',
-    '/managers/:path*',
+    '/agent/:path*',
+    '/super-agent/:path*',
+    '/manager/:path*',
     '/loan-officer/:path*',
   ],
 };

@@ -1,4 +1,4 @@
-export type Role = 'agent' | 'super_agent' | 'loan_officer' | 'manager' | 'super_admin';
+export type Role = 'field_agent' | 'super_agent' | 'loan_officer' | 'manager' | 'super_admin';
 
 
 export type UserData = {
@@ -27,10 +27,8 @@ export type User = {
   status: string;
   message: string;
   statusCode: number;
-  admin?: UserData
-  agent?: UserData
+  user: UserData;
   agentId?: string;
-  // agent?: UserData
 };
 
 
@@ -67,14 +65,28 @@ export interface otpPayload {
   adminId: string;
 }
 
-// Matches your actual API envelope
+// Agents only
+export interface LoginResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: {
+    user: UserData
+    accessToken: string;
+    refreshToken: string;
+  };
+  agentId?: string;
+}
+
+
+// Matches your actual API envelope for admin
 export interface LoginResponseEnvelope {
   success: boolean;
   status: string;
   message: string;
   statusCode: number;
   data: {
-    admin: {
+    user: {
       id: string;
       email: string;
     };
@@ -89,7 +101,7 @@ export interface VerifyOTPResponse {
   message: string;
   statusCode: number;
   data?: {
-    admin: UserData;
+    user: UserData;
     accessToken: string;
     refreshToken: string;
   };
