@@ -40,13 +40,13 @@ export const AgentMobileSidebar = () => {
 
               <FlexCol>
                 <Typography weight="semibold">
-                  {user?.admin.firstName || 'No Name'}
+                  {user?.admin?.firstName || 'No Name'}
                 </Typography>
 
                 <Typography
                   className="uppercase text-primary"
                 >
-                  {user?.admin.role}
+                  {user?.admin?.role}
                 </Typography>
               </FlexCol>
             </Flex>
@@ -78,13 +78,13 @@ export const SuperAgentMobileSidebar = () => {
 
           <div>
             <Typography weight="semibold">
-              {user?.admin.username || 'No Name'}
+              {user?.admin?.username || 'No Name'}
             </Typography>
 
             <Typography
               className="uppercase text-primary"
             >
-              {user?.admin.role}
+              {user?.admin?.role}
             </Typography>
           </div>
         </div>
@@ -112,13 +112,13 @@ export const LoanOfficerMobileSidebar = () => {
 
           <div>
             <Typography weight="semibold">
-              {user?.admin.firstName || 'No Name'}
+              {user?.admin?.firstName || 'No Name'}
             </Typography>
 
             <Typography
               className="uppercase text-primary"
             >
-              {user?.admin.role}
+              {user?.admin?.role}
             </Typography>
           </div>
         </div>
@@ -146,13 +146,13 @@ export const ManagerMobileSidebar = () => {
 
           <div>
             <Typography weight="semibold">
-              {user?.admin.firstName || 'No Name'}
+              {user?.admin?.firstName || 'No Name'}
             </Typography>
 
             <Typography
               className="uppercase text-primary"
             >
-              {user?.admin.role}
+              {user?.admin?.role}
             </Typography>
           </div>
         </div>

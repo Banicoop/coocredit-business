@@ -1,10 +1,9 @@
 export type Role = 'agent' | 'super_agent' | 'loan_officer' | 'manager' | 'super_admin';
 
-export type User = {
-  accessToken: string;
-  refreshToken: string;
-  admin: {
+
+export type UserData = {
     _id: string;
+    agentId?: string;
     firstName: string;
     lastName: string;
     email: string;
@@ -18,8 +17,22 @@ export type User = {
     phoneNumber: string;
     phoneVerified: boolean;
     identityScore: number
-  }
+}
+
+
+export type User = {
+  accessToken: string;
+  refreshToken: string;
+  success: boolean;
+  status: string;
+  message: string;
+  statusCode: number;
+  admin?: UserData
+  agent?: UserData
+  agentId?: string;
+  // agent?: UserData
 };
+
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
@@ -76,7 +89,7 @@ export interface VerifyOTPResponse {
   message: string;
   statusCode: number;
   data?: {
-    admin: any;
+    admin: UserData;
     accessToken: string;
     refreshToken: string;
   };
