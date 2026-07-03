@@ -29,37 +29,37 @@ export const iconMap: Record<string, LucideIcon> = {
 export const agentsSidebar = [
   {
     label: 'Dashboard',
-    href: '/agents',
+    href: '/agent',
     icon: 'layoutGrid',
   },
   {
     label: 'Customer Acquisition',
-    href: '/agents/customers',
+    href: '/agent/customers',
     icon: 'userRoundPlus',
   },
   {
     label: 'Loan Application',
-    href: '/agents/loans',
+    href: '/agent/loans',
     icon: 'wallet',
   },
   {
     label: 'Territory Map',
-    href: '/agents/territory',
+    href: '/agent/territory',
     icon: 'mapPinHouse',
   },
   {
     label: 'Daily Tasks',
-    href: '/agents/daily',
+    href: '/agent/daily',
     icon: 'calendarCheck',
   },
   {
     label: 'Commission Tracker',
-    href: '/agents/commissions',
+    href: '/agent/commissions',
     icon: 'bookOpenCheck',
   },
   {
     label: 'Performance',
-    href: '/agents/performance',
+    href: '/agent/performance',
     icon: 'trendingUp',
   },
 ];
