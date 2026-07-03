@@ -1,10 +1,9 @@
 'use server';
 
-import { ActionState, LoginResponseEnvelope, LoginPayload, VerifyOTPResponse, otpPayload, User } from "@/types/types";
+import { ActionState, LoginResponseEnvelope, LoginPayload, VerifyOTPResponse, otpPayload, User, LoginResponse } from "@/types/types";
 import { cookieOptions } from "@/utils/cookie";
 import { SERVER } from "@/utils/fetchUtil";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 
 // ─── Server Action ──────────────────────────────────────────────────────────
@@ -32,8 +31,6 @@ export const adminLogin = async (
 
     const response = result.data;
 
-    console.log('adminLogin result:', result);
-
     if (!response) {
       return {
         error: result.error ?? 'Login failed: Please try again later',
@@ -50,7 +47,14 @@ export const adminLogin = async (
     };
   }
 
-  const adminId = data.admin.id;
+  const adminId = data.user?.id;
+
+  if(!adminId){
+    return {
+      error: result.error ?? 'Login failed: Unable to verify user',
+      success: false,
+    }
+  }
 
   const cookieStore = await cookies();
 
@@ -59,7 +63,12 @@ export const adminLogin = async (
     maxAge: 60 * 5,
   });
 
-  redirect('/auth/verify-otp');
+
+  return {
+    success: true,
+    data: response.data,
+    message: response.message || 'Successful!'
+  }
 };
 
 // FOR ADMIN ONLY
@@ -93,9 +102,8 @@ export const verifyOTP = async (_prevState: ActionState, formData: FormData): Pr
     };
   }
 
-  const response = result.data;
 
-  const { success, statusCode, message, data } = response;
+  const { success, statusCode, message, data } = result.data;
 
   if (!success || statusCode !== 200 || !data) {
     return {
@@ -104,7 +112,7 @@ export const verifyOTP = async (_prevState: ActionState, formData: FormData): Pr
     };
   }
 
-  const { accessToken, refreshToken, admin } = data;
+  const { accessToken, refreshToken, user } = data;
    
     cookieStore.set('access_token', accessToken, {
     ...cookieOptions,
@@ -117,7 +125,7 @@ export const verifyOTP = async (_prevState: ActionState, formData: FormData): Pr
     });
 
 
-    cookieStore.set('admin', admin.role, {
+    cookieStore.set('admin', user.role, {
       httpOnly: false, 
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -128,7 +136,7 @@ export const verifyOTP = async (_prevState: ActionState, formData: FormData): Pr
   return {
     success: true,
     data,
-    message: response.message, 
+    message, 
   };
 };
 
@@ -140,46 +148,74 @@ export const agentSignIn = async (
   const phoneNumber = formData.get('phoneNumber') as string | null;
   const password = formData.get('password') as string | null;
 
-
-    // ── Basic validation ──
-    if (!password || !phoneNumber) {
+    if (!password?.trim() || !phoneNumber?.trim()) {
       return { error: 'Phone number and password are required.', success: false };
     }
 
-    // ── Call backend ──
-    const result = await SERVER.post<User, { phoneNumber: string, password: string }>(
-      'agents/auth/login',
-      { password, phoneNumber }
-    );
 
-    const response = result.data;
+  try {
+  const result = await SERVER.post<LoginResponse, { phoneNumber: string, password: string }>(
+    'agents/auth/login',
+    { phoneNumber, password }
+  );
 
-    console.log('adminLogin result:', result);
-
-    if (!response) {
-      return {
-        error: result.error ?? 'Login failed: Please try again later',
-        success: false,
-      };
-    }
-
-    const { accessToken, refreshToken, agentId, agent } = response;
-
-    const cookieStore = await cookies();
-    
-    cookieStore.set('access_token', accessToken, {
-    ...cookieOptions,
-    maxAge: 60 * 15, 
-    });
-    
-    cookieStore.set('refresh_token', refreshToken, {
-      ...cookieOptions,
-      maxAge: 60 * 15, 
-    });
-
+  if (!result?.data) {
     return {
-      success: true,
-      data: { agent, agentId },
-      message: response.message, 
+      success: false,
+      error: result?.error || 'Something went wrong. Please try again.',
+    };
+  }
+
+  const {
+    success,
+    statusCode,
+    message,
+    data,
+  } = result.data;
+
+  if (
+    !success ||
+    statusCode !== 200 ||
+    !data
+  ) {
+    return {
+      success: false,
+      error: message || 'Something went wrong. Please try again.',
+    };
+  }
+
+  console.log('USER ROLE:', data.user.role)
+
+  const cookieStore = await cookies();
+  // set cookies...
+      cookieStore.set('access_token', data.accessToken, {
+    ...cookieOptions,
+      maxAge: 60 * 15 * 24,
+    });
+    
+    cookieStore.set('refresh_token', data.refreshToken, {
+      ...cookieOptions,
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+    cookieStore.set('role', data.user.role, {
+      httpOnly: false, 
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+  return {
+    success: true,
+    data,
+    message,
   };
+} catch (error) {
+
+  return {
+    success: false,
+    error: 'Something went wrong. Please try again.',
+  };
+}
 };

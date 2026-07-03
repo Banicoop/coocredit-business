@@ -12,6 +12,7 @@ import { adminLogin } from '@/lib/auth.actions';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { ActionState } from '@/types/types';
+import { redirect } from 'next/navigation';
 
 
 const initialState: ActionState = { error: null, success: false };
@@ -24,7 +25,12 @@ const AdminSignInPage = () => {
     if(state.error){
       toast.error(state.error);
     }
-  }, [state.error]);
+    if(state.success && state.data){
+      // console.log(state.data)
+      toast.success(state.message || 'Login successful');
+      redirect('/auth/verify-otp')
+    }
+  }, [state.error, state.data]);
 
  
   return (

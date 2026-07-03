@@ -12,7 +12,7 @@ const Topbar = () => {
 
   const user = useUserStore((state) => state.user);
 
-  if(!user?.admin) return null;
+  if(!user?.user) return null;
 
   return (
     <div className='shadow-sm bg-white hidden lg:flex w-full'>
@@ -23,8 +23,8 @@ const Topbar = () => {
              <BellDot size={20} className='text-[#6B7280] cursor-pointer'/>
              <Timer size={20} className='text-[#6B7280] cursor-pointer'/>
               <ColItem 
-                item1={`${user?.admin?.firstName} ${user?.admin?.lastName}`} 
-                item2={`Username: ${user?.admin?.username}`} 
+                item1={`${user?.user?.firstName} ${user?.user?.lastName}`} 
+                item2={`Username: ${user?.user?.username}`} 
                 className2='capitalize font-bold text-primary' />
  
               <Image src={user1} alt='USER' width={40} height={40} loading='eager'/>

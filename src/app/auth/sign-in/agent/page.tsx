@@ -18,8 +18,9 @@ import { ActionState, User } from '@/types/types';
 const initialState: ActionState = { error: null, success: false };
 
 const SignInPage = () => {
-  
-  const router = useRouter();
+
+  const router = useRouter()
+
 
   const [state, formAction, isPending] = useActionState(agentSignIn, initialState);
   const { setUser } = useUserStore();
@@ -29,14 +30,13 @@ const SignInPage = () => {
       toast.error(state.error)
     }
     
-    if (state.success && state.data) {
-      const agent = state.data as User;
-      console.log('AGENT:', agent)
+    if(state.success && state.data) {
+      const agent = state.data as any
       setUser(agent);
       toast.success('Login successful! Redirecting...');
-      router.push('/agent');
+      router.replace('/agent')
     }
-  }, [state, router]);
+  }, [state.data, state.error]);
 
 
   return (
@@ -110,12 +110,6 @@ const SignInPage = () => {
             </div>
           </form>
         </div>
-
-        {state.error && (
-        <p role="alert" className="text-red-600 text-sm text-center">
-          {state.error}
-        </p>
-      )}
 
         <div className='flex p-4 items-end justify-end gap-1.5'>
           <Typography variant='span' as='span' className='font-semibold text-lg' color='primary'>
