@@ -5,19 +5,25 @@ import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
+import { Flex } from "./ui-layout";
+import { cn } from "@/lib/utils";
 
 type NavItem = {
   label: string;
   href: string;
 };
 
+
+type ctaProps = {
+    label: string;
+    href: string;
+    className?: string
+}
+
 interface NavbarProps {
   logo: any;
   items: NavItem[];
-  cta?: {
-    label: string;
-    href: string;
-  };
+  cta?: ctaProps[];
   trackActive?: boolean; // 👈 enable scroll tracking
 }
 
@@ -98,14 +104,18 @@ export function Navbar({
         </nav>
 
         {/* CTA */}
-        {cta && (
-          <Link
-            href={cta.href}
-            className="hidden md:inline-flex items-center rounded-full bg-brand px-5 py-2.5 text-sm font-medium text-white hover:bg-brand/90 transition"
-          >
-            {cta.label}
-          </Link>
-        )}
+        <Flex className="gap-2.5">
+          {cta?.map((cta: ctaProps) => (
+            <Link
+              href={cta.href}
+              key={cta.href}
+              className={cn("hidden md:inline-flex items-center rounded-full bg-brand px-5 py-2.5 text-sm font-medium text-white hover:bg-brand/90 transition", cta.className)}
+            >
+              {cta.label}
+            </Link>
+            ))}
+        </Flex>
+
 
         {/* Mobile Toggle */}
         <button
@@ -140,14 +150,26 @@ export function Navbar({
             </a>
           ))}
 
-          {cta && (
+          <Flex className="gap-2.5">
+            {cta?.map((cta: ctaProps) => (
+              <Link
+                href={cta.href}
+                key={cta.href}
+                className="mt-2 inline-flex justify-center rounded-full bg-brand px-5 py-2.5 text-sm font-medium text-white"
+              >
+                {cta.label}
+              </Link>
+            ))}
+          </Flex>
+
+          {/* {cta && (
             <Link
               href={cta.href}
               className="mt-2 inline-flex justify-center rounded-full bg-brand px-5 py-2.5 text-sm font-medium text-white"
             >
               {cta.label}
             </Link>
-          )}
+          )} */}
         </div>
       </div>
     </header>

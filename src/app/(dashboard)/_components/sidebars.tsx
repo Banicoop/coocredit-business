@@ -14,7 +14,7 @@ export const AgentsSidebar = () => {
     <>
         <Sidebar className='bg-white' 
             data={agentsSidebar} 
-            activeBasePath="/agents" 
+            activeBasePath="/agent" 
             others={[
                 {
                     label: 'Settings',

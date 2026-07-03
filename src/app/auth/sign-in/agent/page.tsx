@@ -2,18 +2,17 @@
 
 import Typography from '@/components/primitives/Typography';
 import Image from 'next/image';
-import React, { useActionState, useState } from 'react';
+import { useActionState, useEffect } from 'react';
 import { LockKeyhole, SendHorizontal, Shield, UserRound } from 'lucide-react';
 import Button from '@/components/primitives/buttons/Button';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-
 import logo from '@/assets/svgs/logo.svg';
 import { useUserStore } from '@/store/useAuthStore';
 import { toast } from 'sonner';
-import { adminLogin } from '@/lib/auth.actions';
-import { ActionState } from '@/types/types';
+import {  agentSignIn } from '@/lib/auth.actions';
+import { ActionState, User } from '@/types/types';
 
 
 const initialState: ActionState = { error: null, success: false };
@@ -22,8 +21,22 @@ const SignInPage = () => {
   
   const router = useRouter();
 
-  const [state, formAction, isPending] = useActionState(adminLogin, initialState);
+  const [state, formAction, isPending] = useActionState(agentSignIn, initialState);
   const { setUser } = useUserStore();
+
+  useEffect(() => {
+    if(state.error){
+      toast.error(state.error)
+    }
+    
+    if (state.success && state.data) {
+      const agent = state.data as User;
+      console.log('AGENT:', agent)
+      setUser(agent);
+      toast.success('Login successful! Redirecting...');
+      router.push('/agent');
+    }
+  }, [state, router]);
 
 
   return (
@@ -59,9 +72,10 @@ const SignInPage = () => {
 
             <TextField
               startIcon={<UserRound size={18} />}
-              placeholder='Agent ID or Email'
+              placeholder='Agent ID or Phone Number'
               id='phoneNumber'
               name='phoneNumber'
+              type='tel'
               className='outline-none w-full'
               autoComplete="email"
               variant='primary'

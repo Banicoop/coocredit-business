@@ -1,22 +1,18 @@
-import { Tabs } from '@/components/ui/Tabs';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { Grid } from '@/components/ui/ui-layout';
-import React from 'react'
+import { getAllAgents } from '@/lib/api';
+import AgentList from './(tabs)/AgentList';
 
-const tabs = [
-  {
-    label: 'Loan Officers',
-    value: 'loanOfficer'
-  },
-  {
-    label: 'Super Agents',
-    value: 'super_agent'
-  },
-]
 
-const TeamPage = () => {
+const TeamPage = async () => {
+
+  const data = await getAllAgents();
+
   return (
-    <Grid>
-      <Tabs items={tabs} defaultValue='loanOfficer'/>
+    <Grid className='gap-6 p-6'>
+      <PageHeader title='Team Manager' 
+        description='Monitor and manage your agent network performance.'/>
+      <AgentList data={data ?? []} />
     </Grid>
   )
 }

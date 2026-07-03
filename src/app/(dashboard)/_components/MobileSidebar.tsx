@@ -19,7 +19,7 @@ const MobileSidebar = () => {
         super_admin: <ManagerMobileSidebar/>,
     }
     
-    if(!user?.admin.role) return null;
+    if(!user?.admin?.role) return null;
 
   return (
      <Suspense fallback={<SidebarSkeleton/>}>
