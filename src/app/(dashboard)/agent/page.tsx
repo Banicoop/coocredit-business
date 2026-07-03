@@ -2,11 +2,11 @@ import Typography from '@/components/primitives/Typography';
 import {PageHeader} from '@/components/ui/PageHeader';
 import { FlexCol, Grid } from '@/components/ui/ui-layout';
 import { ArrowUp } from 'lucide-react';
-import React from 'react'
 import { LoanPipeline, Commissions, Rank } from './_sections/LoanPipeline';
 import RecentApps from './_sections/RecentApps';
 import QuickActions from './_sections/QuickActions';
 import DailyTasks from './_sections/DailyTasks';
+import { formatDate } from '@/utils/funcs';
 
 
 
@@ -25,7 +25,9 @@ const Widget = ({title, num, percent}: {title: string, num: number, percent: num
 const AgentDashboard = () => {
   return (
     <main className='grid gap-5 p-4'>
-      <PageHeader title='Good morning, Emeka 👋' description='Friday, 11 April 2025' className='text-2xl'/>
+      <PageHeader 
+        title='Good morning, Emeka 👋' 
+        description={formatDate(new Date())} className='text-2xl'/>
       
       <section className='grid grid-cols-2 gap-4 md:grid-cols-4'>
         <Widget title='TOTAL ONBOARDED TODAY' num={12} percent={12}/>

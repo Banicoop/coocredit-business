@@ -1,13 +1,22 @@
 import { ColItem, PageHeader } from '@/components/ui/PageHeader';
 import { Flex, FlexCol, Grid, GridItem } from '@/components/ui/ui-layout';
-import React from 'react'
 import { LoanWidget } from './_sections/LoanItems';
 import LoanHistory from './_sections/LoanHistory';
 import Typography from '@/components/primitives/Typography';
 import { AlertTriangle, SendHorizontal, TimerOff, TrendingUpDown, Columns3, FlipVertical2, Columns3Cog } from 'lucide-react';
 import { ProgressBar } from '@/components/ui/ProgessBar';
+import { agentGetAllLoans, agentGetLoanStats, agentGetOnboardingStats } from '@/lib/api.agent';
 
-const Loans = () => {
+const Loans = async () => {
+
+  const loans = await agentGetAllLoans();
+  const stats = await agentGetLoanStats();
+  const customers = await agentGetOnboardingStats()
+
+  console.log('LOANS:', loans);
+  console.log('STAS:', stats);
+  console.log('CUSTOMERS:', customers);
+
   return (
     <Grid className='gap-y-4 w-full'>
       <PageHeader title='Loan Applications' />

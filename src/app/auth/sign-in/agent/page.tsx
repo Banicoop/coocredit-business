@@ -94,7 +94,7 @@ const SignInPage = () => {
               required
             />
 
-            <Button loading={isPending} size='lg' type='submit' endIcon={<SendHorizontal size={20} />}>
+            <Button loading={isPending} type='submit' endIcon={<SendHorizontal size={20} />}>
               Sign In to Portal
             </Button>
 
@@ -104,7 +104,7 @@ const SignInPage = () => {
                 <label>Keep me active</label>
               </div>
 
-              <Link href='/auth/forgot-password' className='text-primary font-semibold text-lg uppercase'>
+              <Link href='/auth/forgot-password' className='text-primary font-semibold text-sm uppercase'>
                 Forget Password
               </Link>
             </div>
