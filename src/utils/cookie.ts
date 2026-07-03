@@ -1,4 +1,5 @@
 // utils/cookies.ts
+import { cookies } from "next/headers";
 
 export const cookieOptions = {
   httpOnly: true,
@@ -6,3 +7,9 @@ export const cookieOptions = {
   sameSite: 'lax' as const,
   path: '/',
 };
+
+
+export async function getAccessToken() {
+    const cookieStore = await cookies();
+    return cookieStore.get("access_token")?.value ?? "";
+}
