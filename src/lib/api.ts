@@ -1,5 +1,5 @@
-import { getAccessToken } from "@/utils/cookie";
 import { SERVER } from "@/utils/fetchUtil";
+import { getAccessToken } from "./auth.actions";
 
 
 

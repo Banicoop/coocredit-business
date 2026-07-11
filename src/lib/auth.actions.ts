@@ -1,12 +1,18 @@
 'use server';
 
-import { ActionState, LoginResponseEnvelope, LoginPayload, VerifyOTPResponse, otpPayload, User, LoginResponse } from "@/types/types";
+import { ActionState, LoginResponseEnvelope, LoginPayload, otpPayload, LoginResponse } from "@/types/types";
 import { cookieOptions } from "@/utils/cookie";
 import { SERVER } from "@/utils/fetchUtil";
 import { cookies } from "next/headers";
 
 
 // ─── Server Action ──────────────────────────────────────────────────────────
+export async function getAccessToken() {
+    const cookieStore = await cookies();
+    return cookieStore.get("access_token")?.value ?? "";
+}
+
+
 export const adminLogin = async (
   _prevState: ActionState,
   formData: FormData
@@ -16,7 +22,7 @@ export const adminLogin = async (
 
 
     // ── Basic validation ──
-    if (!email || !password) {
+    if (!email?.trim() || !password?.trim()) {
       return { error: 'Email and password are required.', success: false };
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -87,7 +93,7 @@ export const verifyOTP = async (_prevState: ActionState, formData: FormData): Pr
     };
   }
 
-  const result = await SERVER.post<VerifyOTPResponse, otpPayload>(
+  const result = await SERVER.post<LoginResponse, otpPayload>(
     'admin/auth/verifyToken',
     {
       adminId,
@@ -105,27 +111,26 @@ export const verifyOTP = async (_prevState: ActionState, formData: FormData): Pr
 
   const { success, statusCode, message, data } = result.data;
 
-  if (!success || statusCode !== 200 || !data) {
+  if (!success || statusCode !== 200 || !data || !data.accessToken || !data.refreshToken || !data.user || !data.user.role) {
     return {
       success: false,
       error: message || 'Unable to verify OTP. Please try again.',
     };
   }
 
-  const { accessToken, refreshToken, user } = data;
    
-    cookieStore.set('access_token', accessToken, {
+    cookieStore.set('access_token', data.accessToken, {
     ...cookieOptions,
       maxAge: 60 * 15 * 24,
     });
     
-    cookieStore.set('refresh_token', refreshToken, {
+    cookieStore.set('refresh_token', data.refreshToken, {
       ...cookieOptions,
       maxAge: 60 * 60 * 24 * 7,
     });
 
 
-    cookieStore.set('admin', user.role, {
+    cookieStore.set('role', data.user.role, {
       httpOnly: false, 
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -159,32 +164,22 @@ export const agentSignIn = async (
     { phoneNumber, password }
   );
 
-  if (!result?.data) {
+  if (!result.data) {
     return {
       success: false,
       error: result?.error || 'Something went wrong. Please try again.',
     };
   }
 
-  const {
-    success,
-    statusCode,
-    message,
-    data,
-  } = result.data;
+  const { success, statusCode, message, data } = result.data;
 
-  if (
-    !success ||
-    statusCode !== 200 ||
-    !data
-  ) {
+  if (!success || statusCode !== 200 || !data.accessToken || !data.refreshToken || !data.user || !data.user.role) {
     return {
       success: false,
       error: message || 'Something went wrong. Please try again.',
     };
   }
 
-  console.log('USER ROLE:', data.user.role)
 
   const cookieStore = await cookies();
   // set cookies...
@@ -206,11 +201,7 @@ export const agentSignIn = async (
       maxAge: 60 * 60 * 24 * 7,
     });
 
-  return {
-    success: true,
-    data,
-    message,
-  };
+  return {  success: true,  data, message  };
 } catch (error) {
 
   return {
