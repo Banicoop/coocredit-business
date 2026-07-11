@@ -26,7 +26,7 @@ import { Edit, Edit3, Eye } from 'lucide-react';
 
 
 
-const AgentList = ({ data }: { data: any }) => {
+const AgentList = ({ data }: { data: any[] }) => {
 
 
     const columns = [
@@ -84,7 +84,7 @@ const AgentList = ({ data }: { data: any }) => {
     <BasicTable 
         columns={columns} 
         title={<Tabs items={tabs} defaultValue='all' />}
-        data={data?.data ?? []} />
+        data={data ?? []} />
   )
 }
 

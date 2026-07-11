@@ -3,10 +3,16 @@ import Typography from '@/components/primitives/Typography';
 import { CardWidget } from '@/components/ui/cards';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Flex, Grid } from '@/components/ui/ui-layout';
+import { getData, getLoanTimeSeries } from '@/lib/api';
 import { AlertTriangle, Banknote, Building2, CalendarDays, CircleSlash2, Download, Rocket, TrendingUp, UsersRound } from 'lucide-react';
 import React from 'react'
 
-const ManagerDashboard = () => {
+const ManagerDashboard = async () => {
+
+  const data = await getLoanTimeSeries();
+
+  console.log('DATA:', data);
+
   return (
     <Grid className='gap-6'>
       <PageHeader

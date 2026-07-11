@@ -39,7 +39,7 @@ const Title = () => (
     </Flex>
 )
 
-const LoanApplicationTable = ({data}: {data: any[]}) => {
+const LoanApplicationTable = ({data}: {data: any}) => {
 
     const columns = [
         // {
