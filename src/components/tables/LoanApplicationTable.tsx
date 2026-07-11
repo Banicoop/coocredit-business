@@ -7,14 +7,6 @@ import { ActionDropdown } from '@/components/ui/ActionDropDown';
 import { Tabs } from '@/components/ui/Tabs';
 import { Flex } from '@/components/ui/ui-layout';
 import { EyeClosedIcon, Search } from 'lucide-react';
-import React from 'react';
-
-const data = Array.from({length: 20}, (() => ({
-    applicant: 'John Okonkwo',
-    loanAmount: 40000,
-    status: 'Approved',
-    date: '5th Jun, 2026'
-})))
 
 
 const tabs = [
@@ -47,16 +39,20 @@ const Title = () => (
     </Flex>
 )
 
-const LoanHistory = () => {
+const LoanApplicationTable = ({data}: {data: any[]}) => {
 
     const columns = [
+        // {
+        //     key: 'applicant',
+        //     title: 'Applicant'
+        // },
         {
-            key: 'applicant',
-            title: 'Applicant'
+            key: 'businessId',
+            title: 'Business ID'
         },
         {
-            key: 'loanAmount',
-            title: 'Loan Amount'
+            key: 'amount',
+            title: 'Amount'
         },
         {
             key: 'status',
@@ -87,8 +83,13 @@ const LoanHistory = () => {
         },
     ]
   return (
-    <BasicTable columns={columns} data={data ?? []} title={<Title/>} pageSize={6} pagination/>
+    <BasicTable 
+        columns={columns} 
+        data={data ?? []} 
+        title={<Title/>} 
+        emptyMessage='No Available Loan'
+        pageSize={6} pagination/>
   )
 }
 
-export default LoanHistory;
+export default LoanApplicationTable;

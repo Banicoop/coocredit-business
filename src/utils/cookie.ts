@@ -1,3 +1,5 @@
+// 'use server';
+
 // utils/cookies.ts
 import { cookies } from "next/headers";
 
@@ -9,7 +11,7 @@ export const cookieOptions = {
 };
 
 
-export async function getAccessToken() {
-    const cookieStore = await cookies();
-    return cookieStore.get("access_token")?.value ?? "";
-}
+// export async function getAccessToken() {
+//     const cookieStore = await cookies();
+//     return cookieStore.get("access_token")?.value ?? "";
+// }
