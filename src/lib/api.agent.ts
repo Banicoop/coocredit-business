@@ -4,6 +4,25 @@ import { getAccessToken } from "./auth.actions";
 
 
 
+export const agentGetDashboardOverview = async () => {
+    const token = await getAccessToken();
+
+    const res = await SERVER.get('agents/loans/dashboard/overview', {
+        revalidate: 120,
+        timeout: 5000,
+        token,
+    });
+    if(res.data === null || res.status !== 200) {
+        return {
+            error: res.error || 'Failed to fetch agents',
+            success: false,
+        }
+    }
+    return res.data;
+}
+
+
+
 export const agentGetAllLoans = async () => {
     const token = await getAccessToken();
 

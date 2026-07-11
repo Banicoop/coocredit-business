@@ -7,6 +7,8 @@ import RecentApps from './_sections/RecentApps';
 import QuickActions from './_sections/QuickActions';
 import DailyTasks from './_sections/DailyTasks';
 import { formatDate } from '@/utils/funcs';
+import { agentGetDashboardOverview } from '@/lib/api.agent';
+import { cn } from '@/lib/utils';
 
 
 
@@ -22,9 +24,14 @@ const Widget = ({title, num, percent}: {title: string, num: number, percent: num
   )
 }
 
-const AgentDashboard = () => {
+const AgentDashboard = async () => {
+
+  const data = await agentGetDashboardOverview();
+
+  console.log('DASHBOARD:', data);
+
   return (
-    <main className='grid gap-5 p-4'>
+    <Grid className={cn('gap-5 p-5')}>
       <PageHeader 
         title='Good morning, Emeka 👋' 
         description={formatDate(new Date())} className='text-2xl'/>
@@ -50,7 +57,7 @@ const AgentDashboard = () => {
           <Rank/>
         </FlexCol>
       </div>
-    </main>
+    </Grid>
   )
 }
 

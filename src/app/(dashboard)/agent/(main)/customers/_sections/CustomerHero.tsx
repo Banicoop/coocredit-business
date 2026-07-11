@@ -18,7 +18,7 @@ const Card = ({label, val, textColor, textColor1, percentage, className='bg-whit
     </Grid>
 )
 
-const CustHeader = () => {
+const CustomerHero = ({stats}: any) => {
 
     const [openModal, setOpenModal] = useState(false);
     
@@ -31,8 +31,8 @@ const CustHeader = () => {
 
         <Grid className='gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-6'>
             <Card label='ONBOARDED TODAY' val={12}  percentage='+12%'/>
-            <Card label='This week' val={12} percentage='+12%' />
-            <Card label='This month' val={12} percentage='+12%' />
+            <Card label='Last month' val={stats?.data?.lastMonthTotal || 0} percentage='+12%' />
+            <Card label='This month' val={stats?.data?.thisMonthTotal || 0} percentage='+12%' />
             <Card label='approved' val={12} textColor='text-primary'/>
             <Card label='rejected' val={12} textColor='text-[#BA1A1A]'/>
             <Card className='bg-primary shadow-lg' label='conv. rate' val={12} textColor='text-white' textColor1='text-white'/>
@@ -43,4 +43,4 @@ const CustHeader = () => {
   )
 }
 
-export default CustHeader;
+export default CustomerHero;

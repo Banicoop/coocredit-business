@@ -14,7 +14,7 @@ const Loans = async () => {
   const loans = await agentGetAllLoans() as any
 
 
-  console.log('LOANS:', loans?.data);
+  // console.log('LOANS:', loans?.data);
 
   return (
     <Grid className='gap-y-7 w-full'>
