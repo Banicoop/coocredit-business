@@ -1,7 +1,7 @@
 import { Grid } from '@/components/ui/ui-layout';
 import { Columns3, Columns3Cog, FlipVertical2, SendHorizontal } from 'lucide-react';
 import { ColItem } from '@/components/ui/PageHeader';
-import { agentGetLoanStats } from '@/lib/api.agent';
+
 
 
 type LProps = {
@@ -22,25 +22,26 @@ export const LoanWidget = ({label, val, borderColor, textColor, icon}: LProps) =
 )
 
 
-const LoanCardsSection = async () => {
+const LoanCardsSection = ({data}: any) => {
 
-    const stats = await agentGetLoanStats() as any
+
+    // console.log('loan-stats', data?.data?.loanApplications);
     
   return (
-    <Grid className='grid-cols-3 lg:grid-cols-6 gap-5'>
+    <Grid className='grid-cols-3 gap-5'>
                                                     
-        <LoanWidget label='This Month' 
-        val={stats?.data?.thisMonthTotal || 0} textColor='text-[#506070]' 
+        <LoanWidget label='Approved This Week' 
+        val={data?.data?.loanApplications?.approvedThisWeek?.count || 0} textColor='text-[#506070]' 
         borderColor='border-[#506070]' 
         icon={<Columns3Cog size={20} className='text-[#506070]' />}/>
-        <LoanWidget label='Last Month' 
-        val={stats?.data?.lastMonthTotal || 0} textColor='text-[#059669]' 
+        <LoanWidget label='Approved This month' 
+        val={data?.data?.loanApplications?.approvedThisMonth || 0} textColor='text-[#059669]' 
         borderColor='border-[#059669]' 
         icon={<Columns3 size={20} className='text-[#059669]' />}/>
-        <LoanWidget label='SUBMITTED' val='47' textColor='text-primary' borderColor='border-primary' icon={<SendHorizontal size={20} className='text-primary '/>}/>
-        <LoanWidget label='Pending Approval' val='17' textColor='text-[#A43700]' borderColor='border-[#A43700]' icon={<FlipVertical2 size={20} className='text-[#A43700] ' />}/>
-        <LoanWidget label='APPROVED' val='4' textColor='text-[#506070]' borderColor='border-[#506070]' icon={<Columns3Cog size={20} className='text-[#506070]' />}/>
-        <LoanWidget label='DISBURSED' val='26' textColor='text-[#059669]' borderColor='border-[#059669]' icon={<Columns3 size={20} className='text-[#059669]' />}/>
+        <LoanWidget label='Active Applications' val={data?.data?.loanApplications?.activeApplications?.count} textColor='text-primary' borderColor='border-primary' icon={<SendHorizontal size={20} className='text-primary '/>}/>
+        <LoanWidget label='Rejected This Month' val={data?.data?.loanApplications?.rejectedThisMonth} textColor='text-[#A43700]' borderColor='border-[#A43700]' icon={<FlipVertical2 size={20} className='text-[#A43700] ' />}/>
+        <LoanWidget label='Pending This Month' val={data?.data?.loanApplications?.pendingThisMonth} textColor='text-[#506070]' borderColor='border-[#506070]' icon={<Columns3Cog size={20} className='text-[#506070]' />}/>
+        <LoanWidget label='Conv. Rate' val={'2'} textColor='text-[#059669]' borderColor='border-[#059669]' icon={<Columns3 size={20} className='text-[#059669]' />}/>
     </Grid>
   )
 }

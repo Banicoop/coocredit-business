@@ -1,6 +1,6 @@
 import CustomerCharts from './_sections/CustomerCharts';
 import CustomersTable from '../../../../../components/tables/CustomersTable';
-import { agentGetOnboardingStats, getAllAgentsBusinessCustomers } from '@/lib/api.agent';
+import { agentGetDashboardOverview, getAllAgentsBusinessCustomers } from '@/lib/api.agent';
 import CustomerHero from './_sections/CustomerHero';
 
 
@@ -15,16 +15,16 @@ const data = Array.from({length: 30}, () => ({
 
 const AgentsCustomersPage = async () => {
 
-  const customers = await getAllAgentsBusinessCustomers();
-  const customerStats = await agentGetOnboardingStats();
+  const customers = await getAllAgentsBusinessCustomers() as any;
+  const customerStats = await agentGetDashboardOverview() as any
 
-  // console.log('CUSTOMERS:', customers);
+  console.log('CUSTOMERS:', customers);
 
   return (
     <main className='grid gap-5'>
       <CustomerHero stats={customerStats}/>
       <CustomerCharts />
-      <CustomersTable initialData={data} />
+      <CustomersTable initialData={customers?.data ?? []} />
     </main>
   )
 }

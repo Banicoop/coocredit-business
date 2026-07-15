@@ -12,7 +12,7 @@ const data = Array.from({length: 4}, () => ({
 
 const Title = () => (
     <div className="flex items-center justify-between w-full">
-        <Typography weight='bold' className='text-lg'>Recent Application</Typography>
+        <Typography weight='bold' className='text-lg'>Recent Loan Application</Typography>
         <Typography color='active' weight='semibold' className='text-lg'>View All</Typography>
     </div>
 )
