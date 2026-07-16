@@ -70,19 +70,19 @@ const DisbursementCollectionChart = ({className}: {className: string}) => {
             xDataKey="name"
             height={320}
             showYAxis={false}
-            barSize={40}
+            barSize={18}
                 bars={[
                 {
                     dataKey: 'approved',
                     label: 'Total Disbursement',
                     color: '#0053CC',
-                    radius: [0, 0 , 0, 0],
+                    radius: [10, 10 , 0, 0],
                 },
                 {
                     dataKey: 'submitted',
                     label: 'Total Collection',
                     color: '#F59E0B',
-                    radius: [0, 0 , 0, 0],
+                    radius: [10, 10 , 0, 0],
                 },
                 ]}
     />

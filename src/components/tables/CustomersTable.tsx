@@ -62,7 +62,7 @@ const CustomersTable = ({
       render: (id: string) => (
         <ActionDropdown
           actions={[
-            { label: 'View Details', href: `/agents/customer/${id}`, variant: 'primary', icon: Eye },
+            { label: 'View Details', href: `/agent/customers/${id}`, variant: 'primary', icon: Eye },
           ]}
         />
       ),
