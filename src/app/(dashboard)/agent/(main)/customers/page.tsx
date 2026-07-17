@@ -24,7 +24,7 @@ const AgentsCustomersPage = async () => {
     <main className='grid gap-5'>
       <CustomerHero stats={customerStats}/>
       <CustomerCharts />
-      <CustomersTable initialData={customers?.data ?? []} />
+      <CustomersTable initialData={customers?.data ?? []} error={customers.error} />
     </main>
   )
 }

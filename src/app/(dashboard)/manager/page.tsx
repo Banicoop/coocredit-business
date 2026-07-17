@@ -9,9 +9,9 @@ import { getManagerDashboardStats } from '@/lib/api';
 
 const ManagerDashboard = async () => {
 
-  const data = await getManagerDashboardStats();
+  const data = await getManagerDashboardStats() as any;
 
-  console.log('DATA:', data);
+  console.log('DATA:', data?.data);
 
   return (
     <Grid className='gap-6'>

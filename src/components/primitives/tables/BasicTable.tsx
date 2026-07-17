@@ -27,6 +27,8 @@ export type BasicTableProps<T> = {
   description?: string;
 
   loading?: boolean;
+  error?: string;
+  errorMessage? : string | null
 
   pagination?: boolean;
   pageSize?: number;
@@ -51,6 +53,8 @@ export function BasicTable<T extends Record<string, any>>({
   columns,
   title,
   description,
+  error,
+  errorMessage = 'Something went wrong. Please try again later.',
   loading = false,
   pagination = true,
   pageSize = 10,
@@ -116,7 +120,16 @@ export function BasicTable<T extends Record<string, any>>({
               </thead>
 
               <tbody>
-                {loading ? (
+                { error ? (
+                    <tr>
+                    <td
+                      colSpan={columns.length}
+                      className="py-16 text-center text-sm text-destructive"
+                    >
+                     {error}
+                    </td>
+                  </tr>
+                ) : loading ? (
                   <tr>
                     <td
                       colSpan={columns.length}
@@ -125,7 +138,7 @@ export function BasicTable<T extends Record<string, any>>({
                       Loading table data...
                     </td>
                   </tr>
-                ) : paginatedData.length > 0 ? (
+                ) :paginatedData.length > 0 ? (
                   paginatedData.map((row, rowIndex) => {
                     // CUSTOM ROW RENDERING
                     if (renderRow) {

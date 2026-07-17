@@ -1,10 +1,10 @@
 import Typography from '@/components/primitives/Typography';
-import { PageHeader } from '@/components/ui/PageHeader';
 import { Flex, FlexBox, FlexCol, Grid } from '@/components/ui/ui-layout';
-import { BookOpenCheck, Landmark, PipetteIcon, PlusSquareIcon, ShieldCheck, TableConfig, Pyramid } from 'lucide-react';
+import { ShieldCheck, Pyramid } from 'lucide-react';
 import { ReactNode } from 'react';
-import { CardWidget } from '@/components/ui/cards';
-import BusinessCustTable from '../_section/BusinessCustTable';
+import BusinessCustTable from '@/components/tables/BusinessCustTable';
+import CustomersStats from '@/components/tables/CustonersStats';
+
 
 
 const Card2 = ({icon, label, desc}: {icon: ReactNode, label: string, desc: string}) => (
@@ -22,8 +22,8 @@ const Card2 = ({icon, label, desc}: {icon: ReactNode, label: string, desc: strin
 
 const BusinessCustomers = () => {
   return (
-        <Grid className='gap-5'>
-      <PageHeader 
+    <Grid className='gap-5'>
+      {/* <PageHeader 
         title='Business customers'
         description='Manage and monitor high-volume business accounts across Nigeria.'
         actions={[
@@ -48,7 +48,9 @@ const BusinessCustomers = () => {
         <CardWidget label='Avg. Loan Size' num='₦ 1.5M' 
           icon={<Landmark size={20} className='text-destructive'/>} 
           info={<Typography className='py-1 px-2.5 rounded-md bg-accent font-semibold'>Weekly Avg.</Typography>}/>
-      </Grid>
+      </Grid> */}
+
+      <CustomersStats/>
 
       <BusinessCustTable/>
 

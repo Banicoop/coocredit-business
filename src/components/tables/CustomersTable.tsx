@@ -22,7 +22,7 @@ const CustomersTable = ({
   error,
 }: {
   initialData: Customer[];
-  error?: string | null;
+  error?: string;
 }) => {
   const [search, setSearch] = useState('');
 
@@ -83,13 +83,11 @@ const CustomersTable = ({
     </Flex>
   );
 
-  if (error) {
-    return <Typography>{error}</Typography>;
-  }
 
   return (
     <BasicTable
       columns={columns}
+      error={error}
       // data={filtered}
       data={initialData}
       title={<TableTitle />}

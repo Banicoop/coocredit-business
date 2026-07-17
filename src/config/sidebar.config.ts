@@ -150,6 +150,11 @@ export const managersData = [
     icon: 'dashboardLayout'
   },
   {
+    label: 'Customers',
+    href: '/manager/customers',
+    icon: 'userRoundPlus'
+  },
+  {
     label: 'Loan Portfolio',
     href: '/manager/portfolio',
     icon: 'notePadText'
