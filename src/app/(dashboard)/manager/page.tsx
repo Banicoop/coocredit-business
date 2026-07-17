@@ -1,15 +1,15 @@
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Grid } from '@/components/ui/ui-layout';
-import { getLoanTimeSeries } from '@/lib/api';
 import { CalendarDays, Download } from 'lucide-react';
 import CardsAndInsight, { Quality } from './(main)/_section/CardsAndInsight';
 import DisbursementCollectionChart from './(main)/_section/DSChart';
 import BranchCharts from './(main)/_section/BranchCharts';
+import { getManagerDashboardStats } from '@/lib/api';
 
 
 const ManagerDashboard = async () => {
 
-  const data = await getLoanTimeSeries();
+  const data = await getManagerDashboardStats();
 
   console.log('DATA:', data);
 

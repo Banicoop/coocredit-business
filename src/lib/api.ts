@@ -31,22 +31,11 @@ export const getData = async( url: string, options: FetchOptions = {}) => {
 
 
 
+export const getManagerDashboardStats = () => getData('dashboards/managers');
 
+export const getUserOnboardingTimeSeries = () => getData('dashboards/managers/users/onboarding-timeseries');
 
-export const getLoanTimeSeries = async () => {
-    const token = await getAccessToken();
+export const getBusinessDistBasedOnState = () => getData('dashboards/managers/users/distribution');
 
-    const res = await SERVER.get('dashboards/managers', {
-        revalidate: 120,
-        timeout: 5000,
-        token,
-    });
-    
-    if(!res.data || res.data === null || res.status !== 200) {
-        return {
-            error: res.error || 'Failed to fetch agents',
-            success: false,
-        }
-    }
-    return res.data;
-}
+export const getAllLoansWeeklyDistribution = () => getData('dashboards/managers/loans/weekly-distributions');
+

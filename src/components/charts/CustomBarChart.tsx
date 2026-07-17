@@ -1,17 +1,7 @@
 'use client';
 
-import React, { ReactNode } from 'react';
-import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  Cell,
-} from 'recharts';
+import { ReactNode } from 'react';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import clsx from 'clsx';
 import { GridItem } from '../ui/ui-layout';
 import { TypedDataKey } from 'recharts/types/util/typedDataKey';
