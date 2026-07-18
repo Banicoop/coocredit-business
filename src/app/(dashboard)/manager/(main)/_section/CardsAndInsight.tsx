@@ -37,26 +37,29 @@ export const Quality = () => {
 }
 
 
-const CardsAndInsight = () => {
+const CardsAndInsight = ({stats}: any) => {
+
+
+
   return (
     <Grid className='gap-6'>
         <Grid className='grid-cols-2 md:grid-cols-4 gap-5'>
             <CardWidget label='Total Active Customers' 
             icon={<UsersRound size={18}  className='text-primary'/>}
             num='1,247' 
-            info={<Typography color='success' variant='small' weight='semibold' startIcon={<TrendingUp size={16}/>}>+8.3%</Typography>}/>
+            info={<Typography color='success' variant='small' weight='semibold' startIcon={<TrendingUp size={16}/>}>+3.4%</Typography>}/>
             <CardWidget label='Total Loan Portfolio' 
             icon={<Building2 size={18} className='text-primary'/>} 
-            num='₦48,200,000' 
-            info={<Typography color='success' variant='small' weight='semibold' startIcon={<TrendingUp size={16}/>}>+12.1%</Typography>}/>
-            <CardWidget label='Disbursements Today' 
+            num={`₦${(stats?.loanStats?.disbursementStats?.totalLoanPortfolio?.toLocaleString()) || 0}`} 
+            info={<Typography color='success' variant='small' weight='semibold' startIcon={<TrendingUp size={16}/>}>+{(stats?.loanStats?.disbursementStats?.percentageGrowth) || 0}%</Typography>}/>
+            <CardWidget label='Total Disbursement' 
             icon={<CircleSlash2 size={18} className='text-primary'/>} 
-            num='₦3,400,000' 
-            info={<Typography color='primary' variant='small' weight='semibold'>23 loans</Typography>}/>
+            num={`₦${(stats?.loanStats?.disbursementStats?.totalLoanAmountDisbursed?.toLocaleString()) || 0}`}
+            info={<Typography color='primary' variant='small' weight='semibold'>{stats?.loanStats?.disbursementStats?.totalLoanDisbursementsToday?.toLocaleString() || 0} loans today</Typography>}/>
             <CardWidget label='Collections Today' 
             icon={<Banknote size={18} className='text-primary'/>} 
-            num='₦2,100,000' 
-            info={<Typography variant='small' color='primary' weight='semibold'>87% efficiency</Typography>}/>
+            num={`₦${(stats?.loanStats?.collectionStats?.totalLoanAmountCollectedToday).toLocaleString() || 0}` } 
+            info={<Typography variant='small' color='primary' weight='semibold'>{(stats?.loanStats?.collectionStats?.efficiency) || 0}% efficiency</Typography>}/>
         </Grid>
 
         <Flex className='justify-between bg-[#FEF2F2] border border-[#FEE2E2] rounded-lg px-4 py-1'>

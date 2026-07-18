@@ -11,7 +11,7 @@ const ManagerDashboard = async () => {
 
   const data = await getManagerDashboardStats() as any;
 
-  console.log('DATA:', data?.data);
+  // console.log('Dashboard:', data?.data);
 
   return (
     <Grid className='gap-6'>
@@ -32,7 +32,7 @@ const ManagerDashboard = async () => {
         ]}
         />
 
-      <CardsAndInsight/>
+      <CardsAndInsight stats={data?.data}/>
 
       <Grid className='grid-cols-4 gap-6'>
         <DisbursementCollectionChart className='col-span-3'/>

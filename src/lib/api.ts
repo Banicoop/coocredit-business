@@ -39,3 +39,6 @@ export const getBusinessDistBasedOnState = () => getData('dashboards/managers/us
 
 export const getAllLoansWeeklyDistribution = () => getData('dashboards/managers/loans/weekly-distributions');
 
+export const getLoanTimeSeries = () => getData('dashboards/managers/loans/time-series-stats')
+
+export const getAgentProfileById = (id: string) => getData(`agents/profiles/${id}`);

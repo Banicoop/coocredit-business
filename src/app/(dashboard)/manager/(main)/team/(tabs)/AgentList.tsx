@@ -14,11 +14,11 @@ import { Edit, Edit3, Eye } from 'lucide-react';
       value: 'all'
     },
     {
-      label: 'Agents',
+      label: 'Pending',
       value: 'agents'
     },
     {
-      label: 'Super Agents',
+      label: 'Completed',
       value: 'super-agents'
     },
   ]
@@ -30,16 +30,24 @@ const AgentList = ({ data }: { data: any[] }) => {
 
 
     const columns = [
-        {
-            key: 'userId',
-            title: 'Agent ID',
-            render: (value: string) => <Typography variant='small' color='active' className='font-semibold'>{value}</Typography>
-        },
+        // {
+        //     key: 'userId',
+        //     title: 'Agent ID',
+        //     render: (value: string) => <Typography variant='small' color='active' className='font-semibold'>{value}</Typography>
+        // },
         // {
         //     key: 'username',
         //     title: 'Username',
         //     render: (value: string) => <Typography variant='small' className='font-semibold'>{value}</Typography>
         // },
+        {
+            key: 'firstName',
+            title: 'First Name',
+        },
+        {
+            key: 'lastName',
+            title: 'Last Name',
+        },
         {
             key: 'email',
             title: 'Email',
@@ -59,22 +67,16 @@ const AgentList = ({ data }: { data: any[] }) => {
             render: (value: string) => <Typography variant='small' className={`font-semibold capitalize py-2 px-3 bg-accent rounded-lg ${value === 'pending' ? 'text-chart-5': value === 'completed' ? 'text-chart-2': 'text-destructive'}`}>{value}</Typography>
         },
         {
-            key: '_id',
+            key: 'userId',
             title: 'Actions',
-            render: (_id: string) => (
+            render: (id: string) => (
                 <ActionDropdown actions={[
                     {
                         label: 'View Details',
                         variant: 'primary',
                         icon: Eye,
-                        onClick: () => {}
-                    },
-                    {
-                        label: 'Validate Agent',
-                        variant: 'primary',
-                        icon: Edit,
-                        onClick: () => {}
-                    },
+                        href: `/manager/team/${id}`
+                    }
                 ]} />
             )
         },

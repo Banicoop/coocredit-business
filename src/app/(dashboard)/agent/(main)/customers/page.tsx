@@ -4,14 +4,14 @@ import { agentGetDashboardOverview, getAllAgentsBusinessCustomers } from '@/lib/
 import CustomerHero from './_sections/CustomerHero';
 
 
-const data = Array.from({length: 30}, () => ({
-  id: '1',
-  customerName: 'Divine Maduka',
-  customerID: '#CUST-8821',
-  status: 'approved',
-  date: '12th May, 2016',
-  creditScore: 60
-}))
+// const data = Array.from({length: 30}, () => ({
+//   id: '1',
+//   customerName: 'Divine Maduka',
+//   customerID: '#CUST-8821',
+//   status: 'approved',
+//   date: '12th May, 2016',
+//   creditScore: 60
+// }))
 
 const AgentsCustomersPage = async () => {
 

@@ -169,14 +169,14 @@ export const managersData = [
     href: '/manager/team',
     icon: 'team'
   },
-  {
-    label: 'Risk Analytics',
-    href: '/manager/analytics',
-    icon: 'shieldHalf'
-  },
-  {
-    label: 'Reports',
-    href: '/manager/reports',
-    icon: 'report'
-  },
+  // {
+  //   label: 'Risk Analytics',
+  //   href: '/manager/analytics',
+  //   icon: 'shieldHalf'
+  // },
+  // {
+  //   label: 'Reports',
+  //   href: '/manager/reports',
+  //   icon: 'report'
+  // },
 ]
