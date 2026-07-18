@@ -1,13 +1,13 @@
 'use server';
 
 
-export const approveBusinessLoans = () => {
+export const approveBusinessLoans = async () => {
     // Implement the logic to fetch all loans from the database or API
 
 }
 
 
-export const rejectBusinessLoans = () => {
+export const rejectBusinessLoans = async () => {
     // Implement the logic to fetch all loans from the database or API
 
 }

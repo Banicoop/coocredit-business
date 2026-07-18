@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Button from '../primitives/buttons/Button';
 import Typography from '../primitives/Typography';
 import { FlexCol, Grid } from './ui-layout';
+import { useRouter } from 'next/navigation';
 
 interface ErrorPageProps {
     label?: string;
@@ -11,7 +12,10 @@ interface ErrorPageProps {
     href?: string
 }
 
-const ErrorPage = ({onClick, label, href}: ErrorPageProps) => {
+const ErrorPage = ({label, href}: ErrorPageProps) => {
+
+  const router = useRouter();
+
   return (
     <Grid className='h-full w-full'>
       <FlexCol className="justify-center items-center h-full w-1/2 mx-auto text-center gap-4">
@@ -20,7 +24,7 @@ const ErrorPage = ({onClick, label, href}: ErrorPageProps) => {
         <Typography variant='p' color='primary'>We're currently experiencing technical difficulties and our servers are temporarily down. Please try again in a few minutes.</Typography>
         <Typography color='active' variant='p'>Contact Support</Typography>
 
-        {label && <Button className='py-3 px-6 bg-primary text-bgWhite rounded-[24px] w-full' onClick={onClick}>{label}</Button>}
+        {label && <Button className='py-3 px-6 bg-primary text-bgWhite rounded-[24px] w-full' onClick={() => router.refresh()}>{label}</Button>}
         {href && <Link  className='py-3 px-6 bg-primary text-card rounded-[24px] w-full' href={href}>Back to Dashboard</Link>}
 
       </FlexCol>
