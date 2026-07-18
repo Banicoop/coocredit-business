@@ -53,6 +53,8 @@ export const adminLogin = async (
     };
   }
 
+  console.log('DATA:', data)
+
   const adminId = data.user?.id;
 
   if(!adminId){

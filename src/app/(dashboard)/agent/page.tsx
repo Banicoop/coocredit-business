@@ -7,6 +7,8 @@ import RecentApps from './_sections/RecentApps';
 import QuickActions from './_sections/QuickActions';
 import DailyTasks from './_sections/DailyTasks';
 import { formatDate } from '@/utils/funcs';
+import { agentGetDashboardOverview } from '@/lib/api.agent';
+import { cn } from '@/lib/utils';
 
 
 
@@ -22,18 +24,21 @@ const Widget = ({title, num, percent}: {title: string, num: number, percent: num
   )
 }
 
-const AgentDashboard = () => {
+const AgentDashboard = async () => {
+
+  const data = await agentGetDashboardOverview() as any;
+
   return (
-    <main className='grid gap-5 p-4'>
+    <Grid className={cn('gap-5 p-5')}>
       <PageHeader 
         title='Good morning, Emeka 👋' 
         description={formatDate(new Date())} className='text-2xl'/>
       
       <section className='grid grid-cols-2 gap-4 md:grid-cols-4'>
-        <Widget title='TOTAL ONBOARDED TODAY' num={12} percent={12}/>
-        <Widget title='APPROVED THIS WEEK' num={12} percent={12}/>
-        <Widget title='CONVERSION RATE' num={12} percent={12}/>
-        <Widget title='ACTIVE APPLICATIONS' num={12} percent={12}/>
+        <Widget title='TOTAL ONBOARDED TODAY' num={data?.data?.customerOnboarding?.today?.count} percent={12}/>
+        <Widget title='THIS WEEK' num={data?.data?.customerOnboarding?.thisWeek?.count} percent={12}/>
+        <Widget title='THIS MONTH' num={data?.data?.customerOnboarding?.thisMonth?.count} percent={12}/>
+        <Widget title='ACTIVE APPLICATIONS' num={data?.data?.loanApplications?.activeApplications?.count} percent={12}/>
       </section>
 
 
@@ -50,7 +55,7 @@ const AgentDashboard = () => {
           <Rank/>
         </FlexCol>
       </div>
-    </main>
+    </Grid>
   )
 }
 

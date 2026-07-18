@@ -5,7 +5,7 @@ import { TextField } from '@/components/primitives/inputs/TextField';
 import Typography from '@/components/primitives/Typography';
 import { Flex } from '@/components/ui/ui-layout';
 import { Eye, Search } from 'lucide-react';
-import { ProgressBar } from '@/components/ui/ProgessBar';
+// import { ProgressBar } from '@/components/ui/ProgessBar';
 import { ActionDropdown } from '@/components/ui/ActionDropDown';
 import { useMemo, useState } from 'react';
 
@@ -22,45 +22,47 @@ const CustomersTable = ({
   error,
 }: {
   initialData: Customer[];
-  error?: string | null;
+  error?: string;
 }) => {
   const [search, setSearch] = useState('');
 
-  const filtered = useMemo(
-    () =>
-      initialData.filter((c) =>
-        c.customerName.toLowerCase().includes(search.toLowerCase())
-      ),
-    [initialData, search]
-  );
+  // const filtered = useMemo(
+  //   () =>
+  //     initialData?.filter((c) =>
+  //       c.customerName?.toLowerCase().includes(search.toLowerCase())
+  //     ),
+  //   [initialData, search]
+  // );
 
   const columns = [
-    { key: 'customerName', title: 'Customer Name' },
+    { key: 'firstName', title: 'First Name' },
+    { key: 'lastName', title: 'Last Name' },
+    { key: 'phoneNumber', title: 'Phone Number' },
     {
-      key: 'status',
+      key: 'onboardingStage',
       title: 'Status',
       render: (value: string) => (
         <Typography variant="small" className="capitalize">{value}</Typography>
       ),
     },
-    { key: 'date', title: 'Date Applied' },
+    { key: 'type', title: 'Type' },
+    // {
+    //   key: 'creditScore',
+    //   title: 'Credit Score',
+    //   render: (val: number) => (
+    //     <div className="flex items-center p-1 gap-1.5">
+    //       <ProgressBar value={val} className="bg-primary" />
+    //       <Typography color="active" weight="bold" variant="small">{val}%</Typography>
+    //     </div>
+    //   ),
+    // },
     {
-      key: 'creditScore',
-      title: 'Credit Score',
-      render: (val: number) => (
-        <div className="flex items-center p-1 gap-1.5">
-          <ProgressBar value={val} className="bg-primary" />
-          <Typography color="active" weight="bold" variant="small">{val}%</Typography>
-        </div>
-      ),
-    },
-    {
-      key: 'id',
+      key: '_id',
       title: 'Actions',
       render: (id: string) => (
         <ActionDropdown
           actions={[
-            { label: 'View Details', href: `/agents/customer/${id}`, variant: 'primary', icon: Eye },
+            { label: 'View Details', href: `/agent/customers/${id}`, variant: 'primary', icon: Eye },
           ]}
         />
       ),
@@ -81,14 +83,13 @@ const CustomersTable = ({
     </Flex>
   );
 
-  if (error) {
-    return <Typography>{error}</Typography>;
-  }
 
   return (
     <BasicTable
       columns={columns}
-      data={filtered}
+      error={error}
+      // data={filtered}
+      data={initialData}
       title={<TableTitle />}
       pagination
       pageSize={5}

@@ -1,12 +1,18 @@
-import Button from '@/components/primitives/buttons/Button';
-import Typography from '@/components/primitives/Typography';
-import { CardWidget } from '@/components/ui/cards';
 import { PageHeader } from '@/components/ui/PageHeader';
-import { Flex, Grid } from '@/components/ui/ui-layout';
-import { AlertTriangle, Banknote, Building2, CalendarDays, CircleSlash2, Download, Rocket, TrendingUp, UsersRound } from 'lucide-react';
-import React from 'react'
+import { Grid } from '@/components/ui/ui-layout';
+import { CalendarDays, Download } from 'lucide-react';
+import CardsAndInsight, { Quality } from './(main)/_section/CardsAndInsight';
+import DisbursementCollectionChart from './(main)/_section/DSChart';
+import BranchCharts from './(main)/_section/BranchCharts';
+import { getManagerDashboardStats } from '@/lib/api';
 
-const ManagerDashboard = () => {
+
+const ManagerDashboard = async () => {
+
+  const data = await getManagerDashboardStats() as any;
+
+  // console.log('Dashboard:', data?.data);
+
   return (
     <Grid className='gap-6'>
       <PageHeader
@@ -26,34 +32,15 @@ const ManagerDashboard = () => {
         ]}
         />
 
-        <Grid className='grid-cols-2 md:grid-cols-4 gap-5'>
-          <CardWidget label='Total Active Customers' 
-            icon={<UsersRound size={18}  className='text-primary'/>}
-            num='1,247' 
-            info={<Typography color='success' variant='small' weight='semibold' startIcon={<TrendingUp size={16}/>}>+8.3%</Typography>}/>
-          <CardWidget label='Total Loan Portfolio' 
-            icon={<Building2 size={18} className='text-primary'/>} 
-            num='₦48,200,000' 
-            info={<Typography color='success' variant='small' weight='semibold' startIcon={<TrendingUp size={16}/>}>+12.1%</Typography>}/>
-          <CardWidget label='Disbursements Today' 
-            icon={<CircleSlash2 size={18} className='text-primary'/>} 
-            num='₦3,400,000' 
-            info={<Typography color='primary' variant='small' weight='semibold'>23 loans</Typography>}/>
-          <CardWidget label='Collections Today' 
-            icon={<Banknote size={18} className='text-primary'/>} 
-            num='₦2,100,000' 
-            info={<Typography variant='small' color='primary' weight='semibold'>87% efficiency</Typography>}/>
-        </Grid>
+      <CardsAndInsight stats={data?.data}/>
 
-        <Flex className='justify-between bg-[#FEF2F2] border border-[#FEE2E2] rounded-lg px-4 py-1'>
-          <Typography color='destructive' startIcon={<AlertTriangle size={20}/>}><strong>Fraud Alert:</strong> Unusual withdrawal patterns detected in Branch Sub-Sector A4.</Typography>
-          <Button variant='light' size='lg' className='text-destructive font-semibold bg-transparent'>Investigate</Button>
-        </Flex>
+      <Grid className='grid-cols-4 gap-6'>
+        <DisbursementCollectionChart className='col-span-3'/>
+        <Quality/>
+      </Grid>
 
-        <Flex className='justify-between bg-tertiary border rounded-lg px-4 py-1'>
-          <Typography color='active' startIcon={<Rocket size={20}/>}><strong>Growth Insight:</strong> Portfolio has exceeded Q3 targets by 14%. Adjust disbursement limits?</Typography>
-          <Button variant='light' className='text-primary font-semibold bg-transparent'>VIEW INSIGHTS</Button>
-        </Flex>
+      <BranchCharts />
+
     </Grid>
   )
 }

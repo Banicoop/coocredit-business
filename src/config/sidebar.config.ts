@@ -150,6 +150,11 @@ export const managersData = [
     icon: 'dashboardLayout'
   },
   {
+    label: 'Customers',
+    href: '/manager/customers',
+    icon: 'userRoundPlus'
+  },
+  {
     label: 'Loan Portfolio',
     href: '/manager/portfolio',
     icon: 'notePadText'
@@ -164,14 +169,14 @@ export const managersData = [
     href: '/manager/team',
     icon: 'team'
   },
-  {
-    label: 'Risk Analytics',
-    href: '/manager/analytics',
-    icon: 'shieldHalf'
-  },
-  {
-    label: 'Reports',
-    href: '/manager/reports',
-    icon: 'report'
-  },
+  // {
+  //   label: 'Risk Analytics',
+  //   href: '/manager/analytics',
+  //   icon: 'shieldHalf'
+  // },
+  // {
+  //   label: 'Reports',
+  //   href: '/manager/reports',
+  //   icon: 'report'
+  // },
 ]
