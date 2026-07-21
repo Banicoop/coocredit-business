@@ -32,7 +32,7 @@ const AgentDashboard = async () => {
   return (
     <Grid className={cn('gap-5 p-5')}>
       <PageHeader 
-        title={`Welcome, ${me?.data?.lastName} 👋 `}
+        title={`Welcome${me?.data?.lastName ? `, ${me.data.lastName}` : ''} 👋`}
         description={formatDate(new Date())} className='text-2xl'/>
       
       <section className='grid grid-cols-2 gap-4 md:grid-cols-4'>
