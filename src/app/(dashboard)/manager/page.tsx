@@ -5,13 +5,14 @@ import CardsAndInsight, { Quality } from './(main)/_section/CardsAndInsight';
 import DisbursementCollectionChart from './(main)/_section/DSChart';
 import BranchCharts from './(main)/_section/BranchCharts';
 import { getManagerDashboardStats } from '@/lib/api';
+import ErrorPage from '@/components/ui/ErrorPage';
 
 
 const ManagerDashboard = async () => {
 
   const data = await getManagerDashboardStats() as any;
 
-  // console.log('Dashboard:', data?.data);
+  if(!data) return <ErrorPage label='Retry'/>
 
   return (
     <Grid className='gap-6'>
@@ -32,7 +33,7 @@ const ManagerDashboard = async () => {
         ]}
         />
 
-      <CardsAndInsight stats={data?.data}/>
+      <CardsAndInsight stats={data.data}/>
 
       <Grid className='grid-cols-4 gap-6'>
         <DisbursementCollectionChart className='col-span-3'/>

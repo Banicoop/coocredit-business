@@ -40,7 +40,6 @@ export const Quality = () => {
 const CardsAndInsight = ({stats}: any) => {
 
 
-
   return (
     <Grid className='gap-6'>
         <Grid className='grid-cols-2 md:grid-cols-4 gap-5'>
@@ -58,7 +57,7 @@ const CardsAndInsight = ({stats}: any) => {
             info={<Typography color='primary' variant='small' weight='semibold'>{stats?.loanStats?.disbursementStats?.totalLoanDisbursementsToday?.toLocaleString() || 0} loans today</Typography>}/>
             <CardWidget label='Collections Today' 
             icon={<Banknote size={18} className='text-primary'/>} 
-            num={`₦${(stats?.loanStats?.collectionStats?.totalLoanAmountCollectedToday).toLocaleString() || 0}` } 
+            num={`₦${(stats?.loanStats?.collectionStats?.totalLoanAmountCollectedToday)?.toLocaleString() || 0}` } 
             info={<Typography variant='small' color='primary' weight='semibold'>{(stats?.loanStats?.collectionStats?.efficiency) || 0}% efficiency</Typography>}/>
         </Grid>
 

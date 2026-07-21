@@ -1,12 +1,10 @@
 'use client';
 
-// import { TextField } from '@/components/primitives/inputs/TextField';
 import { BasicTable } from '@/components/primitives/tables/BasicTable';
 import Typography from '@/components/primitives/Typography';
 import { ActionDropdown } from '@/components/ui/ActionDropDown';
 import { Tabs } from '@/components/ui/Tabs';
-// import { Flex } from '@/components/ui/ui-layout';
-import { Edit, Edit3, Eye } from 'lucide-react';
+import { Eye } from 'lucide-react';
 
   const tabs = [
     {
@@ -30,16 +28,6 @@ const AgentList = ({ data }: { data: any[] }) => {
 
 
     const columns = [
-        // {
-        //     key: 'userId',
-        //     title: 'Agent ID',
-        //     render: (value: string) => <Typography variant='small' color='active' className='font-semibold'>{value}</Typography>
-        // },
-        // {
-        //     key: 'username',
-        //     title: 'Username',
-        //     render: (value: string) => <Typography variant='small' className='font-semibold'>{value}</Typography>
-        // },
         {
             key: 'firstName',
             title: 'First Name',

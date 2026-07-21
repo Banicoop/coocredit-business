@@ -8,6 +8,8 @@ const TeamPage = async () => {
 
   const data = await getData('agents') as any
 
+  console.log('AGENTS:', data);
+
   return (
     <Grid className='gap-6 p-6'>
       <PageHeader title='Team Manager' 

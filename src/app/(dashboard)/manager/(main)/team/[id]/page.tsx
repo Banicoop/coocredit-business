@@ -1,7 +1,9 @@
-import Image from "next/image";
 import { BackButton } from "@/components/primitives/buttons/BackButton";
 import { Grid } from "@/components/ui/ui-layout";
 import { getAgentProfileById } from "@/lib/api";
+import ErrorPage from "@/components/ui/ErrorPage";
+import { Item, Section, StatCard } from "./features/AgentProfileCards";
+import AgentProfileHeader from "./features/AgentProfileHeader";
 
 interface Props {
   params: Promise<{
@@ -15,46 +17,14 @@ const AgentProfile = async ({ params }: Props) => {
 
   const { data } = await getAgentProfileById(id) as any;
 
+  if(!data) return <ErrorPage href="/manager" />
+
   return (
     <Grid className="gap-6">
       <BackButton />
 
-      {/* Header */}
-      <div className="bg-white rounded-xl shadow-sm border p-6">
-        <div className="flex flex-col md:flex-row gap-6 items-center">
-          <Image
-            src={data?.profileImage}
-            alt={data.firstName}
-            width={120}
-            height={120}
-            className="rounded-full border object-cover"
-          />
-
-          <div className="flex-1">
-            <h1 className="text-3xl font-bold">
-              {data.firstName} {data.lastName}
-            </h1>
-
-            <p className="text-gray-500">{data.email}</p>
-
-            <div className="flex flex-wrap gap-2 mt-4">
-              <Badge>{data?.role?.replace("_", " ")}</Badge>
-              <Badge color="green">{data.approvalStatus}</Badge>
-              <Badge color="blue">{data.kycLevel}</Badge>
-
-              {data.phoneVerified && (
-                <Badge color="emerald">Phone Verified</Badge>
-              )}
-
-              {data.emailVerified ? (
-                <Badge color="emerald">Email Verified</Badge>
-              ) : (
-                <Badge color="red">Email Unverified</Badge>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* HEADER */}
+      <AgentProfileHeader data={data}/>
 
       {/* Stats */}
       <div className="grid md:grid-cols-4 gap-4">
@@ -151,10 +121,10 @@ const AgentProfile = async ({ params }: Props) => {
           <Item label="PIN Created" value={data.pinCreated ? "Yes" : "No"} />
           <Item label="Disabled" value={data.disabled ? "Yes" : "No"} />
           <Item label="Created" value={new Date(data.createdAt).toLocaleString()} />
-          <Item
+          {data.approvalStatus === 'completed' && <Item
             label="Last Login"
             value={new Date(data.lastLogin).toLocaleString()}
-          />
+          />}
         </Section>
       </div>
     </Grid>
@@ -162,72 +132,3 @@ const AgentProfile = async ({ params }: Props) => {
 };
 
 export default AgentProfile;
-
-/* ---------------- Components ---------------- */
-
-const Section = ({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) => (
-  <div className="bg-white rounded-xl border shadow-sm">
-    <div className="border-b px-6 py-4">
-      <h2 className="font-semibold text-lg">{title}</h2>
-    </div>
-
-    <div className="p-6 space-y-4">{children}</div>
-  </div>
-);
-
-const Item = ({
-  label,
-  value,
-}: {
-  label: string;
-  value: React.ReactNode;
-}) => (
-  <div className="flex justify-between gap-4 border-b last:border-0 pb-3">
-    <span className="text-gray-500">{label}</span>
-    <span className="font-medium text-right">{value}</span>
-  </div>
-);
-
-const StatCard = ({
-  title,
-  value,
-}: {
-  title: string;
-  value: string;
-}) => (
-  <div className="bg-white border rounded-xl p-5 shadow-sm">
-    <p className="text-sm text-gray-500">{title}</p>
-
-    <h2 className="text-2xl font-bold mt-2">{value}</h2>
-  </div>
-);
-
-const Badge = ({
-  children,
-  color = "gray",
-}: {
-  children: React.ReactNode;
-  color?: string;
-}) => {
-  const colors = {
-    gray: "bg-gray-100 text-gray-700",
-    green: "bg-green-100 text-green-700",
-    blue: "bg-blue-100 text-blue-700",
-    red: "bg-red-100 text-red-700",
-    emerald: "bg-emerald-100 text-emerald-700",
-  } as any;
-
-  return (
-    <span
-      className={`px-3 py-1 rounded-full text-sm font-medium ${colors[color]}`}
-    >
-      {children}
-    </span>
-  );
-};
