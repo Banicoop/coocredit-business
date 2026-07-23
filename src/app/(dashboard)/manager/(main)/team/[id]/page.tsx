@@ -4,14 +4,10 @@ import { getAgentProfileById } from "@/lib/api";
 import ErrorPage from "@/components/ui/ErrorPage";
 import { Item, Section, StatCard } from "./features/AgentProfileCards";
 import AgentProfileHeader from "./features/AgentProfileHeader";
+import { IDParam } from "@/types/types";
 
-interface Props {
-  params: Promise<{
-    id: string;
-  }>;
-}
 
-const AgentProfile = async ({ params }: Props) => {
+const AgentProfile = async ({ params }: IDParam) => {
 
   const { id } = await params;
 

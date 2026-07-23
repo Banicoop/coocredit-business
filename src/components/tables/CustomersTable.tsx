@@ -38,13 +38,14 @@ const CustomersTable = ({
     { key: 'firstName', title: 'First Name' },
     { key: 'lastName', title: 'Last Name' },
     { key: 'phoneNumber', title: 'Phone Number' },
-    {
-      key: 'onboardingStage',
-      title: 'Status',
-      render: (value: string) => (
-        <Typography variant="small" className="capitalize">{value}</Typography>
-      ),
-    },
+    { key: 'gender', title: 'Gender' },
+    // {
+    //   key: 'onboardingStage',
+    //   title: 'Status',
+    //   render: (value: string) => (
+    //     <Typography variant="small" className="capitalize">{value}</Typography>
+    //   ),
+    // },
     { key: 'type', title: 'Type' },
     // {
     //   key: 'creditScore',
@@ -57,12 +58,12 @@ const CustomersTable = ({
     //   ),
     // },
     {
-      key: '_id',
+      key: 'userId',
       title: 'Actions',
       render: (id: string) => (
         <ActionDropdown
           actions={[
-            { label: 'View Details', href: `/agent/customers/${id}`, variant: 'primary', icon: Eye },
+            { label: 'View Details', href: `/manager/customers/${id}`, variant: 'primary', icon: Eye },
           ]}
         />
       ),
