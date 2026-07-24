@@ -45,7 +45,7 @@ const CardsAndInsight = ({stats}: any) => {
         <Grid className='grid-cols-2 md:grid-cols-4 gap-5'>
             <CardWidget label='Total Active Customers' 
             icon={<UsersRound size={18}  className='text-primary'/>}
-            num='1,247' 
+            num={(stats?.userStats?.activeUserStats)?.toLocaleString() || 0} 
             info={<Typography color='success' variant='small' weight='semibold' startIcon={<TrendingUp size={16}/>}>+3.4%</Typography>}/>
             <CardWidget label='Total Loan Portfolio' 
             icon={<Building2 size={18} className='text-primary'/>} 
@@ -55,9 +55,9 @@ const CardsAndInsight = ({stats}: any) => {
             icon={<CircleSlash2 size={18} className='text-primary'/>} 
             num={`₦${(stats?.loanStats?.disbursementStats?.totalLoanAmountDisbursed?.toLocaleString()) || 0}`}
             info={<Typography color='primary' variant='small' weight='semibold'>{stats?.loanStats?.disbursementStats?.totalLoanDisbursementsToday?.toLocaleString() || 0} loans today</Typography>}/>
-            <CardWidget label='Collections Today' 
+            <CardWidget label='Total Loan Collections' 
             icon={<Banknote size={18} className='text-primary'/>} 
-            num={`₦${(stats?.loanStats?.collectionStats?.totalLoanAmountCollectedToday)?.toLocaleString() || 0}` } 
+            num={`₦${(stats?.loanStats?.collectionStats?.totalLoanAmountCollected)?.toLocaleString() || 0}` } 
             info={<Typography variant='small' color='primary' weight='semibold'>{(stats?.loanStats?.collectionStats?.efficiency) || 0}% efficiency</Typography>}/>
         </Grid>
 

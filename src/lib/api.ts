@@ -42,3 +42,15 @@ export const getAllLoansWeeklyDistribution = () => getData('dashboards/managers/
 export const getLoanTimeSeries = () => getData('dashboards/managers/loans/time-series-stats')
 
 export const getAgentProfileById = (id: string) => getData(`agents/profiles/${id}`);
+
+export const getAllCustomers = () => getData('business-users');
+
+export const getAllLeadsToReview = () => getData('business-users/leads');
+
+export const getCustomerDetails = (id: string) => getData(`business-users/${id}`);
+
+export const getLeadDetails = (id: string) => getData(`business-users/leads/${id}`);
+
+export const getAllTransactions = () => getData('transactions/business');
+
+export const getTransactionsStats = () => getData('transactions/business/stats');

@@ -1,6 +1,13 @@
 export type Role = 'field_agent' | 'super_agent' | 'loan_officer' | 'manager' | 'super_admin';
 
 
+export interface IDParam {
+  params: Promise<{
+    id: string;
+  }>;
+}
+
+
 export type UserData = {
     _id: string;
     agentId?: string;
