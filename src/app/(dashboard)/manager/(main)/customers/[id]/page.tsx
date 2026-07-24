@@ -1,3 +1,4 @@
+import { BackButton } from '@/components/primitives/buttons/BackButton';
 import { getCustomerDetails } from '@/lib/api';
 import { IDParam } from '@/types/types';
 import Image from 'next/image';
@@ -91,8 +92,8 @@ const Card = ({
   </section>
 );
 
-const Field = ({ label, value, mono = false }: { label: string; value: React.ReactNode; mono?: boolean }) => (
-  <div className="flex flex-col gap-1 py-2.5">
+const Field = ({ label, value, className, mono = false }: { label: string; value: React.ReactNode; className?: string; mono?: boolean }) => (
+  <div className={`flex flex-col gap-1 py-2.5 ${className}`}>
     <dt className="text-[11px] font-medium uppercase tracking-wide text-slate-400">{label}</dt>
     <dd className={`text-sm text-[#0B1220] ${mono ? 'font-mono tabular-nums' : 'font-medium'}`}>
       {value ?? '—'}
@@ -141,6 +142,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
 
   return (
     <div className="min-h-screen bg-[#F6F7FB] pb-16">
+      <BackButton/>
       {/* Header */}
       <div className="border-b border-slate-200 bg-white">
         <div className="mx-auto max-w-6xl px-6 py-8">
@@ -308,7 +310,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
               <Field label="Account number" value={data.accountNumber} mono />
               <Field label="Bank" value={`${data.bank?.name} (${data.bank?.code})`} />
               <Field label="Scheme ID" value={data.schemeId} mono />
-              <Field label="User ID" value={data.userId} mono />
+              <Field label="User ID" className='col-span-2' value={data.userId} mono />
             </FieldGrid>
           </Card>
 
@@ -325,7 +327,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
                 <Field label="Identity score" value={data.identityScore} mono />
                 <Field label="Risk profile" value={titleCase(data.identityDescription)} />
                 <Field label="Last attempt" value={formatDateTime(data.verification?.lastVerificationAttempt)} />
-                <Field label="Verified by" value={data.verification?.verifiedBy} mono />
+                <Field label="Verified by" className='col-span-2' value={data.verification?.verifiedBy} mono />
               </FieldGrid>
             </div>
             {data.kycWalletInfo?.requiredKycUpgradeAction && (
@@ -338,9 +340,9 @@ const CustomerDetails = async ({ params }: IDParam) => {
           <Card title="Account activity">
             <FieldGrid>
               <Field label="Onboarding stage" value={titleCase(data.onboardingStage)} />
-              <Field label="Agent ID" value={data.agentId} mono />
               <Field label="Created" value={formatDateTime(data.createdAt)} />
               <Field label="Last updated" value={formatDateTime(data.updatedAt)} />
+              <Field label="Agent ID" className='col-span-2' value={data.agentId} mono />
             </FieldGrid>
           </Card>
         </div>
