@@ -5,11 +5,12 @@ type FetchOptions = {
   revalidate?: number;
   timeout?: number;
   errorMessage?: string;
+  tags?: string[]
 };
 
 
 export const getData = async( url: string, options: FetchOptions = {}) => {
-  const { revalidate = 120, timeout = 5000, errorMessage = 'Failed to fetch data' } = options;
+  const { revalidate = 120, timeout = 5000, errorMessage = 'Failed to fetch data', tags } = options;
 
   const token = await getAccessToken();
 
@@ -17,6 +18,7 @@ export const getData = async( url: string, options: FetchOptions = {}) => {
     revalidate,
     timeout,
     token,
+    tags
   });
 
   if (!res.data || res.data === null || res.status !== 200) {
@@ -41,15 +43,13 @@ export const getAllLoansWeeklyDistribution = () => getData('dashboards/managers/
 
 export const getLoanTimeSeries = () => getData('dashboards/managers/loans/time-series-stats')
 
-export const getAgentProfileById = (id: string) => getData(`agents/profiles/${id}`);
+export const getAgentProfileById = (id: string) => getData(`agents/profiles/${id}`, { tags: [`${id}`] });
 
 export const getAllCustomers = () => getData('business-users');
 
 export const getAllLeadsToReview = () => getData('business-users/leads');
 
-export const getCustomerDetails = (id: string) => getData(`business-users/${id}`);
-
-export const getLeadDetails = (id: string) => getData(`business-users/leads/${id}`);
+export const getCustomerDetails = (id: string) => getData(`business-users/${id}`, { tags: [`${id}`] });
 
 export const getAllTransactions = () => getData('transactions/business');
 

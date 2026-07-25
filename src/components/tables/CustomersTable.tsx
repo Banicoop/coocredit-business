@@ -20,9 +20,11 @@ type Customer = {
 const CustomersTable = ({
   initialData,
   error,
+  isLead
 }: {
   initialData: Customer[];
   error?: string;
+  isLead?: boolean
 }) => {
   const [search, setSearch] = useState('');
 
@@ -63,7 +65,10 @@ const CustomersTable = ({
       render: (id: string) => (
         <ActionDropdown
           actions={[
-            { label: 'View Details', href: `/manager/customers/${id}`, variant: 'primary', icon: Eye },
+            { 
+              label: 'View Details', 
+              href: isLead ? `/manager/customers/${id}/lead`:  `/manager/customers/${id}`, 
+              variant: 'primary', icon: Eye },
           ]}
         />
       ),

@@ -7,7 +7,7 @@ const LeadToReview = ({data, error}: {data: any[], error: string}) => {
   return (
     <Grid className='gap-6'>
         <PageHeader title='Pending Customer Acquisition'/>
-        <CustomersTable initialData={data ?? []} error={error}/>
+        <CustomersTable initialData={data ?? []} error={error} isLead/>
     </Grid>
   )
 }

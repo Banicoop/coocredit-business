@@ -2,18 +2,20 @@
 
 import Image from 'next/image';
 import { Badge } from './AgentProfileCards';
-import { FlexCol } from '@/components/ui/ui-layout';
+import { Flex, FlexCol } from '@/components/ui/ui-layout';
 import Button from '@/components/primitives/buttons/Button';
-import { useState, useTransition } from 'react';
+import { ChangeEvent, useState, useTransition } from 'react';
 import { Modal } from '@/components/primitives/modals/Modal';
 import Typography from '@/components/primitives/Typography';
 import { validateAgentCreation } from '@/lib/manager.actions';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { TextArea } from '@/components/primitives/inputs/TextArea';
 
 const AgentProfileHeader = ({data}: any) => {
 
     const [openApproveModal, setOpenApproveModal] = useState(false);
+    const [openRejectModal, setOpenRejectModal] = useState(false);
 
   return (
     <>
@@ -35,7 +37,11 @@ const AgentProfileHeader = ({data}: any) => {
                         </h1>
                         <p className="text-gray-500">{data.email}</p>
                     </div>
-                {data.approvalStatus === 'pending' && <Button className='cursor-pointer h-fit' size='md' onClick={() => setOpenApproveModal(true)}>Approve Agent</Button>}
+                {data.approvalStatus === 'pending' && (
+                    <Flex className='gap-2.5'>
+                        <Button className='cursor-pointer h-fit bg-rose-50 text-rose-700 ring-rose-600/20' variant='ghost' size='md' onClick={() => setOpenRejectModal(true)}>Reject Agent</Button>
+                        <Button className='cursor-pointer h-fit' size='md' onClick={() => setOpenApproveModal(true)}>Approve Agent</Button>
+                    </Flex>)}
                 </FlexCol>
 
                 <div className="flex flex-wrap gap-2 mt-4">
@@ -56,7 +62,9 @@ const AgentProfileHeader = ({data}: any) => {
             </div>
             </div>
         </div>
-        <AgentApprovalModel open={openApproveModal} setOpen={setOpenApproveModal} id={data.userId}/>
+        <AgentApprovalModel open={openApproveModal} setOpen={setOpenApproveModal} id={data?.userId}/>
+
+        <AgentRejectModel open={openRejectModal} setOpen={setOpenRejectModal} id={data?.userId}/>
     </>
   )
 }
@@ -92,7 +100,45 @@ const AgentApprovalModel = ({open, setOpen, id}: any) => {
                 </FlexCol>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant='light' className='text-destructive border' onClick={() => setOpen(false)}>Reject</Button>
+                <Button variant='light' className='border' onClick={() => setOpen(false)}>Cancel</Button>
+                <Button onClick={handleApproval} loading={isPending} disabled={isPending}>Approve</Button>
+            </Modal.Footer>
+        </Modal>
+    )
+}
+
+
+const AgentRejectModel = ({open, setOpen, id}: any) => {
+
+    const [isPending, startTransition] = useTransition();
+    const router = useRouter();
+    const [reason, setReason] = useState('');
+
+    const handleApproval = () => {
+        startTransition(async () => {
+        const res = await validateAgentCreation({agentId: id, decision :'REJECT', reason});
+
+        if (res.success && res.data) {
+            toast.success('Agent approved successfully');
+            setOpen(false);
+            router.refresh();
+        } else {
+            toast.error(res.error);
+        }
+        });
+    };
+
+    return(
+        <Modal onOpenChange={() => setOpen(false)} open={open}>
+            <Modal.Header title='Are you sure you want to reject agent application request?'/>
+            <Modal.Body>
+                <FlexCol className='gap-4'>
+                    <Typography>Please provide reason for rejection</Typography>
+                    <TextArea placeholder='Reason' value={reason} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setReason(e.target.value)}/>
+                </FlexCol>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant='light' className='border' onClick={() => setOpen(false)}>Cancel</Button>
                 <Button onClick={handleApproval} loading={isPending} disabled={isPending}>Approve</Button>
             </Modal.Footer>
         </Modal>
