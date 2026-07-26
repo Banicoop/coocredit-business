@@ -130,6 +130,7 @@ const ChecklistItem = ({ label, done }: { label: string; done: boolean }) => (
 const LeadDetails = async ({ params }: IDParam) => {
   const { id } = await params;
   const res = (await getCustomerDetails(id)) as any;
+  console.log('LEAD:', res);
   const lead = res?.data;
 
   if (!lead) {

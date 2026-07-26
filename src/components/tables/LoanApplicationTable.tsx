@@ -39,7 +39,7 @@ const Title = () => (
     </Flex>
 )
 
-const LoanApplicationTable = ({data}: {data: any}) => {
+const LoanApplicationTable = ({data, error}: {data: any, error: string}) => {
 
     const columns = [
         // {
@@ -87,6 +87,7 @@ const LoanApplicationTable = ({data}: {data: any}) => {
         columns={columns} 
         data={data ?? []} 
         title={<Title/>} 
+        error={error}
         emptyMessage='No Available Loan'
         pageSize={6} pagination/>
   )

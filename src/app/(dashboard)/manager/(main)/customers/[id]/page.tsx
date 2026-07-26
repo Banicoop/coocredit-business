@@ -112,6 +112,8 @@ const FieldGrid = ({ children }: { children: React.ReactNode }) => (
 const CustomerDetails = async ({ params }: IDParam) => {
   const { id } = await params;
   const res = (await getCustomerDetails(id)) as any;
+
+  console.log('res:', res);
   const data = res?.data;
 
   if (!data) {
