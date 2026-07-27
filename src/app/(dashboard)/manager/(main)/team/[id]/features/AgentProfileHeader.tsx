@@ -139,7 +139,7 @@ const AgentRejectModel = ({open, setOpen, id}: any) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant='light' className='border' onClick={() => setOpen(false)}>Cancel</Button>
-                <Button onClick={handleApproval} loading={isPending} disabled={isPending}>Approve</Button>
+                <Button onClick={handleApproval} variant='ghost' className='bg-rose-700 text-card ring-rose-600/20' loading={isPending} disabled={isPending}>Reject</Button>
             </Modal.Footer>
         </Modal>
     )

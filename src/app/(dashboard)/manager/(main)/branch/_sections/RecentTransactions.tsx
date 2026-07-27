@@ -18,14 +18,16 @@ const Title = () => (
 
 const RecentTransactions = ({data, error}: {data: any[], error: string}) => {
 
+    console.log('TRANSACTION', data)
+
     const columns = [
-        {
-            key: 'transactionId',
-            title: 'TRANSACTION ID',
-            render: (id: string) => (
-                <Typography variant='small' weight='semibold' color='active'>{id}</Typography>
-            )
-        },
+        // {
+        //     key: 'transactionId',
+        //     title: 'TRANSACTION ID',
+        //     render: (id: string) => (
+        //         <Typography variant='small' weight='semibold' color='active'>{id}</Typography>
+        //     )
+        // },
         {
             key: 'createdAt',
             title: 'TIMESTAMP',
@@ -72,16 +74,16 @@ const RecentTransactions = ({data, error}: {data: any[], error: string}) => {
             )
         },
         {
-            key: 'id',
+            key: 'transactionId',
             title: 'ACTIONS',
-            render: () => (
+            render: (id: string) => (
                 <ActionDropdown 
                     actions={[
                         {
                             label: 'View Details',
                             icon: Eye,
                             variant: 'primary',
-                            href: '/manager/branch/'
+                            href: `/manager/branch/${id}`
                         }
                     ]}/>
             )

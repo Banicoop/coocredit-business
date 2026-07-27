@@ -1,10 +1,6 @@
-import { ColItem, PageHeader } from '@/components/ui/PageHeader';
-import { Flex, FlexCol, Grid, GridItem } from '@/components/ui/ui-layout';
-import Typography from '@/components/primitives/Typography';
-import { AlertTriangle, TimerOff, TrendingUpDown } from 'lucide-react';
-import { ProgressBar } from '@/components/ui/ProgessBar';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { Grid } from '@/components/ui/ui-layout';
 import { agentGetAllLoans, agentGetDashboardOverview } from '@/lib/api.agent';
-import { cn } from '@/lib/utils';
 import LoanApplicationTable from '@/components/tables/LoanApplicationTable';
 import LoanCardsSection from './_sections/LoanCardsSection';
 
@@ -21,7 +17,7 @@ const Loans = async () => {
 
       <LoanCardsSection data={data}/>
 
-      <LoanApplicationTable data={loans?.data}/>
+      <LoanApplicationTable data={loans?.data} error={loans?.error || loans?.data?.error || 'An error occured'}/>
       {/* <Grid className='gap-4 md:grid-cols-6 w-full'>
         {/* MAIN */}
         {/* <Grid className='col-span-4 gap-y-4'>

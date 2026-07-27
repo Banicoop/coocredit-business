@@ -13,8 +13,8 @@ const BranchPage = async () => {
   return (
     <Grid className='gap-7'>
 
-    {stats?.data ?
-      <TransactionCardsWidget data={stats?.data}/>:
+    {stats.data ?
+      <TransactionCardsWidget data={stats.data}/>:
       <Flex className="h-40 justify-center">
         <Typography color='destructive' variant='small'>Unable to load customer's data</Typography>
       </Flex>
@@ -22,7 +22,7 @@ const BranchPage = async () => {
 
       <RecentTransactions 
         data={transactions?.data ?? []} 
-        error={transactions.error} />
+        error={transactions?.error} />
     </Grid>
   )
 }

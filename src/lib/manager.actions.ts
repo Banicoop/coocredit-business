@@ -2,7 +2,7 @@
 
 import { SERVER } from "@/utils/fetchUtil";
 import { getAccessToken } from "./auth.actions";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 type validateAgentPayload = {
      decision: 'APPROVE' | 'REJECT';
@@ -13,20 +13,68 @@ type validateAgentPayload = {
 type businessUserPayload = {
   userId: string;
   businessId: string;
-  businessSegment: string;
+  businessSegment: 'micro' | 'starter' | 'small' |  'growth' |  'enterprise' | 'asset';
   decision: 'approve' | 'reject';
 }
 
 
-export const approveBusinessLoans = async () => {
-    // Implement the logic to fetch all loans from the database or API
+export const approveBusinessLoans = async ({loanId}: {loanId: string}) => {
+  const token = await getAccessToken();
+  try {
+    const res = await SERVER.patch(`admin/loans/${loanId}/business/approve`, {
+      token
+    })
 
+    revalidateTag(loanId, "max");
+    
+    if(!res.data || res.data === null || res.error){
+      return{
+          success: false,
+          error: res.error
+      }
+    }
+    return {
+      success: true,
+      data: res,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error:
+        error?.response?.data?.message ||
+        error?.message ||
+        'Something went wrong.',
+    };
+  }
 }
 
 
-export const rejectBusinessLoans = async () => {
-    // Implement the logic to fetch all loans from the database or API
+export const rejectBusinessLoans = async ({loanId, reason}: {loanId: string, reason?: string}) => {
+  const token = await getAccessToken();
+  try {
+    const res = await SERVER.patch(`admin/loans/${loanId}/business/reject`, {
+        reason
+      }, { token }
+    )
 
+    revalidateTag(loanId, "max");
+    
+    if(!res.data || res.data === null || res.error){
+      return{
+          success: false,
+          error: res.error
+      }
+    }
+    return { success: true, data: res };
+  } catch (error: any) {
+      return {
+        success: false,
+        error:
+          error?.response?.data?.message ||
+          error?.message ||
+          'Something went wrong.',
+    };
+  }
 }
 
 
@@ -41,7 +89,7 @@ export const validateAgentCreation = async ({ agentId, decision, reason } : vali
         {token, tags: [`${agentId}`]},
     );
 
-    revalidateTag(`${agentId}`, `${decision}` )
+    revalidateTag(agentId, 'max')
 
     if(!result.data || result.data === null || result.error){
         return{
@@ -50,10 +98,7 @@ export const validateAgentCreation = async ({ agentId, decision, reason } : vali
         }
     }
 
-    return {
-      success: true,
-      data: result,
-    };
+    return { success: true, data: result };
   } catch (error: any) {
     return {
       success: false,
@@ -75,7 +120,7 @@ export const validateBusinessUser = async ({userId, businessId, businessSegment,
       }, { token }
     );
     
-    revalidateTag(`${userId}`, `${businessId}`);
+    revalidateTag(businessId, 'max');
     
       if(!result.data || result.data === null || result.error){
           return{
