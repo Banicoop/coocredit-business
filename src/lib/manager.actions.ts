@@ -49,9 +49,32 @@ export const approveBusinessLoans = async ({loanId}: {loanId: string}) => {
 }
 
 
-export const rejectBusinessLoans = async ({loanId}: {loanId: string}) => {
-    // Implement the logic to fetch all loans from the database or API
+export const rejectBusinessLoans = async ({loanId, reason}: {loanId: string, reason?: string}) => {
+  const token = await getAccessToken();
+  try {
+    const res = await SERVER.patch(`admin/loans/${loanId}/business/reject`, {
+        reason
+      }, { token }
+    )
 
+    revalidateTag(loanId, "max");
+    
+    if(!res.data || res.data === null || res.error){
+      return{
+          success: false,
+          error: res.error
+      }
+    }
+    return { success: true, data: res };
+  } catch (error: any) {
+      return {
+        success: false,
+        error:
+          error?.response?.data?.message ||
+          error?.message ||
+          'Something went wrong.',
+    };
+  }
 }
 
 
@@ -75,10 +98,7 @@ export const validateAgentCreation = async ({ agentId, decision, reason } : vali
         }
     }
 
-    return {
-      success: true,
-      data: result,
-    };
+    return { success: true, data: result };
   } catch (error: any) {
     return {
       success: false,

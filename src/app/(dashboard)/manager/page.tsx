@@ -10,28 +10,12 @@ import ErrorPage from '@/components/ui/ErrorPage';
 
 const ManagerDashboard = async () => {
 
-  const data = await getManagerDashboardStats() as any;
+  const data = await getManagerDashboardStats({startDate: '', endDate: ''}) as any;
 
   if(!data) return <ErrorPage label='Retry'/>
 
   return (
     <Grid className='gap-6'>
-      <PageHeader
-        title='Dashboard Overview' 
-        description='Real-time overview of Lagos Central performance metrics.'
-        actions={[
-          {
-            label: 'Last 30 Days',
-            icon: <CalendarDays size={18} className='text-ring'/>,
-            textClassName: 'text-ring font-semibold'
-          },
-          {
-            label: 'Download',
-            icon: <Download size={18}/>,
-            variant: 'primary'
-          },
-        ]}
-        />
 
       <CardsAndInsight stats={data.data}/>
 

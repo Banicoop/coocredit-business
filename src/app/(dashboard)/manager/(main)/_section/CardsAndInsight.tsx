@@ -1,9 +1,10 @@
 import Button from '@/components/primitives/buttons/Button';
 import Typography from '@/components/primitives/Typography';
 import { CardWidget } from '@/components/ui/cards';
+import { PageHeader } from '@/components/ui/PageHeader';
 import { ProgressBar } from '@/components/ui/ProgessBar';
 import { Flex, Grid, GridItem } from '@/components/ui/ui-layout';
-import { AlertTriangle, Banknote, Building2, CircleSlash2, Rocket, TrendingUp, UsersRound } from 'lucide-react';
+import { AlertTriangle, Banknote, Building2, CalendarDays, CircleSlash2, Download, Rocket, TrendingUp, UsersRound } from 'lucide-react';
 
 
 export const Quality = () => {
@@ -42,6 +43,23 @@ const CardsAndInsight = ({stats}: any) => {
 
   return (
     <Grid className='gap-6'>
+        <PageHeader
+            title='Dashboard Overview' 
+            description='Real-time overview of Lagos Central performance metrics.'
+            actions={[
+            {
+                label: 'Search',
+                icon: <CalendarDays size={18} className='text-ring'/>,
+                textClassName: 'text-ring font-semibold'
+            },
+            {
+                label: 'Download',
+                icon: <Download size={18}/>,
+                variant: 'primary'
+            },
+            ]}
+        />
+        
         <Grid className='grid-cols-2 md:grid-cols-4 gap-5'>
             <CardWidget label='Total Active Customers' 
             icon={<UsersRound size={18}  className='text-primary'/>}

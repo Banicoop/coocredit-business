@@ -80,9 +80,11 @@ const AgentApprovalModel = ({open, setOpen, lead}: any) => {
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
 
+    console.log('LEAD:', lead);
+
     const handleApproval = () => {
         startTransition(async () => {
-        const res = await validateBusinessUser({userId: lead._id, businessId: lead.userId, businessSegment: 'micro', decision: 'approve'});
+        const res = await validateBusinessUser({userId: (lead._id).toString(), businessId: lead.userId, businessSegment: 'micro', decision: 'approve'});
 
         if (res.success && res.data) {
             toast.success('Agent approved successfully');
