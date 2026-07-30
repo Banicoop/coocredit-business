@@ -5,6 +5,8 @@ export const agentGetMyProfile = () => getData('agents/profiles/me', { errorMess
 
 export const getAllAgentsBusinessCustomers = () => getData('business-users/all');
 
+export const agentGetBusinessCustomersDetails = (id: string) => getData(`business-users/${id}/details`);
+
 export const getAllAgentsBusinessCustomersDetails = () => (id: string) => getData(`business-users/${id}/details`);
 
 export const agentGetOnboardingStats = () => getData('agents/onboarding/stats');

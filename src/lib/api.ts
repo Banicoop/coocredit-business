@@ -56,6 +56,8 @@ export const getAllCustomers = () => getData('business-users');
 
 export const getAllLeadsToReview = () => getData('business-users/leads');
 
+export const getPendingOnboardingCustomers = () => getData('business-users/onboarding-pending');
+
 export const getCustomerDetails = (id: string) => getData(`business-users/admin/${id}`, { tags: [id] });
 
 export const getAllTransactions = () => getData('transactions/business');

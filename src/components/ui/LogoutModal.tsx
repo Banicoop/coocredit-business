@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { Modal } from '../primitives/modals/Modal';
 import { Flex, FlexCol } from './ui-layout';
 import { LogOut } from 'lucide-react';
@@ -23,7 +23,7 @@ const LogoutModal = ({open, setOpen}: Props) => {
     
     const handleLogout = () => {
         setUser(null);
-        router.push('/auth/sign-in/admin');
+        router.push('/');
     }
 
 
