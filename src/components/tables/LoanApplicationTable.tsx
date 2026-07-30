@@ -42,38 +42,49 @@ const Title = () => (
 const LoanApplicationTable = ({data, error}: {data: any, error: string}) => {
 
     const columns = [
+        {
+            key: 'loanProfileId',
+            title: 'Applicant',
+            render: (val: any) => (
+                <Typography>{`${val?.firstName} ${val?.lastName}`}</Typography>
+            )
+        },
         // {
-        //     key: 'applicant',
-        //     title: 'Applicant'
+        //     key: 'businessId',
+        //     title: 'Business ID'
         // },
         {
-            key: 'businessId',
-            title: 'Business ID'
+            key: 'amount',
+            title: 'Amount',
+            render: (val: number) => (
+                <Typography>₦{val.toLocaleString()}</Typography>
+            )
         },
         {
-            key: 'amount',
-            title: 'Amount'
+            key: 'interestAmount',
+            title: 'Interest',
+            render: (val: number) => (
+                <Typography>₦{val.toLocaleString()}</Typography>
+            )
         },
         {
             key: 'status',
             title: 'Status',
             render: (val: string) => (
-                <Typography variant='small' className='bg-[#CCFBF1] px-1.5 py-1' color='active'>{val}</Typography>
+                <Typography variant='small' 
+                    className='bg-[#CCFBF1] px-3 py-1 capitalize rounded-md' 
+                    color={val === 'pending' ? 'pending': val === 'rejected' ? 'destructive': 'active'}>{val}</Typography>
             )
         },
         {
-            key: 'date',
-            title: 'Date'
-        },
-        {
-            key: '',
+            key: 'loanId',
             title: 'Actions',
-            render: (val: any) => (
+            render: (id: string) => (
                 <ActionDropdown 
                     actions={[
                         {
                             label: 'View Details',
-                            href: '/agents/loans/slug',
+                            href: `/manager/portfolio/${id}`,
                             icon: EyeClosedIcon,
                             variant: 'primary'
                         }
