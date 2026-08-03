@@ -37,7 +37,7 @@ const Actions = ({loanId}: {loanId: string}) => {
         <Flex className='gap-4'>
         <Button onClick={() => setOpenApproveModal(true)}>Approve</Button>
         <Button className='bg-rose-50 text-rose-700 ring-rose-600/20' variant='ghost' onClick={() => setOpenRejectModal(true)}>Reject</Button>
-        <Link href={`${loanId}/history`} className='text-primary bg-card border text-xs py-2 px-2.5 rounded-md'>View Repayment</Link>
+        <Link href={`${loanId}/repayments`} className='text-primary bg-card border text-xs py-2 px-2.5 rounded-md'>View Repayment</Link>
         </Flex>
     </Flex>
     <LoanApprovalModel open={openApproveModal} setOpen={setOpenApproveModal} loanId={loanId}/>
