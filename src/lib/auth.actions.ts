@@ -13,13 +13,9 @@ export async function getAccessToken() {
 }
 
 
-export const adminLogin = async (
-  _prevState: ActionState,
-  formData: FormData
-): Promise<ActionState> => {
+export const adminLogin = async (_prevState: ActionState, formData: FormData): Promise<ActionState> => {
   const email = formData.get('email') as string | null;
   const password = formData.get('password') as string | null;
-
 
     // ── Basic validation ──
     if (!email?.trim() || !password?.trim()) {

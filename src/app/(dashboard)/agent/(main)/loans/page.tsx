@@ -11,13 +11,15 @@ const Loans = async () => {
 
   const data = await agentGetDashboardOverview() as any;
 
+  console.log('LOANS', loans?.data[0].repaymentPlan);
+
   return (
     <Grid className='gap-y-7 w-full'>
       <PageHeader title='Loan Applications' />
 
       <LoanCardsSection data={data}/>
 
-      <LoanApplicationTable data={loans?.data} error={loans?.error || loans?.data?.error || 'An error occured'}/>
+      <LoanApplicationTable data={loans?.data} error={loans?.error || loans?.data?.error} isAgent/>
       {/* <Grid className='gap-4 md:grid-cols-6 w-full'>
         {/* MAIN */}
         {/* <Grid className='col-span-4 gap-y-4'>

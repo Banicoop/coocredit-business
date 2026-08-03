@@ -43,6 +43,15 @@ export const Dot = ({ tone = 'neutral' }: { tone?: BadgeTone }) => {
   return <span className={`h-1.5 w-1.5 rounded-full ${dotColor[tone]}`} />;
 };
 
+export const statusTone = (status: string): BadgeTone =>
+  status === 'approved'
+    ? 'success'
+    : status === 'pending'
+    ? 'warning'
+    : status === 'rejected' || status === 'defaulted'
+    ? 'danger'
+    : 'neutral';
+
 
 export const Card = ({
   title,
