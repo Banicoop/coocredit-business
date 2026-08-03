@@ -6,6 +6,7 @@ import LoanDocument from './tabs/LoanDocument';
 import LoanTimeline from './tabs/LoanTimeline';
 import LoanGuarantor from './tabs/LoanGuarantor';
 import LoanNotes from './tabs/LoanNotes';
+import { BackButton } from '@/components/primitives/buttons/BackButton';
 
 const tabs = [
   {
@@ -32,7 +33,8 @@ const tabs = [
 
 const LoanDetails = () => {
   return (
-    <Grid className='gap-4'>
+    <Grid className='gap-6'>
+      <BackButton/>
       <PageHeader title='Loan Details' />
 
       <Tabs2 tabs={tabs} defaultValue="Overview" />

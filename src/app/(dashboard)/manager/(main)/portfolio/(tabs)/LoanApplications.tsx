@@ -8,7 +8,7 @@ const LoanApplicationsTab = async () => {
 
   const data = await getAllLoans() as any;
 
-  console.log('D', data?.data);
+  // console.log('ALL LOANS', data?.data);
 
   return (
     <Grid className='gap-6'>

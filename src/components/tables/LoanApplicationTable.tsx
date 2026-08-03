@@ -6,6 +6,7 @@ import Typography from '@/components/primitives/Typography';
 import { ActionDropdown } from '@/components/ui/ActionDropDown';
 import { Tabs } from '@/components/ui/Tabs';
 import { Flex } from '@/components/ui/ui-layout';
+import { formatDateTime } from '@/helpers/funcs';
 import { EyeClosedIcon, Search } from 'lucide-react';
 
 
@@ -39,7 +40,7 @@ const Title = () => (
     </Flex>
 )
 
-const LoanApplicationTable = ({data, error}: {data: any, error: string}) => {
+const LoanApplicationTable = ({data, error, isAgent}: {data: any, error: string, isAgent?: boolean}) => {
 
     const columns = [
         {
@@ -49,10 +50,13 @@ const LoanApplicationTable = ({data, error}: {data: any, error: string}) => {
                 <Typography>{`${val?.firstName} ${val?.lastName}`}</Typography>
             )
         },
-        // {
-        //     key: 'businessId',
-        //     title: 'Business ID'
-        // },
+        {
+            key: 'appliedAt',
+            title: 'Application Date',
+            render: (val: string) => (
+                <Typography>{formatDateTime(val)}</Typography>
+            )
+        },
         {
             key: 'amount',
             title: 'Amount',
@@ -84,7 +88,7 @@ const LoanApplicationTable = ({data, error}: {data: any, error: string}) => {
                     actions={[
                         {
                             label: 'View Details',
-                            href: `/manager/portfolio/${id}`,
+                            href: isAgent ? `/agent/loans/${id}`: `/manager/portfolio/${id}`,
                             icon: EyeClosedIcon,
                             variant: 'primary'
                         }
