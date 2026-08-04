@@ -7,6 +7,7 @@ import LoanTimeline from './tabs/LoanTimeline';
 import LoanGuarantor from './tabs/LoanGuarantor';
 import LoanNotes from './tabs/LoanNotes';
 import { BackButton } from '@/components/primitives/buttons/BackButton';
+import { agentGetLoanById } from '@/lib/api.agent';
 
 const tabs = [
   {
@@ -31,7 +32,12 @@ const tabs = [
   },
 ]
 
-const LoanDetails = () => {
+const LoanDetails = async ({ slug }: { slug: string }) => {
+
+  const loanDetails = (await agentGetLoanById(slug)) as any;
+
+  console.log('loanDetails', loanDetails);
+
   return (
     <Grid className='gap-6'>
       <BackButton/>

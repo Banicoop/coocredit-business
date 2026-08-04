@@ -11,9 +11,11 @@ export const getAllAgentsBusinessCustomersDetails = () => (id: string) => getDat
 
 export const agentGetOnboardingStats = () => getData('agents/onboarding/stats');
 
- export const agentGetLoanStats = () => getData('agents/loans/dashboard/stats');
+export const agentGetLoanStats = () => getData('agents/loans/dashboard/stats');
 
- export const agentGetAllLoans = () => getData('agents/loans/all');
+export const agentGetAllLoans = () => getData('agents/loans/all');
 
- export const agentGetDashboardOverview = () => getData('agents/loans/dashboard/overview');
+export const agentGetLoanById = (loanId: string) => getData(`business-users/loans/${loanId}`);
+
+export const agentGetDashboardOverview = () => getData('agents/loans/dashboard/overview');
 

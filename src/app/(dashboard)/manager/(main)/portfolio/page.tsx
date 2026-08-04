@@ -10,16 +10,18 @@ const PortfolioPage = () => {
   return (
     <Grid className={cn(' py-6 px-4')}>
 
-      <Tabs2 tabs={[
-        {
-          label: 'Portfolio Quality',
-          content: <PortfolioQuality/>,
-        },
-        {
-          label: 'Loan Portfolio',
-          content: <LoanApplications/>,
-        },
-      ]} defaultValue='Portfolio Quality'/>
+    <LoanApplications/>
+
+      {/* // <Tabs2 tabs={[
+      //   {
+      //     label: 'Portfolio Quality',
+      //     content: <PortfolioQuality/>,
+      //   },
+      //   {
+      //     label: 'Loan Portfolio',
+      //     content: <LoanApplications/>,
+      //   },
+      // ]} defaultValue='Portfolio Quality'/> */}
     </Grid>
   )
 }
