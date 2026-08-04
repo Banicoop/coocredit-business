@@ -13,7 +13,7 @@ import { ChangeEvent, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 
 
-const Actions = ({loanId}: {loanId: string}) => {
+const Actions = ({loanId, status}: {loanId: string, status: string}) => {
 
     const [openApproveModal, setOpenApproveModal] = useState(false);
     const [openRejectModal, setOpenRejectModal] = useState(false);
@@ -35,8 +35,12 @@ const Actions = ({loanId}: {loanId: string}) => {
         <BackButton />
 
         <Flex className='gap-4'>
-        <Button onClick={() => setOpenApproveModal(true)}>Approve</Button>
-        <Button className='bg-rose-50 text-rose-700 ring-rose-600/20' variant='ghost' onClick={() => setOpenRejectModal(true)}>Reject</Button>
+            { status === 'pending' && (
+                <>
+                <Button onClick={() => setOpenApproveModal(true)}>Approve</Button>
+                <Button className='bg-rose-50 text-rose-700 ring-rose-600/20' variant='ghost' onClick={() => setOpenRejectModal(true)}>Reject</Button>
+                </>
+            )}
         <Link href={`${loanId}/repayments`} className='text-primary bg-card border text-xs py-2 px-2.5 rounded-md'>View Repayment</Link>
         </Flex>
     </Flex>

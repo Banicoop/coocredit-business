@@ -40,7 +40,7 @@ const LoanDetails = async ({params}: IDParam) => {
           {/* Header */}
         <div className="border-b border-slate-200 bg-white">
           <div className="mx-auto max-w-6xl px-6 py-8">
-            <Actions loanId={loan?.loanId}/>
+            <Actions loanId={loan?.loanId} status={loan?.status}/>
 
             <div className="mt-5 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex items-start gap-4">
@@ -88,7 +88,7 @@ const LoanDetails = async ({params}: IDParam) => {
          </div>
 
 
-                 {/* Body */}
+        {/* Body */}
         <div className="mx-auto mt-8 grid grid-cols-2 gap-6">
           {/* Left column */}
           {/* <div className="flex flex-col gap-6 lg:col-span-2">

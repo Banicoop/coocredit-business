@@ -36,8 +36,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
       : customer.identityDescription === 'high_risk'
       ? 'danger'
       : 'warning';
-  const verificationTone: BadgeTone =
-    customer.verification?.verificationStatus === 'success' ? 'success' : 'warning';
+  const verificationTone: BadgeTone = customer.verification?.verificationStatus === 'success' ? 'success' : 'warning';
 
   const loanStatusTone: BadgeTone =
     currentLoan?.status === 'active'
@@ -58,7 +57,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
     { label: 'Debit lien', value: customer.debitLienBalance },
   ];
 
-  const creditScore = Math.round(((loan?.creditScore)/850) * 100)
+  const creditScore = Math.round(loan?.creditScore) || 0;
 
   return (
     <FlexCol className="gap-6">
@@ -136,7 +135,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
         </div>
 
         {/* Body */}
-        <div className="mx-auto mt-8 grid max-w-6xl grid-cols-1 gap-6 px-6 lg:grid-cols-3">
+        <div className="mx-auto mt-8 grid max-w-7xl grid-cols-1 gap-6 lg:grid-cols-3">
           {/* Left column */}
           <div className="flex flex-col gap-6 lg:col-span-2">
             <Card title="Personal information">
