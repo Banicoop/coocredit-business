@@ -11,7 +11,7 @@ const Loans = async () => {
 
   const data = await agentGetDashboardOverview() as any;
 
-  console.log('LOANS', loans);
+  // console.log('LOANS', loans);
 
   return (
     <Grid className='gap-y-7 w-full'>

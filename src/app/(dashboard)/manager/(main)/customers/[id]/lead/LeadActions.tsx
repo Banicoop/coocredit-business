@@ -1,7 +1,7 @@
 'use client';
 
 import { Flex, FlexCol } from '@/components/ui/ui-layout';
-import { Badge, BadgeTone, Dot, initials, titleCase } from './page';
+import { Badge, BadgeTone, Dot } from '@/components/primitive-ui/card-ui';
 import Button from '@/components/primitives/buttons/Button';
 import { BackButton } from '@/components/primitives/buttons/BackButton';
 import { ChangeEvent, useState, useTransition } from 'react';
@@ -11,6 +11,7 @@ import { Modal } from '@/components/primitives/modals/Modal';
 import Typography from '@/components/primitives/Typography';
 import { TextArea } from '@/components/primitives/inputs/TextArea';
 import { validateBusinessUser } from '@/lib/manager.actions';
+import { initials, titleCase } from '@/helpers/funcs';
 
 
 const LeadActions = ({lead}: any) => {
