@@ -7,40 +7,44 @@ import LoanTimeline from './tabs/LoanTimeline';
 import LoanGuarantor from './tabs/LoanGuarantor';
 import LoanNotes from './tabs/LoanNotes';
 import { BackButton } from '@/components/primitives/buttons/BackButton';
-import { agentGetLoanById } from '@/lib/api.agent';
+import { agentGetLoanById, agentGetSupportedDocs } from '@/lib/api.agent';
 import { IDParam } from '@/types/types';
 
 
-const tabs = [
-  {
-    label: 'Overview',
-    content: <LoanOverview />
-  },
-  {
-    label: 'Documents',
-    content: <LoanDocument/>
-  },
-  {
-    label: 'Timeline',
-    content: <LoanTimeline />
-  },
-  {
-    label: 'Guarantor',
-    content: <LoanGuarantor />
-  },
-  {
-    label: 'Notes',
-    content: <LoanNotes />
-  },
-]
 
 const LoanDetails = async ({ params }: IDParam) => {
-
+  
   const { id } = (await params)
-
+  
   const loanDetails = (await agentGetLoanById(id)) as any;
+  const res = (await agentGetSupportedDocs()) as any
 
-  console.log('loanDetails', loanDetails?.data);
+  const data = loanDetails?.data
+  const documents = res?.data
+
+  const tabs = [
+    {
+      label: 'Overview',
+      content: <LoanOverview loan={data} />
+    },
+    {
+      label: 'Documents',
+      content: <LoanDocument documents={documents}/>
+    },
+    {
+      label: 'Timeline',
+      content: <LoanTimeline />
+    },
+    {
+      label: 'Guarantor',
+      content: <LoanGuarantor />
+    },
+    {
+      label: 'Notes',
+      content: <LoanNotes />
+    },
+  ]
+
 
   return (
     <Grid className='gap-6'>

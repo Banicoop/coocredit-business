@@ -10,8 +10,9 @@ import { toast } from 'sonner';
 import { Modal } from '@/components/primitives/modals/Modal';
 import Typography from '@/components/primitives/Typography';
 import { TextArea } from '@/components/primitives/inputs/TextArea';
-import { validateBusinessUser } from '@/lib/manager.actions';
+import { businessSegmentProps, validateBusinessUser } from '@/lib/manager.actions';
 import { initials, titleCase } from '@/helpers/funcs';
+import CustomSelect from '@/components/primitives/inputs/CustomSelect';
 
 
 const LeadActions = ({lead}: any) => {
@@ -75,34 +76,48 @@ const LeadActions = ({lead}: any) => {
 export default LeadActions;
 
 
+const businessSegment = [
+  {label: 'Select Business Segment', value: ''},
+  {label: 'Micro', value: 'micro'},
+  {label: 'Starter', value: 'starter'},
+  {label: 'Small', value: 'small'},
+  {label: 'Growth', value: 'growth'},
+  {label: 'Eterprise', value: 'enterprise'},
+  {label: 'Asset', value: 'asset'},
+]
+
+
 
 const AgentApprovalModel = ({open, setOpen, lead}: any) => {
 
-    const [isPending, startTransition] = useTransition();
-    const router = useRouter();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [selectedSegment, setSelectedSegment] = useState('');
 
-    console.log('LEAD:', lead);
-
-    const handleApproval = () => {
-        startTransition(async () => {
-        const res = await validateBusinessUser({userId: (lead._id).toString(), businessId: lead.userId, businessSegment: 'micro', decision: 'approve'});
-
-        if (res.success && res.data) {
-            toast.success('Agent approved successfully');
-            setOpen(false);
-            router.refresh();
-        } else {
-            toast.error(res.error);
-        }
-        });
-    };
+  const handleApproval = () => {
+      startTransition(async () => {
+      const res = await validateBusinessUser({userId: (lead._id).toString(), businessId: lead.userId, businessSegment: selectedSegment, decision: 'approve'});
+      if (res.success && res.data) {
+          toast.success('Business user approved successfully');
+          setOpen(false);
+          router.refresh();
+      } else {
+          toast.error(res.error);
+      }
+      });
+  };
 
     return(
         <Modal onOpenChange={() => setOpen(false)} open={open}>
-            <Modal.Header title='Are you sure you want to approve agent creation'/>
+            <Modal.Header title='Are you sure you want to approve business user creation'/>
             <Modal.Body>
                 <FlexCol>
-                    <Typography>Approving an agent implies creating an acount for this agent</Typography>
+                    <Typography>Approving an business implies creating an acount for this business user</Typography>
+                    <CustomSelect 
+                      label='Business Segment'  
+                      options={businessSegment} 
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedSegment(e.target.value)}
+                      wrapperClass='my-6 h-10'/>
                 </FlexCol>
             </Modal.Body>
             <Modal.Footer>

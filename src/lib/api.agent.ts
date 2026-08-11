@@ -19,3 +19,5 @@ export const agentGetLoanById = (loanId: string) => getData(`business-users/loan
 
 export const agentGetDashboardOverview = () => getData('agents/loans/dashboard/overview');
 
+export const agentGetSupportedDocs = () => getData('common/verification-doc-types');
+

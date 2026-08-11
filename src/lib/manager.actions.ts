@@ -10,10 +10,12 @@ type validateAgentPayload = {
      reason?: string
 }
 
+export type businessSegmentProps = 'micro' | 'starter' | 'small' |  'growth' |  'enterprise' | 'asset' | null;
+
 type businessUserPayload = {
   userId: string;
   businessId: string;
-  businessSegment: 'micro' | 'starter' | 'small' |  'growth' |  'enterprise' | 'asset';
+  businessSegment: string
   decision: 'approve' | 'reject';
 }
 
