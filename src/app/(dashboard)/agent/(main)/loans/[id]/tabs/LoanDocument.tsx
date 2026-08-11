@@ -5,14 +5,17 @@ import { ColItem, PageHeader } from '@/components/ui/PageHeader';
 import { Flex, FlexCol, Grid, GridItem } from '@/components/ui/ui-layout';
 import { Download, Eye, File, FileUp } from 'lucide-react';
 
-const documents = Array.from({length: 4}, (() => ({
-  title: 'NIN Slip',
-  fileName: 'NIN_Slip_Rodriguez.pdf',
-  timestamp: 'Oct 12, 2026',
-  size: '1.2 MB'
-})))
+// const documents = Array.from({length: 4}, (() => ({
+//   title: 'NIN Slip',
+//   fileName: 'NIN_Slip_Rodriguez.pdf',
+//   timestamp: 'Oct 12, 2026',
+//   size: '1.2 MB'
+// })))
 
-const LoanDocument = () => {
+const LoanDocument = ({documents}: any) => {
+
+  // console.log('DOCUMENTS:', documents);
+
   return (
     <Grid className='gap-5'>
       <PageHeader 
@@ -30,14 +33,14 @@ const LoanDocument = () => {
         />
       
       <Grid className='md:grid-cols-2 gap-6'>
-        {documents.map((document, index) => (
+        {documents.map((document: any, index: number) => (
           <GridItem key={index} className='grid grid-cols-[auto_1fr] gap-4 p-5 bg-white border border-gray-200 rounded-xl hover:shadow-md transition-all duration-200'>
             <div className='flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10'>
               <File size={26} className='text-primary' />
             </div>
 
             <FlexCol className='gap-1.5'>
-              <ColItem item1={document.title} 
+              <ColItem item1={document.name} 
                 item2={document.fileName} 
                 className1='font-semibold' className2='text-[#546474] '/>
 
