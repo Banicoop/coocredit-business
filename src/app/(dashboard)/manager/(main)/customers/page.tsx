@@ -12,7 +12,7 @@ const CustomersPage = async () => {
   const leads = await getAllLeadsToReview() as any;
   const pending = await getPendingOnboardingCustomers();
 
-  console.log('P', pending)
+  // console.log('P', pending)
 
 
     const tabs = [

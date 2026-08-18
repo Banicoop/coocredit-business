@@ -117,13 +117,11 @@ export const validateBusinessUser = async ({userId, businessId, businessSegment,
   const token = await getAccessToken();
 
   try {
-      const result = await SERVER.post('business-users/verify', {
+    const result = await SERVER.post('business-users/verify', {
         userId, businessId, businessSegment, decision
       }, { token }
     );
-    
-    revalidateTag(businessId, 'max');
-    
+    revalidateTag(userId, 'max');
       if(!result.data || result.data === null || result.error){
           return{
               success: false,
@@ -134,7 +132,6 @@ export const validateBusinessUser = async ({userId, businessId, businessSegment,
         success: true,
         data: result,
       };
-      
   } catch (error: any) {
     return {
       success: false,
