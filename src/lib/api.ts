@@ -32,6 +32,9 @@ export const getData = async( url: string, options: FetchOptions = {}) => {
 };
 
 
+export const BUSINESS_USERS_TAG = (businessId: string) =>
+  `business-users-${businessId}`;
+
 
 export const getManagerDashboardStats = ({startDate, endDate}: {startDate?:string, endDate?: string}) => {
    const params = new URLSearchParams();
@@ -52,13 +55,13 @@ export const getLoanTimeSeries = () => getData('dashboards/managers/loans/time-s
 
 export const getAgentProfileById = (id: string) => getData(`agents/profiles/${id}`, { tags: [id] });
 
-export const getAllCustomers = () => getData('business-users');
+export const getAllCustomers = () => getData('business-users', { tags: ['business-users'] });
 
-export const getAllLeadsToReview = () => getData('business-users/leads');
+export const getAllLeadsToReview = () => getData('business-users/leads', { tags: ['business-users'] });
 
 export const getPendingOnboardingCustomers = () => getData('business-users/onboarding-pending');
 
-export const getCustomerDetails = (id: string) => getData(`business-users/admin/${id}`, { tags: [id] });
+export const getCustomerDetails = (id: string) => getData(`business-users/admin/${id}`, { tags: [BUSINESS_USERS_TAG(id)] });
 
 export const getAllTransactions = () => getData('transactions/business');
 

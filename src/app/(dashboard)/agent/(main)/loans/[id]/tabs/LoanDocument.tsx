@@ -1,5 +1,6 @@
 'use client';
 
+import { MultiSelect } from '@/components/primitives/inputs/MultipleSelect';
 import Typography from '@/components/primitives/Typography';
 import { ColItem, PageHeader } from '@/components/ui/PageHeader';
 import { Flex, FlexCol, Grid, GridItem } from '@/components/ui/ui-layout';
@@ -14,23 +15,29 @@ import { Download, Eye, File, FileUp } from 'lucide-react';
 
 const LoanDocument = ({documents}: any) => {
 
-  // console.log('DOCUMENTS:', documents);
+  console.log('DOCUMENTS:', documents);
+
+
 
   return (
     <Grid className='gap-5'>
-      <PageHeader 
-        title='Verification Files' 
-        description='4 total documents uploaded' 
-        actions={[
-          {
-            label: 'Upload New',
-            onClick: () => console.log('CLicked!!'),
-            icon: <FileUp size={18} />,
-            variant: 'primary'
-            
-          }
-        ]}
-        />
+      <Flex className='justify-between'>
+        <PageHeader 
+          title='Verification Files' 
+          className='w-full'
+          description='4 total documents uploaded' 
+          // actions={[
+          //   {
+          //     label: 'Upload New',
+          //     onClick: () => console.log('CLicked!!'),
+          //     icon: <FileUp size={18} />,
+          //     variant: 'primary'
+              
+          //   }
+          // ]}
+          />
+          <MultiSelect className='w-10' placeholder='Upload New Document' options={[]}/>
+      </Flex>
       
       <Grid className='md:grid-cols-2 gap-6'>
         {documents.map((document: any, index: number) => (

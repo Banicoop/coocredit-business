@@ -4,6 +4,8 @@ import React from 'react';
 import LeadActions from './LeadActions';
 import { Card, EmptyState, Field, FieldGrid } from '@/components/primitive-ui/card-ui';
 import { formatDate, formatDateTime, titleCase } from '@/helpers/funcs';
+import { FlexCol } from '@/components/ui/ui-layout';
+import { BackButton } from '@/components/primitives/buttons/BackButton';
 
 
 // ---------- readiness checklist item ----------
@@ -32,14 +34,16 @@ const ChecklistItem = ({ label, done }: { label: string; done: boolean }) => (
 const LeadDetails = async ({ params }: IDParam) => {
   const { id } = await params;
   const res = (await getCustomerDetails(id)) as any;
-  console.log('LEAD:', res);
   const lead = res?.data;
 
   if (!lead) {
     return (
-      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-2 bg-[#F6F7FB] text-center">
-        <p className="text-sm font-medium text-slate-500">This lead could not be found.</p>
-      </div>
+      <FlexCol className='gap-4'>
+        <BackButton/>
+        <div className="flex min-h-[60vh] flex-col items-center justify-center gap-2 bg-[#F6F7FB] text-center">
+          <p className="text-sm font-medium text-slate-500">This lead could not be found.</p>
+        </div>
+      </FlexCol>
     );
   }
 
@@ -121,7 +125,7 @@ const LeadDetails = async ({ params }: IDParam) => {
                     href={doc.documentURL}
                     target="_blank"
                     rel="noreferrer"
-                    className="group flex items-center gap-4 rounded-xl border border-slate-200 p-3 transition hover:border-[#1E4FD8]/40 hover:bg-[#1E4FD8]/[0.03]"
+                    className="group flex items-center gap-4 rounded-xl border border-slate-200 p-3 transition hover:border-[#1E4FD8]/40 hover:bg-[#1E4FD8]/3"
                   >
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-[#0B1220]">{titleCase(doc.type)}</p>

@@ -3,7 +3,7 @@ import { getData } from "./api";
 
 export const agentGetMyProfile = () => getData('agents/profiles/me', { errorMessage: 'Error loading agents profile' });
 
-export const getAllAgentsBusinessCustomers = () => getData('business-users/all');
+export const getAllAgentsBusinessCustomers = () => getData('business-users/all', { tags: ['agents-business-users'] });
 
 export const agentGetBusinessCustomersDetails = (id: string) => getData(`business-users/${id}/details`);
 

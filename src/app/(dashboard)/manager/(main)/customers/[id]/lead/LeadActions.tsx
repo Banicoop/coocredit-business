@@ -27,16 +27,19 @@ const LeadActions = ({lead}: any) => {
   const [openApproveModal, setOpenApproveModal] = useState(false);
   const [openRejectModal, setOpenRejectModal] = useState(false);
 
+  // console.log('status:', lead?.verification?.verificationStatus);
 
   return (
       <div className="border-b border-slate-200 bg-white">
         <FlexCol className="mx-auto max-w-6xl px-6 py-8">
           <FlexCol className='md:flex-row md:items-center gap-4 justify-between'>
             <BackButton />
-            <Flex className='gap-4'>
-              <Button variant='ghost' onClick={() => setOpenRejectModal(true)} className='bg-rose-50 text-rose-700 ring-rose-600/20'>Reject</Button>
-              <Button onClick={() => setOpenApproveModal(true)} >Approve</Button>
-            </Flex>
+            {lead?.verification?.verificationStatus === 'pending' &&
+              <Flex className='gap-4'>
+                <Button variant='ghost' onClick={() => setOpenRejectModal(true)} className='bg-rose-50 text-rose-700 ring-rose-600/20'>Reject</Button>
+                <Button onClick={() => setOpenApproveModal(true)} >Approve</Button>
+              </Flex>
+            }
           </FlexCol>
 
         <Flex className="mt-5 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
@@ -93,14 +96,17 @@ const AgentApprovalModel = ({open, setOpen, lead}: any) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [selectedSegment, setSelectedSegment] = useState('');
+  const businessId = lead?.businesses[0]?.businessId;
+
 
   const handleApproval = () => {
       startTransition(async () => {
-      const res = await validateBusinessUser({userId: (lead._id).toString(), businessId: lead.userId, businessSegment: selectedSegment, decision: 'approve'});
+        const res = await validateBusinessUser({userId: lead.userId, businessId: businessId, businessSegment: selectedSegment, decision: 'approve'});
       if (res.success && res.data) {
           toast.success('Business user approved successfully');
           setOpen(false);
           router.refresh();
+          router.replace('/manager/customers')
       } else {
           toast.error(res.error);
       }

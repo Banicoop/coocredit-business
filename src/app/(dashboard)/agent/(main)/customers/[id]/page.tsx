@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Badge, BadgeTone, Card, Dot, EmptyState, Field, FieldGrid, Stat } from '@/components/primitive-ui/card-ui';
 import { formatCurrency, formatDate, formatDateTime, initials, titleCase } from '@/helpers/funcs';
 import { ProgressBar } from '@/components/ui/ProgessBar';
+import Typography from '@/components/primitives/Typography';
 
 
 
@@ -25,7 +26,8 @@ const CustomerDetails = async ({ params }: IDParam) => {
     );
   }
 
-  const business = customer.businesses?.[0];
+  
+  const business = customer.businesses;
   const loan = customer.loanProfile;
   const summary = customer.accountSummary;
   const currentLoan = customer.currentLoan;
@@ -151,7 +153,8 @@ const CustomerDetails = async ({ params }: IDParam) => {
               </FieldGrid>
             </Card>
 
-            {business && (
+            {business && business.map((business: any) => (
+              <FlexCol key={business} className='gap-4'>
               <Card title="Business information">
                 <FieldGrid>
                   <Field label="Business name" value={business.businessName} />
@@ -162,7 +165,17 @@ const CustomerDetails = async ({ params }: IDParam) => {
                   <Field label="Estimated profit" value={formatCurrency(business.estimatedProfit)} />
                 </FieldGrid>
               </Card>
-            )}
+              {business.documentsRequired && (
+              <Card title="Required Documentation">
+                <FieldGrid>
+                  {business.documentsRequired.map((document: string) => (
+                    <Typography key={document} color='pending' className='py-2 px-3 my-1.5 bg-muted rounded-md'>{titleCase(document)}</Typography>
+                  ))}
+                </FieldGrid>
+              </Card>
+              )}
+              </FlexCol>
+            ))}
 
             <Card title="Disbursement bank accounts">
               {customer.disbursementBankAccounts?.length > 0 ? (
@@ -186,83 +199,49 @@ const CustomerDetails = async ({ params }: IDParam) => {
                 <EmptyState message="No bank account has been added yet." />
               )}
             </Card>
-
-            <Card title="KYC documents">
-              {customer.kycDocuments?.length > 0 ? (
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  {customer.kycDocuments.map((doc: any) => (
-                    <a
-                      key={doc.id}
-                      href={doc.documentURL}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="group flex items-center gap-4 rounded-xl border border-slate-200 p-3 transition hover:border-[#1E4FD8]/40 hover:bg-[#1E4FD8]/[0.03]"
+              
+              {currentLoan ?
+              currentLoan.map((currentLoan: any) => (
+                <Card
+                  key={currentLoan.loanId}
+                  title="Current loan"
+                  action={currentLoan && <Badge tone={loanStatusTone}><Dot tone={loanStatusTone} />{titleCase(currentLoan.status)}</Badge>}
                     >
-                      <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-slate-100">
-                        <Image
-                          src={doc.documentURL}
-                          alt={doc.type}
-                          width={56}
-                          height={56}
-                          className="h-full w-full object-cover"
-                        />
+                      <FieldGrid key={currentLoan.loanId}>
+                        <Field label="Loan ID" value={currentLoan.loanId} mono />
+                        <Field label="Purpose" value={currentLoan.purpose} />
+                        <Field label="Principal amount" value={formatCurrency(currentLoan.amount)} mono />
+                        <Field label="Interest amount" value={formatCurrency(currentLoan.interestAmount || 0)} mono />
+                        <Field label="Interest rate" value={`${currentLoan.interestRate}%`} mono />
+                        <Field label="Total repayment" value={formatCurrency(currentLoan.totalRepayment)} mono />
+                        <Field label="Outstanding amount" value={formatCurrency(currentLoan.outstandingAmount)} mono />
+                        <Field label="Priority" value={titleCase(currentLoan.priority)} />
+                      </FieldGrid>
+
+                      {currentLoan.repaymentPlan && (
+                        <div className="mt-2 rounded-xl bg-slate-50 p-4">
+                          <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">
+                            Repayment plan
+                          </p>
+                          <p className="mt-1.5 text-sm font-medium text-[#0B1220]">
+                            <span className="font-mono tabular-nums">
+                              {formatCurrency(currentLoan.repaymentPlan.amount)}
+                            </span>{' '}
+                            every {currentLoan.repaymentPlan.repaymentFrequency} days for{' '}
+                            {currentLoan.repaymentPlan.loanTenure} cycles
+                          </p>
+                        </div>
+                      )}
+
+                      <div className="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-xs text-slate-400">
+                        <span>Applied by <span className="font-mono text-slate-500">{currentLoan.appliedBy}</span></span>
+                        <span>Applied {formatDateTime(currentLoan.appliedAt)}</span>
                       </div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium text-[#0B1220]">{titleCase(doc.type)}</p>
-                        <p className="text-xs text-slate-400">{titleCase(doc.category)}</p>
-                        {doc.issuedDate && (
-                          <p className="mt-0.5 text-xs text-slate-400">Issued {formatDate(doc.issuedDate)}</p>
-                        )}
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              ) : (
-                <EmptyState message="No documents have been uploaded yet." />
-              )}
-            </Card>
+                </Card>
+                )): 
+                 <EmptyState message="This customer has no active loan application." />
+                }
 
-            <Card
-              title="Current loan"
-              action={currentLoan && <Badge tone={loanStatusTone}><Dot tone={loanStatusTone} />{titleCase(currentLoan.status)}</Badge>}
-            >
-              {currentLoan ? (
-                <>
-                  <FieldGrid>
-                    <Field label="Loan ID" value={currentLoan.loanId} mono />
-                    <Field label="Purpose" value={currentLoan.purpose} />
-                    <Field label="Principal amount" value={formatCurrency(currentLoan.amount)} mono />
-                    <Field label="Interest amount" value={formatCurrency(currentLoan.interestAmount)} mono />
-                    <Field label="Interest rate" value={`${currentLoan.interestRate}%`} mono />
-                    <Field label="Total repayment" value={formatCurrency(currentLoan.totalRepayment)} mono />
-                    <Field label="Outstanding amount" value={formatCurrency(currentLoan.outstandingAmount)} mono />
-                    <Field label="Priority" value={titleCase(currentLoan.priority)} />
-                  </FieldGrid>
-
-                  {currentLoan.repaymentPlan && (
-                    <div className="mt-2 rounded-xl bg-slate-50 p-4">
-                      <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">
-                        Repayment plan
-                      </p>
-                      <p className="mt-1.5 text-sm font-medium text-[#0B1220]">
-                        <span className="font-mono tabular-nums">
-                          {formatCurrency(currentLoan.repaymentPlan.amount)}
-                        </span>{' '}
-                        every {currentLoan.repaymentPlan.repaymentFrequency} days for{' '}
-                        {currentLoan.repaymentPlan.loanTenure} cycles
-                      </p>
-                    </div>
-                  )}
-
-                  <div className="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-xs text-slate-400">
-                    <span>Applied by <span className="font-mono text-slate-500">{currentLoan.appliedBy}</span></span>
-                    <span>Applied {formatDateTime(currentLoan.appliedAt)}</span>
-                  </div>
-                </>
-              ) : (
-                <EmptyState message="This customer has no active loan application." />
-              )}
-            </Card>
 
             <Card title="Recent transactions">
               {customer.recentTransactions?.length > 0 ? (
@@ -295,6 +274,41 @@ const CustomerDetails = async ({ params }: IDParam) => {
                 <Field label="Scheme ID" value={customer.schemeId} className='col-span-2' />
                 <Field label="User ID" value={customer.userId} className='col-span-2' />
               </FieldGrid>
+            </Card>
+
+            <Card title="KYC documents">
+              {customer.kycDocuments?.length > 0 ? (
+                <div className="grid gap-4 ">
+                  {customer.kycDocuments.map((doc: any) => (
+                    <a
+                      key={doc.id}
+                      href={doc.documentURL}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group flex items-center gap-4 rounded-xl border border-slate-200 p-3 transition hover:border-[#1E4FD8]/40 hover:bg-[#1E4FD8]/3"
+                    >
+                      <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-slate-100">
+                        <Image
+                          src={doc.documentURL}
+                          alt={doc.type}
+                          width={56}
+                          height={56}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-[#0B1220]">{titleCase(doc.type)}</p>
+                        <p className="text-xs text-slate-400">{titleCase(doc.category)}</p>
+                        {doc.issuedDate && (
+                          <p className="mt-0.5 text-xs text-slate-400">Issued {formatDate(doc.issuedDate)}</p>
+                        )}
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <EmptyState message="No documents have been uploaded yet." />
+              )}
             </Card>
 
             {loan && (

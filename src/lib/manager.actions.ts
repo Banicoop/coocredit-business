@@ -3,6 +3,7 @@
 import { SERVER } from "@/utils/fetchUtil";
 import { getAccessToken } from "./auth.actions";
 import { revalidateTag } from "next/cache";
+import { BUSINESS_USERS_TAG } from "./api";
 
 type validateAgentPayload = {
      decision: 'APPROVE' | 'REJECT';
@@ -117,13 +118,11 @@ export const validateBusinessUser = async ({userId, businessId, businessSegment,
   const token = await getAccessToken();
 
   try {
-      const result = await SERVER.post('business-users/verify', {
+    const result = await SERVER.post('business-users/verify', {
         userId, businessId, businessSegment, decision
       }, { token }
     );
-    
-    revalidateTag(businessId, 'max');
-    
+    revalidateTag(BUSINESS_USERS_TAG(userId), 'max');
       if(!result.data || result.data === null || result.error){
           return{
               success: false,
@@ -134,7 +133,6 @@ export const validateBusinessUser = async ({userId, businessId, businessSegment,
         success: true,
         data: result,
       };
-      
   } catch (error: any) {
     return {
       success: false,

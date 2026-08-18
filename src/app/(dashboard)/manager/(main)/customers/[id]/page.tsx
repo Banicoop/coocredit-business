@@ -1,3 +1,4 @@
+import { FlexCol } from '@/components/ui/ui-layout';
 import { BackButton } from '@/components/primitives/buttons/BackButton';
 import { Badge, BadgeTone, Card, Dot, Field, FieldGrid } from '@/components/primitive-ui/card-ui';
 import { getCustomerDetails } from '@/lib/api';
@@ -12,28 +13,28 @@ import { formatCurrency, formatDate, formatDateTime, initials, titleCase } from 
 const CustomerDetails = async ({ params }: IDParam) => {
   const { id } = await params;
   const res = (await getCustomerDetails(id)) as any;
-
-  console.log('res:', res);
   const data = res?.data;
-
+  
   if (!data) {
     return (
-      <div className="flex min-h-[60vh] flex-col items-center justify-center gap-2 bg-[#F6F7FB] text-center">
-        <p className="text-sm font-medium text-slate-500">This customer record could not be found.</p>
-      </div>
+      <FlexCol className='gap-4 bg-card'>
+        <BackButton/>
+        <div className="flex min-h-[60vh] flex-col items-center justify-center gap-2  text-center">
+          <p className="text-sm font-medium text-slate-500">This customer record could not be found.</p>
+        </div>
+      </FlexCol>
     );
   }
-
-  const business = data.businesses?.[0];
+  
+  const business = data.businesses;
   const kycTone: BadgeTone = data.kycLevel === 'Level2' ? 'success' : 'warning';
   const riskTone: BadgeTone =
-    data.identityDescription === 'low_risk'
-      ? 'success'
-      : data.identityDescription === 'high_risk'
-      ? 'danger'
+  data.identityDescription === 'low_risk'
+  ? 'success'
+  : data.identityDescription === 'high_risk'
+  ? 'danger'
       : 'warning';
-  const verificationTone: BadgeTone =
-    data.verification?.verificationStatus === 'success' ? 'success' : 'warning';
+  const verificationTone: BadgeTone = data.verification?.verificationStatus === 'success' ? 'success' : 'warning';
 
   const ledgerItems = [
     { label: 'Booked balance', value: data.bookedBalance },
@@ -116,7 +117,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
       </div>
 
       {/* Body */}
-      <div className="mx-auto mt-8 grid max-w-6xl grid-cols-1 gap-6 px-6 lg:grid-cols-3">
+      <div className="mx-auto mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Left column */}
         <div className="flex flex-col gap-6 lg:col-span-2">
           <Card title="Personal information">
@@ -132,8 +133,8 @@ const CustomerDetails = async ({ params }: IDParam) => {
             </FieldGrid>
           </Card>
 
-          {business && (
-            <Card title="Business information">
+          {business && business.map((business: any) => (
+            <Card title="Business information" key={business.businessId}>
               <FieldGrid>
                 <Field label="Business name" value={business.businessName} />
                 <Field label="Business ID" value={business.businessId} mono />
@@ -148,7 +149,8 @@ const CustomerDetails = async ({ params }: IDParam) => {
                 </p>
               )}
             </Card>
-          )}
+          )) 
+          }
 
           <Card title="Disbursement bank accounts">
             <div className="flex flex-col divide-y divide-slate-100">
@@ -211,7 +213,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
               <Field label="Account name" value={data.accountName} />
               <Field label="Account number" value={data.accountNumber} mono />
               <Field label="Bank" value={`${data.bank?.name} (${data.bank?.code})`} />
-              <Field label="Scheme ID" value={data.schemeId} mono />
+              <Field label="Scheme ID" value={data.schemeId} mono className='col-span-2'/>
               <Field label="User ID" className='col-span-2' value={data.userId} mono />
             </FieldGrid>
           </Card>
