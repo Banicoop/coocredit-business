@@ -17,7 +17,7 @@ const AgentCustomerTable = ({data, error}: {data: any[], error: string}) => {
         { key: 'creditScore',
             title: 'Credit Score',
             render: (val: number) => {
-                const score = Math.round((val/850)*100)
+                const score = Math.round(val) || 0
                 return(
                     <Flex className="flex items-center p-1 gap-1.5">
                         <ProgressBar value={score} className="bg-primary" />

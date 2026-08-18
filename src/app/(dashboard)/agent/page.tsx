@@ -7,7 +7,7 @@ import RecentApps from './_sections/RecentApps';
 import QuickActions from './_sections/QuickActions';
 import DailyTasks from './_sections/DailyTasks';
 import { formatDate } from '@/utils/funcs';
-import { agentGetDashboardOverview, agentGetMyProfile } from '@/lib/api.agent';
+import { agentGetAllLoans, agentGetDashboardOverview, agentGetMyProfile } from '@/lib/api.agent';
 import { cn } from '@/lib/utils';
 
 
@@ -27,6 +27,7 @@ const Widget = ({title, num, percent}: {title: string, num: number, percent: num
 const AgentDashboard = async () => {
 
   const data = await agentGetDashboardOverview() as any;
+  const loans = await agentGetAllLoans() as any;
   const me = await agentGetMyProfile() as any;
 
   return (
@@ -46,7 +47,7 @@ const AgentDashboard = async () => {
       <div className="flex flex-col lg:flex-row gap-5">
         <FlexCol className='gap-4 flex-1 lg:flex-2'>
           <LoanPipeline/>
-          <RecentApps/>
+          <RecentApps loans={loans.data ?? []}/>
           <Commissions/>
         </FlexCol>
 
