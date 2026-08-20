@@ -11,13 +11,14 @@ type validateAgentPayload = {
      reason?: string
 }
 
-export type businessSegmentProps = 'micro' | 'starter' | 'small' |  'growth' |  'enterprise' | 'asset' | null;
+export type businessSegmentProps = 'micro' | 'starter' | 'small' |  'growth' |  'enterprise' | 'asset';
 
 type businessUserPayload = {
   userId: string;
   businessId: string;
-  businessSegment: string
+  businessSegment: string | null
   decision: 'approve' | 'reject';
+  reason?: string
 }
 
 
@@ -114,12 +115,12 @@ export const validateAgentCreation = async ({ agentId, decision, reason } : vali
 };
 
 
-export const validateBusinessUser = async ({userId, businessId, businessSegment, decision}: businessUserPayload) => {
+export const validateBusinessUser = async ({userId, businessId, businessSegment, decision, reason}: businessUserPayload) => {
   const token = await getAccessToken();
 
   try {
     const result = await SERVER.post('business-users/verify', {
-        userId, businessId, businessSegment, decision
+        userId, businessId, businessSegment, decision, reason
       }, { token }
     );
     revalidateTag(BUSINESS_USERS_TAG(userId), 'max');

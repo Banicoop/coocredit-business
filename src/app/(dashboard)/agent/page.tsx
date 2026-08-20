@@ -47,7 +47,7 @@ const AgentDashboard = async () => {
       <div className="flex flex-col lg:flex-row gap-5">
         <FlexCol className='gap-4 flex-1 lg:flex-2'>
           <LoanPipeline/>
-          <RecentApps loans={loans.data ?? []}/>
+          <RecentApps loans={loans.data} error={loans.error}/>
           <Commissions/>
         </FlexCol>
 

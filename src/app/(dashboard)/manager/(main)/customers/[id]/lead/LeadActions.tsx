@@ -27,7 +27,6 @@ const LeadActions = ({lead}: any) => {
   const [openApproveModal, setOpenApproveModal] = useState(false);
   const [openRejectModal, setOpenRejectModal] = useState(false);
 
-  // console.log('status:', lead?.verification?.verificationStatus);
 
   return (
       <div className="border-b border-slate-200 bg-white">
@@ -69,9 +68,9 @@ const LeadActions = ({lead}: any) => {
           </div>
         </Flex>
         </FlexCol>
-        <AgentApprovalModel open={openApproveModal} setOpen={setOpenApproveModal} lead={lead}/>
+        <LeadApprovalModel open={openApproveModal} setOpen={setOpenApproveModal} lead={lead}/>
 
-        <AgentRejectModel open={openRejectModal} setOpen={setOpenRejectModal} lead={lead}/>
+        <LeadRejectionModel open={openRejectModal} setOpen={setOpenRejectModal} lead={lead}/>
       </div>
   )
 }
@@ -91,7 +90,7 @@ const businessSegment = [
 
 
 
-const AgentApprovalModel = ({open, setOpen, lead}: any) => {
+const LeadApprovalModel = ({open, setOpen, lead}: any) => {
 
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -101,7 +100,7 @@ const AgentApprovalModel = ({open, setOpen, lead}: any) => {
 
   const handleApproval = () => {
       startTransition(async () => {
-        const res = await validateBusinessUser({userId: lead.userId, businessId: businessId, businessSegment: selectedSegment, decision: 'approve'});
+        const res = await validateBusinessUser({userId: lead.userId, businessId, businessSegment: selectedSegment, decision: 'approve'});
       if (res.success && res.data) {
           toast.success('Business user approved successfully');
           setOpen(false);
@@ -135,15 +134,16 @@ const AgentApprovalModel = ({open, setOpen, lead}: any) => {
 }
 
 
-const AgentRejectModel = ({open, setOpen, lead}: any) => {
+const LeadRejectionModel = ({open, setOpen, lead}: any) => {
 
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
+    const businessId = lead?.businesses[0]?.businessId;
     const [reason, setReason] = useState('');
 
     const handleApproval = () => {
         startTransition(async () => {
-        const res = await validateBusinessUser({userId: lead._id, businessId: lead.userId, businessSegment: 'micro', decision: 'reject'});
+        const res = await validateBusinessUser({userId: lead.userId, businessId, businessSegment: 'micro', decision: 'reject', reason});
 
         if (res.success && res.data) {
             toast.success('Agent approved successfully');
