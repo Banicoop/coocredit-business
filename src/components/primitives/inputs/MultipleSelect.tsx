@@ -5,6 +5,7 @@ import * as Popover from "@radix-ui/react-popover";
 import { Check, ChevronsUpDown, X } from "lucide-react";
 
 import { Command } from "cmdk"; // or your shadcn Command wrapper
+import { cn } from "@/lib/utils";
 
 export interface Option {
   label: string;
@@ -18,16 +19,10 @@ interface MultiSelectProps {
   placeholder?: string;
   label?: string;
   className?: string;
+  wrapperClass?: string;
 }
 
-export function MultiSelect({
-  options,
-  values = [],
-  onChange,
-  placeholder = "Select options",
-  label,
-  className,
-}: MultiSelectProps) {
+export function MultiSelect({ options,values = [], onChange, placeholder = "Select options", label, className, wrapperClass }: MultiSelectProps) {
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<string[]>(values);
 
@@ -51,7 +46,7 @@ export function MultiSelect({
   };
 
   return (
-    <div className="w-full">
+    <div className={cn('w-full', wrapperClass)}>
       {label && <label className="block mb-1">{label}</label>}
 
       <Popover.Root open={open} onOpenChange={setOpen}>

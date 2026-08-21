@@ -1,12 +1,12 @@
 import { BackButton } from '@/components/primitives/buttons/BackButton';
 import { FlexCol } from '@/components/ui/ui-layout';
 import { IDParam } from '@/types/types';
-import { agentGetBusinessCustomersDetails } from '@/lib/api.agent';
+import { agentGetBusinessCustomersDetails, agentGetSupportedDocs } from '@/lib/api.agent';
 import Image from 'next/image';
 import { Badge, BadgeTone, Card, Dot, EmptyState, Field, FieldGrid, Stat } from '@/components/primitive-ui/card-ui';
 import { formatCurrency, formatDate, formatDateTime, initials, titleCase } from '@/helpers/funcs';
 import { ProgressBar } from '@/components/ui/ProgessBar';
-import Typography from '@/components/primitives/Typography';
+import BusinessDocuments from '../_sections/BusinessDocuments';
 
 
 
@@ -14,6 +14,14 @@ const CustomerDetails = async ({ params }: IDParam) => {
   const { id } = await params;
   const res = (await agentGetBusinessCustomersDetails(id)) as any;
   const customer = res?.data;
+
+  const documents = (await agentGetSupportedDocs()) as {
+    data: {
+      slug: string;
+      name: string;
+    }[];
+  };;
+
 
   if (!customer) {
     return (
@@ -153,29 +161,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
               </FieldGrid>
             </Card>
 
-            {business && business.map((business: any) => (
-              <FlexCol key={business} className='gap-4'>
-              <Card title="Business information">
-                <FieldGrid>
-                  <Field label="Business name" value={business.businessName} />
-                  <Field label="Business ID" value={business.businessId} mono />
-                  <Field label="Category" value={business.type} />
-                  <Field label="Business type" value={titleCase(business.businessType)} />
-                  <Field label="Registration number" value={business.registrationNumber} mono />
-                  <Field label="Estimated profit" value={formatCurrency(business.estimatedProfit)} />
-                </FieldGrid>
-              </Card>
-              {business.documentsRequired && (
-              <Card title="Required Documentation">
-                <FieldGrid>
-                  {business.documentsRequired.map((document: string) => (
-                    <Typography key={document} color='pending' className='py-2 px-3 my-1.5 bg-muted rounded-md'>{titleCase(document)}</Typography>
-                  ))}
-                </FieldGrid>
-              </Card>
-              )}
-              </FlexCol>
-            ))}
+            <BusinessDocuments business={business} documents={documents}/>
 
             <Card title="Disbursement bank accounts">
               {customer.disbursementBankAccounts?.length > 0 ? (
