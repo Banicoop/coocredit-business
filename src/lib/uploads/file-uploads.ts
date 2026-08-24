@@ -19,10 +19,17 @@ export const uploadToCloudinary = async ({cloudName, apiKey, signature, timestam
     }
 
     try {
-        const res = await SERVER.post(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-            formData
-        })
-        return res.data
+      const res =  await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
+        method: 'POST',
+        body: formData,
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error('Failed to upload file to Cloudinary');
+    }
+
+    return await res.json();
     } catch (error) {
         console.error('Error:', error);
     }
@@ -49,3 +56,5 @@ export const addBusinessDocument = async ({ businessId, verificationDocument }: 
     throw error;
   }
 };
+
+

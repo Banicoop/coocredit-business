@@ -106,25 +106,13 @@ const BusinessDocuments = ({ business, documents, signature }: { business: any; 
     if (!newlySelected) return;
 
 
-    const document =
-      documentOptions.find(
-        (option) =>
-          option.value === newlySelected
-      );
-
+    const document = documentOptions.find((option) => option.value === newlySelected);
 
     if (!document) return;
-
-
     /**
      * Store the document we're expecting a file for.
      */
-    setSelectedDocument({
-      businessId,
-      document,
-    });
-
-
+    setSelectedDocument({ businessId, document });
     /**
      * Open the file picker.
      */
@@ -158,11 +146,8 @@ const BusinessDocuments = ({ business, documents, signature }: { business: any; 
        * Revoke old preview URL if replacing file.
        */
       if (existing) {
-        URL.revokeObjectURL(
-          existing.previewUrl
-        );
+        URL.revokeObjectURL(existing.previewUrl);
       }
-
 
       const newDocument: PendingDocument = {
         id: crypto.randomUUID(),
@@ -236,6 +221,13 @@ const BusinessDocuments = ({ business, documents, signature }: { business: any; 
     }, 0);
   };
 
+  const unselectDocument = ( businessId: string, documentSlug: string ) => {
+    setSelectedDocuments((prev) => ({
+      ...prev, [businessId]: (prev[businessId] || []).filter(
+        (slug) => slug !== documentSlug
+      ),
+    }));
+  };
 
   /**
    * Upload all pending documents.
@@ -262,7 +254,7 @@ const BusinessDocuments = ({ business, documents, signature }: { business: any; 
          */
         const cloudinaryResponse = await uploadToCloudinary({ ...signature,
             file: document.file,
-            folder: 'business-verification',
+            folder: 'uploads',
           }) as any;
 
         console.log('CLOUDINARY:', cloudinaryResponse)
@@ -285,12 +277,10 @@ const BusinessDocuments = ({ business, documents, signature }: { business: any; 
          * Mark as uploaded.
          */
         setPendingDocuments((prev) => prev.map((item) => item.id === document.id ? {
-                  ...item,
-                  status: 'uploaded',
-                  url: cloudinaryUrl,
-                }
-              : item
-          ));
+                  ...item, status: 'uploaded', url: cloudinaryUrl }: item
+        ));
+         // 4. Remove it from MultiSelect
+        unselectDocument(document.businessId, document.slug);
       }
     } catch (error) {
       console.error('Document upload failed:', error);
@@ -319,6 +309,7 @@ const BusinessDocuments = ({ business, documents, signature }: { business: any; 
       );
     };
   }, []);
+
 
 
   return (
@@ -376,16 +367,13 @@ const BusinessDocuments = ({ business, documents, signature }: { business: any; 
                                 <Image src={document.previewUrl} alt={document.name} width={40} height={20} className="w-full h-full object-cover" />
                               ) : (
                                 <div className="text-xs text-center px-2">
-                                  {document.file.type ||
-                                    'FILE'}
+                                  {document.file.type || 'FILE'}
                                 </div>
                               )}
                             </div>
                             {/* Information */}
                             <div className="flex-1 min-w-0">
-                              <p className="font-medium">
-                                {document.name}
-                              </p>
+                              <p className="font-medium">{document.name}</p>
                               <p className="text-sm text-gray-500 truncate">
                                 {document.file.name}
                               </p>
@@ -413,7 +401,7 @@ const BusinessDocuments = ({ business, documents, signature }: { business: any; 
                               )}
                             </div>
                             {/* Remove */}
-                            {document.status !== 'uploading' && document.status !== 'uploaded' && (
+                            {(document.status !== 'uploading' && document.status !== 'uploaded') || (document.status === 'uploaded') && (
                               <Button type="button" variant='light' className='text-red-700' onClick={() => removePendingDocument(document.id)}>
                                 Remove
                               </Button>
