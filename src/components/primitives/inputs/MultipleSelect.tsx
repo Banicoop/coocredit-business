@@ -16,28 +16,53 @@ interface MultiSelectProps {
   options: Option[];
   values?: string[];
   onChange?: (values: string[]) => void;
+  onSelect?: (option: Option) => void;
   placeholder?: string;
   label?: string;
   className?: string;
   wrapperClass?: string;
 }
 
-export function MultiSelect({ options,values = [], onChange, placeholder = "Select options", label, className, wrapperClass }: MultiSelectProps) {
+export function MultiSelect({ options,values = [], onChange, placeholder = "Select options", label, className, onSelect, wrapperClass }: MultiSelectProps) {
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<string[]>(values);
 
-  const toggleSelect = (value: string) => {
+    const toggleSelect = (value: string) => {
+    const option = options.find(
+      (option) => option.value === value
+    );
+
+    if (!option) return;
+
     let updated: string[];
 
     if (selected.includes(value)) {
-      updated = selected.filter((v) => v !== value);
+      updated = selected.filter(
+        (v) => v !== value
+      );
     } else {
       updated = [...selected, value];
+
+      // Tell parent exactly what was selected
+      onSelect?.(option);
     }
 
     setSelected(updated);
     onChange?.(updated);
   };
+
+  // const toggleSelect = (value: string) => {
+  //   let updated: string[];
+
+  //   if (selected.includes(value)) {
+  //     updated = selected.filter((v) => v !== value);
+  //   } else {
+  //     updated = [...selected, value];
+  //   }
+
+  //   setSelected(updated);
+  //   onChange?.(updated);
+  // };
 
   const removeTag = (value: string) => {
     const updated = selected.filter((v) => v !== value);

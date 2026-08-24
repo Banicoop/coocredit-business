@@ -7,6 +7,7 @@ import { Badge, BadgeTone, Card, Dot, EmptyState, Field, FieldGrid, Stat } from 
 import { formatCurrency, formatDate, formatDateTime, initials, titleCase } from '@/helpers/funcs';
 import { ProgressBar } from '@/components/ui/ProgessBar';
 import BusinessDocuments from '../_sections/BusinessDocuments';
+import { getUploadSignature } from '@/lib/uploads/file-uploads';
 
 
 
@@ -15,6 +16,8 @@ const CustomerDetails = async ({ params }: IDParam) => {
   const res = (await agentGetBusinessCustomersDetails(id)) as any;
   const customer = res?.data;
 
+  const signature = (await getUploadSignature()) as any;
+  // console.log('sign:', signature.data);
   const documents = (await agentGetSupportedDocs()) as {
     data: {
       slug: string;
@@ -161,7 +164,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
               </FieldGrid>
             </Card>
 
-            <BusinessDocuments business={business} documents={documents}/>
+            <BusinessDocuments business={business} documents={documents} signature={signature.data}/>
 
             <Card title="Disbursement bank accounts">
               {customer.disbursementBankAccounts?.length > 0 ? (
