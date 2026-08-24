@@ -111,9 +111,10 @@ const LoanDetails = async ({params}: IDParam) => {
             <Card title="Loan details">
               <FieldGrid>
                 <Field label="Business ID" value={loan.businessId} mono />
-                <Field label="Loan profile ID" value={loan.loanProfileId} mono />
+                <Field label="Applicant" value={`${loan.loanProfileId.firstName} ${loan.loanProfileId.lastName}`} mono />
+                <Field label="Business Segment" value={titleCase(loan.loanProfileId.businessSegment)} mono />
                 <Field label="Purpose" value={loan.purpose} />
-                <Field label="Priority" value={titleCase(loan.priority)} />
+                {/* <Field label="Priority" value={titleCase(loan.priority)} /> */}
                 <Field label="Wallet name" value={loan.walletName} />
                 <Field label="Wallet number" value={loan.walletNumber} mono />
               </FieldGrid>

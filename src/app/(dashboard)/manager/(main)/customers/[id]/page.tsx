@@ -1,10 +1,11 @@
-import { FlexCol } from '@/components/ui/ui-layout';
+import { FlexCol, Grid } from '@/components/ui/ui-layout';
 import { BackButton } from '@/components/primitives/buttons/BackButton';
 import { Badge, BadgeTone, Card, Dot, Field, FieldGrid } from '@/components/primitive-ui/card-ui';
 import { getCustomerDetails } from '@/lib/api';
 import { IDParam } from '@/types/types';
 import Image from 'next/image';
 import { formatCurrency, formatDate, formatDateTime, initials, titleCase } from '@/helpers/funcs';
+import Typography from '@/components/primitives/Typography';
 
 
 
@@ -14,6 +15,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
   const { id } = await params;
   const res = (await getCustomerDetails(id)) as any;
   const data = res?.data;
+  // console.log('customer:', data);
   
   if (!data) {
     return (
@@ -27,6 +29,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
   }
   
   const business = data.businesses;
+  console.log('docs:', business[0]?.verificationDocuments[0].type);
   const kycTone: BadgeTone = data.kycLevel === 'Level2' ? 'success' : 'warning';
   const riskTone: BadgeTone =
   data.identityDescription === 'low_risk'
@@ -143,7 +146,43 @@ const CustomerDetails = async ({ params }: IDParam) => {
                 <Field label="Registration number" value={business.registrationNumber} mono />
                 <Field label="Estimated profit" value={formatCurrency(business.estimatedProfit)} />
               </FieldGrid>
-              {business.verificationDocuments?.length === 0 && (
+              {business.verificationDocuments?.length > 0 ? (
+                <FlexCol className='gap-5'>
+                  <Typography variant='h4' weight='semibold' className='mt-4'>Verification Documents</Typography>
+                  <hr className='h-0.5'/>
+                  <Grid className="grid-cols-2 gap-6">
+                   {business.verificationDocuments?.map((doc: any) => (
+                      <a
+                        key={doc._id}
+                        href={doc.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="group flex items-center gap-4 rounded-xl border border-slate-200 p-3 transition hover:border-[#1E4FD8]/40 hover:bg-[#1E4FD8]/[0.03]"
+                      >
+                        {/* Image */}
+                        <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-slate-100">
+                          <Image
+                            src={doc.url}
+                            alt={doc.type}
+                            width={56}
+                            height={56}
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                        {/* Document information */}
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-medium text-[#0B1220]">
+                            {titleCase(doc.type)}
+                          </p>
+                          <p className="text-xs text-slate-400">
+                            {doc.mime}
+                          </p>
+                        </div>
+                      </a>
+                    ))}
+                  </Grid>
+                </FlexCol>
+              ): (
                 <p className="mt-2 rounded-lg bg-slate-50 px-4 py-3 text-xs text-slate-400">
                   No business verification documents uploaded yet.
                 </p>

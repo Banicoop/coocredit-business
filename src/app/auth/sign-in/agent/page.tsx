@@ -108,6 +108,8 @@ const SignInPage = () => {
                 Forget Password
               </Link>
             </div>
+
+            <Link href='/' className='text-primary font-semibold text-sm capitalize text-center'>Back to website</Link>
           </form>
         </div>
 

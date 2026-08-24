@@ -21,3 +21,7 @@ export const agentGetDashboardOverview = () => getData('agents/loans/dashboard/o
 
 export const agentGetSupportedDocs = () => getData('common/verification-doc-types');
 
+export const agentGetAllLead = () => getData('business-users/agent/leads');
+
+export const agentGetALeadById = (id: string) => getData(`business-users/agent/leads/${id}`);
+

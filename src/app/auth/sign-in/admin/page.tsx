@@ -92,7 +92,7 @@ const AdminSignInPage = () => {
               required
             />
 
-            <Button loading={isPending} size='lg' type='submit' endIcon={<SendHorizontal size={20} />}>
+            <Button loading={isPending} type='submit' endIcon={<SendHorizontal size={20} />}>
               Sign In to Portal
             </Button>
 
@@ -106,6 +106,8 @@ const AdminSignInPage = () => {
                 Forget Password
               </Link>
             </div>
+
+            <Link href='/' className='text-primary font-semibold text-sm capitalize text-center'>Back to website</Link>
           </form>
         </div>
 

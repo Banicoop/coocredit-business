@@ -7,6 +7,15 @@ export interface IDParam {
   }>;
 }
 
+export type Signature = {
+  timestamp: number
+  signature: string;
+  cloudName: string
+  apiKey: string;
+  file?: File;
+  folder?: string
+}
+
 
 export type UserData = {
     _id: string;
