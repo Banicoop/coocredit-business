@@ -13,6 +13,8 @@ const LoanDetails = async ({params}: IDParam) => {
   const res = (await getLoanById(id)) as any;
   const loan = res?.data;
 
+  console.log('loan:', loan);
+
   if (!loan) {
     return (
       <FlexCol className="gap-4">

@@ -34,7 +34,7 @@ const tabs = [
 ]
 
 const Title = () => (
-    <Flex className='flex-col gap-4 xl:flex-row'>
+    <Flex className='flex-col gap-4 md:flex-row'>
         <Tabs items={tabs} defaultValue='all' className='hidden md:flex' />
         <TextField variant='secondary' placeholder='Search Loans, applicants and keywords' wrapperClassName='w-full' startIcon={<Search size={18}/>}/>
     </Flex>

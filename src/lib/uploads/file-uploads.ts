@@ -25,6 +25,8 @@ export const uploadToCloudinary = async ({cloudName, apiKey, signature, timestam
       }
     );
 
+    console.log('cloudinary-response:', res);
+
     if (!res.ok) {
       throw new Error('Failed to upload file to Cloudinary');
     }

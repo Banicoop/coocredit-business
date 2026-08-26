@@ -3,32 +3,15 @@
 import { Card,  Field, FieldGrid } from '@/components/primitive-ui/card-ui';
 import { MultiSelect } from '@/components/primitives/inputs/MultipleSelect';
 import { FlexCol } from '@/components/ui/ui-layout';
-
-import {  formatCurrency,  titleCase } from '@/helpers/funcs';
+import { formatCurrency,  titleCase } from '@/helpers/funcs';
 import React, { useEffect,  useRef,  useState } from 'react';
 import { Signature } from '@/types/types';
 import { addBusinessDocument, uploadToCloudinary } from '@/lib/uploads/file-uploads';
 import Image from 'next/image';
 import Button from '@/components/primitives/buttons/Button';
+import { DocumentOption, PendingDocument } from '@/types/domains/documentstypes';
 
 
-type DocumentOption = {
-  label: string;
-  value: string;
-};
-
-
-type PendingDocument = {
-  id: string;
-  businessId: string;
-  slug: string;
-  name: string;
-  file: File;
-  previewUrl: string;
-  status: 'pending' | 'uploading' | 'uploaded' | 'error';
-  url?: string;
-  error?: string;
-};
 
 
 const BusinessDocuments = ({ business, documents, signature }: { business: any; documents: any; signature: Signature; }) => {
@@ -98,14 +81,10 @@ const BusinessDocuments = ({ business, documents, signature }: { business: any; 
         )
       );
     }
-
-
     /**
      * Nothing new was selected.
      */
     if (!newlySelected) return;
-
-
     const document = documentOptions.find((option) => option.value === newlySelected);
 
     if (!document) return;
@@ -333,7 +312,8 @@ const BusinessDocuments = ({ business, documents, signature }: { business: any; 
 
               {/* Documents */}
               {business.documentsRequired && (
-                <Card title="Required Documentation" action={
+                <Card title="Required Documentation" 
+                  action={
                     <MultiSelect
                       wrapperClass="w-60"
                       options={documentOptions}
@@ -347,7 +327,8 @@ const BusinessDocuments = ({ business, documents, signature }: { business: any; 
                         )
                       }
                       placeholder="Upload Document"
-                    />} >
+                    />} 
+                    >
 
                   {/* Required documents */}
                   <ol className="list-decimal grid grid-cols-2 px-6">

@@ -15,7 +15,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
   const { id } = await params;
   const res = (await getCustomerDetails(id)) as any;
   const data = res?.data;
-  // console.log('customer:', data);
+  console.log('customer:', data);
   
   if (!data) {
     return (
@@ -29,7 +29,6 @@ const CustomerDetails = async ({ params }: IDParam) => {
   }
   
   const business = data.businesses;
-  console.log('docs:', business[0]?.verificationDocuments[0].type);
   const kycTone: BadgeTone = data.kycLevel === 'Level2' ? 'success' : 'warning';
   const riskTone: BadgeTone =
   data.identityDescription === 'low_risk'
