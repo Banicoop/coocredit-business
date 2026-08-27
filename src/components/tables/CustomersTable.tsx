@@ -41,24 +41,7 @@ const CustomersTable = ({
     { key: 'lastName', title: 'Last Name' },
     { key: 'phoneNumber', title: 'Phone Number' },
     { key: 'gender', title: 'Gender' },
-    // {
-    //   key: 'onboardingStage',
-    //   title: 'Status',
-    //   render: (value: string) => (
-    //     <Typography variant="small" className="capitalize">{value}</Typography>
-    //   ),
-    // },
     { key: 'type', title: 'Type' },
-    // {
-    //   key: 'creditScore',
-    //   title: 'Credit Score',
-    //   render: (val: number) => (
-    //     <div className="flex items-center p-1 gap-1.5">
-    //       <ProgressBar value={val} className="bg-primary" />
-    //       <Typography color="active" weight="bold" variant="small">{val}%</Typography>
-    //     </div>
-    //   ),
-    // },
     {
       key: 'userId',
       title: 'Actions',
@@ -89,7 +72,6 @@ const CustomersTable = ({
     </Flex>
   );
 
-
   return (
     <BasicTable
       columns={columns}
@@ -98,7 +80,6 @@ const CustomersTable = ({
       data={initialData}
       title={<TableTitle />}
       pagination
-      pageSize={5}
     />
   );
 };

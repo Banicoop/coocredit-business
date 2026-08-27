@@ -38,3 +38,13 @@ export const formatDocumentType = (type: string) => {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 };
+
+export const isValidImageUrl = (url?: string | null) => {
+  if (!url) return false;
+
+  return (
+    url.startsWith('https://') ||
+    url.startsWith('http://') ||
+    url.startsWith('/')
+  );
+};
