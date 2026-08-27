@@ -31,3 +31,10 @@ export const initials = (first?: string, last?: string) =>
 
 export const titleCase = (value?: string) =>
   value ? value.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) : '—';
+
+export const formatDocumentType = (type: string) => {
+  return type
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};

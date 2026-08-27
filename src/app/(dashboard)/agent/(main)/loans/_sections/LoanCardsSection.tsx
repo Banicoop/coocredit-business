@@ -28,7 +28,7 @@ const LoanCardsSection = ({data}: any) => {
     // console.log('loan-stats', data?.data?.loanApplications);
     
   return (
-    <Grid className='grid-cols-3 gap-5'>
+    <Grid className='grid-cols-2 md:grid-cols-3 gap-5'>
                                                     
         <LoanWidget label='Approved This Week' 
         val={data?.data?.loanApplications?.approvedThisWeek?.count || 0} textColor='text-[#506070]' 

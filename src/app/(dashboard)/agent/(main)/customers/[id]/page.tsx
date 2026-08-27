@@ -23,7 +23,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
       slug: string;
       name: string;
     }[];
-  };;
+  };
 
 
   if (!customer) {
