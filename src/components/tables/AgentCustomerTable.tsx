@@ -46,7 +46,7 @@ const AgentCustomerTable = ({data, error}: {data: any[], error: string}) => {
         error={error}
         data={data}
         pagination
-        pageSize={5}
+        // pageSize={5}
     />
   )
 }

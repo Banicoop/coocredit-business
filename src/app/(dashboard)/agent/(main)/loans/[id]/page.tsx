@@ -29,7 +29,7 @@ const LoanDetails = async ({ params }: IDParam) => {
   const data = loanDetails?.data
   const documents = res?.data
 
-  console.info('LOAN-INFO:', data?.loanDocuments);
+  // console.info('LOAN:', data);
 
   const tabs = [
     {

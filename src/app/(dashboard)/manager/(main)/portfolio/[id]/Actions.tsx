@@ -35,13 +35,15 @@ const Actions = ({loanId, status}: {loanId: string, status: string}) => {
         <BackButton />
 
         <Flex className='gap-4'>
-            { status === 'pending' && (
+            { status === 'pending' ? (
                 <>
                 <Button onClick={() => setOpenApproveModal(true)}>Approve</Button>
                 <Button className='bg-rose-50 text-rose-700 ring-rose-600/20' variant='ghost' onClick={() => setOpenRejectModal(true)}>Reject</Button>
+                <Link href={`${loanId}/repayment-projection`} className='text-primary bg-card border text-xs py-2 px-2.5 rounded-md'>Repayment Projection</Link>
                 </>
-            )}
-        <Link href={`${loanId}/repayments`} className='text-primary bg-card border text-xs py-2 px-2.5 rounded-md'>View Repayment</Link>
+            ):
+            <Link href={`${loanId}/repayments`} className='text-primary bg-card border text-xs py-2 px-2.5 rounded-md'>View Repayment</Link>
+        }
         </Flex>
     </Flex>
     <LoanApprovalModel open={openApproveModal} setOpen={setOpenApproveModal} loanId={loanId}/>
@@ -75,10 +77,10 @@ const LoanApprovalModel = ({open, setOpen, loanId}: any) => {
 
     return(
         <Modal onOpenChange={() => setOpen(false)} open={open}>
-            <Modal.Header title='Are you sure you want to approve agent creation'/>
+            <Modal.Header title='Are you sure you want to approve this loan?'/>
             <Modal.Body>
                 <FlexCol>
-                    <Typography>Approving an agent implies creating an acount for this agent</Typography>
+                    <Typography>Please ensure you have verified every customer information, documents and guarantor details</Typography>
                 </FlexCol>
             </Modal.Body>
             <Modal.Footer>
@@ -112,10 +114,10 @@ const LoanRejectionModel = ({open, setOpen, loanId}: any) => {
 
     return(
         <Modal onOpenChange={() => setOpen(false)} open={open}>
-            <Modal.Header title='Are you sure you want to reject agent application request?'/>
+            <Modal.Header title='Are you sure you want to reject loan?'/>
             <Modal.Body>
                 <FlexCol className='gap-4'>
-                    <Typography>Is there a reason for rejecting this loan application?</Typography>
+                    <Typography>Tell us reason for rejecting this loan application?</Typography>
                     <TextArea placeholder='Write your reason' value={reason} onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setReason(e.target.value)}/>
                 </FlexCol>
             </Modal.Body>
