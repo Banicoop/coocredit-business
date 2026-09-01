@@ -35,7 +35,7 @@ const documents = Array.from({ length: 4 }, (_, i) => ({
   size: `${(Math.random() * 2 + 0.5).toFixed(2)} MB`,
 }));  
 
-const LoanGuarantor = () => {
+const LoanGuarantor = ({guarantors}: {guarantors: any[]}) => {
   return (
     <FlexCol className='gap-6'>
       <Flex className='gap-4'>

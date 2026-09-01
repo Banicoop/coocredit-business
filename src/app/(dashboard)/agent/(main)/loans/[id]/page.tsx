@@ -7,7 +7,7 @@ import LoanDocument from './tabs/LoanDocument';
 import LoanGuarantor from './tabs/LoanGuarantor';
 // import LoanNotes from './tabs/LoanNotes';
 import { BackButton } from '@/components/primitives/buttons/BackButton';
-import { agentGetLoanById, agentGetSupportedDocs } from '@/lib/api.agent';
+import { agentGetLoanById, agentGetLoanSupportedDocs, agentGuarantorDocs } from '@/lib/api.agent';
 import { IDParam, Signature } from '@/types/types';
 import { getUploadSignature } from '@/lib/uploads/file-uploads';
 
@@ -19,17 +19,18 @@ const LoanDetails = async ({ params }: IDParam) => {
   
   const loanDetails = (await agentGetLoanById(id)) as any;
   const signature = (await getUploadSignature()) as Signature;
-  const res = (await agentGetSupportedDocs()) as {
+  const res = (await agentGetLoanSupportedDocs()) as {
     data: {
       slug: string;
       name: string;
     }[];
   };
-
+  
   const data = loanDetails?.data
   const documents = res?.data
-
-  // console.info('LOAN:', data);
+  
+  const guarantors = (await agentGuarantorDocs(data.loanId)) as any
+  console.info('guarantors:', guarantors);
 
   const tabs = [
     {
@@ -46,7 +47,7 @@ const LoanDetails = async ({ params }: IDParam) => {
     },
     {
       label: 'Guarantor',
-      content: <LoanGuarantor />
+      content: <LoanGuarantor guarantors={guarantors?.data ?? []} />
     },
     // {
     //   label: 'Timeline',
