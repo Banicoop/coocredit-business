@@ -4,8 +4,9 @@ import { Badge, BadgeTone, Card, Dot, Field, FieldGrid } from '@/components/prim
 import { getCustomerDetails } from '@/lib/api';
 import { IDParam } from '@/types/types';
 import Image from 'next/image';
-import { formatCurrency, formatDate, formatDateTime, initials, titleCase } from '@/helpers/funcs';
+import { formatCurrency, formatDate, formatDateTime, formatDocumentType, isValidImageUrl, titleCase } from '@/helpers/funcs';
 import Typography from '@/components/primitives/Typography';
+import KycDocuments from '@/components/documents/KYCDocument';
 
 
 
@@ -15,7 +16,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
   const { id } = await params;
   const res = (await getCustomerDetails(id)) as any;
   const data = res?.data;
-  console.log('customer:', data);
+
   
   if (!data) {
     return (
@@ -54,7 +55,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
           <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex items-start gap-4">
               <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200">
-                {data.profileImage ? (
+                {isValidImageUrl(data.profileImage) ? (
                   <Image
                     src={data.profileImage}
                     alt={`${data.firstName} ${data.lastName}`}
@@ -62,8 +63,9 @@ const CustomerDetails = async ({ params }: IDParam) => {
                     className="object-cover"
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center text-lg font-semibold text-slate-400">
-                    {initials(data.firstName, data.lastName)}
+                  <div className="flex h-full w-full items-center justify-center text-sm font-semibold text-slate-400">
+                    {data.firstName?.charAt(0)}
+                    {data.lastName?.charAt(0)}
                   </div>
                 )}
               </div>
@@ -156,7 +158,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
                         href={doc.url}
                         target="_blank"
                         rel="noreferrer"
-                        className="group flex items-center gap-4 rounded-xl border border-slate-200 p-3 transition hover:border-[#1E4FD8]/40 hover:bg-[#1E4FD8]/[0.03]"
+                        className="group flex items-center gap-4 rounded-xl border border-slate-200 p-3 transition hover:border-[#1E4FD8]/40 hover:bg-[#1E4FD8]/3"
                       >
                         {/* Image */}
                         <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-slate-100">
@@ -171,7 +173,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
                         {/* Document information */}
                         <div className="min-w-0">
                           <p className="truncate text-sm font-medium text-[#0B1220]">
-                            {titleCase(doc.type)}
+                            {formatDocumentType(doc.type)}
                           </p>
                           <p className="text-xs text-slate-400">
                             {doc.mime}
@@ -210,34 +212,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
           </Card>
 
           <Card title="KYC documents">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {data.kycDocuments?.map((doc: any) => (
-                <a
-                  key={doc.id}
-                  href={doc.documentURL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group flex items-center gap-4 rounded-xl border border-slate-200 p-3 transition hover:border-[#1E4FD8]/40 hover:bg-[#1E4FD8]/[0.03]"
-                >
-                  <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-slate-100">
-                    <Image
-                      src={doc.documentURL}
-                      alt={doc.type}
-                      width={56}
-                      height={56}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-[#0B1220]">{titleCase(doc.type)}</p>
-                    <p className="text-xs text-slate-400">{titleCase(doc.category)}</p>
-                    {doc.issuedDate && (
-                      <p className="mt-0.5 text-xs text-slate-400">Issued {formatDate(doc.issuedDate)}</p>
-                    )}
-                  </div>
-                </a>
-              ))}
-            </div>
+            <KycDocuments documents={data.kycDocuments} />
           </Card>
         </div>
 

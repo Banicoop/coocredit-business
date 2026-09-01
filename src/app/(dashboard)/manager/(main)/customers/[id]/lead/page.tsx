@@ -6,6 +6,7 @@ import { Card, EmptyState, Field, FieldGrid } from '@/components/primitive-ui/ca
 import { formatCurrency, formatDate, formatDateTime, formatDocumentType, titleCase } from '@/helpers/funcs';
 import { FlexCol } from '@/components/ui/ui-layout';
 import { BackButton } from '@/components/primitives/buttons/BackButton';
+import KycDocuments from '@/components/documents/KYCDocument';
 
 
 // ---------- readiness checklist item ----------
@@ -193,26 +194,7 @@ const LeadDetails = async ({ params }: IDParam) => {
         {/* Right column */}
         <div className="flex flex-col gap-6">
           <Card title="KYC documents">
-            {lead.kycDocuments?.length > 0 ? (
-              <div className="grid grid-cols-1 gap-4">
-                {lead.kycDocuments.map((doc: any) => (
-                  <a
-                    key={doc.id}
-                    href={doc.documentURL}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group flex items-center gap-4 rounded-xl border border-slate-200 p-3 transition hover:border-[#1E4FD8]/40 hover:bg-[#1E4FD8]/3"
-                  >
-                    <div className="min-w-0">
-                      <p className="text-sm font-medium text-[#0B1220]">{titleCase(doc.type)}</p>
-                      <p className="text-xs text-slate-400">{titleCase(doc.category)}</p>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            ) : (
-              <EmptyState message="No documents have been uploaded yet." />
-            )}
+            <KycDocuments documents={lead.kycDocuments} className='flex flex-col gap-4'/>
           </Card>
           <Card title="Readiness checklist">
             <div className="mb-3 flex items-center justify-between">

@@ -2,7 +2,7 @@ import { Badge, Card, Dot, Field, FieldGrid, Stat, statusTone } from '@/componen
 import { BackButton } from '@/components/primitives/buttons/BackButton';
 import { FlexCol } from '@/components/ui/ui-layout'
 import { formatCurrency, formatDateTime, initials, titleCase } from '@/helpers/funcs';
-import { getLoanById } from '@/lib/api';
+import { getLoanById, getLoanRepaymentProjection } from '@/lib/api';
 import { IDParam } from '@/types/types'
 import Actions from './Actions';
 
@@ -12,8 +12,8 @@ const LoanDetails = async ({params}: IDParam) => {
   const { id } = await params;
   const res = (await getLoanById(id)) as any;
   const loan = res?.data;
+  // console.log('loanId:', loan?.loanId);
 
-  console.log('loan:', loan);
 
   if (!loan) {
     return (

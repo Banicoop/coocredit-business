@@ -4,7 +4,7 @@ import { IDParam } from '@/types/types';
 import { agentGetBusinessCustomersDetails, agentGetSupportedDocs } from '@/lib/api.agent';
 import Image from 'next/image';
 import { Badge, BadgeTone, Card, Dot, EmptyState, Field, FieldGrid, Stat } from '@/components/primitive-ui/card-ui';
-import { formatCurrency, formatDate, formatDateTime, initials, titleCase } from '@/helpers/funcs';
+import { formatCurrency, formatDate, formatDateTime, initials, isValidImageUrl, titleCase } from '@/helpers/funcs';
 import { ProgressBar } from '@/components/ui/ProgessBar';
 import BusinessDocuments from '../_sections/BusinessDocuments';
 import { getUploadSignature } from '@/lib/uploads/file-uploads';
@@ -83,7 +83,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
             <div className="mt-5 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex items-start gap-4">
                 <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-slate-100 ring-1 ring-slate-200">
-                  {customer.profileImage ? (
+                  {isValidImageUrl(customer.profileImage) ? (
                     <Image
                       src={customer.profileImage}
                       alt={`${customer.firstName} ${customer.lastName}`}

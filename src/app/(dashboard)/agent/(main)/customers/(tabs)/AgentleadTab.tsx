@@ -1,13 +1,15 @@
+import Typography from '@/components/primitives/Typography';
+import AgentCustomerTable from '@/components/tables/AgentCustomerTable';
 import { Grid } from '@/components/ui/ui-layout';
 import React from 'react'
 
 const AgentleadTab = ({leads}: {leads: any}) => {
 
-  console.log('leads:', leads);
 
   return (
-    <Grid>
-      Leads to Review
+    <Grid className='gap-5'>
+      <Typography>Leads</Typography>
+      <AgentCustomerTable data={leads?.data ?? []} error={leads?.error}/>
     </Grid>
   )
 }

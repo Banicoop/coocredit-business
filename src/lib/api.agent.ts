@@ -21,6 +21,10 @@ export const agentGetDashboardOverview = () => getData('agents/loans/dashboard/o
 
 export const agentGetSupportedDocs = () => getData('common/verification-doc-types');
 
+export const agentGetLoanSupportedDocs = () => getData('common/loans/doc-types');
+
+export const agentGuarantorDocs = (loanId: string) => getData(`business-users/loans/${loanId}/guarantors`);
+
 export const agentGetAllLead = () => getData('business-users/agent/leads');
 
 export const agentGetALeadById = (id: string) => getData(`business-users/agent/leads/${id}`);
