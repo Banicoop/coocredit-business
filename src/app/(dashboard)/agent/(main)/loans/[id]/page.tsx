@@ -48,15 +48,16 @@ const LoanDetails = async ({ params }: IDParam) => {
     {
       label: 'Guarantor',
       content: <LoanGuarantor 
+        signature={signature} 
         guarantors={guarantoRres?.data ?? []} 
-        onAddDocument={(guarantor) => {
-          // Open upload modal
-          console.log('Add document for:', guarantor);
-        }}
-        onRemoveDocument={(guarantor, document) => {
-          // Call your remove document API
-          console.log('Remove:', document, 'from:', guarantor);
-        }}
+        // onAddDocument={(guarantor) => {
+        //   // Open upload modal
+        //   console.log('Add document for:', guarantor);
+        // }}
+        // onRemoveDocument={(guarantor, document) => {
+        //   // Call your remove document API
+        //   console.log('Remove:', document, 'from:', guarantor);
+        // }}
         />
     },
     // {

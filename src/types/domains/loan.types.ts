@@ -1,3 +1,4 @@
+import { Signature } from "../types";
 
 
 export type VerificationDocument = {
@@ -25,6 +26,7 @@ export type Guarantor = {
 
 export type LoanGuarantorProps = {
   guarantors: Guarantor[];
+  signature: Signature
 
   onAddDocument?: (guarantor: Guarantor) => void;
   onRemoveDocument?: (
