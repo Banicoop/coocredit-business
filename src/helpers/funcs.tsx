@@ -48,3 +48,9 @@ export const isValidImageUrl = (url?: string | null) => {
     url.startsWith('/')
   );
 };
+
+export const maskBVN = (bvn: string) => {
+  if (!bvn) return '-';
+
+  return `******${bvn.slice(-4)}`;
+};

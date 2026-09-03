@@ -25,9 +25,7 @@ type businessUserPayload = {
 export const approveBusinessLoans = async ({loanId}: {loanId: string}) => {
   const token = await getAccessToken();
   try {
-    const res = await SERVER.patch(`admin/loans/${loanId}/business/approve`, {
-      token
-    })
+    const res = await SERVER.patch(`admin/loans/${loanId}/business/approve`, {}, { token })
 
     revalidateTag(loanId, "max");
     
