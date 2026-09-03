@@ -76,3 +76,5 @@ export const getLoanById = (id: string) => getData(`admin/loans/business/${id}`,
 export const getLoanRepaymentBreakdown = (id: string) => getData(`admin/loans/business/${id}/repayments`, { tags: [id] });
 
 export const getLoanRepaymentProjection = (id: string) => getData(`admin/loans/business/${id}/repayment-projection`, { tags: [id] });
+
+export const getAdminGurantorInfo = (loanId: string) => getData(`admin/loans/${loanId}/business/gurantors`)
