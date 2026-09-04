@@ -5,6 +5,7 @@ import { formatCurrency, formatDateTime, initials, titleCase } from '@/helpers/f
 import { getLoanById, getLoanRepaymentProjection } from '@/lib/api';
 import { IDParam } from '@/types/types'
 import Actions from './Actions';
+import { agentGuarantorInfo } from '@/lib/api.agent';
 
 
 const LoanDetails = async ({params}: IDParam) => {
@@ -12,9 +13,8 @@ const LoanDetails = async ({params}: IDParam) => {
   const { id } = await params;
   const res = (await getLoanById(id)) as any;
   const loan = res?.data;
-  // console.log('loanId:', loan?.loanId);
-
-
+  
+  
   if (!loan) {
     return (
       <FlexCol className="gap-4">
@@ -25,6 +25,10 @@ const LoanDetails = async ({params}: IDParam) => {
       </FlexCol>
     );
   }
+  
+  const guarantorRes = (await agentGuarantorInfo(loan.loanId)) as any
+  console.log('loanId:', loan.loanId);
+  console.log('gurantors:', guarantorRes);
 
   const history = [...(loan.history ?? [])].sort(
     (a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()

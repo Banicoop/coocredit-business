@@ -23,9 +23,10 @@ export const agentGetSupportedDocs = () => getData('common/verification-doc-type
 
 export const agentGetLoanSupportedDocs = () => getData('common/loans/doc-types');
 
-export const agentGuarantorDocs = (loanId: string) => getData(`business-users/loans/${loanId}/guarantors`);
+export const agentGuarantorInfo = (loanId: string) => getData(`business-users/loans/${loanId}/guarantors`);
 
 export const agentGetAllLead = () => getData('business-users/agent/leads');
 
 export const agentGetALeadById = (id: string) => getData(`business-users/agent/leads/${id}`);
 
+export const getAllcommission = getData('commission');

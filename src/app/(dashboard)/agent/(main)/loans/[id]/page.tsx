@@ -7,7 +7,7 @@ import LoanDocument from './tabs/LoanDocument';
 import LoanGuarantor from './tabs/LoanGuarantor';
 // import LoanNotes from './tabs/LoanNotes';
 import { BackButton } from '@/components/primitives/buttons/BackButton';
-import { agentGetLoanById, agentGetLoanSupportedDocs, agentGuarantorDocs } from '@/lib/api.agent';
+import { agentGetLoanById, agentGetLoanSupportedDocs, agentGuarantorInfo } from '@/lib/api.agent';
 import { IDParam, Signature } from '@/types/types';
 import { getUploadSignature } from '@/lib/uploads/file-uploads';
 
@@ -29,8 +29,8 @@ const LoanDetails = async ({ params }: IDParam) => {
   const data = loanDetails?.data
   const documents = res?.data
   
-  const guarantors = (await agentGuarantorDocs(data.loanId)) as any
-  console.info('guarantors:', guarantors);
+  const guarantoRres = (await agentGuarantorInfo(data.loanId)) as any
+  // console.info('guarantors:', guarantors);
 
   const tabs = [
     {
@@ -47,7 +47,18 @@ const LoanDetails = async ({ params }: IDParam) => {
     },
     {
       label: 'Guarantor',
-      content: <LoanGuarantor guarantors={guarantors?.data ?? []} />
+      content: <LoanGuarantor 
+        signature={signature} 
+        guarantors={guarantoRres?.data ?? []} 
+        // onAddDocument={(guarantor) => {
+        //   // Open upload modal
+        //   console.log('Add document for:', guarantor);
+        // }}
+        // onRemoveDocument={(guarantor, document) => {
+        //   // Call your remove document API
+        //   console.log('Remove:', document, 'from:', guarantor);
+        // }}
+        />
     },
     // {
     //   label: 'Timeline',
