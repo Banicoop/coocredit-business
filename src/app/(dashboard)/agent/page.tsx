@@ -27,14 +27,14 @@ const Widget = ({title, num, percent}: {title: string, num: number, percent: num
 const AgentDashboard = async () => {
 
   const data = await agentGetDashboardOverview() as any;
-  const loans = await agentGetAllLoans() as any;
+  // const loans = await agentGetAllLoans() as any;
   const me = await agentGetMyProfile() as any;
 
   return (
     <Grid className={cn('gap-5 p-5')}>
       <PageHeader 
         title={`Welcome${me?.data?.lastName ? `, ${me.data.lastName}` : ''} 👋`}
-        description={formatDate(new Date())} className='text-2xl'/>
+        description={formatDate(new Date())} className='text-2xl' />
       
       <section className='grid grid-cols-2 gap-4 md:grid-cols-4'>
         <Widget title='TOTAL ONBOARDED TODAY' num={data?.data?.customerOnboarding?.today?.count} percent={12}/>
@@ -47,7 +47,7 @@ const AgentDashboard = async () => {
       <div className="flex flex-col lg:flex-row gap-5">
         <FlexCol className='gap-4 flex-1 lg:flex-2'>
           <LoanPipeline/>
-          <RecentApps loans={loans.data} error={loans.error}/>
+          {/* <RecentApps loans={loans.data} error={loans.error}/> */}
           <Commissions/>
         </FlexCol>
 

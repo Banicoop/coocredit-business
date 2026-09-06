@@ -29,4 +29,4 @@ export const agentGetAllLead = () => getData('business-users/agent/leads');
 
 export const agentGetALeadById = (id: string) => getData(`business-users/agent/leads/${id}`);
 
-export const getAllcommission = getData('commission');
+export const getAllcommission = () => getData('commission');
