@@ -1,13 +1,15 @@
 import { BackButton } from '@/components/primitives/buttons/BackButton';
 import { FlexCol } from '@/components/ui/ui-layout';
 import { IDParam } from '@/types/types';
-import { agentGetBusinessCustomersDetails, agentGetSupportedDocs } from '@/lib/api.agent';
+import { agentGetBusinessCustomersDetails } from '@/lib/api.agent';
 import Image from 'next/image';
 import { Badge, BadgeTone, Card, Dot, EmptyState, Field, FieldGrid, Stat } from '@/components/primitive-ui/card-ui';
 import { formatCurrency, formatDate, formatDateTime, initials, isValidImageUrl, titleCase } from '@/helpers/funcs';
 import { ProgressBar } from '@/components/ui/ProgessBar';
-import BusinessDocuments from '../_sections/BusinessDocuments';
-import { getUploadSignature } from '@/lib/uploads/file-uploads';
+import KycDocuments from '@/components/documents/KYCDocument';
+import { BusinessInformation } from '@/components/documents/BusinessInformation';
+// import BusinessDocuments from '../_sections/BusinessDocuments';
+// import { getUploadSignature } from '@/lib/uploads/file-uploads';
 
 
 
@@ -16,14 +18,14 @@ const CustomerDetails = async ({ params }: IDParam) => {
   const res = (await agentGetBusinessCustomersDetails(id)) as any;
   const customer = res?.data;
 
-  const signature = (await getUploadSignature()) as any;
+  // const signature = (await getUploadSignature()) as any;
   // console.log('sign:', signature.data);
-  const documents = (await agentGetSupportedDocs()) as {
-    data: {
-      slug: string;
-      name: string;
-    }[];
-  };
+  // const documents = (await agentGetSupportedDocs()) as {
+  //   data: {
+  //     slug: string;
+  //     name: string;
+  //   }[];
+  // };
 
 
   if (!customer) {
@@ -164,7 +166,9 @@ const CustomerDetails = async ({ params }: IDParam) => {
               </FieldGrid>
             </Card>
 
-            <BusinessDocuments business={business} documents={documents} signature={signature.data}/>
+            <BusinessInformation businesses={business} />
+
+            {/* <BusinessDocuments business={business} documents={documents} signature={signature.data}/> */}
 
             <Card title="Disbursement bank accounts">
               {customer.disbursementBankAccounts?.length > 0 ? (
@@ -231,7 +235,6 @@ const CustomerDetails = async ({ params }: IDParam) => {
                  <EmptyState message="This customer has no active loan application." />
                 }
 
-
             <Card title="Recent transactions">
               {customer.recentTransactions?.length > 0 ? (
                 <div className="flex flex-col divide-y divide-slate-100">
@@ -252,6 +255,10 @@ const CustomerDetails = async ({ params }: IDParam) => {
 
           {/* Right column */}
           <div className="flex flex-col gap-6">
+            <Card title="KYC documents">
+              <KycDocuments documents={customer.kycDocuments} className='flex flex-col gap-4'/>
+            </Card>
+
             <Card title="Wallet & account">
               <FieldGrid>
                 <Field label="Wallet name" value={customer.walletName} />
@@ -265,40 +272,6 @@ const CustomerDetails = async ({ params }: IDParam) => {
               </FieldGrid>
             </Card>
 
-            <Card title="KYC documents">
-              {customer.kycDocuments?.length > 0 ? (
-                <div className="grid gap-4 ">
-                  {customer.kycDocuments.map((doc: any) => (
-                    <a
-                      key={doc.id}
-                      href={doc.documentURL}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="group flex items-center gap-4 rounded-xl border border-slate-200 p-3 transition hover:border-[#1E4FD8]/40 hover:bg-[#1E4FD8]/3"
-                    >
-                      <div className="h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-slate-100">
-                        <Image
-                          src={doc.documentURL}
-                          alt={doc.type}
-                          width={56}
-                          height={56}
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-sm font-medium text-[#0B1220]">{titleCase(doc.type)}</p>
-                        <p className="text-xs text-slate-400">{titleCase(doc.category)}</p>
-                        {doc.issuedDate && (
-                          <p className="mt-0.5 text-xs text-slate-400">Issued {formatDate(doc.issuedDate)}</p>
-                        )}
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              ) : (
-                <EmptyState message="No documents have been uploaded yet." />
-              )}
-            </Card>
 
             {loan && (
               <Card title="Credit profile">

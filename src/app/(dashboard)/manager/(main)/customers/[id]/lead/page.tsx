@@ -1,12 +1,12 @@
 import { getCustomerDetails } from '@/lib/api';
 import { IDParam } from '@/types/types';
-import React from 'react';
 import LeadActions from './LeadActions';
 import { Card, EmptyState, Field, FieldGrid } from '@/components/primitive-ui/card-ui';
-import { formatCurrency, formatDate, formatDateTime, formatDocumentType, titleCase } from '@/helpers/funcs';
+import { formatDate, formatDateTime, titleCase } from '@/helpers/funcs';
 import { FlexCol } from '@/components/ui/ui-layout';
 import { BackButton } from '@/components/primitives/buttons/BackButton';
 import KycDocuments from '@/components/documents/KYCDocument';
+import { BusinessInformation } from '@/components/documents/BusinessInformation';
 
 
 // ---------- readiness checklist item ----------
@@ -58,7 +58,6 @@ const LeadDetails = async ({ params }: IDParam) => {
   ];
   const completedCount = checklist.filter((c) => c.done).length;
 
-  
 
   return (
     <div className="min-h-screen bg-[#F6F7FB] pb-16">
@@ -82,93 +81,8 @@ const LeadDetails = async ({ params }: IDParam) => {
             </FieldGrid>
           </Card>
 
-          <Card title="Business information">
-      {lead.businesses?.length > 0 ? (
-        <>
-          {lead.businesses.map((business: any) => (
-            <React.Fragment key={business._id}>
-              <FieldGrid>
-                <Field label="Business name" value={business.businessName} />
-                <Field label="Registration number" value={business.registrationNumber} mono/>
-                <Field label="State" value={titleCase(business.location?.state)} mono />
-                <Field label="LGA of Business" value={titleCase(business.location?.localGovernment)} mono/>
-                <Field label="Business Type" value={titleCase(business.type)} mono />
-                <Field label="Estimated Profit" value={formatCurrency(business.estimatedProfit)} mono />
-              </FieldGrid>
+         <BusinessInformation businesses={lead.business} />
 
-          {/* Verification Documents */}
-          <div className="mt-6 border-t border-slate-200 pt-6">
-            <div className="mb-4">
-              <h3 className="text-sm font-semibold text-slate-900">
-                Verification Documents
-              </h3>
-
-              <p className="mt-1 text-sm text-slate-500">
-                Documents submitted for business verification.
-              </p>
-            </div>
-
-            {business.verificationDocuments?.length > 0 ? (
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                {business.verificationDocuments.map((doc: any) => {
-                  const isImage = doc.mime?.startsWith('image/');
-                  return (
-                    <a
-                      key={doc._id}
-                      href={doc.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="group overflow-hidden rounded-xl border border-slate-200 bg-white transition hover:border-slate-300 hover:shadow-sm"
-                    >
-                      {/* Preview */}
-                      <div className="relative flex h-10 items-center justify-center overflow-hidden bg-slate-100">
-                        {isImage ? (
-                          <img
-                            src={doc.url}
-                            alt={formatDocumentType(doc.type)}
-                            className="h-full w-full object-cover transition duration-200 group-hover:scale-105"
-                          />
-                        ) : (
-                          <div className="flex flex-col items-center justify-center gap-2 text-slate-400">
-                            <span className="text-4xl">📄</span>
-                            <span className="text-xs">
-                              Document
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                      {/* Document information */}
-                      <div className="flex items-center justify-between gap-3 p-4">
-                        <div className="min-w-0">
-                          <p className="truncate text-sm font-semibold text-slate-900">
-                            {formatDocumentType(doc.type)}
-                          </p>
-                          <p className="mt-1 text-xs text-slate-500">
-                            {doc.mime}
-                          </p>
-                          <p className="mt-1 truncate font-mono text-xs text-slate-400">
-                            {doc.documentId}
-                          </p>
-                        </div>
-                        <span className="shrink-0 text-sm font-medium text-blue-600 group-hover:text-blue-700">
-                          View
-                        </span>
-                      </div>
-                    </a>
-                       );
-                        })}
-                      </div>
-                    ) : (
-                      <EmptyState message="No verification documents submitted." />
-                    )}
-                    </div>
-                  </React.Fragment>
-                ))}
-              </>
-            ) : (
-              <EmptyState message="No business details submitted yet." />
-            )}
-          </Card>
 
           <Card title="Disbursement bank accounts">
             {lead.disbursementBankAccounts?.length > 0 ? (
