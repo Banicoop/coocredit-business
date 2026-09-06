@@ -77,7 +77,7 @@ const RepaymentProjection = async ({ params }: IDParam) => {
 
   return (
     <FlexCol className="gap-6 p-4">
-      <BackButton />
+      {/* <BackButton /> */}
 
       <div>
         <h1 className="text-lg font-semibold">Repayment Projection</h1>
