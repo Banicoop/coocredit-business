@@ -26,7 +26,7 @@ export type Guarantor = {
 
 export type LoanGuarantorProps = {
   guarantors: Guarantor[];
-  signature: Signature
+  signature?: Signature
 
   onAddDocument?: (guarantor: Guarantor) => void;
   onRemoveDocument?: (

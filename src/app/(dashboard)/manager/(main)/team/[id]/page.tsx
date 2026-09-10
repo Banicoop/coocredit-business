@@ -5,6 +5,7 @@ import ErrorPage from "@/components/ui/ErrorPage";
 import { Item, Section, StatCard } from "./features/AgentProfileCards";
 import AgentProfileHeader from "./features/AgentProfileHeader";
 import { IDParam } from "@/types/types";
+import { maskBVN } from "@/helpers/funcs";
 
 
 const AgentProfile = async ({ params }: IDParam) => {
@@ -15,6 +16,7 @@ const AgentProfile = async ({ params }: IDParam) => {
 
   if(!data) return <ErrorPage href="/manager" />
 
+
   return (
     <Grid className="gap-6">
       <BackButton />
@@ -24,25 +26,10 @@ const AgentProfile = async ({ params }: IDParam) => {
 
       {/* Stats */}
       <div className="grid md:grid-cols-4 gap-4">
-        <StatCard
-          title="Available Balance"
-          value={`₦${data?.availableBalance?.toLocaleString()}`}
-        />
-
-        <StatCard
-          title="Booked Balance"
-          value={`₦${data?.bookedBalance?.toLocaleString()}`}
-        />
-
-        <StatCard
-          title="Credit Lien"
-          value={`₦${data?.creditLienBalance?.toLocaleString()}`}
-        />
-
-        <StatCard
-          title="Debit Lien"
-          value={`₦${data?.debitLienBalance?.toLocaleString()}`}
-        />
+        <StatCard title="Available Balance" value={`₦${data?.availableBalance?.toLocaleString()}`} />
+        <StatCard title="Booked Balance" value={`₦${data?.bookedBalance?.toLocaleString()}`} />
+        <StatCard title="Credit Lien" value={`₦${data?.creditLienBalance?.toLocaleString()}`}/>
+        <StatCard title="Debit Lien" value={`₦${data?.debitLienBalance?.toLocaleString()}`}/>
       </div>
 
       {/* Information */}
@@ -53,6 +40,7 @@ const AgentProfile = async ({ params }: IDParam) => {
           <Item label="Gender" value={data.gender} />
           <Item label="Date of Birth" value={data.dateOfBirth} />
           <Item label="Phone" value={data.phoneNumber} />
+          <Item label="BVN" value={maskBVN(data.bvn)} />
           <Item label="BVN Phone" value={data.bvnPhoneNumber} />
           <Item label="Country" value={data.country} />
           <Item label="NIN" value={data.nin} />
@@ -76,37 +64,16 @@ const AgentProfile = async ({ params }: IDParam) => {
 
         <Section title="Location">
           <Item label="State" value={data?.location?.state} />
-          <Item
-            label="Local Government"
-            value={data?.location?.localGovernment}
-          />
+          <Item label="Local Government" value={data?.location?.localGovernment}/>
+          <Item label="Country" value={data?.country}/>
         </Section>
 
         <Section title="KYC Information">
           <Item label="KYC Level" value={data.kycLevel} />
           <Item label="Identity Score" value={data.identityScore} />
-          <Item
-            label="Risk Assessment"
-            value={data.identityDescription}
-          />
-
-          <Item
-            label="Pending Upgrade"
-            value={
-              data?.kycWalletInfo?.hasPendingKycUpgradeApproval
-                ? "Yes"
-                : "No"
-            }
-          />
-
-          <Item
-            label="Upgrade Required"
-            value={
-              data.kycWalletInfo?.requiredKycUpgradeAction
-                ? "Yes"
-                : "No"
-            }
-          />
+          <Item label="Risk Assessment" value={data.identityDescription} />
+          <Item label="Pending Upgrade" value={data?.kycWalletInfo?.hasPendingKycUpgradeApproval ? "Yes": "No" }/>
+          <Item label="Upgrade Required" value={ data.kycWalletInfo?.requiredKycUpgradeAction ? "Yes" : "No" } />
         </Section>
 
         <Section title="System Information">

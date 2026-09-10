@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 
 const PortfolioPage = () => {
   return (
-    <Grid className={cn(' py-6 px-4')}>
+    <Grid className={cn('py-6 px-4')}>
 
     <LoanApplications/>
 

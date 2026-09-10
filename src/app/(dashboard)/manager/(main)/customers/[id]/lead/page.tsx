@@ -81,7 +81,7 @@ const LeadDetails = async ({ params }: IDParam) => {
             </FieldGrid>
           </Card>
 
-         <BusinessInformation businesses={lead.business} />
+         <BusinessInformation businesses={lead.businesses} />
 
 
           <Card title="Disbursement bank accounts">
