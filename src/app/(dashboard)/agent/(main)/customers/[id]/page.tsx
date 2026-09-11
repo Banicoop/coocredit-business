@@ -8,8 +8,6 @@ import { formatCurrency, formatDate, formatDateTime, initials, isValidImageUrl, 
 import { ProgressBar } from '@/components/ui/ProgessBar';
 import KycDocuments from '@/components/documents/KYCDocument';
 import { BusinessInformation } from '@/components/documents/BusinessInformation';
-// import BusinessDocuments from '../_sections/BusinessDocuments';
-// import { getUploadSignature } from '@/lib/uploads/file-uploads';
 
 
 
@@ -17,15 +15,6 @@ const CustomerDetails = async ({ params }: IDParam) => {
   const { id } = await params;
   const res = (await agentGetBusinessCustomersDetails(id)) as any;
   const customer = res?.data;
-
-  // const signature = (await getUploadSignature()) as any;
-  // console.log('sign:', signature.data);
-  // const documents = (await agentGetSupportedDocs()) as {
-  //   data: {
-  //     slug: string;
-  //     name: string;
-  //   }[];
-  // };
 
 
   if (!customer) {
@@ -167,8 +156,6 @@ const CustomerDetails = async ({ params }: IDParam) => {
             </Card>
 
             <BusinessInformation businesses={business} />
-
-            {/* <BusinessDocuments business={business} documents={documents} signature={signature.data}/> */}
 
             <Card title="Disbursement bank accounts">
               {customer.disbursementBankAccounts?.length > 0 ? (

@@ -1,10 +1,12 @@
 import { ApiResponse, FetchOptions } from '@/types/types';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const BASE_URL = process.env['NEXT_PUBLIC_API_URL'];
 
-if (!BASE_URL) {
-  throw new Error('NEXT_PUBLIC_API_URL is not defined.');
-}
+// console.info('BASEURL:', BASE_URL);
+
+// if (!BASE_URL) {
+//   throw new Error('NEXT_PUBLIC_API_URL is not defined.');
+// }
 
 function extractError(data: unknown, status: number): string {
   if (!data) {
@@ -37,18 +39,7 @@ export async function fetchClient<
   endpoint: string,
   options: FetchOptions<TBody> = {}
 ): Promise<ApiResponse<TData>> {
-  const {
-    method = 'GET',
-    body,
-    headers,
-    token,
-    query,
-    signal,
-    timeout,
-    cache,
-    tags,
-    revalidate,
-  } = options;
+  const { method = 'GET', body, headers, token, query, signal, timeout, cache, tags, revalidate } = options;
 
   const url = new URL(endpoint, BASE_URL);
 

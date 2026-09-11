@@ -2,10 +2,9 @@ import { Badge, Card, Dot, Field, FieldGrid, Stat, statusTone } from '@/componen
 import { BackButton } from '@/components/primitives/buttons/BackButton';
 import { FlexCol } from '@/components/ui/ui-layout'
 import { formatCurrency, formatDateTime, initials, titleCase } from '@/helpers/funcs';
-import { getAdminGurantorInfo, getLoanById, getLoanRepaymentProjection } from '@/lib/api';
+import { getLoanById } from '@/lib/api';
 import { IDParam } from '@/types/types'
 import Actions from './Actions';
-import { agentGuarantorInfo } from '@/lib/api.agent';
 
 
 const LoanDetails = async ({params}: IDParam) => {
@@ -26,9 +25,6 @@ const LoanDetails = async ({params}: IDParam) => {
     );
   }
   
-  const guarantorRes = (await getAdminGurantorInfo(loan.loanId)) as any
-  console.log('loanId:', loan.loanId);
-  console.log('gurantors:', guarantorRes);
 
   const history = [...(loan.history ?? [])].sort(
     (a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -95,7 +91,7 @@ const LoanDetails = async ({params}: IDParam) => {
 
 
         {/* Body */}
-        <div className="mx-auto mt-8 grid grid-cols-2 gap-6">
+        <div className="mx-auto mt-8 grid md:grid-cols-2 gap-6">
           {/* Left column */}
           {/* <div className="flex flex-col gap-6 lg:col-span-2">
             <Card title="Approval timeline" action={<span className="text-xs text-slate-400">{history.length} events</span>}>

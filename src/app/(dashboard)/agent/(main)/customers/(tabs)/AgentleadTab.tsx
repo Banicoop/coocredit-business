@@ -8,7 +8,7 @@ const AgentleadTab = ({leads}: {leads: any}) => {
 
   return (
     <Grid className='gap-5'>
-      <Typography>Leads</Typography>
+      <Typography variant='h3' font='atomic'>Leads</Typography>
       <AgentCustomerTable data={leads?.data ?? []} error={leads?.error}/>
     </Grid>
   )
