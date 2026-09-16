@@ -5,6 +5,7 @@ import { BasicTable } from '@/components/primitives/tables/BasicTable';
 import Typography from '@/components/primitives/Typography';
 import { ActionDropdown } from '@/components/ui/ActionDropDown';
 import { Flex, FlexCol } from '@/components/ui/ui-layout';
+import { formatCurrency } from '@/helpers/funcs';
 import { Eye } from 'lucide-react';
 
 
@@ -17,8 +18,6 @@ const Title = () => (
 )
 
 const RecentTransactions = ({data, error}: {data: any[], error: string}) => {
-
-    console.log('TRANSACTION', data)
 
     const columns = [
         // {
@@ -62,8 +61,8 @@ const RecentTransactions = ({data, error}: {data: any[], error: string}) => {
         {
             key: 'transactionAmount',
             title: 'AMOUNT (₦)',
-             render: (amount: string) => (
-                <Typography variant='small' color='success' className='py-1 px-2.5 bg-accent font-semibold'>₦{Number(amount).toLocaleString()}</Typography>
+             render: (amount: number) => (
+                <Typography variant='small' color='success' className='py-1 px-2.5 bg-accent font-semibold'>{formatCurrency(amount)}</Typography>
             )
         },
         {
@@ -95,9 +94,9 @@ const RecentTransactions = ({data, error}: {data: any[], error: string}) => {
     <BasicTable 
         columns={columns} 
         data={data ?? []} 
-        title={<Title/>} pageSize={8} 
+        title={<Title/>}
         pagination error={error}
-        />
+    />
   )
 }
 

@@ -132,7 +132,7 @@ const LoanDetails = async ({params}: IDParam) => {
 
             {/* </Card> */}
             <Card title="People">
-               <div className="grid grid-cols-2 gap-4">
+               <div className="grid md:grid-cols-2 gap-4">
                  <div>
                    <p className="text-[11px] font-medium uppercase tracking-wide text-slate-400">Applicant</p>
                    <p className="mt-1 text-sm font-medium text-[#0B1220]">

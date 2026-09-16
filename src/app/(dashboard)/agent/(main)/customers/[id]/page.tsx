@@ -180,8 +180,8 @@ const CustomerDetails = async ({ params }: IDParam) => {
               )}
             </Card>
               
-              {currentLoan ?
-              currentLoan.map((currentLoan: any) => (
+              {currentLoan.length > 0 ?
+              currentLoan?.map((currentLoan: any) => (
                 <Card
                   key={currentLoan.loanId}
                   title="Current loan"

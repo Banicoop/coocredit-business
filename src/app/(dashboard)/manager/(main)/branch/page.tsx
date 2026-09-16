@@ -16,7 +16,7 @@ const BranchPage = async () => {
     {stats.data ?
       <TransactionCardsWidget data={stats.data}/>:
       <Flex className="h-40 justify-center">
-        <Typography color='destructive' variant='small'>Unable to load customer's data</Typography>
+        <Typography color='destructive' variant='small'>Unable to transactions stats</Typography>
       </Flex>
     }
 
