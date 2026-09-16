@@ -1,3 +1,5 @@
+import { BackButton } from '@/components/primitives/buttons/BackButton';
+import { Grid } from '@/components/ui/ui-layout';
 import { getTransactionById } from '@/lib/api';
 import { IDParam } from '@/types/types';
 import React from 'react'
@@ -8,9 +10,11 @@ const TransactionDetails = async ({params}: IDParam) => {
 
     const res = await getTransactionById(id);
 
-    console.log('TRANSACTION DETAILS:', res)
+    // console.log('TRANSACTION DETAILS:', res)
   return (
-    <div>TransactionDetails</div>
+    <Grid className='gap-6'>
+      <BackButton/>
+    </Grid>
   )
 }
 

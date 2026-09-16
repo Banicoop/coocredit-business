@@ -5,7 +5,7 @@ import Button from '@/components/primitives/buttons/Button'
 import { TextArea } from '@/components/primitives/inputs/TextArea';
 import { Modal } from '@/components/primitives/modals/Modal';
 import Typography from '@/components/primitives/Typography';
-import { Flex, FlexCol } from '@/components/ui/ui-layout'
+import { Flex, FlexCol, Grid } from '@/components/ui/ui-layout'
 import { approveBusinessLoans, rejectBusinessLoans } from '@/lib/manager.actions';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
@@ -31,17 +31,17 @@ const Actions = ({loanId, status}: {loanId: string, status: string}) => {
 
   return (
     <>
-     <Flex className='justify-between'>
+     <FlexCol className='md:flex-row justify-between'>
         <BackButton />
 
         <Flex className='gap-4'>
             { status === 'pending' ? (
-                <>
-                <Button onClick={() => setOpenApproveModal(true)}>Approve</Button>
-                <Button className='bg-rose-50 text-rose-700 ring-rose-600/20' variant='ghost' onClick={() => setOpenRejectModal(true)}>Reject</Button>
-                <Link href={`${loanId}/guarantors`} className='bg-rose-100 text-rose-700 border text-xs py-2 px-2.5 rounded-md'>Guarantors</Link>
-                <Link href={`${loanId}/repayment-projection`} className='text-primary bg-card border text-xs py-2 px-2.5 rounded-md'>Repayment Projection</Link>
-                </>
+                <Grid className='grid-cols-2 md:grid-cols-4 gap-5'>
+                    <Button onClick={() => setOpenApproveModal(true)}>Approve</Button>
+                    <Button className='bg-rose-50 text-rose-700 ring-rose-600/20' variant='ghost' onClick={() => setOpenRejectModal(true)}>Reject</Button>
+                    <Link href={`${loanId}/guarantors`} className='bg-rose-100 text-rose-700 border text-xs py-2 px-2.5 inline-flex text-center justify-center rounded-md'>Guarantors</Link>
+                    <Link href={`${loanId}/repayment-projection`} className='text-primary bg-card border text-xs py-2 px-2.5 rounded-md'>Repayment Projection</Link>
+                </Grid>
             ):
             <>
                 <Link href={`${loanId}/guarantors`} className='bg-rose-100 text-rose-700 border text-xs py-2 px-2.5 rounded-md'>Guarantors Information</Link>
@@ -49,7 +49,7 @@ const Actions = ({loanId, status}: {loanId: string, status: string}) => {
             </>
         }
         </Flex>
-    </Flex>
+    </FlexCol>
     <LoanApprovalModel open={openApproveModal} setOpen={setOpenApproveModal} loanId={loanId}/>
     <LoanRejectionModel open={openRejectModal} setOpen={setOpenRejectModal} leadId={loanId}/>
     </>

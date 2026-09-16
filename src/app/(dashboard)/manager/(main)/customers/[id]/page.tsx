@@ -17,13 +17,15 @@ const CustomerDetails = async ({ params }: IDParam) => {
   const res = (await getCustomerDetails(id)) as any;
   const data = res?.data;
 
+  console.log('disbursementBankAccounts:', res.data?.disbursementBankAccounts)
+
   
-  if (!data) {
+  if (!data || res.error) {
     return (
       <FlexCol className='gap-4 bg-card'>
         <BackButton/>
         <div className="flex min-h-[60vh] flex-col items-center justify-center gap-2  text-center">
-          <p className="text-sm font-medium text-slate-500">This customer record could not be found.</p>
+          <p className="text-sm font-medium text-slate-500">{res?.error || 'This customer record could not be found.'}</p>
         </div>
       </FlexCol>
     );
@@ -193,22 +195,28 @@ const CustomerDetails = async ({ params }: IDParam) => {
           }
 
           <Card title="Disbursement bank accounts">
-            <div className="flex flex-col divide-y divide-slate-100">
-              {data.disbursementBankAccounts?.map((account: any) => (
-                <div key={account._id} className="flex flex-wrap items-center justify-between gap-3 py-4 first:pt-0 last:pb-0">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-medium text-[#0B1220]">{account.accountName}</p>
-                      {account.isPrimary && <Badge tone="accent">Primary</Badge>}
+            {data.disbursementBankAccounts.length > 0 ? (
+              <div className="flex flex-col divide-y divide-slate-100">
+                {data.disbursementBankAccounts?.map((account: any) => (
+                  <div key={account._id} className="flex flex-wrap items-center justify-between gap-3 py-4 first:pt-0 last:pb-0">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-medium text-[#0B1220]">{account.accountName}</p>
+                        {account.isPrimary && <Badge tone="accent">Primary</Badge>}
+                      </div>
+                      <p className="mt-0.5 font-mono text-sm text-slate-500">
+                        {account.accountNumber} · {account.name}
+                      </p>
                     </div>
-                    <p className="mt-0.5 font-mono text-sm text-slate-500">
-                      {account.accountNumber} · {account.name}
-                    </p>
+                    <p className="text-xs text-slate-400">Verified {formatDate(account.verifiedAt)}</p>
                   </div>
-                  <p className="text-xs text-slate-400">Verified {formatDate(account.verifiedAt)}</p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ): (
+              <div className="p-4 bg-amber-50 rounded-lg flex items-center justify-center">
+                <p className='text-sm'>No disbursement bank accounts details provided</p>
+              </div>
+            )}
           </Card>
 
           <Card title="KYC documents">

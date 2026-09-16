@@ -11,12 +11,12 @@ const CustomersStats = () => {
             title='Business customers'
             description='Manage and monitor high-volume business accounts across Nigeria.'
             actions={[
-            {
-                label: 'Add Business Customer',
-                variant: 'primary',
-                href: '',
-                icon: <PlusSquareIcon size={18}/>
-            }
+                {
+                    label: 'Add Business Customer',
+                    variant: 'primary',
+                    href: '#',
+                    icon: <PlusSquareIcon size={18}/>
+                }
             ]}
             />
         <Grid className='grid-cols-2 md:grid-cols-4 gap-4'>
