@@ -3,7 +3,15 @@
 import React from 'react';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import clsx from 'clsx';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react';
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from 'next/navigation';
 
 export type TableColumn<T> = {
   key: keyof T | string;
@@ -11,13 +19,19 @@ export type TableColumn<T> = {
   width?: string;
   align?: 'left' | 'center' | 'right';
 
-  // Render only a cell
   render?: (
     value: any,
     row: T,
     index: number,
   ) => React.ReactNode;
 };
+
+export interface PaginationMeta {
+  total: number;
+  page: number;
+  size: number;
+  totalPages: number;
+}
 
 export type BasicTableProps<T> = {
   data: T[];
@@ -28,19 +42,21 @@ export type BasicTableProps<T> = {
 
   loading?: boolean;
   error?: string;
-  errorMessage? : string | null
+  errorMessage?: string | null;
 
   pagination?: boolean;
   pageSize?: number;
+
+  /**
+   * Pass this when pagination is handled by the backend.
+   * If omitted, BasicTable will use client-side pagination.
+   */
+  paginationMeta?: PaginationMeta;
 
   emptyMessage?: string;
 
   className?: string;
 
-  /**
-   * Render an entire row manually
-   * If provided, it overrides the default row rendering
-   */
   renderRow?: (
     row: T,
     index: number,
@@ -48,7 +64,9 @@ export type BasicTableProps<T> = {
   ) => React.ReactNode;
 };
 
-export function BasicTable<T extends Record<string, any>>({
+export function BasicTable<
+  T extends Record<string, any>,
+>({
   data,
   columns,
   title,
@@ -58,17 +76,113 @@ export function BasicTable<T extends Record<string, any>>({
   loading = false,
   pagination = true,
   pageSize = 10,
+  paginationMeta,
   emptyMessage = 'No data available.',
   className,
   renderRow,
 }: BasicTableProps<T>) {
-  const [page, setPage] = React.useState(1);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const totalPages = Math.ceil(data.length / pageSize);
+  // Local state is only used for client-side pagination.
+  const [localPage, setLocalPage] = React.useState(1);
 
-  const paginatedData = pagination
-    ? data.slice((page - 1) * pageSize, page * pageSize)
-    : data;
+  /**
+   * If backend pagination metadata exists,
+   * BasicTable switches to server pagination.
+   */
+  const isServerPagination = Boolean(paginationMeta);
+
+  const currentPage = isServerPagination
+    ? paginationMeta!.page
+    : localPage;
+
+  const effectivePageSize = isServerPagination
+    ? paginationMeta!.size
+    : pageSize;
+
+  const totalPages = isServerPagination
+    ? paginationMeta!.totalPages
+    : Math.ceil(data.length / effectivePageSize);
+
+  const totalItems = isServerPagination
+    ? paginationMeta!.total
+    : data.length;
+
+  /**
+   * Backend already returned the correct 50 records,
+   * so NEVER slice them again.
+   */
+  const paginatedData =
+    pagination && !isServerPagination
+      ? data.slice(
+          (localPage - 1) * effectivePageSize,
+          localPage * effectivePageSize,
+        )
+      : data;
+
+  const changeServerPage = (newPage: number) => {
+    const params = new URLSearchParams(
+      searchParams.toString(),
+    );
+
+    params.set('page', String(newPage));
+    params.set(
+      'size',
+      String(effectivePageSize),
+    );
+
+    router.push(
+      `${pathname}?${params.toString()}`,
+      {
+        scroll: false,
+      },
+    );
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage <= 1) return;
+
+    if (isServerPagination) {
+      changeServerPage(currentPage - 1);
+      return;
+    }
+
+    setLocalPage((prev) =>
+      Math.max(prev - 1, 1),
+    );
+  };
+
+  const handleNextPage = () => {
+    if (currentPage >= totalPages) return;
+
+    if (isServerPagination) {
+      changeServerPage(currentPage + 1);
+      return;
+    }
+
+    setLocalPage((prev) =>
+      Math.min(prev + 1, totalPages),
+    );
+  };
+
+  /**
+   * Useful for displaying:
+   *
+   * Showing 51 - 100 of 3,264
+   */
+  const startItem =
+    totalItems === 0
+      ? 0
+      : (currentPage - 1) *
+          effectivePageSize +
+        1;
+
+  const endItem = Math.min(
+    currentPage * effectivePageSize,
+    totalItems,
+  );
 
   return (
     <div
@@ -80,9 +194,9 @@ export function BasicTable<T extends Record<string, any>>({
       {(title || description) && (
         <div className="border-b border-gray-100 px-6 py-5">
           {title && (
-            <h2 className="text-lg font-semibold text-gray-900">
+            <div className="text-lg font-semibold text-gray-900">
               {title}
-            </h2>
+            </div>
           )}
 
           {description && (
@@ -102,14 +216,22 @@ export function BasicTable<T extends Record<string, any>>({
                   {columns.map((column) => (
                     <th
                       key={String(column.key)}
-                      style={{ width: column.width }}
+                      style={{
+                        width: column.width,
+                      }}
                       className={clsx(
                         'border-b border-gray-200 px-6 py-4 text-sm font-semibold text-gray-700',
                         {
                           'text-left':
-                            column.align === 'left' || !column.align,
-                          'text-center': column.align === 'center',
-                          'text-right': column.align === 'right',
+                            column.align ===
+                              'left' ||
+                            !column.align,
+                          'text-center':
+                            column.align ===
+                            'center',
+                          'text-right':
+                            column.align ===
+                            'right',
                         },
                       )}
                     >
@@ -120,13 +242,14 @@ export function BasicTable<T extends Record<string, any>>({
               </thead>
 
               <tbody>
-                { error ? (
-                    <tr>
+                {error ? (
+                  <tr>
                     <td
                       colSpan={columns.length}
                       className="py-16 text-center text-sm text-destructive"
                     >
-                     {error}
+                      {error ||
+                        errorMessage}
                     </td>
                   </tr>
                 ) : loading ? (
@@ -138,55 +261,80 @@ export function BasicTable<T extends Record<string, any>>({
                       Loading table data...
                     </td>
                   </tr>
-                ) :paginatedData.length > 0 ? (
-                  paginatedData.map((row, rowIndex) => {
-                    // CUSTOM ROW RENDERING
-                    if (renderRow) {
+                ) : paginatedData.length >
+                  0 ? (
+                  paginatedData.map(
+                    (row, rowIndex) => {
+                      if (renderRow) {
+                        return (
+                          <React.Fragment
+                            key={
+                              row._id ??
+                              row.id ??
+                              rowIndex
+                            }
+                          >
+                            {renderRow(
+                              row,
+                              rowIndex,
+                              columns,
+                            )}
+                          </React.Fragment>
+                        );
+                      }
+
                       return (
-                        <React.Fragment key={rowIndex}>
-                          {renderRow(row, rowIndex, columns)}
-                        </React.Fragment>
+                        <tr
+                          key={
+                            row._id ??
+                            row.id ??
+                            rowIndex
+                          }
+                          className="transition hover:bg-gray-50"
+                        >
+                          {columns.map(
+                            (column) => {
+                              const value =
+                                row[
+                                  column.key as keyof T
+                                ];
+
+                              return (
+                                <td
+                                  key={String(
+                                    column.key,
+                                  )}
+                                  className={clsx(
+                                    'border-b border-gray-100 px-6 py-4 text-sm text-gray-700',
+                                    {
+                                      'text-left':
+                                        column.align ===
+                                          'left' ||
+                                        !column.align,
+                                      'text-center':
+                                        column.align ===
+                                        'center',
+                                      'text-right':
+                                        column.align ===
+                                        'right',
+                                    },
+                                  )}
+                                >
+                                  {column.render
+                                    ? column.render(
+                                        value,
+                                        row,
+                                        rowIndex,
+                                      )
+                                    : value}
+                                </td>
+                              );
+                            },
+                          )}
+                        </tr>
                       );
-                    }
-
-                    // DEFAULT ROW RENDERING
-                    return (
-                      <tr
-                        key={rowIndex}
-                        className="transition hover:bg-gray-50"
-                      >
-                        {columns.map((column) => {
-                          const value = row[column.key as keyof T];
-
-                          return (
-                            <td
-                              key={String(column.key)}
-                              className={clsx(
-                                'border-b border-gray-100 px-6 py-4 text-sm text-gray-700',
-                                {
-                                  'text-left':
-                                    column.align === 'left' ||
-                                    !column.align,
-                                  'text-center':
-                                    column.align === 'center',
-                                  'text-right':
-                                    column.align === 'right',
-                                },
-                              )}
-                            >
-                              {column.render
-                                ? column.render(
-                                    value,
-                                    row,
-                                    rowIndex,
-                                  )
-                                : value}
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    );
-                  })
+                    },
+                  )
                 ) : (
                   <tr>
                     <td
@@ -209,30 +357,53 @@ export function BasicTable<T extends Record<string, any>>({
 
       {pagination && totalPages > 1 && (
         <div className="flex items-center justify-between border-t border-gray-100 px-6 py-4">
-          <p className="text-sm text-gray-500">
-            Page{' '}
-            <span className="font-medium text-gray-700">
-              {page}
-            </span>{' '}
-            of{' '}
-            <span className="font-medium text-gray-700">
+          <div>
+            <p className="text-sm text-gray-500">
+              Showing{' '}
+              <span className="font-medium text-gray-700">
+                {startItem}
+              </span>{' '}
+              -{' '}
+              <span className="font-medium text-gray-700">
+                {endItem}
+              </span>{' '}
+              of{' '}
+              <span className="font-medium text-gray-700">
+                {totalItems.toLocaleString()}
+              </span>
+            </p>
+
+            <p className="mt-0.5 text-xs text-gray-400">
+              Page {currentPage} of{' '}
               {totalPages}
-            </span>
-          </p>
+            </p>
+          </div>
 
           <div className="flex items-center gap-2">
             <button
-              disabled={page === 1}
-              onClick={() => setPage((prev) => prev - 1)}
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 disabled:opacity-40"
+              type="button"
+              disabled={
+                currentPage <= 1 ||
+                loading
+              }
+              onClick={
+                handlePreviousPage
+              }
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="Previous page"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
 
             <button
-              disabled={page === totalPages}
-              onClick={() => setPage((prev) => prev + 1)}
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 disabled:opacity-40"
+              type="button"
+              disabled={
+                currentPage >= totalPages ||
+                loading
+              }
+              onClick={handleNextPage}
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="Next page"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -242,4 +413,3 @@ export function BasicTable<T extends Record<string, any>>({
     </div>
   );
 }
-

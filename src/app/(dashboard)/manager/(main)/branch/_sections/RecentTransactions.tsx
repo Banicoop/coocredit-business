@@ -17,16 +17,9 @@ const Title = () => (
     </Flex>
 )
 
-const RecentTransactions = ({data, error}: {data: any[], error: string}) => {
+const RecentTransactions = ({data, error, pagination}: {data: any[], error: string, pagination: any}) => {
 
     const columns = [
-        // {
-        //     key: 'transactionId',
-        //     title: 'TRANSACTION ID',
-        //     render: (id: string) => (
-        //         <Typography variant='small' weight='semibold' color='active'>{id}</Typography>
-        //     )
-        // },
         {
             key: 'createdAt',
             title: 'TIMESTAMP',
@@ -95,7 +88,11 @@ const RecentTransactions = ({data, error}: {data: any[], error: string}) => {
         columns={columns} 
         data={data ?? []} 
         title={<Title/>}
-        pagination error={error}
+        pageSize={50}
+        pagination
+        paginationMeta={pagination}
+        emptyMessage='No available transaction'
+        error={error}
     />
   )
 }
