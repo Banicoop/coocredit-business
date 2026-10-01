@@ -9,15 +9,10 @@ import Typography from '@/components/primitives/Typography';
 import KycDocuments from '@/components/documents/KYCDocument';
 
 
-
-// ---------- page ----------
-
 const CustomerDetails = async ({ params }: IDParam) => {
   const { id } = await params;
   const res = (await getCustomerDetails(id)) as any;
   const data = res?.data;
-
-  console.log('disbursementBankAccounts:', res.data?.disbursementBankAccounts)
 
   
   if (!data || res.error) {
