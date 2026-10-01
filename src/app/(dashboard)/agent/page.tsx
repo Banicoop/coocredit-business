@@ -28,8 +28,6 @@ const AgentDashboard = async () => {
   const data = await agentGetDashboardOverview() as any;
   const me = await agentGetMyProfile() as any;
 
-  console.log('me:', me);
-
   return (
     <Grid className={cn('gap-5 p-5')}>
       <PageHeader 

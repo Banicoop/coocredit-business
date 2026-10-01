@@ -6,8 +6,9 @@ import Typography from '../primitives/Typography'
 import { ActionDropdown } from '../ui/ActionDropDown'
 import { Eye } from 'lucide-react'
 import { BasicTable } from '../primitives/tables/BasicTable'
+import { PaginationMeta } from '@/types/types';
 
-const AgentCustomerTable = ({data, error}: {data: any[], error: string}) => {
+const AgentCustomerTable = ({data, error, pagination}: {data: any[], error: string, pagination?: PaginationMeta}) => {
 
     const columns = [
         { key: 'firstName', title: 'First Name' },
@@ -46,7 +47,7 @@ const AgentCustomerTable = ({data, error}: {data: any[], error: string}) => {
         error={error}
         data={data}
         pagination
-        // pageSize={5}
+        paginationMeta={pagination}
     />
   )
 }

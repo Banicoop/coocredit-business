@@ -57,9 +57,7 @@ const BranchPage = async ({
 
       <RecentTransactions
         data={transactions?.data ?? []}
-        pagination={
-          transactions?.pagination
-        }
+        pagination={transactions?.pagination}
         error={transactions?.error}
       />
     </Grid>

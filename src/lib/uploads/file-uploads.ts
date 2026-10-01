@@ -1,9 +1,12 @@
+'use server';
+
 import { SERVER } from "@/utils/fetchUtil";
 import { getData } from "../api";
 import { Signature } from "@/types/types";
+import { getAccessToken } from "../auth.actions";
 
 
-export const getUploadSignature = () => getData('signed-url');
+export const getUploadSignature = async () => getData('signed-url');
 
 
 export const uploadToCloudinary = async ({cloudName, apiKey, signature, timestamp, folder, file}: Signature & { file: File }) => {
@@ -20,18 +23,18 @@ export const uploadToCloudinary = async ({cloudName, apiKey, signature, timestam
 
     try {
       const res =  await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
-        method: 'POST',
-        body: formData,
+          method: 'POST',
+          body: formData,
+        }
+      );
+
+    // console.log('cloudinary-response:', res);
+
+      if (!res.ok) {
+        throw new Error('Failed to upload file to Cloudinary');
       }
-    );
 
-    console.log('cloudinary-response:', res);
-
-    if (!res.ok) {
-      throw new Error('Failed to upload file to Cloudinary');
-    }
-
-    return await res.json();
+      return await res.json();
     } catch (error) {
         console.error('Error:', error);
     }
@@ -46,17 +49,17 @@ export const addBusinessDocument = async ({ businessId, verificationDocument }: 
     mime: string;
   };
 }) => {
+   const token = await getAccessToken();
   try {
-    const response = await SERVER.post('business-users/documents/business', {
+    const response = await SERVER.post('business-users/loans/documents/add', {
         businessId,
         verificationDocument,
-      }
+      }, { token }
     );
+    console.log('addBusinessDocument response:', response);
     return response.data;
   } catch (error) {
     console.error('Error adding business verification document:', error);
     throw error;
   }
 };
-
-

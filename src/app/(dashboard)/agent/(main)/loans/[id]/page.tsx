@@ -10,6 +10,7 @@ import { BackButton } from '@/components/primitives/buttons/BackButton';
 import { agentGetLoanById, agentGetLoanSupportedDocs, agentGuarantorInfo } from '@/lib/api.agent';
 import { IDParam, Signature } from '@/types/types';
 import { getUploadSignature } from '@/lib/uploads/file-uploads';
+import LoanRepayment from './tabs/LoanRepayment';
 
 
 
@@ -18,7 +19,9 @@ const LoanDetails = async ({ params }: IDParam) => {
   const { id } = (await params)
   
   const loanDetails = (await agentGetLoanById(id)) as any;
-  const signature = (await getUploadSignature()) as Signature;
+  const signature = (await getUploadSignature()) as {
+    data: Signature;
+  };
   const res = (await agentGetLoanSupportedDocs()) as {
     data: {
       slug: string;
@@ -40,15 +43,15 @@ const LoanDetails = async ({ params }: IDParam) => {
     {
       label: 'Documents',
       content: <LoanDocument 
-        documents={documents} 
-        signature={signature} 
-        loanDocuments={data?.loanDocuments}
-        businessId={data?.businessId}/>
+      documents={documents} 
+      signature={signature.data} 
+      loanDocuments={data?.loanDocuments}
+      businessId={data?.businessId}/>
     },
     {
       label: 'Guarantor',
       content: <LoanGuarantor 
-        signature={signature} 
+        signature={signature.data} 
         guarantors={guarantoRres?.data ?? []} 
         // onAddDocument={(guarantor) => {
         //   // Open upload modal
@@ -59,6 +62,10 @@ const LoanDetails = async ({ params }: IDParam) => {
         //   console.log('Remove:', document, 'from:', guarantor);
         // }}
         />
+    },
+    {
+      label: 'Repayment',
+      content: <LoanRepayment />
     },
     // {
     //   label: 'Timeline',

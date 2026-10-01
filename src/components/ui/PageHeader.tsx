@@ -66,7 +66,7 @@ export const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
       >
         {/* Left Content */}
         <div className="flex flex-col gap-1">
-          <Typography variant="h2" className={titleClass}>{title}</Typography>
+          <Typography variant="h3" className={titleClass}>{title}</Typography>
           {description && (
             <Typography color='primary' className={descClass}>{description}</Typography>
           )}

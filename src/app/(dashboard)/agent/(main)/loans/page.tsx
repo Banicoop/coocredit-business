@@ -19,7 +19,7 @@ const Loans = async () => {
 
       <LoanCardsSection data={data}/>
 
-      <LoanApplicationTable data={loans?.data ?? []} error={loans?.error} isAgent/>
+      <LoanApplicationTable data={loans?.data ?? []} pagination={loans?.pagination} error={loans?.error} isAgent/>
       {/* <Grid className='gap-4 md:grid-cols-6 w-full'>
         {/* MAIN */}
         {/* <Grid className='col-span-4 gap-y-4'>
