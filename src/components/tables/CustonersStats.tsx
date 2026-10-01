@@ -24,7 +24,7 @@ const CustomersStats = () => {
             icon={<TableConfig size={20} className='text-primary'/>} 
             info={<Typography color='success' className='py-1 px-2.5 rounded-md bg-accent font-semibold'>+12%</Typography>}/>
             <CardWidget label='Corporate Clients' num='324' 
-            icon={<BookOpenCheck size={20} className='text-indigo-800'/>} 
+            icon={<BookOpenCheck size={0} className='text-indigo-800'/>} 
             info={<Typography color='success' className='py-1 px-2.5 rounded-md bg-accent font-semibold'>+5%</Typography>}/>
             <CardWidget label='High-Value Pipeline' num='₦ 42.8M' 
             icon={<PipetteIcon size={20} className='text-ink'/>} 

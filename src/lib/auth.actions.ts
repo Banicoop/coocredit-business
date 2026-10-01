@@ -151,7 +151,7 @@ export const agentSignIn = async (
   const phoneNumber = formData.get('phoneNumber') as string | null;
   const password = formData.get('password') as string | null;
 
-    if (!password?.trim() || !phoneNumber?.trim()) {
+    if (!password || !phoneNumber) {
       return { error: 'Phone number and password are required.', success: false };
     }
 

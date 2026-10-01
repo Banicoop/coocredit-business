@@ -6,6 +6,7 @@ import Typography from '@/components/primitives/Typography';
 import { ActionDropdown } from '@/components/ui/ActionDropDown';
 import { Flex, FlexCol } from '@/components/ui/ui-layout';
 import { formatCurrency } from '@/helpers/funcs';
+import { PaginationMeta } from '@/types/types';
 import { Eye } from 'lucide-react';
 
 
@@ -17,7 +18,7 @@ const Title = () => (
     </Flex>
 )
 
-const RecentTransactions = ({data, error, pagination}: {data: any[], error: string, pagination: any}) => {
+const RecentTransactions = ({data, error, pagination}: {data: any[], error: string, pagination: PaginationMeta}) => {
 
     const columns = [
         {

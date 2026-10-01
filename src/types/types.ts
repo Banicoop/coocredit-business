@@ -7,6 +7,13 @@ export interface IDParam {
   }>;
 }
 
+export interface PaginationMeta {
+  total: number;
+  page: number;
+  size: number;
+  totalPages: number;
+}
+
 export type Signature = {
   timestamp: number
   signature: string;

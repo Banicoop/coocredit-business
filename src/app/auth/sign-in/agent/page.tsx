@@ -87,7 +87,7 @@ const SignInPage = () => {
               placeholder='Secure Password'
               id="password"
               name='password'
-              type='password'
+              type='text'
               autoComplete="current-password"
               className='outline-none'
               variant='primary'

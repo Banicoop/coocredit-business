@@ -3,11 +3,10 @@ import {PageHeader} from '@/components/ui/PageHeader';
 import { FlexCol, Grid } from '@/components/ui/ui-layout';
 import { ArrowUp } from 'lucide-react';
 import { LoanPipeline, Commissions, Rank } from './_sections/LoanPipeline';
-import RecentApps from './_sections/RecentApps';
 import QuickActions from './_sections/QuickActions';
 import DailyTasks from './_sections/DailyTasks';
 import { formatDate } from '@/utils/funcs';
-import { agentGetAllLoans, agentGetDashboardOverview, agentGetMyProfile } from '@/lib/api.agent';
+import { agentGetDashboardOverview, agentGetMyProfile } from '@/lib/api.agent';
 import { cn } from '@/lib/utils';
 
 
@@ -27,8 +26,9 @@ const Widget = ({title, num, percent}: {title: string, num: number, percent: num
 const AgentDashboard = async () => {
 
   const data = await agentGetDashboardOverview() as any;
-  // const loans = await agentGetAllLoans() as any;
   const me = await agentGetMyProfile() as any;
+
+  console.log('me:', me);
 
   return (
     <Grid className={cn('gap-5 p-5')}>
@@ -47,13 +47,12 @@ const AgentDashboard = async () => {
       <div className="flex flex-col lg:flex-row gap-5">
         <FlexCol className='gap-4 flex-1 lg:flex-2'>
           <LoanPipeline/>
-          {/* <RecentApps loans={loans.data} error={loans.error}/> */}
+          <QuickActions/>
           <Commissions/>
         </FlexCol>
 
         <FlexCol className='gap-4 flex-1 lg:flex-[1.5]'>
           <DailyTasks/>
-          <QuickActions/>
           <Rank/>
         </FlexCol>
       </div>

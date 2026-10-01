@@ -17,9 +17,9 @@ export const AgentsSidebar = () => {
             activeBasePath="/agent" 
             others={[
                 {
-                    label: 'Settings',
-                    href: '/settings',
-                    icon: 'settings',
+                    label: 'Profile',
+                    href: '/agent/profile',
+                    icon: 'profile',
                 },
                 {
                     label: 'Logout',
