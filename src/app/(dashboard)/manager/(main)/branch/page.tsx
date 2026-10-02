@@ -14,9 +14,7 @@ interface BranchPageProps {
   }>;
 }
 
-const BranchPage = async ({
-  searchParams,
-}: BranchPageProps) => {
+const BranchPage = async ({ searchParams }: BranchPageProps) => {
   const params = await searchParams;
 
   const page = Math.max(

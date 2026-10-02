@@ -6,6 +6,7 @@ import Typography from '@/components/primitives/Typography';
 import { ActionDropdown } from '@/components/ui/ActionDropDown';
 import { Flex, FlexCol } from '@/components/ui/ui-layout';
 import { formatCurrency } from '@/helpers/funcs';
+import { useUrlPagination } from '@/hooks/useUrlPagination.';
 import { PaginationMeta } from '@/types/types';
 import { Eye } from 'lucide-react';
 
@@ -19,6 +20,8 @@ const Title = () => (
 )
 
 const RecentTransactions = ({data, error, pagination}: {data: any[], error: string, pagination: PaginationMeta}) => {
+
+    const onPageChange = useUrlPagination();
 
     const columns = [
         {
@@ -88,8 +91,9 @@ const RecentTransactions = ({data, error, pagination}: {data: any[], error: stri
     <BasicTable 
         columns={columns} 
         data={data ?? []} 
+        onPageChange={onPageChange}
         title={<Title/>}
-        pageSize={50}
+        // pageSize={50}
         pagination
         paginationMeta={pagination}
         emptyMessage='No available transaction'

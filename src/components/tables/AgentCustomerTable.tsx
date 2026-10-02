@@ -7,8 +7,11 @@ import { ActionDropdown } from '../ui/ActionDropDown'
 import { Eye } from 'lucide-react'
 import { BasicTable } from '../primitives/tables/BasicTable'
 import { PaginationMeta } from '@/types/types';
+import { useUrlPagination } from '@/hooks/useUrlPagination.';
 
 const AgentCustomerTable = ({data, error, pagination}: {data: any[], error: string, pagination?: PaginationMeta}) => {
+
+    const onPageChange = useUrlPagination();
 
     const columns = [
         { key: 'firstName', title: 'First Name' },
@@ -46,6 +49,7 @@ const AgentCustomerTable = ({data, error, pagination}: {data: any[], error: stri
         columns={columns}
         error={error}
         data={data}
+        onPageChange={onPageChange}
         pagination
         paginationMeta={pagination}
     />

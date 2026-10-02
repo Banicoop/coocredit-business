@@ -1,26 +1,8 @@
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Grid } from '@/components/ui/ui-layout';
 import { getAllcommission } from '@/lib/api.agent';
+import { Commission } from '@/types/domains/commission.type';
 
-
-type Commission = {
-  _id: string;
-  taskType?: 'disbursement_commission' | 'repayment_commission' | string;
-  amount: number;
-  rewardPoints: number;
-  loanId?: string;
-  repaymentId?: string;
-  status: string;
-  calculatedAt: string;
-  payableAt?: string;
-  profile?: {
-    firstName?: string;
-    lastName?: string;
-    LastName?: string;
-    product?: string;
-    userId?: string;
-  };
-};
 
 const currencyFormatter = new Intl.NumberFormat('en-NG', {
   style: 'currency',
@@ -158,12 +140,11 @@ const AgentCommission = async () => {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[950px] text-left text-sm">
+            <table className="w-full min-w-237.5 text-left text-sm">
               <thead className="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
                 <tr>
                   <th scope="col" className="px-5 py-3">Customer</th>
                   <th scope="col" className="px-5 py-3">Type</th>
-                  <th scope="col" className="px-5 py-3">Loan</th>
                   <th scope="col" className="px-5 py-3">Amount</th>
                   <th scope="col" className="px-5 py-3">Points</th>
                   <th scope="col" className="px-5 py-3">Calculated</th>
@@ -190,23 +171,6 @@ const AgentCommission = async () => {
 
                       <td className="px-5 py-4 text-slate-700">
                         {formatTaskType(commission.taskType)}
-                      </td>
-
-                      <td className="px-5 py-4">
-                        <span
-                          title={commission.loanId}
-                          className="block max-w-36 truncate font-mono text-xs text-slate-600"
-                        >
-                          {commission.loanId ?? '—'}
-                        </span>
-                        {commission.repaymentId && (
-                          <span
-                            title={commission.repaymentId}
-                            className="mt-1 block max-w-36 truncate text-xs text-slate-400"
-                          >
-                            Repayment: {commission.repaymentId}
-                          </span>
-                        )}
                       </td>
 
                       <td className="px-5 py-4 font-semibold text-slate-900">
@@ -249,52 +213,3 @@ const AgentCommission = async () => {
 };
 
 export default AgentCommission;
-
-
-
-
-// import Typography from '@/components/primitives/Typography';
-// import { PageHeader } from '@/components/ui/PageHeader';
-// import { FlexCol, Grid } from '@/components/ui/ui-layout';
-// import React from 'react';
-// import CommissionHistory from './_features/CommissionHistory';
-// import MonthEarningCharts from './_features/MonthEarningCharts';
-// import { getAllcommission } from '@/lib/api.agent';
-
-// interface CardItemProps {
-//   textColor?: string;
-//   className: string
-//   title: string;
-//   val: string
-// }
-
-// const CardItem = ({ className, title, val, textColor}: CardItemProps) => (
-//   <FlexCol className={`p-4 rounded-lg bg-card ${className} `}>
-//     <Typography variant='small' color='primary' weight='bold' className={textColor}>{title}</Typography>
-//     <Typography variant='h3' weight='bold' className={textColor}>{val}</Typography>
-//   </FlexCol>
-// )
-
-// const AgentCommission = async () => {
-
-//   const res = (await getAllcommission()) as any;
-
-//   console.log('commisions:', res?.data)
-
-//   return (
-//     <Grid className='gap-6'>
-//       <PageHeader title='Commission Tracker' />
-//       <Grid className='grid-cols-2 md:grid-cols-4 gap-5'>
-//         <CardItem title='Earning Today' val='₦250,000' className='border-l-primary border-l-4' textColor='text-primary'/>
-//         <CardItem title='This month' val='₦250,000' className='border-l-[#506070] border-l-4' textColor='text-[#506070]'/>
-//         <CardItem title='Pending' val='₦27,000' className='border-l-[#A43700] border-l-4' textColor='text-[#A43700]'/>
-//         <CardItem title='Paid out' val='₦12,000' className='bg-primary' textColor='text-white'/>
-//       </Grid>
-//       <MonthEarningCharts/>
-//       <CommissionHistory/>
-//     </Grid>
-//   )
-// }
-
-// export default AgentCommission;
-

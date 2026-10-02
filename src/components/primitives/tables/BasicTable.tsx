@@ -3,27 +3,14 @@
 import React from 'react';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import clsx from 'clsx';
-import {
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react';
-import {
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from 'next/navigation';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 export type TableColumn<T> = {
   key: keyof T | string;
   title: string;
   width?: string;
   align?: 'left' | 'center' | 'right';
-
-  render?: (
-    value: any,
-    row: T,
-    index: number,
-  ) => React.ReactNode;
+  render?: (value: any, row: T, index: number) => React.ReactNode;
 };
 
 export interface PaginationMeta {
@@ -36,27 +23,25 @@ export interface PaginationMeta {
 export type BasicTableProps<T> = {
   data: T[];
   columns: TableColumn<T>[];
-
   title?: React.ReactNode;
   description?: string;
-
   loading?: boolean;
   error?: string;
   errorMessage?: string | null;
-
   pagination?: boolean;
   pageSize?: number;
 
-  /**
-   * Pass this when pagination is handled by the backend.
-   * If omitted, BasicTable will use client-side pagination.
-   */
+  /** Pass when pagination is handled by the backend. */
   paginationMeta?: PaginationMeta;
 
+  /**
+   * Called when the user clicks next/previous in server-pagination mode.
+   * The parent decides what happens (update URL, refetch, etc.).
+   */
+  onPageChange?: (page: number, size: number) => void;
+
   emptyMessage?: string;
-
   className?: string;
-
   renderRow?: (
     row: T,
     index: number,
@@ -64,9 +49,7 @@ export type BasicTableProps<T> = {
   ) => React.ReactNode;
 };
 
-export function BasicTable<
-  T extends Record<string, any>,
->({
+export function BasicTable<T extends Record<string, any>>({
   data,
   columns,
   title,
@@ -77,43 +60,22 @@ export function BasicTable<
   pagination = true,
   pageSize = 10,
   paginationMeta,
+  onPageChange,
   emptyMessage = 'No data available.',
   className,
   renderRow,
 }: BasicTableProps<T>) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  // Local state is only used for client-side pagination.
   const [localPage, setLocalPage] = React.useState(1);
 
-  /**
-   * If backend pagination metadata exists,
-   * BasicTable switches to server pagination.
-   */
   const isServerPagination = Boolean(paginationMeta);
 
-  const currentPage = isServerPagination
-    ? paginationMeta!.page
-    : localPage;
-
-  const effectivePageSize = isServerPagination
-    ? paginationMeta!.size
-    : pageSize;
-
+  const currentPage = isServerPagination ? paginationMeta!.page : localPage;
+  const effectivePageSize = isServerPagination ? paginationMeta!.size : pageSize;
   const totalPages = isServerPagination
     ? paginationMeta!.totalPages
     : Math.ceil(data.length / effectivePageSize);
+  const totalItems = isServerPagination ? paginationMeta!.total : data.length;
 
-  const totalItems = isServerPagination
-    ? paginationMeta!.total
-    : data.length;
-
-  /**
-   * Backend already returned the correct 50 records,
-   * so NEVER slice them again.
-   */
   const paginatedData =
     pagination && !isServerPagination
       ? data.slice(
@@ -122,67 +84,32 @@ export function BasicTable<
         )
       : data;
 
-  const changeServerPage = (newPage: number) => {
-    const params = new URLSearchParams(
-      searchParams.toString(),
-    );
-
-    params.set('page', String(newPage));
-    params.set(
-      'size',
-      String(effectivePageSize),
-    );
-
-    router.push(
-      `${pathname}?${params.toString()}`,
-      {
-        scroll: false,
-      },
-    );
+  const goToPage = (newPage: number) => {
+    if (isServerPagination) {
+      if (process.env.NODE_ENV !== 'production' && !onPageChange) {
+        console.warn(
+          'BasicTable: paginationMeta was provided without onPageChange. Page buttons will do nothing.',
+        );
+      }
+      onPageChange?.(newPage, effectivePageSize);
+      return;
+    }
+    setLocalPage(newPage);
   };
 
   const handlePreviousPage = () => {
     if (currentPage <= 1) return;
-
-    if (isServerPagination) {
-      changeServerPage(currentPage - 1);
-      return;
-    }
-
-    setLocalPage((prev) =>
-      Math.max(prev - 1, 1),
-    );
+    goToPage(currentPage - 1);
   };
 
   const handleNextPage = () => {
     if (currentPage >= totalPages) return;
-
-    if (isServerPagination) {
-      changeServerPage(currentPage + 1);
-      return;
-    }
-
-    setLocalPage((prev) =>
-      Math.min(prev + 1, totalPages),
-    );
+    goToPage(currentPage + 1);
   };
 
-  /**
-   * Useful for displaying:
-   *
-   * Showing 51 - 100 of 3,264
-   */
   const startItem =
-    totalItems === 0
-      ? 0
-      : (currentPage - 1) *
-          effectivePageSize +
-        1;
-
-  const endItem = Math.min(
-    currentPage * effectivePageSize,
-    totalItems,
-  );
+    totalItems === 0 ? 0 : (currentPage - 1) * effectivePageSize + 1;
+  const endItem = Math.min(currentPage * effectivePageSize, totalItems);
 
   return (
     <div
