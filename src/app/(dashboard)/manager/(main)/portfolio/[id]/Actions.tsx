@@ -13,7 +13,19 @@ import { ChangeEvent, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 
 
-const Actions = ({loanId, status}: {loanId: string, status: string}) => {
+interface LoanActionsProps {
+    loanId: string;
+    status: string;
+}
+
+
+interface LoanModalProps {
+    open: boolean;
+    setOpen: (open: boolean) => void;
+    loanId: string;
+}
+
+const Actions = ({loanId, status}: LoanActionsProps) => {
 
     const [openApproveModal, setOpenApproveModal] = useState(false);
     const [openRejectModal, setOpenRejectModal] = useState(false);
@@ -51,19 +63,19 @@ const Actions = ({loanId, status}: {loanId: string, status: string}) => {
         </Flex>
     </FlexCol>
     <LoanApprovalModel open={openApproveModal} setOpen={setOpenApproveModal} loanId={loanId}/>
-    <LoanRejectionModel open={openRejectModal} setOpen={setOpenRejectModal} leadId={loanId}/>
+    <LoanRejectionModel open={openRejectModal} setOpen={setOpenRejectModal} loanId={loanId}/>
     </>
   )
 }
 
 export default Actions;
 
-const LoanApprovalModel = ({open, setOpen, loanId}: any) => {
+const LoanApprovalModel = ({open, setOpen, loanId}: LoanModalProps) => {
 
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
 
-    console.log('LOAN:', loanId);
+    console.log('accept:', loanId);
 
     const handleApproval = () => {
         startTransition(async () => {
@@ -96,11 +108,13 @@ const LoanApprovalModel = ({open, setOpen, loanId}: any) => {
 }
 
 
-const LoanRejectionModel = ({open, setOpen, loanId}: any) => {
+const LoanRejectionModel = ({open, setOpen, loanId}: LoanModalProps) => {
 
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
     const [reason, setReason] = useState('');
+
+    console.log('reject:', loanId);
 
     const handleApproval = async () => {
         startTransition(async () => {
