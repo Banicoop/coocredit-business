@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   keywords: [
     'CooCredit', 'Loans', 'Loan', 'Micro Credit', 'Credit', 'Business', 'Transacion'
   ],
-  metadataBase: new URL('https://coocredit-business.netlify.app/')
+  metadataBase: new URL('https://business.coo-credit.com/')
 };
 
 export default function RootLayout({

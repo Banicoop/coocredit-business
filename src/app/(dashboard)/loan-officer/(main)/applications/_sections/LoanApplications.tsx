@@ -115,7 +115,8 @@ const LoanApplications = () => {
         columns={columns}
         data={data ?? []}
         title={<Title/>}
-        pageSize={6} pagination/>
+        pagination
+        />
   )
 }
 
