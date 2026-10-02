@@ -7,6 +7,7 @@ import { ActionDropdown } from '@/components/ui/ActionDropDown';
 import { Tabs } from '@/components/ui/Tabs';
 import { Flex } from '@/components/ui/ui-layout';
 import { formatDateTime } from '@/helpers/funcs';
+import { PaginationMeta } from '@/types/types';
 import { EyeClosedIcon, Search } from 'lucide-react';
 
 
@@ -40,7 +41,7 @@ const Title = () => (
     </Flex>
 )
 
-const LoanApplicationTable = ({data, error, isAgent}: {data: any, error: string, isAgent?: boolean}) => {
+const LoanApplicationTable = ({data, error, isAgent, pagination}: {data: any, error: string, isAgent?: boolean, pagination?: PaginationMeta}) => {
 
     const columns = [
         {
@@ -104,7 +105,9 @@ const LoanApplicationTable = ({data, error, isAgent}: {data: any, error: string,
         title={<Title/>} 
         error={error}
         emptyMessage='No Available Loan'
-        pageSize={6} pagination/>
+        pagination
+        paginationMeta={pagination}
+        />
   )
 }
 

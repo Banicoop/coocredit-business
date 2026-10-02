@@ -38,9 +38,8 @@ export function Tabs2<T extends string>({ tabs, defaultValue, className }: TabsP
               )}
             >
               <Typography
-                variant="span"
                 className={cn(
-                  'font-semibold text-sm gap-1 md:text-lg',
+                  'font-semibold text-xs md:text-sm gap-1',
                   isActive ? 'text-[#136DEC]' : 'text-[#64748B]'
                 )}
               >

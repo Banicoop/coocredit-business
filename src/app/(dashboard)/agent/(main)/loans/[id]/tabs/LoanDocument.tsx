@@ -10,6 +10,7 @@ import { PendingDocument } from '@/types/domains/documentstypes';
 import { Signature } from '@/types/types';
 import { Download, Eye, File } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { toast } from 'sonner';
 
 type DocumentOption = {
   name: string;
@@ -126,24 +127,28 @@ const LoanDocument = ({ documents, signature, businessId, loanDocuments }: {
             folder: 'uploads',
           });
 
-          console.log('cloud:', cloudinaryResponse);
-
+          
           const cloudinaryUrl = cloudinaryResponse.secure_url;
-
-          await addBusinessDocument({
-            businessId: document.businessId,
-            verificationDocument: {
-              type: document.slug,
-              url: cloudinaryUrl,
-              mime: document.file.type,
-            },
-          });
-
+          
+          const result = await addBusinessDocument({
+              businessId: document.businessId,
+              verificationDocument: {
+                type: document.slug,
+                url: cloudinaryUrl,
+                mime: document.file.type,
+              },
+            }) as any;
           setPendingDocuments((prev) =>
             prev.map((item) =>
               item.id === document.id ? { ...item, status: 'uploaded', url: cloudinaryUrl } : item
             )
           );
+          
+          console.log('result:', result);
+          if(result?.status === 200) {
+            toast.success(`Successfully uploaded ${document.name}`);
+          }
+          
         } catch (err) {
           console.error(`Failed to upload ${document.name}:`, err);
           setPendingDocuments((prev) =>
@@ -170,7 +175,7 @@ const LoanDocument = ({ documents, signature, businessId, loanDocuments }: {
   const businessDocuments = pendingDocuments.filter((d) => d.businessId === businessId);
   const hasUploadable = businessDocuments.some((d) => d.status === 'pending' || d.status === 'error');
 
-  console.log('doc:', businessDocuments);
+  // console.log('doc:', signature);
 
   return (
     <Grid className="gap-5">

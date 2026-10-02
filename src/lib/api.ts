@@ -63,7 +63,25 @@ export const getPendingOnboardingCustomers = () => getData('business-users/onboa
 
 export const getCustomerDetails = (id: string) => getData(`business-users/admin/${id}`, { tags: [BUSINESS_USERS_TAG(id)] });
 
-export const getAllTransactions = () => getData('transactions/business');
+type TransactionParams = {
+  page?: number;
+  size?: number;
+};
+
+export const getAllTransactions = ({
+  page = 1,
+  size = 50,
+}: TransactionParams = {}) => {
+  const params = new URLSearchParams({
+    page: String(page),
+    size: String(size),
+  });
+
+  return getData(
+    `transactions/business?${params.toString()}`
+  );
+};
+// export const getAllTransactions = () => getData('transactions/business');
 
 export const getTransactionById = (id: string) => getData(`transactions/business/${id}`);
 

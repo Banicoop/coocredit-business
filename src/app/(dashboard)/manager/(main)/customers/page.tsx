@@ -1,7 +1,8 @@
 import { Tabs2 } from '@/components/ui/Tabs2';
 import CustomersTab from './(tabs)/CustomersTab';
 import LeadToReview from './(tabs)/LeadToReview';
-import { getAllCustomers, getAllLeadsToReview, getPendingOnboardingCustomers } from '@/lib/api';
+import { getAllCustomers, getAllLeadsToReview } from '@/lib/api';
+import ErrorPage from '@/components/ui/ErrorPage';
 
 
 
@@ -10,10 +11,10 @@ const CustomersPage = async () => {
 
   const customers = await getAllCustomers() as any;
   const leads = await getAllLeadsToReview() as any;
-  // const pending = await getPendingOnboardingCustomers();
 
-  // console.log('customers', customers);
-
+  if(!customers || !leads) {
+    return <ErrorPage label={customers?.error || leads?.error || 'Failed to load customer data'} href='/' />
+  }
 
     const tabs = [
       {

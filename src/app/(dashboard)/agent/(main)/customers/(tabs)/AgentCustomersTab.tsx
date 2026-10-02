@@ -5,10 +5,11 @@ import AgentCustomerTable from '@/components/tables/AgentCustomerTable';
 
 
 const AgentCustomersTab = ({customerStats, customers}: {customerStats: any, customers: any}) => {
+  
   return (
     <Grid className='gap-5'>
         <CustomerHero stats={customerStats}/>
-        <AgentCustomerTable data={customers?.data ?? []} error={customers?.error}/>
+        <AgentCustomerTable data={customers?.data ?? []} pagination={customers?.pagination} error={customers?.error}/>
       {/* <CustomerCharts /> */}
     </Grid>
   )

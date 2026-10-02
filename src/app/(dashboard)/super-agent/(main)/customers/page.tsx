@@ -16,7 +16,8 @@ const tabs = [
 
 const CustomersPage = () => {
   return (
-    <Tabs2 tabs={tabs} defaultValue='Business Customers'/>
+    <div className="">Business Customers</div>
+    // <Tabs2 tabs={tabs} defaultValue='Business Customers'/>
   )
 }
 
