@@ -42,11 +42,11 @@ export const agentsSidebar = [
     href: '/agent/loans',
     icon: 'wallet',
   },
-  {
-    label: 'Territory Map',
-    href: '/agent/territory',
-    icon: 'mapPinHouse',
-  },
+  // {
+  //   label: 'Territory Map',
+  //   href: '/agent/territory',
+  //   icon: 'mapPinHouse',
+  // },
   {
     label: 'Daily Tasks',
     href: '/agent/daily',
@@ -57,11 +57,11 @@ export const agentsSidebar = [
     href: '/agent/commissions',
     icon: 'bookOpenCheck',
   },
-  {
-    label: 'Performance',
-    href: '/agent/performance',
-    icon: 'trendingUp',
-  },
+  // {
+  //   label: 'Performance',
+  //   href: '/agent/performance',
+  //   icon: 'trendingUp',
+  // },
 ];
 
 

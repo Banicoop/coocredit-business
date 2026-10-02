@@ -14,7 +14,7 @@ const AgentsTerritoryPage = () => {
   return (
     <Grid className='gap-5'>
       <PageHeader title='Territory Map'/>
-      <Grid className='lg:grid-cols-4 gap-4'>
+      {/* <Grid className='lg:grid-cols-4 gap-4'>
         <Grid className='lg:col-span-3'>
           <Image src={map} alt='' className='w-full h-full lg:col-span-2' loading='lazy' />
         </Grid>
@@ -77,7 +77,7 @@ const AgentsTerritoryPage = () => {
             </Flex>
           </Grid>
         </Grid>
-      </Grid>
+      </Grid> */}
     </Grid>
   )
 }
