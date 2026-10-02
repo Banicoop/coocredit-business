@@ -49,8 +49,6 @@ export const adminLogin = async (_prevState: ActionState, formData: FormData): P
     };
   }
 
-  console.log('DATA:', data)
-
   const adminId = data.user?.id;
 
   if(!adminId){
