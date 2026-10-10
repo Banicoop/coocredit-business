@@ -81,11 +81,40 @@ export const getAllTransactions = ({
     `transactions/business?${params.toString()}`
   );
 };
-// export const getAllTransactions = () => getData('transactions/business');
+
 
 export const getTransactionById = (id: string) => getData(`transactions/business/${id}`);
 
-export const getTransactionsStats = () => getData('transactions/business/stats');
+type TransactionStatsParams = {
+  startDate?: string;
+  endDate?: string;
+  type?: "business" | "all";
+};
+
+export const getTransactionsStats = (
+  params: TransactionStatsParams = {}
+) => {
+  const query = new URLSearchParams();
+
+  if (params.startDate) {
+    query.set("startDate", params.startDate);
+  }
+
+  if (params.endDate) {
+    query.set("endDate", params.endDate);
+  }
+
+  if (params.type) {
+    query.set("type", params.type);
+  }
+
+  const queryString = query.toString();
+
+  return getData(
+    `transactions/business/stats${queryString ? `?${queryString}` : ""}`
+  );
+};
+
 
 export const getAllLoans = () => getData('admin/loans/business');
 

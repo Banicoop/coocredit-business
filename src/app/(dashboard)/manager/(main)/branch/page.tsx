@@ -1,4 +1,4 @@
-import { Flex, Grid } from '@/components/ui/ui-layout';
+import { Flex, FlexBox, Grid } from '@/components/ui/ui-layout';
 import RecentTransactions from './_sections/RecentTransactions';
 import {
   getAllTransactions,
@@ -7,15 +7,21 @@ import {
 import TransactionCardsWidget from './_sections/TransactionCardsWidget';
 import Typography from '@/components/primitives/Typography';
 
+
+
 interface BranchPageProps {
   searchParams: Promise<{
     page?: string;
     size?: string;
+    startDate?: string;
+    endDate?: string;
+    type?: "business" | "all";
   }>;
 }
 
 const BranchPage = async ({ searchParams }: BranchPageProps) => {
   const params = await searchParams;
+  const { startDate, endDate, type } = params;
 
   const page = Math.max(
     Number(params.page) || 1,
@@ -33,7 +39,11 @@ const BranchPage = async ({ searchParams }: BranchPageProps) => {
         page,
         size,
       }),
-      getTransactionsStats(),
+      getTransactionsStats({
+        startDate,
+        endDate,
+        type: type === "all" ? "all" : "business",
+      }),
     ])) as any;
 
   return (
@@ -41,16 +51,21 @@ const BranchPage = async ({ searchParams }: BranchPageProps) => {
       {stats?.data ? (
         <TransactionCardsWidget
           data={stats.data}
+          filters={{
+            startDate,
+            endDate,
+            type: type === "all" ? "all" : "business",
+          }}
         />
       ) : (
-        <Flex className="h-40 justify-center">
+        <FlexBox className="h-40 justify-center">
           <Typography
             color="destructive"
             variant="small"
           >
             Unable to load transaction stats
           </Typography>
-        </Flex>
+        </FlexBox>
       )}
 
       <RecentTransactions

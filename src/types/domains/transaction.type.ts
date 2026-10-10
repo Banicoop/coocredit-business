@@ -17,7 +17,7 @@ export interface Transaction {
   beneficiaryAccountNumber: string;
   beneficiaryBankName: string;
   beneficiaryBankCode: string;
-
+  beneficiaryUsername: string;
   senderAccountName: string;
   senderAccountNumber: string;
   senderBankName: string;

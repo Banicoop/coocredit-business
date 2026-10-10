@@ -52,7 +52,7 @@ const RecentTransactions = ({data, error, pagination}: {data: any[], error: stri
             title: 'TYPE'
         },
         {
-            key: 'beneficiaryAccountName',
+            key: 'beneficiaryAccountName',  //beneficiaryUsername
             title: 'Beneficiary'
         },
         {

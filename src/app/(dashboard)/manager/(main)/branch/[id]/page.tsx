@@ -12,11 +12,13 @@ const TransactionDetails = async ({ params }: IDParam) => {
 
   const res = (await getTransactionById(id)) as any;
 
-  const transaction = res.data as Transaction;
+  const transaction = res?.data as Transaction;
 
-  const isCredit = transaction.transactionType?.toLowerCase() === 'credit';
+  console.log('single:', transaction);
 
-  const isSuccessful = transaction.transactionStatus?.toLowerCase() === 'successful';
+  const isCredit = transaction?.transactionType?.toLowerCase() === 'credit';
+
+  const isSuccessful = transaction?.transactionStatus?.toLowerCase() === 'successful';
 
   return (
     <Grid className="gap-6 p-4 md:p-6">
@@ -198,7 +200,7 @@ const TransactionDetails = async ({ params }: IDParam) => {
           <div className="grid gap-5">
             <DetailItem
               label="Account Name"
-              value={transaction.beneficiaryAccountName}
+              value={transaction.beneficiaryAccountName || transaction.beneficiaryUsername}
               icon={<UserRound size={16} />}
             />
 
