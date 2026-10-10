@@ -94,7 +94,7 @@ const LeadApprovalModel = ({open, setOpen, lead}: any) => {
 
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [selectedSegment, setSelectedSegment] = useState('');
+  const [selectedSegment, setSelectedSegment] = useState<businessSegmentProps | null>(null);
   const businessId = lead?.businesses[0]?.businessId;
 
 
@@ -114,7 +114,10 @@ const LeadApprovalModel = ({open, setOpen, lead}: any) => {
 
     return(
         <Modal onOpenChange={() => setOpen(false)} open={open}>
-            <Modal.Header title='Are you sure you want to approve business user creation'/>
+            <Modal.Header 
+            title='Approve this Account'
+            description='Are you sure you want to approve business user creation'
+            />
             <Modal.Body>
                 <FlexCol>
                     <Typography>Approving an business implies creating an acount for this business user</Typography>
@@ -141,12 +144,12 @@ const LeadRejectionModel = ({open, setOpen, lead}: any) => {
     const businessId = lead?.businesses[0]?.businessId;
     const [reason, setReason] = useState('');
 
-    const handleApproval = () => {
+    const handleRejection = () => {
         startTransition(async () => {
         const res = await validateBusinessUser({userId: lead.userId, businessId, businessSegment: 'micro', decision: 'reject', reason});
 
         if (res.success && res.data) {
-            toast.success('Agent approved successfully');
+            toast.success('Success: Business user rejected!');
             setOpen(false);
             router.refresh();
         } else {
@@ -157,7 +160,10 @@ const LeadRejectionModel = ({open, setOpen, lead}: any) => {
 
     return(
         <Modal onOpenChange={() => setOpen(false)} open={open}>
-            <Modal.Header title='Are you sure you want to reject agent application request?'/>
+            <Modal.Header 
+            title='Reject this user?'
+            description='Are you sure you want to reject this business user application?'
+            />
             <Modal.Body>
                 <FlexCol className='gap-4'>
                     <Typography>Please provide reason for rejection</Typography>
@@ -166,7 +172,7 @@ const LeadRejectionModel = ({open, setOpen, lead}: any) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant='light' className='border' onClick={() => setOpen(false)}>Cancel</Button>
-                <Button onClick={handleApproval} variant='ghost' className='bg-rose-700 text-card ring-rose-600/20' loading={isPending} disabled={isPending}>Reject</Button>
+                <Button onClick={handleRejection} variant='ghost' className='bg-rose-700 text-card ring-rose-600/20' loading={isPending} disabled={isPending}>Reject</Button>
             </Modal.Footer>
         </Modal>
     )

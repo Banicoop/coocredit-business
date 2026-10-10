@@ -34,7 +34,7 @@ const SignInPage = () => {
       const agent = state.data as any
       setUser(agent);
       toast.success('Login successful! Redirecting...');
-      router.replace('/agent')
+      router.push('/agent')
     }
   }, [state.data, state.error]);
 

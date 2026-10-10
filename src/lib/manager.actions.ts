@@ -130,6 +130,7 @@ export const validateBusinessUser = async ({userId, businessId, businessSegment,
       }
       return {
         success: true,
+        message: result.message || '',
         data: result,
       };
   } catch (error: any) {

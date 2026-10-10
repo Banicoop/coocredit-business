@@ -41,7 +41,7 @@ const Title = () => (
     </Flex>
 )
 
-const LoanApplicationTable = ({data, error, isAgent, pagination}: {data: any, error: string, isAgent?: boolean, pagination?: PaginationMeta}) => {
+const LoanApplicationTable = ({data, error, pagination}: {data: any, error: string, pagination?: PaginationMeta}) => {
 
     const columns = [
         {
@@ -89,10 +89,10 @@ const LoanApplicationTable = ({data, error, isAgent, pagination}: {data: any, er
                     actions={[
                         {
                             label: 'View Details',
-                            href: isAgent ? `/agent/loans/${id}`: `/manager/portfolio/${id}`,
+                            href: `/agent/loans/${id}`,
                             icon: EyeClosedIcon,
                             variant: 'primary'
-                        }
+                        },
                     ]}
                 />
             )

@@ -7,7 +7,7 @@ import LoanDocument from './tabs/LoanDocument';
 import LoanGuarantor from './tabs/LoanGuarantor';
 // import LoanNotes from './tabs/LoanNotes';
 import { BackButton } from '@/components/primitives/buttons/BackButton';
-import { agentGetLoanById, agentGetLoanSupportedDocs, agentGuarantorInfo } from '@/lib/api.agent';
+import { agentGetLoanById, agentGetLoanRepayment, agentGetLoanSupportedDocs, agentGuarantorInfo } from '@/lib/api.agent';
 import { IDParam, Signature } from '@/types/types';
 import { getUploadSignature } from '@/lib/uploads/file-uploads';
 import LoanRepayment from './tabs/LoanRepayment';
@@ -28,11 +28,15 @@ const LoanDetails = async ({ params }: IDParam) => {
       name: string;
     }[];
   };
+
+  const repaymentRes =  await  agentGetLoanRepayment(id) as any;
+
+  console.info('repayments:', repaymentRes)
   
   const data = loanDetails?.data
   const documents = res?.data
   
-  const guarantoRres = (await agentGuarantorInfo(data.loanId)) as any
+  const guarantoRres = (await agentGuarantorInfo(data?.loanId)) as any
   // console.info('guarantors:', guarantors);
 
   const tabs = [
@@ -65,7 +69,7 @@ const LoanDetails = async ({ params }: IDParam) => {
     },
     {
       label: 'Repayment',
-      content: <LoanRepayment />
+      content: <LoanRepayment repayments={repaymentRes?.data}/>
     },
     // {
     //   label: 'Timeline',

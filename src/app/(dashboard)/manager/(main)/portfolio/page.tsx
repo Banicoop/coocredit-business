@@ -1,6 +1,6 @@
-import { Tabs2 } from '@/components/ui/Tabs2';
+// import { Tabs2 } from '@/components/ui/Tabs2';
 import { Grid } from '@/components/ui/ui-layout';
-import PortfolioQuality from './(tabs)/PortfolioQuality';
+// import PortfolioQuality from './(tabs)/PortfolioQuality';
 import LoanApplications from './(tabs)/LoanApplications';
 import { cn } from '@/lib/utils';
 
