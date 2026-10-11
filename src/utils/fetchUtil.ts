@@ -2,12 +2,6 @@ import { ApiResponse, FetchOptions } from '@/types/types';
 
 const BASE_URL = process.env['NEXT_PUBLIC_API_URL'];
 
-// console.info('BASEURL:', BASE_URL);
-
-// if (!BASE_URL) {
-//   throw new Error('NEXT_PUBLIC_API_URL is not defined.');
-// }
-
 function extractError(data: unknown, status: number): string {
   if (!data) {
     return `Request failed with status ${status}`;

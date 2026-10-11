@@ -130,7 +130,7 @@ export const validateBusinessUser = async ({userId, businessId, businessSegment,
       }
       return {
         success: true,
-        message: result.message || '',
+        message: result.message || 'Successful:This business has been approved successfully',
         data: result,
       };
   } catch (error: any) {
