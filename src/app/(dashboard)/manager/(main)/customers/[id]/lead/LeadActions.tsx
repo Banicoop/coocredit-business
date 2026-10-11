@@ -99,10 +99,14 @@ const LeadApprovalModel = ({open, setOpen, lead}: any) => {
 
 
   const handleApproval = () => {
+    if (!selectedSegment) {
+      toast.warning("Please select a business segment");
+      return;
+    }
       startTransition(async () => {
         const res = await validateBusinessUser({userId: lead.userId, businessId, businessSegment: selectedSegment, decision: 'approve'});
       if (res.success && res.data) {
-          toast.success('Business user approved successfully');
+          toast.success(res.message || 'Business user approved successfully');
           setOpen(false);
           router.refresh();
           router.replace('/manager/customers')
@@ -124,7 +128,7 @@ const LeadApprovalModel = ({open, setOpen, lead}: any) => {
                     <CustomSelect 
                       label='Business Segment'  
                       options={businessSegment} 
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedSegment(e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedSegment(e.target.value as businessSegmentProps)}
                       wrapperClass='my-6 h-10'/>
                 </FlexCol>
             </Modal.Body>
@@ -149,7 +153,7 @@ const LeadRejectionModel = ({open, setOpen, lead}: any) => {
         const res = await validateBusinessUser({userId: lead.userId, businessId, businessSegment: 'micro', decision: 'reject', reason});
 
         if (res.success && res.data) {
-            toast.success('Success: Business user rejected!');
+            toast.success(res.message || 'Success: Business user rejected!');
             setOpen(false);
             router.refresh();
         } else {

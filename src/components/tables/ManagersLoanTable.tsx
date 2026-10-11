@@ -46,7 +46,7 @@ const ManagersLoanTable = ({data, error, pagination}: {data: any, error: string,
     const columns = [
         {
             key: 'loanProfileId',
-            title: 'Applicant',
+            title: 'Applicanicon: EyeClosedIcon,t',
             render: (val: any) => (
                 <Typography>{`${val?.firstName} ${val?.lastName}`}</Typography>
             )
@@ -88,20 +88,22 @@ const ManagersLoanTable = ({data, error, pagination}: {data: any, error: string,
                 <ActionDropdown 
                     actions={[
                         {
-                            label: 'Customer Profile',
-                            variant: 'primary',
-                            href: `#`
-                        },
-                        {
-                            label: 'Loan Repayments',
-                            variant: 'primary',
-                            href: `#`
-                        },
-                        {
                             label: 'View Details',
-                            href: `/manager/portfolio/${id}`,
+                            href: `/manager/portfolio/${id}/`,
                             icon: EyeClosedIcon,
                             variant: 'primary'
+                        },
+                        {
+                            label: 'Guarantor Information',
+                            variant: 'primary',
+                            href: `/manager/portfolio/${id}/guarantors`,
+                            icon: EyeClosedIcon,
+                        },
+                        {
+                            label: 'Repayment History',
+                            variant: 'primary',
+                            href: `/manager/portfolio/${id}/repayments`,
+                            icon: EyeClosedIcon,
                         },
                     ]}
                 />
