@@ -73,6 +73,7 @@ export interface FetchOptions<TBody = unknown> {
 export interface ApiResponse<TData> {
   data: TData | null;
   error: string | null;
+  message?: string;
   status: number;
   headers: Headers;
 }
