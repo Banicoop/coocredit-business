@@ -28,6 +28,8 @@ const CustomerDetails = async ({ params }: IDParam) => {
     );
   }
 
+  // console.info('customer :', customer);
+
   
   const business = customer.businesses;
   const loan = customer.loanProfile;

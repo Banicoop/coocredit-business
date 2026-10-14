@@ -100,6 +100,8 @@ const StatusBadge = ({ status }: { status: RepaymentStatus }) => (
 );
 
 const LoanRepayment = ({ repayments }: LoanRepaymentProps) => {
+
+  console.log('repayments:', repayments);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] =
     useState<FilterStatus>("all");

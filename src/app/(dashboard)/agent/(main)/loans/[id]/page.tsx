@@ -31,7 +31,7 @@ const LoanDetails = async ({ params }: IDParam) => {
 
   const repaymentRes =  await  agentGetLoanRepayment(id) as any;
 
-  console.info('repayments:', repaymentRes)
+  // console.info('loanDetails :', loanDetails );
   
   const data = loanDetails?.data
   const documents = res?.data

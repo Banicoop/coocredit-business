@@ -1,7 +1,7 @@
 import { BackButton } from '@/components/primitives/buttons/BackButton';
 import RepaymentBreakdown from '@/components/tables/LoanRepayment';
 import { FlexCol } from '@/components/ui/ui-layout';
-import { getLoanRepaymentBreakdown } from '@/lib/api';
+import { agentGetLoanRepayment } from '@/lib/api.agent';
 import { IDParam } from '@/types/types';
 
 
@@ -9,7 +9,7 @@ const LoanRepaymentHistory = async ({params}: IDParam) => {
 
   const { id} = await params;
 
-  const res = await getLoanRepaymentBreakdown(id) as any;
+  const res = await agentGetLoanRepayment(id) as any;
 
   const { data: repayment, error} = res;
 
@@ -28,7 +28,7 @@ const LoanRepaymentHistory = async ({params}: IDParam) => {
     <FlexCol className='gap-6'>
         <BackButton />
 
-        <RepaymentBreakdown data={repayment?.data ?? []} />
+        <RepaymentBreakdown repayments={repayment} />
     </FlexCol>
   )
 }
