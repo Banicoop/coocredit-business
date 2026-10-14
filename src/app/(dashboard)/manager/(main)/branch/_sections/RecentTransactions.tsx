@@ -93,7 +93,6 @@ const RecentTransactions = ({data, error, pagination}: {data: any[], error: stri
         data={data ?? []} 
         onPageChange={onPageChange}
         title={<Title/>}
-        // pageSize={50}
         pagination
         paginationMeta={pagination}
         emptyMessage='No available transaction'

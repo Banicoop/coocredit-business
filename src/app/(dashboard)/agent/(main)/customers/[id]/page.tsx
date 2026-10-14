@@ -8,6 +8,7 @@ import { formatCurrency, formatDate, formatDateTime, initials, isValidImageUrl, 
 import { ProgressBar } from '@/components/ui/ProgessBar';
 import KycDocuments from '@/components/documents/KYCDocument';
 import { BusinessInformation } from '@/components/documents/BusinessInformation';
+import CustomerTransactionTable from '@/components/ui/customers/CustomerTransactionTable';
 
 
 
@@ -27,8 +28,6 @@ const CustomerDetails = async ({ params }: IDParam) => {
       </FlexCol>
     );
   }
-
-  // console.info('customer :', customer);
 
   
   const business = customer.businesses;
@@ -224,22 +223,8 @@ const CustomerDetails = async ({ params }: IDParam) => {
                  <EmptyState message="This customer has no active loan application." />
                 }
 
-            <Card title="Recent transactions">
-              {customer.recentTransactions?.length > 0 ? (
-                <div className="flex flex-col divide-y divide-slate-100">
-                  {customer.recentTransactions.map((txn: any, i: number) => (
-                    <div key={txn._id ?? i} className="flex items-center justify-between py-3">
-                      <p className="text-sm text-[#0B1220]">{titleCase(txn.type)}</p>
-                      <p className="font-mono text-sm tabular-nums text-[#0B1220]">
-                        {formatCurrency(txn.amount)}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <EmptyState message="No transactions recorded yet." />
-              )}
-            </Card>
+              <CustomerTransactionTable data={customer.recentTransactions?.data ?? []}/>
+
           </div>
 
           {/* Right column */}
