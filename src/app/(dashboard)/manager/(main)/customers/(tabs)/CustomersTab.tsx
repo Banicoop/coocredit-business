@@ -1,15 +1,32 @@
 import CustomersTable from '@/components/tables/CustomersTable';
 import CustomersStats from '@/components/tables/CustonersStats';
 import { Grid } from '@/components/ui/ui-layout';
+import { PaginationMeta } from '@/types/types';
 
 
-const CustomersTab = ({data, error}: {data: any[], error: string}) => {
+interface CustomersTabProps {
+  data: any[], 
+  error?: string, 
+  pagination: PaginationMeta;
+  onSearchChange: (val: string) => void;
+  isLoading: boolean;
+  isFetching: boolean
+}
+
+
+const CustomersTab = ({data, error, pagination, onSearchChange, isFetching, isLoading}: CustomersTabProps) => {
 
   return (
     <Grid className='gap-6'>
         <CustomersStats/>
 
-        <CustomersTable initialData={data ?? []} error={error}/>
+        <CustomersTable 
+          initialData={data ?? []} error={error} 
+          onSearchChange={onSearchChange}
+          isFetching={isFetching}
+          isLoading={isLoading}
+          pagination={pagination}
+          />
     </Grid>
   )
 }

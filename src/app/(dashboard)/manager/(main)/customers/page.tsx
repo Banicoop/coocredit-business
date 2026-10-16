@@ -1,30 +1,46 @@
+'use client';
+
 import { Tabs2 } from '@/components/ui/Tabs2';
 import CustomersTab from './(tabs)/CustomersTab';
-import LeadToReview from './(tabs)/LeadToReview';
-import { getAllCustomers, getAllLeadsToReview } from '@/lib/api';
-import ErrorPage from '@/components/ui/ErrorPage';
+// import LeadToReview from './(tabs)/LeadToReview';
+// import {  getAllLeadsToReview } from '@/lib/api';
+// import ErrorPage from '@/components/ui/ErrorPage';
+import { useGetAllCustomers } from '@/lib/hooks/useCustomers';
+import { useState } from 'react';
+import { useDebounce } from '@/hooks/useDebounce';
 
 
 
 
-const CustomersPage = async () => {
+const CustomersPage =  () => {
+  const [search, setSearch] = useState('');
+  
+  const debouncedSearch = useDebounce(search, 500);
 
-  const customers = await getAllCustomers() as any;
-  const leads = await getAllLeadsToReview() as any;
+  const { data, error, isPending, isFetching, isError } = useGetAllCustomers({
+    search: debouncedSearch || undefined,
+  });
 
-  if(!customers || !leads) {
-    return <ErrorPage label={customers?.error || leads?.error || 'Failed to load customer data'} href='/' />
-  }
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+  };
+
 
     const tabs = [
       {
         label: 'Business Customers',
-        content: <CustomersTab data={customers?.data} error={customers.error}/>
+        content: <CustomersTab 
+        data={data} 
+        onSearchChange={handleSearchChange}
+        isLoading={isPending}
+        isFetching={isFetching}
+        error={isError ? error.message : undefined} 
+        pagination={data.pagination}/>
       },
-      {
-        label: 'Lead to Review',
-        content: <LeadToReview data={leads?.data} error={leads.error}/>
-      },
+      // {
+      //   label: 'Lead to Review',
+      //   content: <LeadToReview data={leads?.data} error={leads.error}/>
+      // },
     ]
   return (
     <Tabs2 tabs={tabs} defaultValue='Business Customers'/>

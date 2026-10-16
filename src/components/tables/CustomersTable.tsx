@@ -8,6 +8,18 @@ import { Eye, Search } from 'lucide-react';
 // import { ProgressBar } from '@/components/ui/ProgessBar';
 import { ActionDropdown } from '@/components/ui/ActionDropDown';
 import { useMemo, useState } from 'react';
+import { PaginationMeta } from '@/types/types';
+
+interface TableProps {
+  initialData: any;
+  error?: string;
+  isLead?: boolean;
+  pagination: PaginationMeta;
+  onSearchChange: (val: string) => void;
+  isFetching: boolean;
+  isLoading: boolean;
+}
+
 
 type Customer = {
   id: string;
@@ -19,22 +31,15 @@ type Customer = {
 
 const CustomersTable = ({
   initialData,
+  pagination,
+  onSearchChange,
+  isFetching,
+  isLoading,
   error,
   isLead
-}: {
-  initialData: Customer[];
-  error?: string;
-  isLead?: boolean
-}) => {
-  const [search, setSearch] = useState('');
+}: TableProps) => {
+ 
 
-  // const filtered = useMemo(
-  //   () =>
-  //     initialData?.filter((c) =>
-  //       c.customerName?.toLowerCase().includes(search.toLowerCase())
-  //     ),
-  //   [initialData, search]
-  // );
 
   const columns = [
     { key: 'firstName', title: 'First Name' },
@@ -66,8 +71,10 @@ const CustomersTable = ({
         variant="primary"
         className="outline-none"
         placeholder="Search by name, ID..."
-        value={search}
-        onChange={(e: any) => setSearch(e.target.value)}
+        value={initialData.search}
+        onChange={(e) =>
+            onSearchChange(e.target.value)
+          }
       />
     </Flex>
   );
@@ -79,7 +86,7 @@ const CustomersTable = ({
       // data={filtered}
       data={initialData}
       title={<TableTitle />}
-      pagination
+      paginationMeta={pagination}
     />
   );
 };

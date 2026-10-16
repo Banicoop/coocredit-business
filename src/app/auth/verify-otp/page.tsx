@@ -30,7 +30,7 @@ const AdminVerifyOTPPage = () => {
     const admin = state.data as User;
     setUser(admin);
     toast.success(state.message || 'Login successful');
-    router.push('/manager');
+    router.replace('/manager');
   }
 
 }, [state.success, state.error, state.message]);

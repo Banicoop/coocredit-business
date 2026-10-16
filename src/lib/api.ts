@@ -5,23 +5,38 @@ type FetchOptions = {
   revalidate?: number;
   timeout?: number;
   errorMessage?: string;
-  tags?: string[]
+  tags?: string[];
+  cache?: RequestCache;
+  signal?: AbortSignal;
 };
 
-
-export const getData = async( url: string, options: FetchOptions = {}) => {
-  const { revalidate = 120, timeout = 5000, errorMessage = 'Failed to fetch data', tags } = options;
+export const getData = async (
+  url: string,
+  options: FetchOptions = {}
+) => {
+  const {
+    revalidate,
+    timeout = 5000,
+    errorMessage = 'Failed to fetch data',
+    tags,
+    cache = 'no-store',
+    signal,
+  } = options;
 
   const token = await getAccessToken();
 
   const res = await SERVER.get(url, {
-    revalidate,
     timeout,
     token,
-    tags
+    tags,
+    cache,
+    signal,
+    ...(cache !== 'no-store' && revalidate !== undefined
+      ? { revalidate }
+      : {}),
   });
 
-  if (!res.data || res.data === null || res.status !== 200) {
+  if (!res.data || res.status !== 200) {
     return {
       error: res.error || errorMessage,
       success: false,
@@ -30,6 +45,8 @@ export const getData = async( url: string, options: FetchOptions = {}) => {
 
   return res.data;
 };
+
+
 
 
 export const BUSINESS_USERS_TAG = (businessId: string) =>
