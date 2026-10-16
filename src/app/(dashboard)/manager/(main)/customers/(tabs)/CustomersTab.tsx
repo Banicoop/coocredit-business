@@ -5,8 +5,9 @@ import { PaginationMeta } from '@/types/types';
 
 
 interface CustomersTabProps {
-  data: any[], 
-  error?: string, 
+  data: any[];
+  search: string; 
+  error?: string;
   pagination: PaginationMeta;
   onSearchChange: (val: string) => void;
   isLoading: boolean;
@@ -14,14 +15,15 @@ interface CustomersTabProps {
 }
 
 
-const CustomersTab = ({data, error, pagination, onSearchChange, isFetching, isLoading}: CustomersTabProps) => {
+const CustomersTab = ({data, error, pagination, onSearchChange, isFetching, isLoading, search}: CustomersTabProps) => {
 
   return (
     <Grid className='gap-6'>
         <CustomersStats/>
 
         <CustomersTable 
-          initialData={data ?? []} error={error} 
+          initialData={data} error={error} 
+          search={search}
           onSearchChange={onSearchChange}
           isFetching={isFetching}
           isLoading={isLoading}
