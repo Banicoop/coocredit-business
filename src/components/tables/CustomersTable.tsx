@@ -32,7 +32,6 @@ const CustomersTable = ({
   search
 }: TableProps) => {
 
-  console.info('pagination:', pagination)
  
 
 
