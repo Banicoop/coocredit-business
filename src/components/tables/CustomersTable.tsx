@@ -7,7 +7,6 @@ import { Flex } from '@/components/ui/ui-layout';
 import { Eye, Search } from 'lucide-react';
 // import { ProgressBar } from '@/components/ui/ProgessBar';
 import { ActionDropdown } from '@/components/ui/ActionDropDown';
-import { useMemo, useState } from 'react';
 import { PaginationMeta } from '@/types/types';
 
 interface TableProps {
@@ -18,16 +17,9 @@ interface TableProps {
   onSearchChange: (val: string) => void;
   isFetching: boolean;
   isLoading: boolean;
+  search: string;
 }
 
-
-type Customer = {
-  id: string;
-  customerName: string;
-  status: string;
-  date: string;
-  creditScore: number;
-};
 
 const CustomersTable = ({
   initialData,
@@ -36,8 +28,10 @@ const CustomersTable = ({
   isFetching,
   isLoading,
   error,
-  isLead
+  isLead,
+  search
 }: TableProps) => {
+
  
 
 
@@ -63,7 +57,7 @@ const CustomersTable = ({
     },
   ];
 
-  const TableTitle = () => (
+  const title = (
     <Flex className="w-full flex-col md:flex-row gap-2.5 items-start md:items-center justify-between">
       <Typography>All Customers</Typography>
       <TextField
@@ -71,21 +65,20 @@ const CustomersTable = ({
         variant="primary"
         className="outline-none"
         placeholder="Search by name, ID..."
-        value={initialData.search}
-        onChange={(e) =>
-            onSearchChange(e.target.value)
-          }
+        value={search}
+        onChange={(e) => onSearchChange(e.target.value)}
       />
     </Flex>
   );
+
 
   return (
     <BasicTable
       columns={columns}
       error={error}
-      // data={filtered}
       data={initialData}
-      title={<TableTitle />}
+      loading={isFetching || isLoading}
+      title={title}
       paginationMeta={pagination}
     />
   );

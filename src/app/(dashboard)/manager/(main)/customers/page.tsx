@@ -30,12 +30,13 @@ const CustomersPage =  () => {
       {
         label: 'Business Customers',
         content: <CustomersTab 
-        data={data} 
+        data={data?.data ?? []} 
+        search={search}
         onSearchChange={handleSearchChange}
         isLoading={isPending}
         isFetching={isFetching}
         error={isError ? error.message : undefined} 
-        pagination={data.pagination}/>
+        pagination={data?.pagination}/>
       },
       // {
       //   label: 'Lead to Review',
