@@ -7,10 +7,12 @@ import LoanDocument from './tabs/LoanDocument';
 import LoanGuarantor from './tabs/LoanGuarantor';
 // import LoanNotes from './tabs/LoanNotes';
 import { BackButton } from '@/components/primitives/buttons/BackButton';
-import { agentGetLoanById, agentGetLoanRepayment, agentGetLoanSupportedDocs, agentGuarantorInfo } from '@/lib/api.agent';
+import { agentGetBusinessCustomersDetails, agentGetLoanById, agentGetLoanRepayment, agentGetLoanSupportedDocs, agentGuarantorInfo } from '@/lib/api.agent';
 import { IDParam, Signature } from '@/types/types';
 import { getUploadSignature } from '@/lib/uploads/file-uploads';
 import LoanRepayment from './tabs/LoanRepayment';
+import CustomerProfile from '@/components/ui/customers/CustomerProfile';
+
 
 
 
@@ -29,9 +31,10 @@ const LoanDetails = async ({ params }: IDParam) => {
     }[];
   };
 
-  const repaymentRes =  await  agentGetLoanRepayment(id) as any;
+  const userId = loanDetails?.data?.userId
+  const repaymentRes =  (await  agentGetLoanRepayment(id)) as any;
+  const customerRes = (await agentGetBusinessCustomersDetails(userId) as any)
 
-  // console.info('loanDetails :', loanDetails );
   
   const data = loanDetails?.data
   const documents = res?.data
@@ -83,11 +86,12 @@ const LoanDetails = async ({ params }: IDParam) => {
 
 
   return (
-    <Grid className='gap-6'>
+    <Grid>
       <BackButton/>
       <PageHeader title='Loan Details' />
+      <CustomerProfile customer={customerRes?.data} />
 
-      <Tabs2 tabs={tabs} defaultValue="Overview" />
+      <Tabs2 tabs={tabs} defaultValue="Overview" className='mt-4'/>
     </Grid>
   )
 }

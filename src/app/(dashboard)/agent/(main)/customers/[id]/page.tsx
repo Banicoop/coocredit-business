@@ -181,8 +181,8 @@ const CustomerDetails = async ({ params }: IDParam) => {
               )}
             </Card>
               
-              {currentLoan?.length > 0 ?
-              currentLoan?.map((currentLoan: any) => (
+              {currentLoan?
+              // currentLoan?.map((currentLoan: any) => (
                 <Card
                   key={currentLoan.loanId}
                   title="Current loan"
@@ -219,7 +219,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
                         <span>Applied {formatDateTime(currentLoan.appliedAt)}</span>
                       </div>
                 </Card>
-                )): 
+                : 
                  <EmptyState message="This customer has no active loan application." />
                 }
 

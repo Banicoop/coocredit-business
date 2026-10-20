@@ -131,32 +131,34 @@ export const ManagerMobileSidebar = () => {
     const [open, setOpen] = useState(false);
     const user = useUserStore((s) => s.user);
   return (
-    <MobileSidebar
-      open={open}
-      onClose={() => setOpen(false)}
-      items={managersData}
-      title="Manager Panel"
-      footer={
-        <div className="flex items-center gap-3 rounded-2xl bg-neutral-50 p-3">
-          <Image
-            src={user1}
-            alt="Manager"
-            className="rounded-full h-14 w-14 object-cover"
-          />
+    <FlexCol className='justify-between p-2.5 w-full border-b lg:hidden'>
+      <MobileSidebar
+        open={open}
+        onClose={() => setOpen(false)}
+        items={managersData}
+        title="Manager Panel"
+        footer={
+          <div className="flex items-center gap-3 rounded-2xl bg-neutral-50 p-3">
+            <Image
+              src={user1}
+              alt="Manager"
+              className="rounded-full h-14 w-14 object-cover"
+            />
 
-          <div>
-            <Typography weight="semibold">
-              {user?.user?.firstName || 'No Name'}
-            </Typography>
+            <div>
+              <Typography weight="semibold">
+                {user?.user?.firstName || 'No Name'}
+              </Typography>
 
-            <Typography
-              className="uppercase text-primary"
-            >
-              {user?.user?.role}
-            </Typography>
+              <Typography
+                className="uppercase text-primary"
+              >
+                {user?.user?.role}
+              </Typography>
+            </div>
           </div>
-        </div>
-      }
-    />
+        }
+        />
+    </FlexCol>
   )
 }

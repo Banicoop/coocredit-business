@@ -4,7 +4,7 @@ import { formatDate, titleCase } from '@/helpers/funcs';
 import { cn } from '@/lib/utils';
 
 type KycDocument = {
-  id: string;
+  _id: string;
   documentURL: string;
   type: string;
   category: string;
@@ -41,7 +41,7 @@ const KycDocuments = ({ documents = [], className }: KycDocumentsProps) => {
     <div className={cn("grid grid-cols-1 gap-4 sm:grid-cols-2", className)}>
       {documents.map((doc) => (
         <a
-          key={doc.id}
+          key={doc._id}
           href={doc.documentURL}
           target="_blank"
           rel="noreferrer"
