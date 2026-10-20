@@ -19,8 +19,8 @@ const ManagerDashboard = async () => {
 
       <CardsAndInsight stats={data.data}/>
 
-      <Grid className='grid-cols-4 gap-6'>
-        <DisbursementCollectionChart className='col-span-3'/>
+      <Grid className='md:grid-cols-2 lg:grid-cols-4 gap-6'>
+        <DisbursementCollectionChart className='lg:col-span-3'/>
         <Quality/>
       </Grid>
 

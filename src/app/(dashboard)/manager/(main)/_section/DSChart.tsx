@@ -51,7 +51,7 @@ const tabs = [
 ]
 
 const BarTitle = () => (
-    <FlexCol className='md:flex-row md:justify-between gap-2.5 w-full'>
+    <FlexCol className='lg:flex-row lg:justify-between gap-2.5 w-full'>
         <FlexCol>
             <Typography weight='semibold'>Disbursement vs Collection</Typography>
             <Typography color='primary'>Activity volume for the current fiscal period</Typography>
@@ -68,7 +68,7 @@ const DisbursementCollectionChart = ({className}: {className: string}) => {
             data={data} 
             title={<BarTitle/>}
             xDataKey="name"
-            height={320}
+            height={340}
             showYAxis={false}
             barSize={18}
                 bars={[

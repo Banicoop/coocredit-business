@@ -131,7 +131,11 @@ export const ManagerMobileSidebar = () => {
     const [open, setOpen] = useState(false);
     const user = useUserStore((s) => s.user);
   return (
-    <FlexCol className='justify-between p-2.5 w-full border-b lg:hidden'>
+    <>
+    <Flex className='justify-between p-2.5 w-full border-b lg:hidden'>
+      <Image src={logo} alt='Logo' width={120} height={40}/>
+      <MenuIcon size={24} onClick={() => setOpen(true)} className='text-primary cursor-pointer'/>
+    </Flex>
       <MobileSidebar
         open={open}
         onClose={() => setOpen(false)}
@@ -145,7 +149,7 @@ export const ManagerMobileSidebar = () => {
               className="rounded-full h-14 w-14 object-cover"
             />
 
-            <div>
+            <FlexCol>
               <Typography weight="semibold">
                 {user?.user?.firstName || 'No Name'}
               </Typography>
@@ -155,10 +159,10 @@ export const ManagerMobileSidebar = () => {
               >
                 {user?.user?.role}
               </Typography>
-            </div>
+            </FlexCol>
           </div>
         }
         />
-    </FlexCol>
+    </>
   )
 }
