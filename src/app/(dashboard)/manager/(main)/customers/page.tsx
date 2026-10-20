@@ -3,12 +3,9 @@
 import { Tabs2 } from '@/components/ui/Tabs2';
 import CustomersTab from './(tabs)/CustomersTab';
 import LeadToReview from './(tabs)/LeadToReview';
-import {  getAllLeadsToReview } from '@/lib/api';
-// import ErrorPage from '@/components/ui/ErrorPage';
 import { useGetAllCustomers, useGetAllLeads } from '@/lib/hooks/useCustomers';
 import { useState } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
-
 
 
 
@@ -35,9 +32,6 @@ const CustomersPage =  () => {
   const handleLeadsSearch = (value: string) => {
     setSearchLead(value);
   };
-
-  console.log('leads:', leadsData);
-
 
 
     const tabs = [

@@ -13,7 +13,7 @@ export type TabItem<T extends string> = {
 type TabsProps<T extends string> = {
   tabs: readonly TabItem<T>[];
   defaultValue: T;
-  className?: string;w
+  className?: string;
 };
 
 export function Tabs2<T extends string>({ tabs, defaultValue, className }: TabsProps<T>) {
