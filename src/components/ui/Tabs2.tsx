@@ -22,7 +22,7 @@ export function Tabs2<T extends string>({ tabs, defaultValue, className }: TabsP
   return (
     <div className={cn('max-w-full overflow-x-auto', className)}>
       {/* Tab Headers */}
-      <div className="border-b border-b-[#e5e5e5] flex items-center gap-5">
+      <div className="border-b border-b-[#e5e5e5] flex items-center gap-5 flex-wrap">
         {tabs.map((tab) => {
           const isActive = active === tab.label;
 

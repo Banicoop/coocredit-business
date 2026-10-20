@@ -3,7 +3,7 @@ import Typography from '@/components/primitives/Typography';
 import { CardWidget } from '@/components/ui/cards';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { ProgressBar } from '@/components/ui/ProgessBar';
-import { Flex, Grid, GridItem } from '@/components/ui/ui-layout';
+import { Flex, FlexCol, Grid, GridItem } from '@/components/ui/ui-layout';
 import { AlertTriangle, Banknote, Building2, CalendarDays, CircleSlash2, Download, Rocket, TrendingUp, UsersRound } from 'lucide-react';
 
 
@@ -79,15 +79,15 @@ const CardsAndInsight = ({stats}: any) => {
             info={<Typography variant='small' color='primary' weight='semibold'>{(stats?.loanStats?.collectionStats?.efficiency) || 0}% efficiency</Typography>}/>
         </Grid>
 
-        <Flex className='justify-between bg-[#FEF2F2] border border-[#FEE2E2] rounded-lg px-4 py-1'>
+        <FlexCol className='md:flex-row justify-between bg-[#FEF2F2] border border-[#FEE2E2] rounded-lg px-4 py-1'>
             <Typography color='destructive' startIcon={<AlertTriangle size={20}/>}><strong>Fraud Alert:</strong> Unusual withdrawal patterns detected in Branch Sub-Sector A4.</Typography>
             <Button variant='light' size='lg' className='text-destructive font-semibold bg-transparent'>Investigate</Button>
-        </Flex>
+        </FlexCol>
 
-        <Flex className='justify-between bg-tertiary border rounded-lg px-4 py-1'>
+        <FlexCol className='md:flex-row justify-between bg-tertiary border rounded-lg px-4 py-1'>
             <Typography color='active' startIcon={<Rocket size={20}/>}><strong>Growth Insight:</strong> Portfolio has exceeded Q3 targets by 14%. Adjust disbursement limits?</Typography>
             <Button variant='light' className='text-primary font-semibold bg-transparent'>VIEW INSIGHTS</Button>
-        </Flex>
+        </FlexCol>
     </Grid>
   )
 }

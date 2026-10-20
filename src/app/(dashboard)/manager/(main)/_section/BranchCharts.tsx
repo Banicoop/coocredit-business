@@ -33,7 +33,7 @@ const data = [
 
 const BranchCharts = () => {
   return (
-    <Grid className="grid-cols-3 gap-6"> 
+    <Grid className="md:grid-cols-3 gap-6"> 
         <CustomBarChart
             className={cn('gap-4 h-50' )}
                 data={data} 

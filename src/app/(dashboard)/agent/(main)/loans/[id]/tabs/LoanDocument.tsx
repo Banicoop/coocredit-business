@@ -179,7 +179,7 @@ const LoanDocument = ({ documents, signature, businessId, loanDocuments }: {
 
   return (
     <Grid className="gap-5">
-      <Flex className="justify-between">
+      <FlexCol className="md:flex-row gap-5 md:justify-between">
         <Typography variant="h6" weight="semibold">
           Verification Files
         </Typography>
@@ -190,7 +190,7 @@ const LoanDocument = ({ documents, signature, businessId, loanDocuments }: {
           values={selectedDocuments[businessId] || []}
           onChange={(values) => handleDocumentChange(businessId, values)}
         />
-      </Flex>
+      </FlexCol>
 
       <Grid className="md:grid-cols-2 gap-6">
         {businessDocuments.map((doc) => (

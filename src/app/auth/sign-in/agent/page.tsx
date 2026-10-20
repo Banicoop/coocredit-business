@@ -104,7 +104,7 @@ const SignInPage = () => {
                 <label className='text-xs md:text-sm'>Keep me active</label>
               </div>
 
-              <Link href='/auth/forgot-password' className='text-primary font-semibold text-xs md:text-sm uppercase'>
+              <Link href='/auth/forgot-password' className='text-primary font-semibold text-xs italic'>
                 Forget Password
               </Link>
             </div>
