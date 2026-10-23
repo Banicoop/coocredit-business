@@ -47,13 +47,6 @@ export interface GetLoansParams {
   endDate?: string;
 }
 
-// export interface PaginationMeta {
-//   page: number;
-//   totalPages: number;
-//   total: number;
-//   limit?: number;
-//   pageSize?: number;
-// }
 
 export interface Loan {
   loanId: string;
@@ -67,16 +60,123 @@ export interface Loan {
   status: LoanStatus;
 }
 
-// export interface GetLoansResponse {
-//   success?: boolean;
-//   data: Loan[];
-//   pagination: PaginationMeta;
-//   error?: string;
-// }
-
 export interface LoanFilters {
   search: string;
   status: LoanStatus | 'all';
   startDate: string;
   endDate: string;
+}
+
+export type RepaymentTimeframe =
+  | 'today'
+  | 'yesterday'
+  | 'last7days'
+  | 'last30days'
+  | 'custom';
+
+export type RepaymentStatus =
+  | 'pending'
+  | 'paid'
+  | 'late'
+  | 'partially_paid'
+  | 'all';
+
+export type RepaymentSortBy =
+  | 'dueDate'
+  | 'amount'
+  | 'status'
+  | 'paidAt';
+
+export type SortOrder = 'asc' | 'desc';
+
+export interface RepaymentQuery {
+  timeframe?: RepaymentTimeframe;
+  status?: RepaymentStatus;
+  search?: string;
+  sortBy?: RepaymentSortBy;
+  sortOrder?: SortOrder;
+  startDate?: string;
+  endDate?: string;
+  page?: number;
+  limit?: number;
+}
+
+
+export interface LoanRepayment {
+  _id: string;
+  repaymentId: string;
+  loanId: string;
+  userId: string;
+  appliedBy: string;
+
+  amount: number;
+  paidAmount: number;
+  accruedAmount: number;
+
+  status: string;
+  dueDate: string;
+  paidAt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+
+  user?: {
+    userId: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+  } | null;
+
+  applicant?: {
+    userId: string;
+    username: string;
+    walletName: string;
+    phoneNumber: string;
+  } | null;
+
+  loan?: {
+    loanId: string;
+    status: string;
+    totalAmount: number;
+  } | null;
+
+  agent?: {
+    firstName?: string;
+    lastName?: string;
+    phoneNumber?: string;
+  } | null;
+}
+
+export interface RepaymentSummary {
+  paidCount: number;
+  pendingCount: number;
+  totalCollectedAmount: number;
+  totalCount: number;
+  totalDueAmount: number;
+  totalPendingAmount: number;
+}
+
+export interface RepaymentPagination {
+  page: number;
+  limit: number;
+  totalCount: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
+export interface RepaymentListingData {
+  repayments: LoanRepayment[];
+  summary: RepaymentSummary;
+  filter: {
+    agentId: string | null;
+    startDate: string;
+    endDate: string;
+    status: string;
+    timeframe: string;
+  };
+}
+
+export interface RepaymentListingResponse {
+  data: RepaymentListingData;
+  pagination: RepaymentPagination;
 }
