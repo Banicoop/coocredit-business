@@ -1,16 +1,10 @@
 'use client';
 
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { getAllLoans, GetLoansParams } from '../fetchUtil/loans';
+import { getAllLoans, getDailyRepayments } from '../fetchUtil/loans';
+import { loanQueryKeys } from './queries/keys';
+import { GetLoansParams, RepaymentQuery } from '@/types/domains/loan.types';
 
-export const loanQueryKeys = {
-  all: ['loans'] as const,
-
-  lists: () => [...loanQueryKeys.all, 'list'] as const,
-
-  list: (params: GetLoansParams) =>
-    [...loanQueryKeys.lists(), params] as const,
-};
 
 export const useGetAllLoans = (
   params: GetLoansParams = {}
@@ -30,6 +24,44 @@ export const useGetAllLoans = (
       return response;
     },
 
+    placeholderData: keepPreviousData,
+    staleTime: 30_000,
+    refetchOnWindowFocus: false,
+    retry: 1,
+  });
+};
+
+export const useGetDailyRepayment = (
+  query: RepaymentQuery = {}
+) => {
+  const isCustom = query.timeframe === 'custom';
+
+  const canFetch =
+    !isCustom ||
+    (
+      Boolean(query.startDate) &&
+      Boolean(query.endDate) &&
+      query.startDate! <= query.endDate!
+    );
+
+  return useQuery({
+    queryKey: ['repayments', query],
+
+    queryFn: async () => {
+      const res = await getDailyRepayments(query) as any;
+
+      if (!res || res.error || res.success === false) {
+        throw new Error(
+          res?.error ||
+          res?.message ||
+          'Failed to fetch repayments'
+        );
+      }
+
+      return res;
+    },
+
+    enabled: canFetch,
     placeholderData: keepPreviousData,
     staleTime: 30_000,
     refetchOnWindowFocus: false,

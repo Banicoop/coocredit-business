@@ -23,7 +23,7 @@ const LogoutModal = ({open, setOpen}: Props) => {
     
     const handleLogout = () => {
         setUser(null);
-        router.push('/');
+        router.replace('/');
     }
 
 
@@ -35,7 +35,7 @@ const LogoutModal = ({open, setOpen}: Props) => {
                 <Flex className='justify-center p-4 rounded-full bg-accent w-fit mx-auto'>
                     <LogOut size={18} className='text-primary'/>
                 </Flex>
-                <Typography variant='p' color='primary' className='text-center'>You are about to log out of CooCredit. Make sure all your field collection data has been synced to the central server.</Typography>
+                <Typography color='primary' className='text-center text-xs md:text-sm'>You are about to log out of CooCredit. Make sure all your field collection data has been synced to the central server.</Typography>
 
                 <Button onClick={handleLogout}>Log Out Now</Button>
                 <Button variant='ghost' className='border' onClick={() => setOpen(false)}>Cancel and Stay</Button>
