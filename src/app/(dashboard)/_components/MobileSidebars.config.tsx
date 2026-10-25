@@ -11,12 +11,16 @@ import logo from '@/assets/svgs/logo.svg';
 import MobileSidebar from '@/components/ui/MobileSidebar';
 import { Flex, FlexCol } from '@/components/ui/ui-layout';
 import { LogOutIcon, MenuIcon } from 'lucide-react';
+import Button from '@/components/primitives/buttons/Button';
+import { initials } from '@/helpers/funcs';
+import LogoutModal from '@/components/ui/LogoutModal';
 
 
 export const AgentMobileSidebar = () => {
 
     const user = useUserStore((s) => s.user);
     const [open, setOpen] = useState(false);
+    const [openLogout, setOpenLogout] = useState(false);
 
   return (
     <>
@@ -32,11 +36,14 @@ export const AgentMobileSidebar = () => {
         footer={
           <FlexCol className='gap-1.5 p-3'>
             <Flex className="gap-3 rounded-2xl bg-neutral-50">
-              <Image
+              <Flex className="h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary font-bold">
+                  {initials(user?.user?.firstName, user?.user?.lastName)}
+                </Flex>
+              {/* <Image
                 src={user1}
                 alt="user"
                 className="rounded-full h-14 w-14 object-cover"
-              />
+              /> */}
 
               <FlexCol>
                 <Typography weight="semibold">
@@ -50,11 +57,12 @@ export const AgentMobileSidebar = () => {
                 </Typography>
               </FlexCol>
             </Flex>
-            <Typography variant='p' weight='semibold' className='cursor-pointer' startIcon={<LogOutIcon size={18} />}>Logout</Typography>
+             <Button variant='ghost' onClick={() => setOpenLogout(true)} className='cursor-pointer flex text-pretty justify-center text-center' startIcon={<LogOutIcon size={18} />}>Logout</Button>
 
           </FlexCol>
         }
         />
+        <LogoutModal open={openLogout} setOpen={setOpenLogout}/>
       </>
   )
 }
@@ -128,8 +136,11 @@ export const LoanOfficerMobileSidebar = () => {
 }
 
 export const ManagerMobileSidebar = () => {
+
     const [open, setOpen] = useState(false);
+    const [openLogout, setOpenLogout] = useState(false);
     const user = useUserStore((s) => s.user);
+
   return (
     <>
     <Flex className='justify-between p-2.5 w-full border-b lg:hidden'>
@@ -142,27 +153,29 @@ export const ManagerMobileSidebar = () => {
         items={managersData}
         title="Manager Panel"
         footer={
-          <div className="flex items-center gap-3 rounded-2xl bg-neutral-50 p-3">
-            <Image
-              src={user1}
-              alt="Manager"
-              className="rounded-full h-14 w-14 object-cover"
-            />
+          <FlexCol className='gap-1.5 p-3'>
+              <Flex className="gap-3 rounded-2xl bg-neutral-50 p-3">
+                <Flex className="h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary font-bold">
+                  {initials(user?.user?.firstName, user?.user?.lastName)}
+                </Flex>
 
-            <FlexCol>
-              <Typography weight="semibold">
-                {user?.user?.firstName || 'No Name'}
-              </Typography>
+                <FlexCol>
+                  <Typography weight="semibold">
+                    {user?.user?.firstName || 'No Name'}
+                  </Typography>
 
-              <Typography
-                className="uppercase text-primary"
-              >
-                {user?.user?.role}
-              </Typography>
-            </FlexCol>
-          </div>
+                  <Typography
+                    className="uppercase text-primary"
+                  >
+                    {user?.user?.role}
+                  </Typography>
+                </FlexCol>
+              </Flex>
+              <Button variant='ghost' onClick={() => setOpenLogout(true)} className='cursor-pointer flex text-pretty justify-center text-center' startIcon={<LogOutIcon size={18} />}>Logout</Button>
+          </FlexCol>
         }
         />
+       <LogoutModal open={openLogout} setOpen={setOpenLogout}/>
     </>
   )
 }

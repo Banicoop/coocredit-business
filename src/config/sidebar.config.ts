@@ -1,5 +1,5 @@
 
-import { BellRing, BookOpenCheck, CalendarCheck, ChartNoAxesColumn, DollarSign, LayoutGrid, LogOut, LucideIcon, MapPinHouse, MessageSquareWarning, Settings, TrendingUp, UserRoundPlus, UserSearchIcon, UsersRound, Wallet, AlertTriangle, NotepadText, BriefcaseBusiness, CreditCard, Landmark, ShieldCog, ShieldHalf, LayoutDashboard } from "lucide-react";
+import { BellRing, BookOpenCheck, CalendarCheck, ChartNoAxesColumn, DollarSign, LayoutGrid, LogOut, LucideIcon, MapPinHouse, MessageSquareWarning, Settings, TrendingUp, UserRoundPlus, UserSearchIcon, UsersRound, Wallet, AlertTriangle, NotepadText, BriefcaseBusiness, CreditCard, Landmark, ShieldCog, ShieldHalf, LayoutDashboard, CreditCardIcon } from "lucide-react";
 
 export const iconMap: Record<string, LucideIcon> = {
     layoutGrid: LayoutGrid,
@@ -158,6 +158,11 @@ export const managersData = [
     label: 'Loan Portfolio',
     href: '/manager/portfolio',
     icon: 'notePadText'
+  },
+  {
+    label: 'Daily Repayments',
+    href: '/manager/loan-repayments',
+    icon: 'repayment'
   },
   {
     label: 'Branch Assets',

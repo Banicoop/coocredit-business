@@ -1,17 +1,8 @@
 'use server';
 
+import { GetLoansParams, RepaymentQuery } from "@/types/domains/loan.types";
 import { getData } from "../api";
 
-export type LoanStatus = 'pending' | 'approved' | 'rejected';
-
-export interface GetLoansParams {
-  page?: number;
-  limit?: number;
-  search?: string;
-  status?: LoanStatus;
-  startDate?: string;
-  endDate?: string;
-}
 
 export const getAllLoans = async (
   params: GetLoansParams = {}
@@ -32,3 +23,29 @@ export const getAllLoans = async (
 
   return getData(url);
 };
+
+
+export const getDailyRepayments = async (
+  query: RepaymentQuery = {}
+) => {
+  const params = new URLSearchParams();
+
+  Object.entries(query).forEach(([key, value]) => {
+    if (
+      value !== undefined &&
+      value !== null &&
+      String(value).trim() !== ''
+    ) {
+      params.set(key, String(value));
+    }
+  });
+
+  const queryString = params.toString();
+
+  const url = `admin/loans/business/repayments${
+    queryString ? `?${queryString}` : ''
+  }`;
+
+  return getData(url);
+};
+
