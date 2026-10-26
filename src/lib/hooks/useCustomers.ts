@@ -2,25 +2,7 @@
 
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { getAllCustomers, getAllLeads, GetCustomersParams, GetLeadsParams,  } from '../fetchUtil/customers';
-
-
-export const customersQueryKeys = {
-  all: ['customers'] as const,
-
-  lists: () => [...customersQueryKeys.all, 'customers'] as const,
-
-  list: (params: GetCustomersParams) =>
-    [...customersQueryKeys.lists(), params] as const,
-};
-
-export const leadsQueryKeys = {
-  all: ['leads'] as const,
-
-  lists: () => [...leadsQueryKeys.all, 'leads'] as const,
-
-  list: (params: GetLeadsParams) =>
-    [...leadsQueryKeys.lists(), params] as const,
-};
+import { customersQueryKeys, leadsQueryKeys } from './queries/keys';
 
 
 export const useGetAllCustomers = (

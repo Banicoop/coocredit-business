@@ -126,6 +126,7 @@ export async function fetchClient<
         error: extractError(data, response.status),
         status: response.status,
         headers: response.headers,
+        success: false
       };
     }
 
@@ -134,6 +135,7 @@ export async function fetchClient<
       error: null,
       status: response.status,
       headers: response.headers,
+      success: true
     };
   } catch (error) {
     if (timeoutId) {
@@ -149,6 +151,7 @@ export async function fetchClient<
 
     return {
       data: null,
+      success: false,
       headers: new Headers(),
       error: message,
       status: 0,

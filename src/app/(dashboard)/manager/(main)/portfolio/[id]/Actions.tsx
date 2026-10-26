@@ -6,10 +6,8 @@ import { TextArea } from '@/components/primitives/inputs/TextArea';
 import { Modal } from '@/components/primitives/modals/Modal';
 import Typography from '@/components/primitives/Typography';
 import { Flex, FlexCol, Grid } from '@/components/ui/ui-layout'
-import { approveBusinessLoans, rejectBusinessLoans } from '@/lib/manager.actions';
-// import Link from 'next/link'
-import { useRouter } from 'next/navigation';
-import { ChangeEvent, useState, useTransition } from 'react';
+import { useApproveBusinessLoan, useRejectBusinessLoan } from '@/lib/hooks/useLoans';
+import { ChangeEvent, useState } from 'react';
 import { toast } from 'sonner';
 
 
@@ -51,15 +49,9 @@ const Actions = ({loanId, status}: LoanActionsProps) => {
                 <Grid className='grid-cols-2 md:grid-cols-4 gap-5'>
                     <Button onClick={() => setOpenApproveModal(true)}>Approve</Button>
                     <Button className='bg-rose-50 text-rose-700 ring-rose-600/20' variant='ghost' onClick={() => setOpenRejectModal(true)}>Reject</Button>
-                    {/* <Link href={`${loanId}/guarantors`} className='bg-rose-100 text-rose-700 border text-xs py-2 px-2.5 inline-flex text-center justify-center rounded-md'>Guarantors</Link>
-                    <Link href={`${loanId}/repayment-projection`} className='text-primary bg-card border text-xs py-2 px-2.5 rounded-md'>Repayment Projection</Link> */}
+                   
                 </Grid>
             )
-            // :
-            // <>
-            //     <Link href={`${loanId}/guarantors`} className='bg-rose-100 text-rose-700 border text-xs py-2 px-2.5 rounded-md'>Guarantors Information</Link>
-            //     <Link href={`${loanId}/repayments`} className='text-primary bg-card border text-xs py-2 px-2.5 rounded-md'>View Repayment</Link>
-            // </>
         }
         </Flex>
     </FlexCol>
@@ -73,23 +65,19 @@ export default Actions;
 
 const LoanApprovalModel = ({open, setOpen, loanId}: LoanModalProps) => {
 
-    const [isPending, startTransition] = useTransition();
-    const router = useRouter();
-
-    console.log('accept:', loanId);
+    const approve = useApproveBusinessLoan();
 
     const handleApproval = () => {
-        startTransition(async () => {
-        const res = await approveBusinessLoans({loanId});
-
-        if (res.success && res.data) {
-            toast.success('Agent approved successfully');
+        approve.mutate(
+        { loanId },
+        {
+        onSuccess: () => {
+            toast.success('Loan approved')
             setOpen(false);
-            router.refresh();
-        } else {
-            toast.error(res.error);
+        },
+        onError: (error) => toast.error(error.message),
         }
-        });
+    );
     };
 
     return(
@@ -102,7 +90,7 @@ const LoanApprovalModel = ({open, setOpen, loanId}: LoanModalProps) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant='light' className='border' onClick={() => setOpen(false)}>Cancel</Button>
-                <Button onClick={handleApproval} loading={isPending} disabled={isPending}>Approve</Button>
+                <Button onClick={handleApproval} loading={approve.isPending} disabled={approve.isPending}>Approve</Button>
             </Modal.Footer>
         </Modal>
     )
@@ -111,24 +99,21 @@ const LoanApprovalModel = ({open, setOpen, loanId}: LoanModalProps) => {
 
 const LoanRejectionModel = ({open, setOpen, loanId}: LoanModalProps) => {
 
-    const [isPending, startTransition] = useTransition();
-    const router = useRouter();
+    const reject = useRejectBusinessLoan();
     const [reason, setReason] = useState('');
 
-    console.log('reject:', loanId);
 
-    const handleApproval = async () => {
-        startTransition(async () => {
-        const res = await rejectBusinessLoans({loanId, reason});
-
-        if (res.success && res.data) {
-            toast.success('Agent rejected successfully');
+    const handleRejection = async () => {
+        reject.mutate({ loanId, reason }, 
+            {
+            onSuccess: () => {
+            toast.success('Loan rejected')
             setOpen(false);
-            router.refresh();
-        } else {
-            toast.error(res.error);
-        }
-        });
+        },
+            onError: (error) => toast.error(error.message),
+            }
+        );
+        
     };
 
     return(
@@ -142,7 +127,7 @@ const LoanRejectionModel = ({open, setOpen, loanId}: LoanModalProps) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant='light' className='border' onClick={() => setOpen(false)}>Cancel</Button>
-                <Button onClick={handleApproval} variant='ghost' className='bg-rose-700 text-card ring-rose-600/20' loading={isPending} disabled={isPending}>Reject</Button>
+                <Button onClick={handleRejection} variant='ghost' className='bg-rose-700 text-card ring-rose-600/20' loading={reject.isPending} disabled={reject.isPending}>Reject</Button>
             </Modal.Footer>
         </Modal>
     )

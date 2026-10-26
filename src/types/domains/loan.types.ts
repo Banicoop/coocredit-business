@@ -36,6 +36,8 @@ export type LoanGuarantorProps = {
 };
 
 
+export type LoanDuration = "today" | "7 days" | "30 days" | "all" | "custom"
+
 export type LoanStatus = 'pending' | 'disbursed-bank' | 'rejected';
 
 export interface GetLoansParams {
@@ -45,6 +47,7 @@ export interface GetLoansParams {
   status?: LoanStatus;
   startDate?: string;
   endDate?: string;
+  duration?: LoanDuration;
 }
 
 
@@ -65,6 +68,7 @@ export interface LoanFilters {
   status: LoanStatus | 'all';
   startDate: string;
   endDate: string;
+  duration: LoanDuration
 }
 
 export type RepaymentTimeframe =

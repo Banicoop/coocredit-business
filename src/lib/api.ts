@@ -142,3 +142,31 @@ export const getLoanRepaymentBreakdown = (id: string) => getData(`admin/loans/bu
 export const getLoanRepaymentProjection = (id: string) => getData(`admin/loans/business/${id}/repayment-projection`, { tags: [id] });
 
 export const getAdminGurantorInfo = (loanId: string) => getData(`admin/loans/${loanId}/business/guarantors`)
+
+
+export interface ActionResult<T> {
+  data: T;
+  success: boolean;
+  error?: string | { message?: string } | null;
+  message?: string
+}
+
+
+export const unwrap = async <T>(
+  promise: Promise<ActionResult<T>>,
+): Promise<T> => {
+  const result = await promise;
+
+  if (!result.success) {
+    const error = result.error;
+
+    const message =
+      typeof error === 'string'
+        ? error
+        : error?.message ?? 'Something went wrong.';
+
+    throw new Error(message);
+  }
+
+  return result.data;
+};

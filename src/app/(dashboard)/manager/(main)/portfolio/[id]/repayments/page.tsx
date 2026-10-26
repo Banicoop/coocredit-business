@@ -1,5 +1,4 @@
 import { BackButton } from '@/components/primitives/buttons/BackButton';
-import RepaymentBreakdown from '@/components/tables/LoanRepayment';
 import LoanRepayment from '@/components/ui/loans/LoanRepayment';
 import { FlexCol } from '@/components/ui/ui-layout';
 import { agentGetLoanRepayment } from '@/lib/api.agent';
@@ -31,7 +30,6 @@ const LoanRepaymentHistory = async ({params}: IDParam) => {
 
         <LoanRepayment repayments={repayment} href={`/manager/portfolio/${id}`}/>
 
-        {/* <RepaymentBreakdown repayments={repayment} /> */}
     </FlexCol>
   )
 }

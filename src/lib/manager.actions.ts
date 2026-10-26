@@ -3,7 +3,7 @@
 import { SERVER } from "@/utils/fetchUtil";
 import { getAccessToken } from "./auth.actions";
 import { revalidateTag } from "next/cache";
-import { BUSINESS_USERS_TAG } from "./api";
+import { ActionResult, BUSINESS_USERS_TAG } from "./api";
 
 type validateAgentPayload = {
      decision: 'APPROVE' | 'REJECT';
@@ -22,63 +22,108 @@ type businessUserPayload = {
 }
 
 
-export const approveBusinessLoans = async ({loanId}: {loanId: string}) => {
-  const token = await getAccessToken();
-  try {
-    const res = await SERVER.patch(`admin/loans/${loanId}/business/approve`, {}, { token })
+type LoanActionInput = {
+  loanId: string;
+};
 
-    revalidateTag(loanId, "max");
-    
-    if(!res.data || res.data === null || res.error){
-      return{
-          success: false,
-          error: res.error
+type RejectLoanInput = LoanActionInput & {
+  reason?: string;
+};
+
+const getErrorMessage = (error: unknown): string => {
+  if (
+    typeof error === 'object' &&
+    error !== null &&
+    'response' in error
+  ) {
+    const response = error.response;
+
+    if (
+      typeof response === 'object' &&
+      response !== null &&
+      'data' in response
+    ) {
+      const data = response.data;
+
+      if (
+        typeof data === 'object' &&
+        data !== null &&
+        'message' in data &&
+        typeof data.message === 'string'
+      ) {
+        return data.message;
       }
+    }
+  }
+
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return 'Something went wrong.';
+};
+
+export const approveBusinessLoans = async ({
+  loanId,
+}: LoanActionInput): Promise<ActionResult<unknown>> => {
+  try {
+    const token = await getAccessToken();
+
+    const res = await SERVER.patch(
+      `admin/loans/${loanId}/business/approve`,
+      {},
+      { token },
+    );
+
+    if (!res.data || res.error) {
+      return {
+        success: false,
+        error: res.error ?? 'Unable to approve business loan.',
+      };
+    }
+
+    return {
+      success: true,
+      data: res.data,
+    };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      error: getErrorMessage(error),
+    };
+  }
+};
+
+export const rejectBusinessLoans = async ({
+  loanId,
+  reason,
+}: RejectLoanInput): Promise<ActionResult<unknown>> => {
+  try {
+    const token = await getAccessToken();
+
+    const res = await SERVER.patch(
+      `admin/loans/${loanId}/business/reject`,
+      { reason },
+      { token },
+    );
+
+    if (!res.data || res.error) {
+      return {
+        success: false,
+        error: res.error ?? 'Unable to reject business loan.',
+      };
     }
     return {
       success: true,
-      data: res,
+      data: res.data,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return {
       success: false,
-      error:
-        error?.response?.data?.message ||
-        error?.message ||
-        'Something went wrong.',
+      error: getErrorMessage(error),
     };
   }
-}
-
-
-export const rejectBusinessLoans = async ({loanId, reason}: {loanId: string, reason?: string}) => {
-  const token = await getAccessToken();
-  try {
-    const res = await SERVER.patch(`admin/loans/${loanId}/business/reject`, {
-        reason
-      }, { token }
-    )
-
-    revalidateTag(loanId, "max");
-    
-    if(!res.data || res.data === null || res.error){
-      return{
-          success: false,
-          error: res.error
-      }
-    }
-    return { success: true, data: res };
-  } catch (error: any) {
-      return {
-        success: false,
-        error:
-          error?.response?.data?.message ||
-          error?.message ||
-          'Something went wrong.',
-    };
-  }
-}
-
+};
 
 
 
@@ -121,7 +166,6 @@ export const validateBusinessUser = async ({userId, businessId, businessSegment,
         userId, businessId, businessSegment, decision, reason
       }, { token }
     );
-    revalidateTag(BUSINESS_USERS_TAG(userId), 'max');
       if(!result.data || result.data === null || result.error){
           return{
               success: false,
