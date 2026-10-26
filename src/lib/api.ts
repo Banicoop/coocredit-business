@@ -145,7 +145,7 @@ export const getAdminGurantorInfo = (loanId: string) => getData(`admin/loans/${l
 
 
 export interface ActionResult<T> {
-  data: T;
+  data?: T;
   success: boolean;
   error?: string | { message?: string } | null;
   message?: string
@@ -157,7 +157,7 @@ export const unwrap = async <T>(
 ): Promise<T> => {
   const result = await promise;
 
-  if (!result.success) {
+  if (!result.success || !result.data || result.data === null) {
     const error = result.error;
 
     const message =
