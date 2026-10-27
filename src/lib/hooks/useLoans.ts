@@ -1,23 +1,54 @@
 'use client';
 
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery, useMutation, useQueryClient  } from '@tanstack/react-query';
 import { getAllLoans, getDailyRepayments } from '../fetchUtil/loans';
 import { loanQueryKeys } from './queries/keys';
 import { GetLoansParams, RepaymentQuery } from '@/types/domains/loan.types';
+import { approveBusinessLoans, rejectBusinessLoans } from '../manager.actions';
+import { unwrap } from '../api';
+
+type LoanActionInput = {
+  loanId: string;
+};
+
+type RejectLoanInput = LoanActionInput & {
+  reason?: string;
+};
+
 
 
 export const useGetAllLoans = (
-  params: GetLoansParams = {}
+  params: GetLoansParams = {},
 ) => {
+  const duration= params.duration ?? 'all';
+  const isCustom = duration === 'custom';
+
+  const canFetch =
+    !isCustom ||
+    (!!params.startDate &&
+      !!params.endDate &&
+      params.startDate <= params.endDate);
+
+  const queryParams: GetLoansParams = {
+    ...params,
+    duration,
+    ...(isCustom
+      ? {}
+      : {
+          startDate: undefined,
+          endDate: undefined,
+        }),
+  };
+
   return useQuery({
-    queryKey: loanQueryKeys.list(params),
+    queryKey: loanQueryKeys.list(queryParams),
 
     queryFn: async () => {
-      const response = (await getAllLoans(params) as any);
+      const response = await getAllLoans(queryParams) as any;
 
       if (!response || response.error) {
         throw new Error(
-          response?.error || 'Failed to fetch loans'
+          response?.error || 'Failed to fetch loans',
         );
       }
 
@@ -25,11 +56,13 @@ export const useGetAllLoans = (
     },
 
     placeholderData: keepPreviousData,
+    enabled: canFetch,
     staleTime: 30_000,
     refetchOnWindowFocus: false,
     retry: 1,
   });
 };
+
 
 export const useGetDailyRepayment = (
   query: RepaymentQuery = {}
@@ -66,6 +99,49 @@ export const useGetDailyRepayment = (
     staleTime: 30_000,
     refetchOnWindowFocus: false,
     retry: 1,
+  });
+};
+
+
+
+
+const invalidateLoanQueries = async (
+  queryClient: ReturnType<typeof useQueryClient>,
+  loanId: string,
+) => {
+  await Promise.all([
+    queryClient.invalidateQueries({
+      queryKey: ['loans'],
+    }),
+    queryClient.invalidateQueries({
+      queryKey: ['loan', loanId],
+    }),
+  ]);
+};
+
+export const useApproveBusinessLoan = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ loanId }: LoanActionInput) =>
+      unwrap(approveBusinessLoans({ loanId })),
+
+    onSuccess: async (_data, { loanId }) => {
+      await invalidateLoanQueries(queryClient, loanId);
+    },
+  });
+};
+
+export const useRejectBusinessLoan = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ loanId, reason }: RejectLoanInput) =>
+      unwrap(rejectBusinessLoans({ loanId, reason })),
+
+    onSuccess: async (_data, { loanId }) => {
+      await invalidateLoanQueries(queryClient, loanId);
+    },
   });
 };
 

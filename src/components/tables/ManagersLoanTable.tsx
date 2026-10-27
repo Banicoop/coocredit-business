@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { Eye } from 'lucide-react';
 import Typography from '@/components/primitives/Typography';
-import { Loan, LoanFilters, LoanStatus } from '@/types/domains/loan.types';
+import { Loan, LoanDuration, LoanFilters, LoanStatus } from '@/types/domains/loan.types';
 import { PaginationMeta } from '@/types/types';
 import { formatDateTime } from '@/helpers/funcs';
 import { ActionDropdown } from '../ui/ActionDropDown';
@@ -20,6 +20,7 @@ interface ManagersLoanTableProps {
   filters: LoanFilters;
   onSearchChange: (value: string) => void;
   onStatusChange: (value: LoanStatus | 'all') => void;
+  onDurationChange: (value: LoanDuration) => void;
   onDateChange: (
     field: 'startDate' | 'endDate',
     value: string
@@ -45,12 +46,23 @@ const ManagersLoanTable = ({
   onStatusChange,
   onDateChange,
   onResetFilters,
+  onDurationChange,
   onRetry,
 }: ManagersLoanTableProps) => {
 
 
   const columns = useMemo(
     () => [
+      {
+          key: 'index',
+          title: 'S/N',
+          width: '45px',
+          render: (_value: any, _row: any, index: number) => (
+              <Typography color="primary">
+              {index + 1}
+              </Typography>
+          ),
+      },
       {
         key: 'loanProfileId',
         title: 'Applicant',
@@ -141,6 +153,7 @@ const ManagersLoanTable = ({
         title={
           <LoanTableFilters
             filters={filters}
+            onDurationChange={onDurationChange}
             onSearchChange={onSearchChange}
             onStatusChange={onStatusChange}
             onDateChange={onDateChange}

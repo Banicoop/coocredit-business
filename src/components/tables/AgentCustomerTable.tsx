@@ -14,6 +14,16 @@ const AgentCustomerTable = ({data, error, pagination}: {data: any[], error: stri
     const onPageChange = useUrlPagination();
 
     const columns = [
+        {
+          key: 'index',
+          title: 'S/N',
+          width: '45px',
+          render: (_value: any, _row: any, index: number) => (
+              <Typography color="primary">
+              {index + 1}
+              </Typography>
+          ),
+        },
         { key: 'firstName', title: 'First Name' },
         { key: 'lastName', title: 'Last Name' },
         { key: 'phoneNumber', title: 'Phone Number' },

@@ -75,6 +75,7 @@ export interface ApiResponse<TData> {
   error: string | null;
   message?: string;
   status: number;
+  success: boolean;
   headers: Headers;
 }
 

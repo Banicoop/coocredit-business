@@ -5,7 +5,7 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { Grid } from '@/components/ui/ui-layout';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useGetAllLoans } from '@/lib/hooks/useLoans';
-import { LoanStatus } from '@/types/domains/loan.types';
+import { LoanDuration, LoanStatus } from '@/types/domains/loan.types';
 import { useState } from 'react';
 
 
@@ -14,24 +14,25 @@ const LoanApplicationsTab = () => {
   
   const [search, setSearch] = useState('');
   const [status, setStatus] = useState<LoanStatus | 'all'>('all');
+  const [duration, setDuration] = useState<LoanDuration>('all');
+  
 
   const debouncedSearch = useDebounce(search, 500);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  const {
-    data,
-    isPending,
-    isFetching,
-    isError,
-    error,
-    refetch,
-  } = useGetAllLoans({
+  const { data, isPending, isFetching, isError, error, refetch } = useGetAllLoans({
     search: debouncedSearch || undefined,
-    // @ts-ignore
     status: status === 'all' ? undefined : status,
     startDate: startDate || undefined,
     endDate: endDate || undefined,
+    duration,
+    ...(duration === 'custom'
+        ? {
+            startDate: startDate || undefined,
+            endDate: endDate || undefined,
+          }
+        : {}),
   });
 
   const handleStatusChange = (
@@ -56,9 +57,19 @@ const LoanApplicationsTab = () => {
 
   };
 
+  const handleDurationChange = (value: LoanDuration) => {
+    setDuration(value);
+
+    if (value !== 'custom') {
+      setStartDate('');
+      setEndDate('');
+    }
+  };
+
   const resetFilters = () => {
     setSearch('');
     setStatus('all');
+    setDuration('all');
     setStartDate('');
     setEndDate('');
   };
@@ -80,6 +91,7 @@ const LoanApplicationsTab = () => {
             filters={{
               search,
               status,
+              duration,
               startDate,
               endDate,
             }}
@@ -87,6 +99,7 @@ const LoanApplicationsTab = () => {
             onStatusChange={handleStatusChange}
             onDateChange={handleDateChange}
             onResetFilters={resetFilters}
+            onDurationChange={handleDurationChange}
           />
 
     </Grid>
