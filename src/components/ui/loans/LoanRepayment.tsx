@@ -16,7 +16,7 @@ import Typography from "@/components/primitives/Typography";
 
 
 // TYPES
-export type RepaymentStatus =
+export type RepaymentStatus = 'partially_paid'
   | "pending"
   | "late"
   | "paid"
@@ -194,6 +194,14 @@ const LoanRepayment = ({
       bg: "bg-amber-50",
     },
     {
+      title: "Paid Partially",
+      value: formatCurrency(summary.pendingAmount),
+      subtitle: `${summary.pendingCount} partially paid`,
+      icon: Clock3,
+      color: "text-amber-600",
+      bg: "bg-amber-50",
+    },
+    {
       title: "Paid Repayments",
       value: formatCurrency(summary.paidAmount),
       subtitle: `${summary.paidCount} paid payments`,
@@ -220,6 +228,11 @@ const LoanRepayment = ({
       count: summary.pendingCount,
     },
     {
+      label: "Partially Paid",
+      value: "partial",
+      count: 0,
+    },
+    {
       label: "Overdue",
       value: "late",
       count: summary.lateCount,
@@ -233,6 +246,16 @@ const LoanRepayment = ({
 
   // TABLE COLUMNS
   const columns: TableColumn<Repayment>[] = [
+    {
+      key: 'index',
+      title: 'S/N',
+      width: '45px',
+      render: (_value: any, _row: any, index: number) => (
+          <Typography variant='small' color="primary">
+          {index + 1}
+          </Typography>
+      ),
+    },
     {
       key: "dueDate",
       title: "Due Date",
@@ -276,21 +299,21 @@ const LoanRepayment = ({
         <StatusBadge status={row.status} />
       ),
     },
-    {
-      key: "actions",
-      title: "Actions",
-      align: "right",
-      render: (_, row) => (
-        <ActionDropdown
-          actions={[
-            {
-              label: "View Details",
-              href: `${baseHref}/${row._id}`,
-            },
-          ]}
-        />
-      ),
-    },
+    // {
+    //   key: "actions",
+    //   title: "Actions",
+    //   align: "right",
+    //   render: (_, row) => (
+    //     <ActionDropdown
+    //       actions={[
+    //         {
+    //           label: "View Details",
+    //           href: `${baseHref}/${row._id}`,
+    //         },
+    //       ]}
+    //     />
+    //   ),
+    // },
   ];
 
   const RepaymentTitle = () => (
@@ -340,7 +363,7 @@ const LoanRepayment = ({
       </div>
 
       {/* SUMMARY CARDS */}
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-3 xl:grid-cols-5">
         {stats.map((stat) => {
           const Icon = stat.icon;
 
@@ -349,7 +372,7 @@ const LoanRepayment = ({
               key={stat.title}
               className="rounded-xl border border-gray-100 bg-white p-5 shadow-sm"
             >
-              <div className="flex items-start justify-between">
+              {/* <div className="flex items-start justify-between">
                 <div
                   className={`flex h-11 w-11 items-center justify-center rounded-xl ${stat.bg}`}
                 >
@@ -358,7 +381,7 @@ const LoanRepayment = ({
                     className={stat.color}
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div className="mt-5">
                 <p className="text-sm text-gray-500">

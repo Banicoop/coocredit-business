@@ -2,8 +2,8 @@ import { cn } from '@/lib/utils';
 import React, { FC } from 'react';
 
 export interface Option {
-    value: string
-    label: string
+    value: string | number;
+    label: string | number
 }
   
 interface SelectProps {

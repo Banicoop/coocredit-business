@@ -23,6 +23,8 @@ const AdminSignInPage = () => {
 
   const [state, formAction, isPending] = useActionState(adminLogin, initialState);
 
+  console.log('err:', state.error)
+
   useEffect(() => {
     if(state.error){
       toast.error(state.error);

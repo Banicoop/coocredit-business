@@ -58,13 +58,13 @@ const ManagersLoanTable = ({
           title: 'S/N',
           width: '45px',
           render: (_value: any, _row: any, index: number) => (
-              <Typography color="primary">
+              <Typography variant='small' color="primary">
               {index + 1}
               </Typography>
           ),
       },
       {
-        key: 'loanProfileId',
+        key: 'user',
         title: 'Applicant',
         render: (val: Loan['loanProfileId']) => (
           <Typography>
