@@ -23,6 +23,8 @@ const LoanRepaymentHistory = async ({params}: IDParam) => {
         </FlexCol>
       );
     }
+
+    console.info('repayment:', repayment);
   
   return (
     <FlexCol className='gap-6'>

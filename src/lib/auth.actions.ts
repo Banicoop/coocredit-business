@@ -31,10 +31,11 @@ export const adminLogin = async (_prevState: ActionState, formData: FormData): P
       { email, password }
     );
 
-    const response = result.data;
+    const response = result?.data;
 
     if (!response) {
       return {
+        message: result.message,
         error: result.error ?? 'Login failed: Please try again later',
         success: false,
       };
@@ -190,10 +191,7 @@ export const agentSignIn = async (
     });
 
     cookieStore.set('role', data.user.role, {
-      httpOnly: false, 
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
+      ...cookieOptions,
       maxAge: 60 * 60 * 24 * 7,
     });
 

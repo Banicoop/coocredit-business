@@ -24,6 +24,8 @@ const LoanDetails = async ({params}: IDParam) => {
       </FlexCol>
     );
   }
+
+  console.info('loan:', loan);
   
 
   const history = [...(loan.history ?? [])].sort(
@@ -112,9 +114,9 @@ const LoanDetails = async ({params}: IDParam) => {
           {/* <div className="flex flex-col gap-6"> */}
             <Card title="Loan details">
               <FieldGrid>
-                <Field label="Business ID" value={loan.businessId} mono />
-                <Field label="Applicant" value={`${loan.loanProfileId.firstName} ${loan.loanProfileId.lastName}`} mono />
-                <Field label="Business Segment" value={titleCase(loan.loanProfileId.businessSegment)} mono />
+                {/* <Field label="Business ID" value={loan.businessId} mono /> */}
+                <Field label="Applicant" value={`${loan.loanProfile.firstName} ${loan.loanProfile.lastName}`} mono />
+                <Field label="Business Segment" value={titleCase(loan.loanProfile.businessSegment)} mono />
                 <Field label="Purpose" value={loan.purpose} />
                 {/* <Field label="Priority" value={titleCase(loan.priority)} /> */}
                 <Field label="Wallet name" value={loan.walletName} />

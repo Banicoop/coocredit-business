@@ -4,7 +4,7 @@ import { ProgressBar } from '../ui/ProgessBar'
 import { Flex } from '../ui/ui-layout'
 import Typography from '../primitives/Typography'
 import { ActionDropdown } from '../ui/ActionDropDown'
-import { Eye } from 'lucide-react'
+import { Eye, Plus } from 'lucide-react'
 import { BasicTable } from '../primitives/tables/BasicTable'
 import { PaginationMeta } from '@/types/types';
 import { useUrlPagination } from '@/hooks/useUrlPagination.';
@@ -12,6 +12,8 @@ import { useUrlPagination } from '@/hooks/useUrlPagination.';
 const AgentCustomerTable = ({data, error, pagination}: {data: any[], error: string, pagination?: PaginationMeta}) => {
 
     const onPageChange = useUrlPagination();
+
+    console.info('data:', data);
 
     const columns = [
         {
@@ -40,16 +42,24 @@ const AgentCustomerTable = ({data, error, pagination}: {data: any[], error: stri
             )},
         },
         {
-            key: 'userId',
+            key: '_id',
             title: 'Actions',
             render: (id: string) => (
             <ActionDropdown
                 actions={[
-                { 
-                    label: 'View Details', 
-                    href: `/agent/customers/${id}`, 
-                    variant: 'primary', icon: Eye },
+                    { 
+                        label: 'New Loan', 
+                        href: `/agent/customers/${id}/loans/new`, 
+                        variant: 'primary', 
+                        icon: Plus
+                    },
+                    { 
+                        label: 'View Details', 
+                        href: `/agent/customers/${id}`, 
+                        variant: 'primary', icon: Eye 
+                    },
                 ]}
+                
             />
             ),
         },

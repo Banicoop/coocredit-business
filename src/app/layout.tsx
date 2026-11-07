@@ -9,12 +9,14 @@ const manrope = Manrope({
   variable: '--font-manrope-face',
   subsets: ['latin'],
   style: ['normal'],
+  display: "swap",
   weight: ['300', '400', '500', '600', '700', '800']
 })
 
 const poppins = Poppins({
   variable: '--font-poppins-face',
   subsets: ['latin'],
+  display: "swap",
   style: ['italic', 'normal'],
   weight: ['300', '400', '500', '600', '700', '800']
 })
@@ -23,6 +25,7 @@ const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
   style: ['normal', 'italic'],
+  display: "swap",
   weight: ['300', '400', '500', '600', '700', '800']
 })
 
@@ -30,6 +33,7 @@ export const katibeh = Katibeh({
     variable: '--font-katibeh-face',
     weight: ['400'],
     subsets: ['latin'],
+    display: "swap",
     style: "normal"
 })
 

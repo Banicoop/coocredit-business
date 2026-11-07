@@ -36,6 +36,15 @@ const CustomersTable = ({
 
 
   const columns = [
+    {
+        key: 'index',
+        title: 'S/N',
+        render: (_value: any, _row: any, index: number) => (
+            <Typography variant='small' color="primary">
+            {index + 1}
+            </Typography>
+        ),
+    },
     { key: 'firstName', title: 'First Name' },
     { key: 'lastName', title: 'Last Name' },
     { key: 'phoneNumber', title: 'Phone Number' },
