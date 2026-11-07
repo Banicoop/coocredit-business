@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -12,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   LoanApplicationPayload,
   loanApplicationSchema,
+  LoanApplicationValidatedPayload,
 } from "@/types/domains/loan.types";
 
 import GuarantorFields from "../../../_sections/GuarantorFields";
@@ -63,7 +63,11 @@ const STEP_FIELDS: FieldPath<LoanApplicationPayload>[][] = [
 const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplicationProps) => {
   const [currentStep, setCurrentStep] = useState(0);
 
-  const methods = useForm<LoanApplicationPayload>({
+  const methods = useForm<
+    LoanApplicationPayload,
+    any,
+    LoanApplicationValidatedPayload
+  >({
     resolver: zodResolver(loanApplicationSchema),
     shouldUnregister: false,
     mode: "onTouched",
@@ -91,6 +95,8 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
     },
   });
 
+
+
   const {
     register,
     handleSubmit,
@@ -111,7 +117,7 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
       shouldFocus: true,
     });
 
-    if (!isValid) return;
+    // if (!isValid) return;
 
     setCurrentStep((prev) => Math.min(prev + 1, STEPS.length - 1));
   };
@@ -124,16 +130,14 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
     await onSubmit(data);
   };
 
-  const handleFormSubmit = (
-    event: React.FormEvent<HTMLFormElement>
-  ) => {
+  const handleFormSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (!isLastStep) {
-      event.preventDefault();
       void goNext();
       return;
     }
 
-    void handleSubmit(submitApplication)(event);
+    // void handleSubmit(submitApplication)(event);
   };
 
   const formatCurrency = (value: string | number) => {
@@ -430,6 +434,7 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
                         7: "Weekly",
                         14: "Every 14 Days",
                         30: "Monthly",
+                        
                       }[formValues.repaymentFrequency] ?? "Not specified"
                     }
                   />

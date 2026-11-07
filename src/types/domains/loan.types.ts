@@ -188,7 +188,7 @@ export interface RepaymentListingResponse {
 
 
 export const guarantorSchema = z.object({
-  email: z.string().email("Enter a valid email address"),
+  email: z.email("Enter a valid email address"),
   fullName: z.string().min(3, "Full name must be at least 3 characters"),
   relationship: z.string().min(1, "Select a relationship"),
   phoneNumber: z.string().min(10, "Enter a valid phone number"),
@@ -211,7 +211,7 @@ export const loanApplicationSchema = z.object({
 
   loanTenure: z.coerce.number().min(1, "Select a loan tenure"),
 
-  repaymentFrequency: z.coerce
+  repaymentFrequency: z
     .number()
     .min(1, "Select a repayment frequency"),
 
@@ -228,7 +228,11 @@ export const loanApplicationSchema = z.object({
     .max(3, "You can add a maximum of three guarantors"),
 });
 
-export type LoanApplicationPayload = z.infer<
+export type LoanApplicationPayload = z.input<
+  typeof loanApplicationSchema
+>;
+
+export type LoanApplicationValidatedPayload = z.output<
   typeof loanApplicationSchema
 >;
 
