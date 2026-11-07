@@ -77,6 +77,7 @@ const statusStyles: Record<RepaymentStatus, string> = {
   completed: "bg-emerald-50 text-emerald-700 border-emerald-200",
   partial: "bg-blue-50 text-blue-700 border-blue-200",
   failed: "bg-gray-100 text-gray-700 border-gray-200",
+  partially_paid: 'bg-blue-50 text-blue-700 border-blue-200',
 };
 
 const StatusBadge = ({ status }: { status: RepaymentStatus }) => (
@@ -129,6 +130,10 @@ const LoanRepayment = ({
 
     const paid = repaymentData.filter((item) =>
       ["paid", "completed"].includes(item.status)
+    );
+
+    const partiallyPaid = repaymentData.filter(
+      (item) => item.status === "partially_paid"
     );
 
     return {
