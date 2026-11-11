@@ -3,7 +3,7 @@
 import Typography from '@/components/primitives/Typography';
 import Image from 'next/image';
 import { useActionState, useEffect } from 'react';
-import { LockKeyhole, SendHorizontal, Shield, UserRound } from 'lucide-react';
+import { LockKeyhole, PhoneForwarded, SendHorizontal, Shield } from 'lucide-react';
 import Button from '@/components/primitives/buttons/Button';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import Link from 'next/link';
@@ -12,7 +12,7 @@ import logo from '@/assets/svgs/logo.svg';
 import { useUserStore } from '@/store/useAuthStore';
 import { toast } from 'sonner';
 import {  agentSignIn } from '@/lib/auth.actions';
-import { ActionState, User } from '@/types/types';
+import { ActionState } from '@/types/types';
 
 
 const initialState: ActionState = { error: null, success: false };
@@ -71,7 +71,7 @@ const SignInPage = () => {
             </Typography>
 
             <TextField
-              startIcon={<UserRound size={18} />}
+              startIcon={<PhoneForwarded size={18} />}
               placeholder='Agent ID or Phone Number'
               id='phoneNumber'
               name='phoneNumber'
@@ -104,7 +104,7 @@ const SignInPage = () => {
                 <label className='text-xs md:text-sm'>Keep me active</label>
               </div>
 
-              <Link href='/auth/forgot-password' className='text-primary font-semibold text-xs italic'>
+              <Link href='#' className='text-primary font-semibold text-xs italic'>
                 Forget Password
               </Link>
             </div>

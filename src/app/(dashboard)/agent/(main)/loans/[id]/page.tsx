@@ -33,7 +33,9 @@ const LoanDetails = async ({ params }: IDParam) => {
 
   const userId = loanDetails?.data?.userId
   const repaymentRes =  (await  agentGetLoanRepayment(id)) as any;
-  const customerRes = (await agentGetBusinessCustomersDetails(userId) as any)
+  const customerRes = (await agentGetBusinessCustomersDetails(userId) as any);
+
+  // console.log('repayments:', repaymentRes?.summary);
 
   
   const data = loanDetails?.data
@@ -41,6 +43,8 @@ const LoanDetails = async ({ params }: IDParam) => {
   
   const guarantoRres = (await agentGuarantorInfo(data?.loanId)) as any
   // console.info('guarantors:', guarantors);
+
+  console.info('docs:', data?.loanDocuments);
 
   const tabs = [
     {
@@ -52,8 +56,8 @@ const LoanDetails = async ({ params }: IDParam) => {
       content: <LoanDocument 
       documents={documents} 
       signature={signature.data} 
-      loanDocuments={data?.loanDocuments}
-      businessId={data?.businessId}/>
+      loanDocuments={data?.loanDocuments ?? []}
+      businessId={id}/>
     },
     {
       label: 'Guarantor',
@@ -72,11 +76,11 @@ const LoanDetails = async ({ params }: IDParam) => {
     },
     {
       label: 'Repayment',
-      content: <LoanRepayment repayments={repaymentRes?.data}/>
+      content: <LoanRepayment repayments={repaymentRes?.data} summary={repaymentRes?.summary}/>
     },
     // {
     //   label: 'Timeline',
-    //   content: <LoanTimeline />
+    //   content: <LoanTimeline />Res
     // },
     // {
     //   label: 'Notes',

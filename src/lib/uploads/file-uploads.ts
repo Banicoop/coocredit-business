@@ -41,9 +41,9 @@ export const uploadToCloudinary = async ({cloudName, apiKey, signature, timestam
 }
 
 
-export const addBusinessDocument = async ({ businessId, verificationDocument }: {
-  businessId: string;
-  verificationDocument: {
+export const addBusinessDocument = async ({ loanId, loanRequestDocument }: {
+  loanId: string;
+  loanRequestDocument: {
     type: string;
     url: string;
     mime: string;
@@ -52,12 +52,12 @@ export const addBusinessDocument = async ({ businessId, verificationDocument }: 
    const token = await getAccessToken();
   try {
     const response = await SERVER.post('business-users/loans/documents/add', {
-        businessId,
-        verificationDocument,
+        loanId,
+        loanRequestDocument,
       }, { token }
     );
     console.log('addBusinessDocument response:', response);
-    return response.data;
+    return response;
   } catch (error) {
     console.error('Error adding business verification document:', error);
     throw error;

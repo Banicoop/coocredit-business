@@ -13,47 +13,10 @@ import { Grid } from "@/components/ui/ui-layout";
 import { ActionDropdown } from "@/components/ui/ActionDropDown";
 import { BasicTable, TableColumn } from "@/components/primitives/tables/BasicTable";
 import Typography from "@/components/primitives/Typography";
+import { FilterStatus, LoanRepaymentProps, Repayment, RepaymentStatus } from "@/types/domains/loan.types";
 
 
-// TYPES
-export type RepaymentStatus = 'partially_paid'
-  | "pending"
-  | "late"
-  | "paid"
-  | "completed"
-  | "partial"
-  | "failed";
 
-export interface Repayment {
-  _id: string;
-  userId: string;
-  repaymentId: string;
-  loanId: string;
-  appliedBy: string;
-  dueDate: string;
-  amount: number;
-  accruedAmount: number;
-  status: RepaymentStatus;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface RepaymentResponse {
-  data: Repayment[];
-  meta: {
-    total: number;
-    page: number;
-    size: number;
-    totalPages: number;
-  };
-}
-
-interface LoanRepaymentProps {
-  repayments: RepaymentResponse;
-  href: string;
-}
-
-type FilterStatus = "all" | RepaymentStatus;
 
 const formatCurrency = (amount: number) =>
   new Intl.NumberFormat("en-NG", {
@@ -104,6 +67,7 @@ const StatusBadge = ({ status }: { status: RepaymentStatus }) => (
 const LoanRepayment = ({
   repayments,
   href,
+  summary
 }: LoanRepaymentProps) => {
   const [statusFilter, setStatusFilter] =
     useState<FilterStatus>("all");
@@ -113,49 +77,49 @@ const LoanRepayment = ({
   // NORMALIZE URL
   const baseHref = href.replace(/\/+$/, "");
 
-  // SUMMARY
-  const summary = useMemo(() => {
-    const totalAmount = repaymentData.reduce(
-      (sum, item) => sum + item.amount,
-      0
-    );
+  // // SUMMARY
+  // const summary = useMemo(() => {
+  //   const totalAmount = repaymentData.reduce(
+  //     (sum, item) => sum + item.amount,
+  //     0
+  //   );
 
-    const late = repaymentData.filter(
-      (item) => item.status === "late"
-    );
+  //   const late = repaymentData.filter(
+  //     (item) => item.status === "late"
+  //   );
 
-    const pending = repaymentData.filter(
-      (item) => item.status === "pending"
-    );
+  //   const pending = repaymentData.filter(
+  //     (item) => item.status === "pending"
+  //   );
 
-    const paid = repaymentData.filter((item) =>
-      ["paid", "completed"].includes(item.status)
-    );
+  //   const paid = repaymentData.filter((item) =>
+  //     ["paid", "completed"].includes(item.status)
+  //   );
 
-    const partiallyPaid = repaymentData.filter(
-      (item) => item.status === "partially_paid"
-    );
+  //   const partiallyPaid = repaymentData.filter(
+  //     (item) => item.status === "partially_paid"
+  //   );
 
-    return {
-      totalAmount,
-      totalCount: repaymentData.length,
-      lateCount: late.length,
-      lateAmount: late.reduce(
-        (sum, item) => sum + item.amount,
-        0
-      ),
-      pendingCount: pending.length,
-      pendingAmount: pending.reduce(
-        (sum, item) => sum + item.amount,
-        0
-      ),
-      paidCount: paid.length,
-      paidAmount: paid.reduce(
-        (sum, item) => sum + item.amount,
-        0
-      ),
-    };
-  }, [repaymentData]);
+  //   return {
+  //     totalAmount,
+  //     totalCount: repaymentData.length,
+  //     lateCount: late.length,
+  //     lateAmount: late.reduce(
+  //       (sum, item) => sum + item.amount,
+  //       0
+  //     ),
+  //     pendingCount: pending.length,
+  //     pendingAmount: pending.reduce(
+  //       (sum, item) => sum + item.amount,
+  //       0
+  //     ),
+  //     paidCount: paid.length,
+  //     paidAmount: paid.reduce(
+  //       (sum, item) => sum + item.amount,
+  //       0
+  //     ),
+  //   };
+  // }, [repaymentData]);
 
   // FILTER + SORT
   const filteredRepayments = useMemo(() => {

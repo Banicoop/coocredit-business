@@ -45,7 +45,7 @@ const LoanApplicationTable = ({data, error, pagination}: {data: any, error: stri
 
     const columns = [
         {
-            key: 'loanProfileId',
+            key: 'loanProfile',
             title: 'Applicant',
             render: (val: any) => (
                 <Typography>{`${val?.firstName} ${val?.lastName}`}</Typography>

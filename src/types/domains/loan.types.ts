@@ -79,13 +79,21 @@ export type RepaymentTimeframe =
   | 'last30days'
   | 'custom';
 
-export type RepaymentStatus =
-  | 'pending'
-  | 'paid'
-  | 'late'
-  | 'partially_paid'
-  | 'all';
+// export type RepaymentStatus =
+//   | 'pending'
+//   | 'paid'
+//   | 'late'
+//   | 'partially_paid'
+//   | 'all';
 
+  export type RepaymentStatus = 'partially_paid'
+  | "pending"
+  | "late"
+  | "paid"
+  | "completed"
+  | "partial"
+  | "failed";
+  
 export type RepaymentSortBy =
   | 'dueDate'
   | 'amount'
@@ -237,3 +245,64 @@ export type LoanApplicationValidatedPayload = z.output<
 >;
 
 export type GuarantorInput = z.infer<typeof guarantorSchema>;
+
+
+export interface Repayment {
+  _id: string;
+  userId: string;
+  repaymentId: string;
+  loanId: string;
+  appliedBy: string;
+  dueDate: string;
+  amount: number;
+  accruedAmount: number;
+  status: RepaymentStatus;
+  createdAt: string;
+  updatedAt: string;
+}
+
+
+export interface repaymentSummary {
+  totalRepayments: string;
+  totalRepaymentAmount: string;
+  totalPaid: string;
+  totalPaidAmount: string;
+  totalOverdue: string;
+  totalOverdueAmount: string;
+  totalPartiallyPaid: string,
+  totalPartiallyPaidAmount: string;
+  totalPending: string;
+  totalPendingAmount: string;
+  totalRepaymentsAmount: string;
+  paidRepaymentsCount:string;
+  paidRepaymentsAmount: string;
+  overdueRepaymentsCount:string;
+  overdueRepaymentsAmount:string;
+  pendingRepaymentsCount: string;
+  pendingRepaymentsAmount: string;
+  totalRepayment: string;
+  totalDueAmount: string;
+  totalCollectedAmount: string;
+  totalCount: string,
+  paidCount: string,
+  pendingCount: string
+}
+
+export interface RepaymentResponse {
+  data: Repayment[];
+  meta: {
+    total: number;
+    page: number;
+    size: number;
+    totalPages: number;
+  };
+}
+
+export interface LoanRepaymentProps {
+  repayments: RepaymentResponse;
+  href: string;
+  summary: any
+}
+
+export type FilterStatus = "all" | RepaymentStatus;
+
