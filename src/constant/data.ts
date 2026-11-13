@@ -63,3 +63,22 @@ export const recentActivities = [
     }
 ];
 
+
+export const LOAN_APPLICATION_STEPS = [
+  {
+    title: "PIN Verification",
+    description: "Verify the agent and customer before proceeding.",
+  },
+  {
+    title: "Loan Details",
+    description: "Provide the loan amount and repayment information.",
+  },
+  {
+    title: "Guarantors",
+    description: "Provide information about the customer's guarantor(s).",
+  },
+  {
+    title: "Review & Submit",
+    description: "Review the application details before submission.",
+  },
+];
