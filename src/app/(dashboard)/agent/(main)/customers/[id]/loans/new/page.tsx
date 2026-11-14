@@ -14,7 +14,7 @@ const LoanApplicationPage = () => {
     <FlexCol className="gap-6">
         <BackButton label='Back'/>
 
-        <NewLoanApplication userId={id} businessId="" onSubmit={() => {}}/>
+        <NewLoanApplication userId={id} businessId="" onSubmit={async() => {}}/>
     </FlexCol>
   )
 }

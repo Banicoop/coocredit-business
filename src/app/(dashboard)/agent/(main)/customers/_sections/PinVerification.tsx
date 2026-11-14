@@ -55,7 +55,6 @@ const PinVerification = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
       <section className="rounded-xl border border-gray-200 bg-white p-6">
         {/* Header */}
         <div className="mb-6 flex items-start gap-3">
@@ -131,7 +130,7 @@ const PinVerification = ({
               />
 
               <input
-                id="customerPin"
+                id="pin"
                 type="password"
                 inputMode="numeric"
                 autoComplete="new-password"
@@ -178,7 +177,7 @@ const PinVerification = ({
         {/* Submit */}
         <div className="mt-6">
           <Button
-            type="submit"
+            onClick={handleSubmit(onSubmit)}
             variant="primary"
             disabled={isPending || isSubmitting || !userId}
             loading={isPending || isSubmitting}
@@ -191,7 +190,6 @@ const PinVerification = ({
           </Button>
         </div>
       </section>
-    </form>
   );
 };
 

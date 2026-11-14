@@ -74,52 +74,8 @@ const LoanRepayment = ({
 
   const repaymentData = repayments?.data ?? [];
 
-  // NORMALIZE URL
-  const baseHref = href.replace(/\/+$/, "");
+  console.info('l:', summary);
 
-  // // SUMMARY
-  // const summary = useMemo(() => {
-  //   const totalAmount = repaymentData.reduce(
-  //     (sum, item) => sum + item.amount,
-  //     0
-  //   );
-
-  //   const late = repaymentData.filter(
-  //     (item) => item.status === "late"
-  //   );
-
-  //   const pending = repaymentData.filter(
-  //     (item) => item.status === "pending"
-  //   );
-
-  //   const paid = repaymentData.filter((item) =>
-  //     ["paid", "completed"].includes(item.status)
-  //   );
-
-  //   const partiallyPaid = repaymentData.filter(
-  //     (item) => item.status === "partially_paid"
-  //   );
-
-  //   return {
-  //     totalAmount,
-  //     totalCount: repaymentData.length,
-  //     lateCount: late.length,
-  //     lateAmount: late.reduce(
-  //       (sum, item) => sum + item.amount,
-  //       0
-  //     ),
-  //     pendingCount: pending.length,
-  //     pendingAmount: pending.reduce(
-  //       (sum, item) => sum + item.amount,
-  //       0
-  //     ),
-  //     paidCount: paid.length,
-  //     paidAmount: paid.reduce(
-  //       (sum, item) => sum + item.amount,
-  //       0
-  //     ),
-  //   };
-  // }, [repaymentData]);
 
   // FILTER + SORT
   const filteredRepayments = useMemo(() => {
@@ -140,7 +96,7 @@ const LoanRepayment = ({
   const stats = [
     {
       title: "Total Scheduled",
-      value: formatCurrency(summary.totalAmount),
+      value: formatCurrency(summary.totalRepaymentsAmount),
       subtitle: `${summary.totalCount} repayments`,
       icon: Wallet,
       color: "text-blue-600",
@@ -148,15 +104,15 @@ const LoanRepayment = ({
     },
     {
       title: "Overdue Repayments",
-      value: formatCurrency(summary.lateAmount),
-      subtitle: `${summary.lateCount} overdue payments`,
+      value: formatCurrency(summary.totalOverdueAmount),
+      subtitle: `${summary.totalOverdue} overdue payments`,
       icon: AlertCircle,
       color: "text-red-600",
       bg: "bg-red-50",
     },
     {
       title: "Pending Repayments",
-      value: formatCurrency(summary.pendingAmount),
+      value: formatCurrency(summary.pendingRepaymentsAmount),
       subtitle: `${summary.pendingCount} pending payments`,
       icon: Clock3,
       color: "text-amber-600",
@@ -164,15 +120,15 @@ const LoanRepayment = ({
     },
     {
       title: "Paid Partially",
-      value: formatCurrency(summary.pendingAmount),
-      subtitle: `${summary.pendingCount} partially paid`,
+      value: formatCurrency(summary.totalPartiallyPaidAmount),
+      subtitle: `${summary.totalPartiallyPaid} partially paid`,
       icon: Clock3,
       color: "text-amber-600",
       bg: "bg-amber-50",
     },
     {
-      title: "Paid Repayments",
-      value: formatCurrency(summary.paidAmount),
+      title: "Paid Amount",
+      value: formatCurrency(summary.totalPaidAmount),
       subtitle: `${summary.paidCount} paid payments`,
       icon: CheckCircle2,
       color: "text-emerald-600",
