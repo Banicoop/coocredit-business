@@ -7,7 +7,8 @@ import { loanQueryKeys } from './queries/keys';
 import { GetLoansParams, RepaymentQuery } from '@/types/domains/loan.types';
 import { approveBusinessLoans, rejectBusinessLoans } from '../manager.actions';
 import { unwrap } from '../api';
-import { verifyLoanPins, VerifyLoanPinsPayload } from "../agent.actions";
+import { verifyLoanPin, VerifyLoanPinPayload } from "../agent.actions";
+
 
 type LoanActionInput = {
   loanId: string;
@@ -148,12 +149,12 @@ export const useRejectBusinessLoan = () => {
 };
 
 
-export function useVerifyLoanPins() {
+export function useVerifyLoanPin() {
   return useMutation({
-    mutationKey: ["loans", "verify-pins"],
+    mutationKey: ["loans", "verify-pin"],
 
-    mutationFn: async (payload: VerifyLoanPinsPayload) => {
-      const res = await verifyLoanPins(payload);
+    mutationFn: async (payload: VerifyLoanPinPayload) => {
+      const res = await verifyLoanPin(payload);
 
       if (!res.success) {
         throw new Error(res.error);
@@ -167,4 +168,3 @@ export function useVerifyLoanPins() {
     },
   });
 }
-

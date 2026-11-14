@@ -115,7 +115,7 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
       return;
     }
 
-    // void handleSubmit(submitApplication)(event);
+    void handleSubmit(submitApplication)(event);
   };
 
   const formatCurrency = (value: string | number) => {
@@ -127,7 +127,7 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
 
   return (
     <FormProvider {...methods}>
-      <div className="mx-auto max-w-5xl space-y-6 pb-10">
+      <div className="mx-auto space-y-6 pb-10">
 
         {/* Page Header */}
         <div>
@@ -262,6 +262,8 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
                   })}
                   options={[
                     { value: 1, label: "Daily" },
+                    { value: 2, label: "Two days" },
+                    { value: 1, label: "Three days" },
                     { value: 7, label: "Weekly" },
                     { value: 14, label: "Every 14 Days" },
                     { value: 30, label: "Monthly" },

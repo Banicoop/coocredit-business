@@ -42,6 +42,20 @@ export const loanApplicationSchema = z.object({
     .max(3, "You can add a maximum of three guarantors"),
 });
 
+export const agentPinSchema = z.object({
+  agentPin: z
+    .string()
+    .length(6, "Agent PIN must be 6 digits.")
+    .regex(/^\d{6}$/, "PIN must contain only numbers."),
+});
+
+export const customerPinSchema = z.object({
+  customerPin: z
+    .string()
+    .length(6, "Customer PIN must be 6 digits.")
+    .regex(/^\d{6}$/, "PIN must contain only numbers."),
+});
+
 export const pinVerificationSchema = z.object({
   agentPin: z
     .string()

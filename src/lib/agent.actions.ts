@@ -5,77 +5,67 @@ import { getAccessToken } from "./auth.actions";
 import { LoanApplicationPayload } from "@/schema/loan.schema";
 
 
-export type VerifyLoanPinsPayload = {
-  userId: string;
-  customerPin: string;
-  agentPin: string;
-};
-
-export const verifyLoanPins = async ({
-  userId,
-  customerPin,
-  agentPin,
-}: VerifyLoanPinsPayload) => {
-  if (!userId || !customerPin || !agentPin) {
-    return {
-      success: false,
-      error: "Customer ID and both PINs are required.",
+export type VerifyLoanPinPayload =
+  | {
+      type: "AGENT";
+      pin: string;
+    }
+  | {
+      type: "CUSTOMER";
+      pin: string;
+      userId: string;
     };
-  }
 
+
+export const verifyLoanPin = async (
+  payload: VerifyLoanPinPayload
+) => {
   const token = await getAccessToken();
 
   try {
-    const [customer, agent] = await Promise.all([
-      SERVER.post(
-        "business-users/auth/verify-pin",
-        { pin: customerPin, userId },
-        { token }
-      ),
+    const endpoint =
+      payload.type === "AGENT"
+        ? "agents/auth/verify-pin"
+        : "business-users/auth/verify-pin";
 
-      SERVER.post(
-        "agents/auth/verify-pin",
-        { pin: agentPin },
-        { token }
-      ),
-    ]);
+    const body =
+      payload.type === "AGENT"
+        ? { pin: payload.pin }
+        : {
+            pin: payload.pin,
+            userId: payload.userId,
+          };
 
-    console.info('customer:', customer);
-    console.info('agent:', agent);
+    const response = await SERVER.post(
+      endpoint,
+      body,
+      { token }
+    );
 
-
-    // Check both verification responses.
-    if (customer.error || agent.error) {
+    if (response.error || !response.data) {
       return {
-        success: false,
-        error:
-          customer.error ||
-          agent.error ||
-          "PIN verification failed.",
+        success: false as const,
+        error: response.error || "PIN verification failed.",
       };
     }
 
     return {
-      success: true,
-      message: "Both PINs verified successfully.",
-      data: {
-        customer: customer.data,
-        agent: agent.data,
-      },
+      success: true as const,
+      message: `${payload.type === "AGENT" ? "Agent" : "Customer"} PIN verified successfully.`,
+      data: response.data,
     };
   } catch (error: unknown) {
     console.error("LOAN PIN VERIFICATION ERROR:", error);
 
     return {
-      success: false,
+      success: false as const,
       error:
         error instanceof Error
           ? error.message
-          : "Unable to verify PINs. Please try again.",
+          : "Unable to verify PIN. Please try again.",
     };
   }
 };
-
 
 
 export const newLoan = async (payload: LoanApplicationPayload) => {
