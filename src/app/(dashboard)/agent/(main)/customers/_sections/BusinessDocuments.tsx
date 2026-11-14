@@ -245,13 +245,13 @@ const BusinessDocuments = ({ business, documents, signature }: { business: any; 
          *
          * Replace this with your actual API function.
          */
-        await addBusinessDocument({ businessId: document.businessId,
-          verificationDocument: {
-            type: document.slug,
-            url: cloudinaryUrl,
-            mime: document.file.type,
-          }, 
-        });
+        // await addBusinessDocument({ businessId: document.businessId,
+        //   verificationDocument: {
+        //     type: document.slug,
+        //     url: cloudinaryUrl,
+        //     mime: document.file.type,
+        //   }, 
+        // });
         /**
          * Mark as uploaded.
          */

@@ -4,7 +4,7 @@ import { Tabs2 } from '@/components/ui/Tabs2';
 import CustomersTab from './(tabs)/CustomersTab';
 import LeadToReview from './(tabs)/LeadToReview';
 import { useGetAllCustomers, useGetAllLeads } from '@/lib/hooks/useCustomers';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
 
 
@@ -12,13 +12,19 @@ import { useDebounce } from '@/hooks/useDebounce';
 const CustomersPage =  () => {
   const [search, setSearch] = useState('');
   const [searchLead, setSearchLead] = useState('');
+  const [page, setPage] = useState(1);
 
   
   const debouncedSearch = useDebounce(search, 500);
 
   const { data, error, isPending, isFetching, isError } = useGetAllCustomers({
-    search: debouncedSearch || undefined,
-  });
+    search: debouncedSearch || undefined, page
+  }) as any;
+
+  // Reset to page 1 when the search changes
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch]);
 
   const { data: leadsData, error: leadsError, isPending: leadsPending, isFetching: leadsFetching, isError: leadsisError } = useGetAllLeads({
     searchLead: debouncedSearch || undefined,
@@ -42,6 +48,9 @@ const CustomersPage =  () => {
         search={search}
         onSearchChange={handleSearchChange}
         isLoading={isPending}
+        onPageChange={(page) => {
+          setPage(page);
+        }}
         isFetching={isFetching}
         error={isError ? error.message : undefined} 
         pagination={data?.pagination}/>

@@ -79,13 +79,21 @@ export type RepaymentTimeframe =
   | 'last30days'
   | 'custom';
 
-export type RepaymentStatus =
-  | 'pending'
-  | 'paid'
-  | 'late'
-  | 'partially_paid'
-  | 'all';
+// export type RepaymentStatus =
+//   | 'pending'
+//   | 'paid'
+//   | 'late'
+//   | 'partially_paid'
+//   | 'all';
 
+  export type RepaymentStatus = 'partially_paid'
+  | "pending"
+  | "late"
+  | "paid"
+  | "completed"
+  | "partial"
+  | "failed";
+  
 export type RepaymentSortBy =
   | 'dueDate'
   | 'amount'
@@ -187,53 +195,65 @@ export interface RepaymentListingResponse {
 }
 
 
-export const guarantorSchema = z.object({
-  email: z.email("Enter a valid email address"),
-  fullName: z.string().min(3, "Full name must be at least 3 characters"),
-  relationship: z.string().min(1, "Select a relationship"),
-  phoneNumber: z.string().min(10, "Enter a valid phone number"),
-  bvn: z
-    .string()
-    .length(11, "BVN must contain exactly 11 digits")
-    .regex(/^\d+$/, "BVN must contain only numbers"),
-});
 
-export const loanApplicationSchema = z.object({
-  businessId: z.string().min(1, "Business is required"),
-  userId: z.string().min(1, "Customer is required"),
 
-  amount: z
-    .string()
-    .min(1, "Loan amount is required")
-    .refine((value) => Number(value) > 0, "Amount must be greater than zero"),
 
-  excludeWeekends: z.boolean(),
+export interface Repayment {
+  _id: string;
+  userId: string;
+  repaymentId: string;
+  loanId: string;
+  appliedBy: string;
+  dueDate: string;
+  amount: number;
+  accruedAmount: number;
+  status: RepaymentStatus;
+  createdAt: string;
+  updatedAt: string;
+}
 
-  loanTenure: z.coerce.number().min(1, "Select a loan tenure"),
 
-  repaymentFrequency: z
-    .number()
-    .min(1, "Select a repayment frequency"),
+export interface repaymentSummary {
+  totalRepayments: string;
+  totalRepaymentAmount: string;
+  totalPaid: string;
+  totalPaidAmount: string;
+  totalOverdue: string;
+  totalOverdueAmount: string;
+  totalPartiallyPaid: string,
+  totalPartiallyPaidAmount: string;
+  totalPending: string;
+  totalPendingAmount: string;
+  totalRepaymentsAmount: string;
+  paidRepaymentsCount:string;
+  paidRepaymentsAmount: string;
+  overdueRepaymentsCount:string;
+  overdueRepaymentsAmount:string;
+  pendingRepaymentsCount: string;
+  pendingRepaymentsAmount: string;
+  totalRepayment: string;
+  totalDueAmount: string;
+  totalCollectedAmount: string;
+  totalCount: string,
+  paidCount: string,
+  pendingCount: string
+}
 
-  purpose: z.string().min(3, "Enter the loan purpose"),
+export interface RepaymentResponse {
+  data: Repayment[];
+  meta: {
+    total: number;
+    page: number;
+    size: number;
+    totalPages: number;
+  };
+}
 
-  pinVerificationToken: z.object({
-    agent: z.string().min(1, "Agent PIN verification is required"),
-    customer: z.string().min(1, "Customer PIN verification is required"),
-  }),
+export interface LoanRepaymentProps {
+  repayments: RepaymentResponse;
+  href: string;
+  summary: any
+}
 
-  guarantors: z
-    .array(guarantorSchema)
-    .min(1, "At least one guarantor is required")
-    .max(3, "You can add a maximum of three guarantors"),
-});
+export type FilterStatus = "all" | RepaymentStatus;
 
-export type LoanApplicationPayload = z.input<
-  typeof loanApplicationSchema
->;
-
-export type LoanApplicationValidatedPayload = z.output<
-  typeof loanApplicationSchema
->;
-
-export type GuarantorInput = z.infer<typeof guarantorSchema>;

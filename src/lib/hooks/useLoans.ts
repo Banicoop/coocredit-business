@@ -1,11 +1,14 @@
 'use client';
 
+import { toast } from "sonner";
 import { keepPreviousData, useQuery, useMutation, useQueryClient  } from '@tanstack/react-query';
 import { getAllLoans, getDailyRepayments } from '../fetchUtil/loans';
 import { loanQueryKeys } from './queries/keys';
 import { GetLoansParams, RepaymentQuery } from '@/types/domains/loan.types';
 import { approveBusinessLoans, rejectBusinessLoans } from '../manager.actions';
 import { unwrap } from '../api';
+import { verifyLoanPin, VerifyLoanPinPayload } from "../agent.actions";
+
 
 type LoanActionInput = {
   loanId: string;
@@ -145,3 +148,23 @@ export const useRejectBusinessLoan = () => {
   });
 };
 
+
+export function useVerifyLoanPin() {
+  return useMutation({
+    mutationKey: ["loans", "verify-pin"],
+
+    mutationFn: async (payload: VerifyLoanPinPayload) => {
+      const res = await verifyLoanPin(payload);
+
+      if (!res.success) {
+        throw new Error(res.error);
+      }
+
+      return res;
+    },
+
+    onError: (error) => {
+      toast.error(error.message || "PIN verification failed.");
+    },
+  });
+}

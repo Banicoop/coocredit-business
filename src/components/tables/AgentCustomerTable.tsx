@@ -13,7 +13,7 @@ const AgentCustomerTable = ({data, error, pagination}: {data: any[], error: stri
 
     const onPageChange = useUrlPagination();
 
-    console.info('data:', data);
+    // console.info('data:', data);
 
     const columns = [
         {
@@ -21,7 +21,7 @@ const AgentCustomerTable = ({data, error, pagination}: {data: any[], error: stri
           title: 'S/N',
           width: '45px',
           render: (_value: any, _row: any, index: number) => (
-              <Typography color="primary">
+              <Typography variant='small' color="primary">
               {index + 1}
               </Typography>
           ),
