@@ -24,8 +24,6 @@ const LoanDetails = async ({params}: IDParam) => {
       </FlexCol>
     );
   }
-
-  console.info('loan:', loan);
   
 
   const history = [...(loan.history ?? [])].sort(

@@ -21,18 +21,6 @@ import { Grid } from "@/components/ui/ui-layout";
 import { useGetDailyRepayment } from "@/lib/hooks/useLoans";
 import { LoanRepayment, RepaymentListingResponse, RepaymentQuery, RepaymentSortBy, RepaymentStatus, RepaymentTimeframe, SortOrder } from "@/types/domains/loan.types";
 
-// import type {
-//   RepaymentQuery,
-//   RepaymentTimeframe,
-//   RepaymentStatus,
-//   RepaymentSortBy,
-//   SortOrder,
-// } from "@/types/repayment.types";
-
-// import type {
-//   LoanRepayment,
-//   RepaymentListingResponse,
-// } from "@/types/loan-repayments.types";
 
 // ---------- Helpers ----------
 

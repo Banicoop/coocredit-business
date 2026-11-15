@@ -10,12 +10,13 @@ interface CustomersTabProps {
   error?: string;
   pagination: PaginationMeta;
   onSearchChange: (val: string) => void;
+  onPageChange: (page: number) => void;
   isLoading: boolean;
   isFetching: boolean
 }
 
 
-const CustomersTab = ({data, error, pagination, onSearchChange, isFetching, isLoading, search}: CustomersTabProps) => {
+const CustomersTab = ({data, error, pagination, onSearchChange, isFetching, isLoading, search, onPageChange}: CustomersTabProps) => {
 
   return (
     <Grid className='gap-6'>
@@ -26,6 +27,7 @@ const CustomersTab = ({data, error, pagination, onSearchChange, isFetching, isLo
           search={search}
           onSearchChange={onSearchChange}
           isFetching={isFetching}
+          onPageChange={onPageChange}
           isLoading={isLoading}
           pagination={pagination}
           />

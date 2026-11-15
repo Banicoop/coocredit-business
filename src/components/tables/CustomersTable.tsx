@@ -13,6 +13,7 @@ interface TableProps {
   initialData: any;
   error?: string;
   isLead?: boolean;
+  onPageChange: (page: number) => void;
   pagination: PaginationMeta;
   onSearchChange: (val: string) => void;
   isFetching: boolean;
@@ -26,6 +27,7 @@ const CustomersTable = ({
   pagination,
   onSearchChange,
   isFetching,
+  onPageChange,
   isLoading,
   error,
   isLead,
@@ -59,7 +61,9 @@ const CustomersTable = ({
             { 
               label: 'View Details', 
               href: isLead ? `/manager/customers/${id}/lead`:  `/manager/customers/${id}`, 
-              variant: 'primary', icon: Eye },
+              variant: 'primary', 
+              icon: Eye 
+            },
           ]}
         />
       ),
@@ -88,6 +92,8 @@ const CustomersTable = ({
       data={initialData}
       loading={isFetching || isLoading}
       title={title}
+      onPageChange={(page) => onPageChange(page)}
+      pagination
       paginationMeta={pagination}
     />
   );

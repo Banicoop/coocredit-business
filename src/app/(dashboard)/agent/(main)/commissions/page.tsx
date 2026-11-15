@@ -65,6 +65,8 @@ function SummaryCard({
 const AgentCommission = async () => {
   const res = (await getAllcommission()) as any;
 
+  console.info('res:', res);
+
   // Adjust this line if your API wraps the array one level deeper.
   const commissions: Commission[] = Array.isArray(res?.data)
     ? res.data

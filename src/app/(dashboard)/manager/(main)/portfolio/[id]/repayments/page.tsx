@@ -23,14 +23,12 @@ const LoanRepaymentHistory = async ({params}: IDParam) => {
         </FlexCol>
       );
     }
-
-    console.info('repayment:', repayment);
   
   return (
     <FlexCol className='gap-6'>
         <BackButton />
 
-        <LoanRepayment repayments={repayment} href={`/manager/portfolio/${id}`}/>
+        <LoanRepayment summary={repayment.summary} repayments={repayment} href={`/manager/portfolio/${id}`}/>
 
     </FlexCol>
   )

@@ -2,7 +2,7 @@
 
 import CustomSelect from "@/components/primitives/inputs/CustomSelect";
 import { TextField } from "@/components/primitives/inputs/TextField";
-import { LoanApplicationPayload } from "@/types/domains/loan.types";
+import { LoanApplicationPayload } from "@/schema/loan.schema";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
 
