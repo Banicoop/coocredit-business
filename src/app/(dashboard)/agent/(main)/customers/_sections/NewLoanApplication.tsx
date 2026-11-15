@@ -8,10 +8,13 @@ import { TextField } from "@/components/primitives/inputs/TextField";
 import CustomSelect from "@/components/primitives/inputs/CustomSelect";
 import Button from "@/components/primitives/buttons/Button";
 import { Flex } from "@/components/ui/ui-layout";
-import { LoanApplicationPayload, loanApplicationSchema, LoanApplicationValidatedPayload } from "@/schema/loan.schema";
+import {
+  LoanApplicationPayload,
+  loanApplicationSchema,
+  LoanApplicationValidatedPayload,
+} from "@/schema/loan.schema";
 import { LOAN_APPLICATION_STEPS } from "@/constant/data";
 import PinVerification from "./PinVerification";
-
 
 interface NewLoanApplicationProps {
   businessId: string;
@@ -19,26 +22,49 @@ interface NewLoanApplicationProps {
   onSubmit: (payload: LoanApplicationPayload) => Promise<void>;
 }
 
-
+/**
+ * Step order (must match LOAN_APPLICATION_STEPS in "@/constant/data"):
+ * 0 = PIN verification
+ * 1 = Loan details
+ * 2 = Guarantors
+ * 3 = Review
+ */
+const STEP = {
+  PIN: 0,
+  DETAILS: 1,
+  GUARANTORS: 2,
+  REVIEW: 3,
+} as const;
 
 const STEP_FIELDS: FieldPath<LoanApplicationPayload>[][] = [
+  ["pinVerificationToken.customer", "pinVerificationToken.agent"], // 0 PIN
   [
     "amount",
     "loanTenure",
     "repaymentFrequency",
     "purpose",
     "excludeWeekends",
-  ],
-  ["guarantors"],
-  [
-    "pinVerificationToken.agent",
-    "pinVerificationToken.customer",
-  ],
-  [],
+    "interestRate",
+  ], // 1 Details
+  ["guarantors"], // 2 Guarantors
+  [], // 3 Review
 ];
 
-const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplicationProps) => {
-  const [currentStep, setCurrentStep] = useState(0);
+const REPAYMENT_FREQUENCY_LABELS: Record<number, string> = {
+  1: "Daily",
+  2: "Two days",
+  3: "Three days",
+  7: "Weekly",
+  14: "Every 14 Days",
+  30: "Monthly",
+};
+
+const NewLoanApplication = ({
+  businessId,
+  userId,
+  onSubmit,
+}: NewLoanApplicationProps) => {
+  const [currentStep, setCurrentStep] = useState<number>(STEP.PIN);
 
   const methods = useForm<
     LoanApplicationPayload,
@@ -73,31 +99,40 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
     },
   });
 
-
-
   const {
     register,
     handleSubmit,
     trigger,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = methods;
 
   const formValues = watch();
 
-  const isFirstStep = currentStep === 0;
-  const isLastStep = currentStep === LOAN_APPLICATION_STEPS.length - 1;
+  const lastStepIndex = LOAN_APPLICATION_STEPS.length - 1;
+  const isFirstStep = currentStep === STEP.PIN;
+  const isLastStep = currentStep === lastStepIndex;
+  const isPinStep = currentStep === STEP.PIN;
+
+  const clearTokens = () => {
+    setValue("pinVerificationToken.customer", "");
+    setValue("pinVerificationToken.agent", "");
+  };
+
+  /** Jump to a step. Re-entering the PIN step wipes stale tokens. */
+  const goToStep = (step: number) => {
+    if (step === STEP.PIN) clearTokens();
+    setCurrentStep(step);
+  };
 
   const goNext = async () => {
     const fields = STEP_FIELDS[currentStep];
 
-    const isValid = await trigger(fields, {
-      shouldFocus: true,
-    });
+    const isValid = await trigger(fields, { shouldFocus: true });
+    if (!isValid) return;
 
-    // if (!isValid) return;
-
-    setCurrentStep((prev) => Math.min(prev + 1, LOAN_APPLICATION_STEPS.length - 1));
+    setCurrentStep((prev) => Math.min(prev + 1, lastStepIndex));
   };
 
   const goBack = () => {
@@ -110,6 +145,10 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
 
   const handleFormSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    // Never submit from the PIN step; it advances itself after both PINs pass.
+    if (isPinStep) return;
+
     if (!isLastStep) {
       void goNext();
       return;
@@ -122,21 +161,17 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
     return `₦${Number(value || 0).toLocaleString("en-NG")}`;
   };
 
- 
-
-
   return (
     <FormProvider {...methods}>
-      <div className="mx-auto space-y-6 pb-10">
-
+      <div className="mx-auto w-full space-y-6 pb-10">
         {/* Page Header */}
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
             New Loan Application
           </h1>
           <p className="mt-2 text-sm text-gray-500">
-            Complete the steps below to submit a loan application
-            for this customer.
+            Complete the steps below to submit a loan application for this
+            customer.
           </p>
         </div>
 
@@ -153,7 +188,10 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
             </div>
 
             <span className="text-sm font-medium text-primary">
-              {Math.round(((currentStep + 1) / LOAN_APPLICATION_STEPS.length) * 100)}%
+              {Math.round(
+                ((currentStep + 1) / LOAN_APPLICATION_STEPS.length) * 100,
+              )}
+              %
             </span>
           </div>
 
@@ -207,13 +245,28 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
         </div>
 
         <form onSubmit={handleFormSubmit} className="space-y-6">
-           {/* STEP 0: PIN VERIFICATION */}
-          {currentStep === 0 && (
-            <PinVerification userId={userId}/>
-            )}
+          {/* STEP 0: PIN VERIFICATION */}
+          {currentStep === STEP.PIN && (
+            <PinVerification
+              userId={userId}
+              onCustomerVerified={(token) =>
+                setValue("pinVerificationToken.customer", token, {
+                  shouldValidate: true,
+                })
+              }
+              onAgentVerified={(token) => {
+                setValue("pinVerificationToken.agent", token, {
+                  shouldValidate: true,
+                });
+                // Advance only after BOTH PINs are verified.
+                setCurrentStep(STEP.DETAILS);
+              }}
+              onReset={clearTokens}
+            />
+          )}
 
           {/* STEP 1: LOAN DETAILS */}
-          {currentStep === 1 && (
+          {currentStep === STEP.DETAILS && (
             <section className="rounded-xl border border-gray-200 bg-white p-6">
               <div className="mb-6">
                 <h2 className="text-lg font-semibold text-gray-900">
@@ -225,7 +278,6 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
               </div>
 
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-
                 <TextField
                   label="Loan Amount (₦)"
                   type="number"
@@ -263,7 +315,7 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
                   options={[
                     { value: 1, label: "Daily" },
                     { value: 2, label: "Two days" },
-                    { value: 1, label: "Three days" },
+                    { value: 3, label: "Three days" },
                     { value: 7, label: "Weekly" },
                     { value: 14, label: "Every 14 Days" },
                     { value: 30, label: "Monthly" },
@@ -279,8 +331,8 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
                 />
               </div>
 
-              <Flex className="w-full justify-between gap-4 mt-4">
-                <div className="md:col-span-2 w-full">
+              <Flex className="mt-4 w-full justify-between gap-4">
+                <div className="w-full md:col-span-2">
                   <label className="flex cursor-pointer items-center gap-3 rounded-lg border border-gray-200 p-4">
                     <input
                       {...register("excludeWeekends")}
@@ -301,30 +353,29 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
                 </div>
 
                 <TextField
-                    label="Interest Rate"
-                    placeholder="e.g. 1"
-                    wrapperClassName="w-full"
-                    type='number'
-                    min={1}
-                    {...register("interestRate")}
-                    descClassName="text-xs text-red-500"
-                    desc={errors.interestRate?.message}
+                  label="Interest Rate"
+                  placeholder="e.g. 1"
+                  wrapperClassName="w-full"
+                  type="number"
+                  min={1}
+                  {...register("interestRate", { valueAsNumber: true })}
+                  descClassName="text-xs text-red-500"
+                  desc={errors.interestRate?.message}
                 />
               </Flex>
             </section>
           )}
 
-          {/* STEP 3: GUARANTORS */}
-          {currentStep === 2 && (
+          {/* STEP 2: GUARANTORS */}
+          {currentStep === STEP.GUARANTORS && (
             <section className="rounded-xl border border-gray-200 bg-white p-6">
               <GuarantorFields />
             </section>
           )}
 
-          {/* STEP 4: REVIEW APPLICATION */}
-          {currentStep === 3 && (
+          {/* STEP 3: REVIEW APPLICATION */}
+          {currentStep === STEP.REVIEW && (
             <section className="space-y-5">
-
               {/* Loan Summary */}
               <div className="rounded-xl border border-gray-200 bg-white p-6">
                 <div className="mb-5 flex items-center justify-between">
@@ -339,7 +390,7 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
 
                   <button
                     type="button"
-                    onClick={() => setCurrentStep(1)}
+                    onClick={() => goToStep(STEP.DETAILS)}
                     className="text-sm font-medium text-primary"
                   >
                     Edit
@@ -362,20 +413,23 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
                   <ReviewItem
                     label="Repayment Frequency"
                     value={
-                      {
-                        1: "Daily",
-                        7: "Weekly",
-                        14: "Every 14 Days",
-                        30: "Monthly",
-                        
-                      }[formValues.repaymentFrequency] ?? "Not specified"
+                      REPAYMENT_FREQUENCY_LABELS[
+                        Number(formValues.repaymentFrequency)
+                      ] ?? "Not specified"
                     }
                   />
 
                   <ReviewItem
-                    label="Loan Purpose"
-                    value={formValues.purpose}
+                    label="Interest Rate"
+                    value={
+                      formValues.interestRate !== undefined &&
+                      formValues.interestRate !== null
+                        ? `${formValues.interestRate}%`
+                        : ""
+                    }
                   />
+
+                  <ReviewItem label="Loan Purpose" value={formValues.purpose} />
 
                   <ReviewItem
                     label="Exclude Weekends"
@@ -392,14 +446,13 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
                       Guarantors
                     </h2>
                     <p className="mt-1 text-sm text-gray-500">
-                      {formValues.guarantors?.length ?? 0} guarantor(s)
-                      added.
+                      {formValues.guarantors?.length ?? 0} guarantor(s) added.
                     </p>
                   </div>
 
                   <button
                     type="button"
-                    onClick={() => setCurrentStep(2)}
+                    onClick={() => goToStep(STEP.GUARANTORS)}
                     className="text-sm font-medium text-primary"
                   >
                     Edit
@@ -421,22 +474,15 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
                           label="Full Name"
                           value={guarantor.fullName}
                         />
-
-                        <ReviewItem
-                          label="Email"
-                          value={guarantor.email}
-                        />
-
+                        <ReviewItem label="Email" value={guarantor.email} />
                         <ReviewItem
                           label="Phone Number"
                           value={guarantor.phoneNumber}
                         />
-
                         <ReviewItem
                           label="Relationship"
                           value={guarantor.relationship}
                         />
-
                         <ReviewItem
                           label="BVN"
                           value={
@@ -463,24 +509,25 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
                     </p>
                   </div>
 
+                  {/* Re-verifying clears the old tokens */}
                   <button
                     type="button"
-                    onClick={() => setCurrentStep(0)}
+                    onClick={() => goToStep(STEP.PIN)}
                     className="text-sm font-medium text-primary"
                   >
-                    Edit
+                    Re-verify
                   </button>
                 </div>
 
                 <div className="space-y-3">
                   <VerificationStatus
                     label="Agent PIN Verification"
-                    verified={!!formValues.pinVerificationToken.agent}
+                    verified={!!formValues.pinVerificationToken?.agent}
                   />
 
                   <VerificationStatus
                     label="Customer PIN Verification"
-                    verified={!!formValues.pinVerificationToken.customer}
+                    verified={!!formValues.pinVerificationToken?.customer}
                   />
                 </div>
               </div>
@@ -490,55 +537,63 @@ const NewLoanApplication = ({ businessId, userId, onSubmit }: NewLoanApplication
                   Before you submit
                 </p>
                 <p className="mt-1 text-xs leading-5 text-amber-700">
-                  Please ensure that all information provided is
-                  accurate. Submitting this application will send the
-                  loan request for processing.
+                  Please ensure that all information provided is accurate.
+                  Submitting this application will send the loan request for
+                  processing.
                 </p>
               </div>
             </section>
           )}
 
-          {/* Navigation Buttons */}
-          <div className="flex flex-col-reverse justify-between gap-3 sm:flex-row">
+          {/* Navigation Buttons (hidden on the PIN step, which advances itself) */}
+          {!isPinStep && (
+            <div className="flex flex-col-reverse justify-between gap-3 sm:flex-row">
+              <div>
+                {/* Going back from Details to the PIN step is not allowed:
+                    tokens are single-use, so re-verification is explicit. */}
+                {currentStep > STEP.DETAILS && !isFirstStep && (
+                  <Button
+                    key="previous"
+                    type="button"
+                    variant="outline"
+                    onClick={goBack}
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto"
+                  >
+                    Previous
+                  </Button>
+                )}
+              </div>
 
-            <div>
-              {!isFirstStep && (
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={goBack}
-                  disabled={isSubmitting}
-                  className="w-full sm:w-auto"
-                >
-                  Previous
-                </Button>
-              )}
+              <div>
+                {/* Distinct keys stop React from reusing the same DOM button
+                    and letting the "Continue" click fire a submit. */}
+                {!isLastStep ? (
+                  <Button
+                    key="continue"
+                    type="button"
+                    variant="primary"
+                    onClick={goNext}
+                    className="w-full sm:w-auto"
+                  >
+                    Continue
+                  </Button>
+                ) : (
+                  <Button
+                    key="submit"
+                    type="submit"
+                    variant="primary"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto"
+                  >
+                    {isSubmitting
+                      ? "Submitting Application..."
+                      : "Submit Loan Application"}
+                  </Button>
+                )}
+              </div>
             </div>
-
-            <div>
-              {!isLastStep ? (
-                <Button
-                  type="button"
-                  variant="primary"
-                  onClick={goNext}
-                  className="w-full sm:w-auto"
-                >
-                  Continue
-                </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  variant="primary"
-                  disabled={isSubmitting}
-                  className="w-full sm:w-auto"
-                >
-                  {isSubmitting
-                    ? "Submitting Application..."
-                    : "Submit Loan Application"}
-                </Button>
-              )}
-            </div>
-          </div>
+          )}
         </form>
       </div>
     </FormProvider>

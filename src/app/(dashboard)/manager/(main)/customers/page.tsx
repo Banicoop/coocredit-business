@@ -27,8 +27,8 @@ const CustomersPage =  () => {
   }, [debouncedSearch]);
 
   const { data: leadsData, error: leadsError, isPending: leadsPending, isFetching: leadsFetching, isError: leadsisError } = useGetAllLeads({
-    searchLead: debouncedSearch || undefined,
-  });
+    searchLead: debouncedSearch || undefined
+  }) as any;
 
   const handleSearchChange = (value: string) => {
     setSearch(value);

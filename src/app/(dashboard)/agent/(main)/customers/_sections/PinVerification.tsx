@@ -19,12 +19,34 @@ import {
 
 type PinVerificationProps = {
   userId: string;
-  onVerified?: () => void;
+  /** Called with the token returned after the customer PIN is verified. */
+  onCustomerVerified: (token: string) => void;
+  /** Called with the token returned after the agent PIN is verified. */
+  onAgentVerified: (token: string) => void;
+  /** Called when the user goes back from the agent step to the customer step. */
+  onReset?: () => void;
 };
 
 type VerificationStep = "CUSTOMER" | "AGENT";
 
-const PinVerification = ({ userId, onVerified }: PinVerificationProps) => {
+/**
+ * Pulls the verification token out of the mutation response.
+ * Adjust this to match the real response shape of useVerifyLoanPin.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const extractToken = (res: any): string =>
+  res?.token ??
+  res?.data?.token ??
+  res?.pinVerificationToken ??
+  res?.data?.pinVerificationToken ??
+  "";
+
+const PinVerification = ({
+  userId,
+  onCustomerVerified,
+  onAgentVerified,
+  onReset,
+}: PinVerificationProps) => {
   const [step, setStep] = useState<VerificationStep>("CUSTOMER");
   const [customerVerified, setCustomerVerified] = useState(false);
 
@@ -53,12 +75,16 @@ const PinVerification = ({ userId, onVerified }: PinVerificationProps) => {
     if (!valid) return;
 
     try {
-      await mutateAsync({
+      const res = await mutateAsync({
         type: "CUSTOMER",
         pin: getValues("customerPin"),
         userId,
       });
 
+      const token = extractToken(res);
+      if (!token) return; // no token => don't advance
+
+      onCustomerVerified(token);
       setCustomerVerified(true);
       resetField("customerPin");
       setStep("AGENT");
@@ -75,13 +101,16 @@ const PinVerification = ({ userId, onVerified }: PinVerificationProps) => {
     if (!valid) return;
 
     try {
-      await mutateAsync({
+      const res = await mutateAsync({
         type: "AGENT",
         pin: getValues("agentPin"),
       });
 
+      const token = extractToken(res);
+      if (!token) return;
+
       resetField("agentPin");
-      onVerified?.();
+      onAgentVerified(token); // parent stores the token and advances
     } catch {
       // Error toast handled by the mutation's onError.
     }
@@ -92,12 +121,23 @@ const PinVerification = ({ userId, onVerified }: PinVerificationProps) => {
     resetField("agentPin");
     setCustomerVerified(false); // customer must be re-verified
     setStep("CUSTOMER");
+    onReset?.(); // parent clears stale tokens
   };
 
   const inputClass = (hasError: boolean) =>
     `h-11 w-full rounded-lg border bg-white pl-10 pr-4 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10 ${
       hasError ? "border-red-400" : "border-gray-200"
     }`;
+
+  // Prevent Enter from submitting the parent <form>; verify instead.
+  const handleEnter =
+    (action: () => Promise<void>) =>
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        void action();
+      }
+    };
 
   return (
     <section className="rounded-xl border border-gray-200 bg-white p-6">
@@ -193,6 +233,7 @@ const PinVerification = ({ userId, onVerified }: PinVerificationProps) => {
                 maxLength={6}
                 placeholder="Enter customer's PIN"
                 readOnly={isBusy}
+                onKeyDown={handleEnter(verifyCustomerPin)}
                 {...register("customerPin")}
                 className={inputClass(!!errors.customerPin)}
               />
@@ -205,6 +246,8 @@ const PinVerification = ({ userId, onVerified }: PinVerificationProps) => {
           </div>
 
           <Button
+            key="verify-customer"
+            type="button"
             onClick={verifyCustomerPin}
             variant="primary"
             disabled={isBusy || !userId}
@@ -254,6 +297,7 @@ const PinVerification = ({ userId, onVerified }: PinVerificationProps) => {
                 maxLength={6}
                 placeholder="Enter your agent PIN"
                 readOnly={isBusy}
+                onKeyDown={handleEnter(verifyAgentPin)}
                 {...register("agentPin")}
                 className={inputClass(!!errors.agentPin)}
               />
@@ -267,6 +311,7 @@ const PinVerification = ({ userId, onVerified }: PinVerificationProps) => {
 
           <div className="flex flex-wrap items-center gap-3">
             <Button
+              key="back"
               type="button"
               variant="outline"
               onClick={goBack}
@@ -277,6 +322,8 @@ const PinVerification = ({ userId, onVerified }: PinVerificationProps) => {
             </Button>
 
             <Button
+              key="verify-agent"
+              type="button"
               onClick={verifyAgentPin}
               variant="primary"
               disabled={isBusy || !customerVerified}

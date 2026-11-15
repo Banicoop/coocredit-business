@@ -24,6 +24,7 @@ const LeadToReview = ({data, error, pagination, onSearchChange, isFetching, isLo
           search={search}
           onSearchChange={onSearchChange}
           isFetching={isFetching}
+          onPageChange={() => {}}
           isLoading={isLoading}
           pagination={pagination}
          isLead/>
