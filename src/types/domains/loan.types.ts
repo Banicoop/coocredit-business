@@ -86,7 +86,7 @@ export type RepaymentTimeframe =
 //   | 'partially_paid'
 //   | 'all';
 
-  export type RepaymentStatus = 'partially_paid'
+  export type RepaymentStatus = 'partially_paid' | 'all'
   | "pending"
   | "late"
   | "paid"
