@@ -31,4 +31,12 @@ export const agentGetALeadById = (id: string) => getData(`business-users/agent/l
 
 export const getAllcommission = () => getData('commission/agents');
 
-export const agentGetLoanRepayment = (loanId: string) => getData(`business-users/loans/${loanId}/repayments?size=100`);
+export const agentGetLoanRepayment = (loanId: string, {page = 1, size = 50}: any) => {
+    const params = new URLSearchParams({
+        page: String(page),
+        size: String(size),
+    });
+
+    return getData(`business-users/loans/${loanId}/repayments?${params.toString()}`);
+
+}

@@ -5,9 +5,10 @@ import { keepPreviousData, useQuery, useMutation, useQueryClient  } from '@tanst
 import { getAllLoans, getDailyRepayments } from '../fetchUtil/loans';
 import { loanQueryKeys } from './queries/keys';
 import { GetLoansParams, RepaymentQuery } from '@/types/domains/loan.types';
-import { approveBusinessLoans, rejectBusinessLoans } from '../manager.actions';
+import { approveBusinessLoans, rejectBusinessLoans } from '../actions/manager.actions';
 import { unwrap } from '../api';
-import { verifyLoanPin, VerifyLoanPinPayload } from "../agent.actions";
+import { verifyLoanPin, VerifyLoanPinPayload } from "../actions/agent.actions";
+
 
 
 type LoanActionInput = {

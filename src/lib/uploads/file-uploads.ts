@@ -3,7 +3,7 @@
 import { SERVER } from "@/utils/fetchUtil";
 import { getData } from "../api";
 import { Signature } from "@/types/types";
-import { getAccessToken } from "../auth.actions";
+import { getAccessToken } from "../actions/auth.actions";
 
 
 export const getUploadSignature = async () => getData('signed-url');

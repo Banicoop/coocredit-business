@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Signature } from "../types";
+import { PaginationMeta, Signature } from "../types";
 
 
 export type VerificationDocument = {
@@ -79,12 +79,6 @@ export type RepaymentTimeframe =
   | 'last30days'
   | 'custom';
 
-// export type RepaymentStatus =
-//   | 'pending'
-//   | 'paid'
-//   | 'late'
-//   | 'partially_paid'
-//   | 'all';
 
   export type RepaymentStatus = 'partially_paid' | 'all'
   | "pending"
@@ -213,30 +207,31 @@ export interface Repayment {
 }
 
 
-export interface repaymentSummary {
-  totalRepayments: string;
-  totalRepaymentAmount: string;
-  totalPaid: string;
-  totalPaidAmount: string;
-  totalOverdue: string;
-  totalOverdueAmount: string;
-  totalPartiallyPaid: string,
-  totalPartiallyPaidAmount: string;
-  totalPending: string;
-  totalPendingAmount: string;
-  totalRepaymentsAmount: string;
-  paidRepaymentsCount:string;
-  paidRepaymentsAmount: string;
-  overdueRepaymentsCount:string;
-  overdueRepaymentsAmount:string;
-  pendingRepaymentsCount: string;
-  pendingRepaymentsAmount: string;
-  totalRepayment: string;
-  totalDueAmount: string;
-  totalCollectedAmount: string;
-  totalCount: string,
-  paidCount: string,
-  pendingCount: string
+export interface loanRepaymentSummary {
+  totalRepayments: number;
+  totalRepaymentAmount: number;
+  totalPaid: number;
+  totalPaidAmount: number;
+  totalOverdue: number;
+  totalOverdueAmount: number;
+  totalPartiallyPaid: number,
+  totalPartiallyPaidAmount: number;
+  totalPending: number;
+  totalPendingAmount: number;
+  totalRepaymentsAmount: number;
+  paidRepaymentsCount:number;
+  paidRepaymentsAmount: number;
+  overdueRepaymentsCount:number;
+  overdueRepaymentsAmount:number;
+  pendingRepaymentsCount: number;
+  pendingRepaymentsAmount: number;
+  totalRepayment: number;
+  totalDueAmount: number;
+  totalCollectedAmount: number;
+  totalCount: number;
+  lateCount: number;
+  paidCount: number;
+  pendingCount: number;
 }
 
 export interface RepaymentResponse {
@@ -252,8 +247,16 @@ export interface RepaymentResponse {
 export interface LoanRepaymentProps {
   repayments: RepaymentResponse;
   href: string;
-  summary: any
+  summary: loanRepaymentSummary;
+  pagination: PaginationMeta
 }
 
 export type FilterStatus = "all" | RepaymentStatus;
 
+export interface LoanRepaymentHistoryProps {
+  params: Promise<{
+    page?: string;
+    size?: string;
+    id: string
+  }>;
+}

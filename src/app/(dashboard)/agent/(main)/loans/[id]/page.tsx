@@ -8,17 +8,29 @@ import LoanGuarantor from './tabs/LoanGuarantor';
 // import LoanNotes from './tabs/LoanNotes';
 import { BackButton } from '@/components/primitives/buttons/BackButton';
 import { agentGetBusinessCustomersDetails, agentGetLoanById, agentGetLoanRepayment, agentGetLoanSupportedDocs, agentGuarantorInfo } from '@/lib/api.agent';
-import { IDParam, Signature } from '@/types/types';
+import { Signature } from '@/types/types';
 import { getUploadSignature } from '@/lib/uploads/file-uploads';
 import LoanRepayment from './tabs/LoanRepayment';
 import CustomerProfile from '@/components/ui/customers/CustomerProfile';
+import { LoanRepaymentHistoryProps } from '@/types/domains/loan.types';
 
 
 
 
-const LoanDetails = async ({ params }: IDParam) => {
+const LoanDetails = async ({ params }: LoanRepaymentHistoryProps) => {
   
-  const { id } = (await params)
+  const { id } = (await params);
+  const search = await params;
+
+  const page = Math.max(
+    Number(search.page) || 1,
+    1
+  );
+
+  const size = Math.max(
+    Number(search.size) || 50,
+    1
+  );
   
   const loanDetails = (await agentGetLoanById(id)) as any;
   const signature = (await getUploadSignature()) as {
@@ -32,10 +44,10 @@ const LoanDetails = async ({ params }: IDParam) => {
   };
 
   const userId = loanDetails?.data?.userId
-  const repaymentRes =  (await  agentGetLoanRepayment(id)) as any;
+  const repaymentRes =  (await  agentGetLoanRepayment(id, {page, size})) as any;
   const customerRes = (await agentGetBusinessCustomersDetails(userId) as any);
 
-  // console.log('repayments:', repaymentRes?.summary);
+
 
   
   const data = loanDetails?.data
@@ -76,7 +88,11 @@ const LoanDetails = async ({ params }: IDParam) => {
     },
     {
       label: 'Repayment',
-      content: <LoanRepayment repayments={repaymentRes?.data} summary={repaymentRes?.summary}/>
+      content: <LoanRepayment 
+      repayments={repaymentRes?.data} 
+      summary={repaymentRes?.summary}
+      pagination={repaymentRes.pagination}
+      />
     },
     // {
     //   label: 'Timeline',

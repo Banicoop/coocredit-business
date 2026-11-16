@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import logo from '@/assets/svgs/logo.svg';
 import { useUserStore } from '@/store/useAuthStore';
 import { toast } from 'sonner';
-import {  agentSignIn } from '@/lib/auth.actions';
+import {  agentSignIn } from '@/lib/actions/auth.actions';
 import { ActionState } from '@/types/types';
 
 

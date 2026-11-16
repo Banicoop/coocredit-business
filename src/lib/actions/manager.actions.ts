@@ -3,7 +3,7 @@
 import { SERVER } from "@/utils/fetchUtil";
 import { getAccessToken } from "./auth.actions";
 import { revalidateTag } from "next/cache";
-import { ActionResult, BUSINESS_USERS_TAG } from "./api";
+import { ActionResult, BUSINESS_USERS_TAG } from "../api";
 
 type validateAgentPayload = {
      decision: 'APPROVE' | 'REJECT';

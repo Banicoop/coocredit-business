@@ -2,21 +2,37 @@ import { BackButton } from '@/components/primitives/buttons/BackButton';
 import LoanRepayment from '@/components/ui/loans/LoanRepayment';
 import { FlexCol } from '@/components/ui/ui-layout';
 import { agentGetLoanRepayment } from '@/lib/api.agent';
-import { IDParam } from '@/types/types';
+import { LoanRepaymentHistoryProps } from '@/types/domains/loan.types';
 
 
-const LoanRepaymentHistory = async ({params}: IDParam) => {
 
-  const { id} = await params;
+const LoanRepaymentHistory = async ({params}: LoanRepaymentHistoryProps) => {
 
-  const res = await agentGetLoanRepayment(id) as any;
+  const { id }= await params;
+  const search = await params;
+
+  const page = Math.max(
+    Number(search.page) || 1,
+    1
+  );
+
+  const size = Math.max(
+    Number(search.size) || 50,
+    1
+  );
+  const res = await agentGetLoanRepayment(id, {
+    page, size
+  }) as any;
+  const pagination = res.pagination
 
   const { data: repayment, error} = res;
 
-    if (!repayment || error) {
+
+    if (res.error) {
       return (
         <FlexCol className="gap-4">
           <BackButton />
+          {/* <CardError/> */}
           <div className="flex min-h-[40vh] flex-col items-center justify-center gap-2 text-center">
             <p className="text-sm font-medium text-slate-500">{error}</p>
           </div>
@@ -28,7 +44,12 @@ const LoanRepaymentHistory = async ({params}: IDParam) => {
     <FlexCol className='gap-6'>
         <BackButton />
 
-        <LoanRepayment summary={repayment.summary} repayments={repayment} href={`/manager/portfolio/${id}`}/>
+        <LoanRepayment 
+          summary={res.summary} 
+          repayments={repayment} 
+          pagination={pagination}
+          href={`/manager/portfolio/${id}`}
+        />
 
     </FlexCol>
   )
