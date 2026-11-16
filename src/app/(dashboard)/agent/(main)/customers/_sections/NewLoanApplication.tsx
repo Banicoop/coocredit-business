@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FormProvider, useForm, FieldPath } from "react-hook-form";
+import { FormProvider, useForm, FieldPath, Controller, useFormContext } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import GuarantorFields from "./GuarantorFields";
 import { TextField } from "@/components/primitives/inputs/TextField";
@@ -77,11 +77,11 @@ const NewLoanApplication = ({
     defaultValues: {
       businessId,
       userId,
-      amount: "",
+      amount: '',
       excludeWeekends: false,
       interestRate: 0,
-      loanTenure: 4,
-      repaymentFrequency: 30,
+      loanTenure: 0,
+      repaymentFrequency: 0,
       purpose: "",
       pinVerificationToken: {
         agent: "",
@@ -130,7 +130,7 @@ const NewLoanApplication = ({
     const fields = STEP_FIELDS[currentStep];
 
     const isValid = await trigger(fields, { shouldFocus: true });
-    if (!isValid) return;
+    // if (!isValid) return;
 
     setCurrentStep((prev) => Math.min(prev + 1, lastStepIndex));
   };

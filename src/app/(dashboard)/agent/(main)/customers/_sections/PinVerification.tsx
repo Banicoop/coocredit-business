@@ -35,10 +35,7 @@ type VerificationStep = "CUSTOMER" | "AGENT";
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const extractToken = (res: any): string =>
-  res?.token ??
-  res?.data?.token ??
-  res?.pinVerificationToken ??
-  res?.data?.pinVerificationToken ??
+  res.data?.data?.pinVerificationToken?.token ??
   "";
 
 const PinVerification = ({

@@ -64,6 +64,8 @@ const CustomerDetails = async ({ params }: IDParam) => {
 
   const creditScore = Math.round(loan?.creditScore) || 0;
 
+  console.info('customer.recentTransactions:', customer.recentTransactions)
+
   return (
     <FlexCol className="gap-6">
       <div className="min-h-screen bg-[#F6F7FB] pb-16">

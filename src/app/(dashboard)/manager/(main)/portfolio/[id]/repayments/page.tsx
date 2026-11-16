@@ -8,7 +8,6 @@ import { LoanRepaymentHistoryProps } from '@/types/domains/loan.types';
 
 const LoanRepaymentHistory = async ({params}: LoanRepaymentHistoryProps) => {
 
-  const { id }= await params;
   const search = await params;
 
   const page = Math.max(
@@ -20,7 +19,7 @@ const LoanRepaymentHistory = async ({params}: LoanRepaymentHistoryProps) => {
     Number(search.size) || 50,
     1
   );
-  const res = await agentGetLoanRepayment(id, {
+  const res = await agentGetLoanRepayment(search.id, {
     page, size
   }) as any;
   const pagination = res.pagination
@@ -48,7 +47,7 @@ const LoanRepaymentHistory = async ({params}: LoanRepaymentHistoryProps) => {
           summary={res.summary} 
           repayments={repayment} 
           pagination={pagination}
-          href={`/manager/portfolio/${id}`}
+          href={`/manager/portfolio/${search.id}`}
         />
 
     </FlexCol>

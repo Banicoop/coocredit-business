@@ -40,7 +40,9 @@ export const verifyLoanPin = async (
       endpoint,
       body,
       { token }
-    );
+    ) as any;
+
+    console.info('token:', response.data?.data?.pinVerificationToken?.token);
 
     if (response.error || !response.data) {
       return {
@@ -71,22 +73,24 @@ export const verifyLoanPin = async (
 export const newLoanAction = async (payload: LoanApplicationPayload) => {
   const token = await getAccessToken();
     try {
-        const res = await SERVER.post('business-users/loans/apply', payload, 
-          { token }
-        );
-        if (res.error || !res.data) {
-          return {
-            success: false as const,
-            error: res.error || "PIN verification failed.",
-          };
-        }
+      const res = await SERVER.post('business-users/loans/apply', payload, 
+        { token }
+      );
 
+      console.info('res:', res);
+      if (res.error || !res.data) {
         return {
-          success: true as const,
-          message: res.message || 'Loan application successful!',
-          data: res.data,
+          success: false as const,
+          error: res.error || "PIN verification failed.",
         };
-          
+      }
+
+      return {
+        success: true as const,
+        message: res.message || 'Loan application successful!',
+        data: res.data,
+      };
+        
     } catch (error) {
         return {
           success: false as const,
