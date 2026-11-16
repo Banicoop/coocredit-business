@@ -7,7 +7,7 @@ import Button from '@/components/primitives/buttons/Button';
 import { ChangeEvent, useState, useTransition } from 'react';
 import { Modal } from '@/components/primitives/modals/Modal';
 import Typography from '@/components/primitives/Typography';
-import { validateAgentCreation } from '@/lib/manager.actions';
+import { validateAgentCreation } from '@/lib/actions/manager.actions';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { TextArea } from '@/components/primitives/inputs/TextArea';

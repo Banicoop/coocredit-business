@@ -8,7 +8,7 @@ import Button from '@/components/primitives/buttons/Button';
 import { TextField } from '@/components/primitives/inputs/TextField';
 import Link from 'next/link';
 import logo from '@/assets/svgs/logo.svg';
-import { adminLogin } from '@/lib/auth.actions';
+import { adminLogin } from '@/lib/actions/auth.actions';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { ActionState } from '@/types/types';

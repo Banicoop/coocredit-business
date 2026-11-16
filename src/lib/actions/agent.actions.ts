@@ -68,13 +68,33 @@ export const verifyLoanPin = async (
 };
 
 
-export const newLoan = async (payload: LoanApplicationPayload) => {
+export const newLoanAction = async (payload: LoanApplicationPayload) => {
+  const token = await getAccessToken();
     try {
-        const res = await SERVER.post('business-users/loans/apply', payload, {
+        const res = await SERVER.post('business-users/loans/apply', payload, 
+          { token }
+        );
+        if (res.error || !res.data) {
+          return {
+            success: false as const,
+            error: res.error || "PIN verification failed.",
+          };
+        }
 
-        })
+        return {
+          success: true as const,
+          message: res.message || 'Loan application successful!',
+          data: res.data,
+        };
+          
     } catch (error) {
-        
+        return {
+          success: false as const,
+          error:
+            error instanceof Error
+              ? error.message
+              : "Unable to verify PIN. Please try again.",
+        };
     }
 }
 

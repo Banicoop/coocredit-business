@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 import { Modal } from '@/components/primitives/modals/Modal';
 import Typography from '@/components/primitives/Typography';
 import { TextArea } from '@/components/primitives/inputs/TextArea';
-import { businessSegmentProps, validateBusinessUser } from '@/lib/manager.actions';
+import { businessSegmentProps, validateBusinessUser } from '@/lib/actions/manager.actions';
 import { initials, titleCase } from '@/helpers/funcs';
 import CustomSelect from '@/components/primitives/inputs/CustomSelect';
 

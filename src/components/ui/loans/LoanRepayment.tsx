@@ -14,6 +14,7 @@ import { ActionDropdown } from "@/components/ui/ActionDropDown";
 import { BasicTable, TableColumn } from "@/components/primitives/tables/BasicTable";
 import Typography from "@/components/primitives/Typography";
 import { FilterStatus, LoanRepaymentProps, Repayment, RepaymentStatus } from "@/types/domains/loan.types";
+import { useUrlPagination } from "@/hooks/useUrlPagination.";
 
 
 
@@ -68,8 +69,11 @@ const StatusBadge = ({ status }: { status: RepaymentStatus }) => (
 const LoanRepayment = ({
   repayments,
   href,
+  pagination,
   summary
 }: LoanRepaymentProps) => {
+
+  const onPageChange = useUrlPagination();
   const [statusFilter, setStatusFilter] =
     useState<FilterStatus>("all");
 
@@ -332,7 +336,8 @@ const LoanRepayment = ({
           data={filteredRepayments}
           columns={columns}
           pagination
-          pageSize={10}
+          paginationMeta={pagination}
+          onPageChange={onPageChange}
           emptyMessage="No repayments found for the selected status."
         />
     </Grid>

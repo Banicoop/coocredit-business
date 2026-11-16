@@ -1,5 +1,5 @@
 import { SERVER } from "@/utils/fetchUtil";
-import { getAccessToken } from "./auth.actions";
+import { getAccessToken } from "./actions/auth.actions";
 
 type FetchOptions = {
   revalidate?: number;
