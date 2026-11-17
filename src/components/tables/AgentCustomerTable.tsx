@@ -44,12 +44,12 @@ const AgentCustomerTable = ({data, error, pagination}: {data: any[], error: stri
         {
             key: '_id',
             title: 'Actions',
-            render: (id: string) => (
+            render: (id: string, row: any) => (
             <ActionDropdown
                 actions={[
                     { 
                         label: 'New Loan', 
-                        href: `/agent/customers/${id}/loans/new`, 
+                        href: `/agent/loans/new?customerId=${id}&businessId=${row.businesses[0].businessId}`,
                         variant: 'primary', 
                         icon: Plus
                     },

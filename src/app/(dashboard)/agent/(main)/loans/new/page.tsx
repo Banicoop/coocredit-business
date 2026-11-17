@@ -2,16 +2,20 @@
 
 import { BackButton } from "@/components/primitives/buttons/BackButton";
 import { FlexCol } from "@/components/ui/ui-layout";
-import { useParams } from "next/navigation";
-import NewLoanApplication from "../../../_sections/NewLoanApplication";
+import { useSearchParams } from "next/navigation";
 import { newLoanAction } from "@/lib/actions/agent.actions";
 import { LoanApplicationPayload } from "@/schema/loan.schema";
 import { toast } from "sonner";
+import NewLoanApplication from "../_sections/NewLoanApplication";
 
 const LoanApplicationPage = () => {
-    const { id } = useParams<{id: string}>();
 
-    if(!id) return null;
+    const searchParams = useSearchParams();
+
+    const bussinessId = searchParams.get('customerId');
+    const customerId = searchParams.get('businessId');
+
+    if(!customerId || !bussinessId) return null;
     
     const applyLoan = async (payload: LoanApplicationPayload) => {
       try {
@@ -30,7 +34,7 @@ const LoanApplicationPage = () => {
     <FlexCol className="gap-6">
         <BackButton label='Back'/>
 
-        <NewLoanApplication userId={id} businessId={id} onSubmit={applyLoan}/>
+        <NewLoanApplication userId={customerId} businessId={bussinessId} onSubmit={applyLoan}/>
     </FlexCol>
   )
 }

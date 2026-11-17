@@ -14,7 +14,7 @@ import {
   LoanApplicationValidatedPayload,
 } from "@/schema/loan.schema";
 import { LOAN_APPLICATION_STEPS } from "@/constant/data";
-import PinVerification from "./PinVerification";
+import PinVerification from "../../customers/_sections/PinVerification";
 
 interface NewLoanApplicationProps {
   businessId: string;
