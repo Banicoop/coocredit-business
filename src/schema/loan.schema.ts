@@ -17,7 +17,7 @@ export const loanApplicationSchema = z.object({
 
   amount: z
     .string()
-    .min(100, "Loan amount must be at leadt 100")
+    .min(1, "Loan amount must be at least 100")
     .refine((value) => Number(value) > 0, "Amount must be greater than zero"),
 
   excludeWeekends: z.boolean(),

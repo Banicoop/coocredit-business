@@ -14,7 +14,7 @@ const TransactionDetails = async ({ params }: IDParam) => {
 
   const transaction = res?.data as Transaction;
 
-  console.log('single:', transaction);
+  // console.log('single:', transaction);
 
   const isCredit = transaction?.transactionType?.toLowerCase() === 'credit';
 

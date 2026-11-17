@@ -78,7 +78,7 @@ const LoanGuarantor = ({ guarantors, signature }: LoanGuarantorProps) => {
     }
   };
 
-    console.log('signature:', signature);
+    // console.log('guarantors:', guarantors);
 
   return (
     <>
