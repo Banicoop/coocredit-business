@@ -7,6 +7,8 @@ import { newLoanAction } from "@/lib/actions/agent.actions";
 import { LoanApplicationPayload } from "@/schema/loan.schema";
 import { toast } from "sonner";
 import NewLoanApplication from "../_sections/NewLoanApplication";
+import { Suspense } from "react";
+import { CardSkeleton } from "@/helpers/skeleton";
 
 const LoanApplicationPage = () => {
 
@@ -31,11 +33,13 @@ const LoanApplicationPage = () => {
     }
 
   return (
-    <FlexCol className="gap-6">
-        <BackButton label='Back'/>
+    <Suspense fallback={<CardSkeleton/>}>
+      <FlexCol className="gap-6">
+          <BackButton label='Back'/>
 
-        <NewLoanApplication userId={customerId} businessId={bussinessId} onSubmit={applyLoan}/>
-    </FlexCol>
+          <NewLoanApplication userId={customerId} businessId={bussinessId} onSubmit={applyLoan}/>
+      </FlexCol>
+    </Suspense>
   )
 }
 
