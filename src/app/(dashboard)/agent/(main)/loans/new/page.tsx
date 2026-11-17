@@ -1,46 +1,52 @@
 'use client';
 
+import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 import { BackButton } from "@/components/primitives/buttons/BackButton";
 import { FlexCol } from "@/components/ui/ui-layout";
-import { useSearchParams } from "next/navigation";
 import { newLoanAction } from "@/lib/actions/agent.actions";
 import { LoanApplicationPayload } from "@/schema/loan.schema";
-import { toast } from "sonner";
 import NewLoanApplication from "../_sections/NewLoanApplication";
-import { Suspense } from "react";
 import { CardSkeleton } from "@/helpers/skeleton";
 
-const LoanApplicationPage = () => {
+const LoanApplicationContent = () => {
+  const searchParams = useSearchParams();
 
-    const searchParams = useSearchParams();
+  const customerId = searchParams.get('customerId');
+  const businessId = searchParams.get('businessId');
 
-    const bussinessId = searchParams.get('customerId');
-    const customerId = searchParams.get('businessId');
+  if (!customerId || !businessId) return null;
 
-    if(!customerId || !bussinessId) return null;
-    
-    const applyLoan = async (payload: LoanApplicationPayload) => {
-      try {
-        const res = await newLoanAction(payload);
-        if(!res.data){
-          toast.error(res.error);
-          return
-        }
-        toast.success(res.message)
-      } catch (error) {
-         toast.error('Something went wrong!');
+  const applyLoan = async (payload: LoanApplicationPayload) => {
+    try {
+      const res = await newLoanAction(payload);
+      if (!res.data) {
+        toast.error(res.error);
+        return;
       }
+      toast.success(res.message);
+    } catch (error) {
+      toast.error('Something went wrong!');
     }
+  };
 
   return (
-    <Suspense fallback={<CardSkeleton/>}>
-      <FlexCol className="gap-6">
-          <BackButton label='Back'/>
+    <FlexCol className="gap-6">
+      <BackButton label="Back" />
+      <NewLoanApplication
+        userId={customerId}
+        businessId={businessId}
+        onSubmit={applyLoan}
+      />
+    </FlexCol>
+  );
+};
 
-          <NewLoanApplication userId={customerId} businessId={bussinessId} onSubmit={applyLoan}/>
-      </FlexCol>
-    </Suspense>
-  )
-}
+const LoanApplicationPage = () => (
+  <Suspense fallback={<CardSkeleton />}>
+    <LoanApplicationContent />
+  </Suspense>
+);
 
-export default LoanApplicationPage
+export default LoanApplicationPage;
