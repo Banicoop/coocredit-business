@@ -31,7 +31,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
 
   
   const business = customer.businesses;
-  const loan = customer.loanProfile;
+  // const loan = customer.loanProfile;
   const summary = customer.accountSummary;
   const currentLoan = customer.currentLoan;
 
@@ -52,8 +52,8 @@ const CustomerDetails = async ({ params }: IDParam) => {
       ? 'danger'
       : 'neutral';
 
-  const gradeTone: BadgeTone =
-    loan?.grade === 'A' ? 'success' : loan?.grade === 'B' ? 'accent' : loan?.grade === 'C' ? 'warning' : 'danger';
+  // const gradeTone: BadgeTone =
+  //   loan?.grade === 'A' ? 'success' : loan?.grade === 'B' ? 'accent' : loan?.grade === 'C' ? 'warning' : 'danger';
 
   const ledgerItems = [
     { label: 'Booked balance', value: customer.bookedBalance },
@@ -62,9 +62,9 @@ const CustomerDetails = async ({ params }: IDParam) => {
     { label: 'Debit lien', value: customer.debitLienBalance },
   ];
 
-  const creditScore = Math.round(loan?.creditScore) || 0;
+  // const creditScore = Math.round(loan?.creditScore) || 0;
 
-  console.info('customer.recentTransactions:', customer.recentTransactions)
+  // console.info('customer:', customer)
 
   return (
     <FlexCol className="gap-6">
@@ -106,8 +106,8 @@ const CustomerDetails = async ({ params }: IDParam) => {
                     <Badge tone="neutral">{titleCase(customer.role)}</Badge>
                     <Badge tone="neutral">KYC {customer.kycLevel}</Badge>
                     <Badge tone={riskTone}>{titleCase(customer.identityDescription)}</Badge>
-                    {loan?.verified && <Badge tone="accent">Credit verified</Badge>}
-                    {loan?.grade && <Badge tone={gradeTone}>Grade {loan.grade}</Badge>}
+                    {/* {loan?.verified && <Badge tone="accent">Credit verified</Badge>}
+                    {loan?.grade && <Badge tone={gradeTone}>Grade {loan.grade}</Badge>} */}
                   </div>
                 </div>
               </div>
@@ -249,7 +249,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
             </Card>
 
 
-            {loan && (
+            {/* {loan && (
               <Card title="Credit profile">
                 <div className="flex flex-col">
                   <span className="text-sm text-slate-500">Credit score</span>
@@ -272,7 +272,7 @@ const CustomerDetails = async ({ params }: IDParam) => {
                   Last upgrade check {formatDateTime(loan.lastUpgradeCheck)}
                 </p>
               </Card>
-            )}
+            )} */}
 
             <Card title="Verification & risk">
               <div className="flex items-center justify-between">

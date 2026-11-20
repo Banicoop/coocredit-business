@@ -1,17 +1,30 @@
+
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+
 import { LoanGuarantorProps } from '@/types/domains/loan.types';
 import GuarantorSection from '../../_sections/GuarantorSection';
 import AddGuarantorDocumentModal from '../../@modals/AddGuarantorDocumentModal';
 
+import {
+  uploadToCloudinary,
+  addGurantorDocument,
+} from '@/lib/uploads/file-uploads';
 
 type Guarantor = NonNullable<LoanGuarantorProps['guarantors']>[number];
 
-const LoanGuarantor = ({ guarantors, signature }: LoanGuarantorProps) => {
-  const [selectedGuarantor, setSelectedGuarantor] = useState<Guarantor | null>(
-    null
-  );
+const LoanGuarantor = ({
+  guarantors,
+  signature,
+}: LoanGuarantorProps) => {
+  const router = useRouter();
+
+  const [selectedGuarantor, setSelectedGuarantor] =
+    useState<Guarantor | null>(null);
+
   const [documentModalOpen, setDocumentModalOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -27,6 +40,7 @@ const LoanGuarantor = ({ guarantors, signature }: LoanGuarantorProps) => {
     setSelectedGuarantor(null);
   };
 
+
   const handleRemoveDocument = async (
     guarantorId: string,
     documentId: string
@@ -34,13 +48,11 @@ const LoanGuarantor = ({ guarantors, signature }: LoanGuarantorProps) => {
     if (!guarantorId || !documentId) return;
 
     try {
-      // TODO: replace with the real delete endpoint for this app.
-      // await fetch(`/api/loans/guarantors/${guarantorId}/documents/${documentId}`, {
-      //   method: 'DELETE',
-      // });
-      console.log('Removing document', documentId, 'for guarantor', guarantorId);
+      // Implement the document deletion endpoint here.
+      console.log('Removing document:', { guarantorId, documentId });
     } catch (error) {
-      console.error('Failed to remove guarantor document', error);
+      console.error('Failed to remove guarantor document:', error);
+      toast.error('Failed to remove document');
     }
   };
 
@@ -53,32 +65,68 @@ const LoanGuarantor = ({ guarantors, signature }: LoanGuarantorProps) => {
     documentType: string;
     file: File;
   }) => {
+    if (isUploading) return;
+
     setIsUploading(true);
 
+    if (
+    !signature?.timestamp ||
+    !signature.signature ||
+    !signature.cloudName ||
+    !signature.apiKey
+  ) {
+    throw new Error('Invalid Cloudinary signature');
+  }
+    
     try {
-      const formData = new FormData();
-      formData.append('documentType', documentType);
-      formData.append('file', file);
-
-      // TODO: replace with the real upload endpoint for this app.
-      // await fetch(`/api/loans/guarantors/${guarantor._id}/documents`, {
-      //   method: 'POST',
-      //   body: formData,
-      // });
-      console.log('Uploading document for guarantor', guarantor._id, {
-        documentType,
+      // Step 1: Upload document to Cloudinary
+      const cloudinaryResponse = (await uploadToCloudinary({
+        ...signature,
         file,
+        folder: 'uploads',
+      })) as { secure_url?: string };
+
+      const cloudinaryUrl = cloudinaryResponse.secure_url;
+
+      if (!cloudinaryUrl) {
+        throw new Error('Cloudinary upload failed. No file URL returned.');
+      }
+
+      // Step 2: Save document details to the database
+      await addGurantorDocument({
+        guarantorId: guarantor._id,
+        verificationDocument: {
+          type: documentType,
+          url: cloudinaryUrl,
+          mime: file.type,
+        },
       });
 
-      handleCloseDocumentModal();
+      // Step 3: Notify user
+      toast.success(
+        `${documentType.replace(/-/g, ' ')} uploaded successfully`
+      );
+
+      // Step 4: Close modal after successful upload
+      setDocumentModalOpen(false);
+      setSelectedGuarantor(null);
+
+      // Step 5: Refresh server data
+      router.refresh();
     } catch (error) {
-      console.error('Failed to upload guarantor document', error);
+      console.error('Failed to upload guarantor document:', error);
+
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : 'Failed to upload guarantor document. Please try again.'
+      );
     } finally {
       setIsUploading(false);
     }
   };
 
-    // console.log('guarantors:', guarantors);
+  console.log('guarantor:', guarantors);
 
   return (
     <>
@@ -86,7 +134,7 @@ const LoanGuarantor = ({ guarantors, signature }: LoanGuarantorProps) => {
         guarantors={guarantors}
         signature={signature}
         onAddDocument={handleAddDocument}
-        //@ts-ignore
+        // @ts-ignore
         onRemoveDocument={handleRemoveDocument}
       />
 

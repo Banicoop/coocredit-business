@@ -63,3 +63,28 @@ export const addBusinessDocument = async ({ loanId, loanRequestDocument }: {
     throw error;
   }
 };
+
+
+export const addGurantorDocument = async ({ guarantorId, verificationDocument }: {
+  guarantorId: string;
+  verificationDocument: {
+    type: string;
+    url: string;
+    mime: string;
+  };
+}) => {
+   const token = await getAccessToken();
+  try {
+    const response = await SERVER.post('business-users/guarantors/documents/add', {
+        guarantorId,
+        verificationDocument,
+      }, { token }
+    );
+    console.log('addBusinessDocument response:', response);
+    return response;
+  } catch (error) {
+    console.error('Error adding business verification document:', error);
+    throw error;
+  }
+};
+

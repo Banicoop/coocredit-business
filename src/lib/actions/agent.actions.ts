@@ -42,8 +42,6 @@ export const verifyLoanPin = async (
       { token }
     ) as any;
 
-    console.info('token:', response.data?.data?.pinVerificationToken?.token);
-
     if (response.error || !response.data) {
       return {
         success: false as const,
@@ -70,35 +68,48 @@ export const verifyLoanPin = async (
 };
 
 
-export const newLoanAction = async (payload: LoanApplicationPayload) => {
-  const token = await getAccessToken();
-    try {
-      const res = await SERVER.post('business-users/loans/apply', payload, 
-        { token }
-      );
-
-      console.info('res:', res);
-      if (res.error || !res.data) {
-        return {
-          success: false as const,
-          error: res.error || "PIN verification failed.",
-        };
-      }
-
-      return {
-        success: true as const,
-        message: res.message || 'Loan application successful!',
-        data: res.data,
-      };
-        
-    } catch (error) {
-        return {
-          success: false as const,
-          error:
-            error instanceof Error
-              ? error.message
-              : "Unable to verify PIN. Please try again.",
-        };
+export type NewLoanResponse =
+  | {
+      success: true;
+      message: string;
+      data: any;
     }
-}
+  | {
+      success: false;
+      error: string;
+    };
 
+export const newLoanAction = async (
+  payload: LoanApplicationPayload
+): Promise<NewLoanResponse> => {
+  try {
+    const token = await getAccessToken();
+
+    const res = await SERVER.post(
+      "business-users/loans/apply",
+      payload,
+      { token }
+    );
+
+    if (res.error || !res.data) {
+      return {
+        success: false,
+        error: res.error || "Unable to process loan application.",
+      };
+    }
+
+    return {
+      success: true,
+      message: res.message || "Loan application successful!",
+      data: res.data,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error instanceof Error
+          ? error.message
+          : "Unable to submit loan application. Please try again.",
+    };
+  }
+};
