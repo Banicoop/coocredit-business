@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -9,22 +10,21 @@ import {
   Upload,
   X,
 } from 'lucide-react';
+
 import { LoanGuarantorProps } from '@/types/domains/loan.types';
 import { formatDocumentType } from '@/helpers/funcs';
 
-// Reuse the same Guarantor shape as the rest of the guarantor UI instead of
-// redefining a slightly different local type.
 type Guarantor = NonNullable<LoanGuarantorProps['guarantors']>[number];
 
 type AddGuarantorDocumentModalProps = {
   open: boolean;
   guarantor: Guarantor | null;
   onClose: () => void;
-  onUpload?: (payload: {
+  onUpload: (payload: {
     guarantor: Guarantor;
     documentType: string;
     file: File;
-  }) => void;
+  }) => Promise<void>;
   isUploading?: boolean;
 };
 
@@ -60,6 +60,10 @@ const AddGuarantorDocumentModal = ({
       setDocumentType('');
       setSelectedFile(null);
       setFileError('');
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   }, [open]);
 
@@ -71,18 +75,23 @@ const AddGuarantorDocumentModal = ({
     if (!file) return;
 
     const isValidType =
-      file.type.startsWith('image/') || file.type === 'application/pdf';
-    const isValidSize = file.size <= MAX_FILE_SIZE_MB * 1024 * 1024;
+      file.type.startsWith('image/') ||
+      file.type === 'application/pdf';
+
+    const isValidSize =
+      file.size <= MAX_FILE_SIZE_MB * 1024 * 1024;
 
     if (!isValidType) {
       setFileError('Only PDF, JPG, JPEG or PNG files are supported.');
       setSelectedFile(null);
+      event.target.value = '';
       return;
     }
 
     if (!isValidSize) {
       setFileError(`File must be smaller than ${MAX_FILE_SIZE_MB}MB.`);
       setSelectedFile(null);
+      event.target.value = '';
       return;
     }
 
@@ -91,19 +100,30 @@ const AddGuarantorDocumentModal = ({
   };
 
   const handleChooseFile = () => {
-    if (!documentType) return;
+    if (!documentType || isUploading) return;
 
     fileInputRef.current?.click();
   };
 
-  const handleUpload = () => {
-    if (!selectedFile || !documentType || !onUpload) return;
+  const handleUpload = async () => {
+    if (
+      !selectedFile ||
+      !documentType ||
+      isUploading
+    ) {
+      return;
+    }
 
-    onUpload({
-      guarantor,
-      documentType,
-      file: selectedFile,
-    });
+    try {
+      await onUpload({
+        guarantor,
+        documentType,
+        file: selectedFile,
+      });
+    } catch (error) {
+      // Parent handles upload errors and notifications.
+      console.error('Guarantor document upload error:', error);
+    }
   };
 
   const handleClose = () => {
@@ -112,6 +132,11 @@ const AddGuarantorDocumentModal = ({
     setSelectedFile(null);
     setDocumentType('');
     setFileError('');
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+
     onClose();
   };
 
@@ -170,7 +195,6 @@ const AddGuarantorDocumentModal = ({
                 setSelectedFile(null);
                 setFileError('');
 
-                // Reset input so the same file can be selected again
                 if (fileInputRef.current) {
                   fileInputRef.current.value = '';
                 }
@@ -193,8 +217,9 @@ const AddGuarantorDocumentModal = ({
             ref={fileInputRef}
             type="file"
             className="hidden"
-            accept="image/*,.pdf"
+            accept="image/png,image/jpeg,image/jpg,application/pdf"
             onChange={handleFileSelect}
+            disabled={isUploading}
           />
 
           {/* File picker */}
@@ -252,7 +277,7 @@ const AddGuarantorDocumentModal = ({
                     }
                   }}
                   disabled={isUploading}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition hover:bg-white hover:text-red-500"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-slate-400 transition hover:bg-white hover:text-red-500 disabled:opacity-50"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -265,7 +290,11 @@ const AddGuarantorDocumentModal = ({
             </div>
           )}
 
-          {fileError && <p className="text-xs text-red-600">{fileError}</p>}
+          {fileError && (
+            <p className="text-xs text-red-600">
+              {fileError}
+            </p>
+          )}
         </div>
 
         {/* Footer */}
@@ -304,4 +333,3 @@ const AddGuarantorDocumentModal = ({
 };
 
 export default AddGuarantorDocumentModal;
-

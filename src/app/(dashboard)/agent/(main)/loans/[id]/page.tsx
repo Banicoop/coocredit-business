@@ -56,7 +56,7 @@ const LoanDetails = async ({ params }: LoanRepaymentHistoryProps) => {
   const guarantoRres = (await agentGuarantorInfo(data?.loanId)) as any
   // console.info('guarantors:', guarantors);
 
-  console.info('docs:', data?.loanDocuments);
+  // console.info('docs:', data?.loanDocuments);
 
   const tabs = [
     {

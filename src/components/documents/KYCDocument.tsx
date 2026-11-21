@@ -39,9 +39,9 @@ const KycDocuments = ({ documents = [], className }: KycDocumentsProps) => {
 
   return (
     <div className={cn("grid grid-cols-1 gap-4 sm:grid-cols-2", className)}>
-      {documents.map((doc) => (
+      {documents.map((doc, index) => (
         <a
-          key={doc._id}
+          key={index}
           href={doc.documentURL}
           target="_blank"
           rel="noreferrer"

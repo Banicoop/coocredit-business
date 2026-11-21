@@ -7,7 +7,8 @@ import { loanQueryKeys } from './queries/keys';
 import { GetLoansParams, RepaymentQuery } from '@/types/domains/loan.types';
 import { approveBusinessLoans, rejectBusinessLoans } from '../actions/manager.actions';
 import { unwrap } from '../api';
-import { verifyLoanPin, VerifyLoanPinPayload } from "../actions/agent.actions";
+import { newLoanAction, verifyLoanPin, VerifyLoanPinPayload } from "../actions/agent.actions";
+import { LoanApplicationPayload } from "@/schema/loan.schema";
 
 
 
@@ -169,3 +170,31 @@ export function useVerifyLoanPin() {
     },
   });
 }
+
+
+export const useNewLoan = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (payload: LoanApplicationPayload) => {
+      const response = await newLoanAction(payload);
+
+      if (!response.success) {
+        throw new Error(response.error);
+      }
+
+      return response;
+    },
+
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({
+          queryKey: ["loans"],
+        }),
+        queryClient.invalidateQueries({
+          queryKey: ["business-loans"],
+        }),
+      ]);
+    },
+  });
+};
