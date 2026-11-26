@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FormProvider, useForm, FieldPath, Controller, useFormContext } from "react-hook-form";
+import { FormProvider, useForm, FieldPath, FieldErrors } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import GuarantorFields from "./GuarantorFields";
 import { TextField } from "@/components/primitives/inputs/TextField";
@@ -24,20 +24,19 @@ interface NewLoanApplicationProps {
 
 /**
  * Step order (must match LOAN_APPLICATION_STEPS in "@/constant/data"):
- * 0 = PIN verification
- * 1 = Loan details
- * 2 = Guarantors
+ * 0 = Loan details
+ * 1 = Guarantors
+ * 2 = PIN verification
  * 3 = Review
  */
 const STEP = {
-  PIN: 0,
-  DETAILS: 1,
-  GUARANTORS: 2,
+  DETAILS: 0,
+  GUARANTORS: 1,
+  PIN: 2,
   REVIEW: 3,
 } as const;
 
 const STEP_FIELDS: FieldPath<LoanApplicationPayload>[][] = [
-  ["pinVerificationToken.customer", "pinVerificationToken.agent"], // 0 PIN
   [
     "amount",
     "loanTenure",
@@ -45,8 +44,9 @@ const STEP_FIELDS: FieldPath<LoanApplicationPayload>[][] = [
     "purpose",
     "excludeWeekends",
     "interestRate",
-  ], // 1 Details
-  ["guarantors"], // 2 Guarantors
+  ], // 0 Details
+  ["guarantors"], // 1 Guarantors
+  ["pinVerificationToken.customer", "pinVerificationToken.agent"], // 2 PIN
   [], // 3 Review
 ];
 
@@ -64,7 +64,7 @@ const NewLoanApplication = ({
   userId,
   onSubmit,
 }: NewLoanApplicationProps) => {
-  const [currentStep, setCurrentStep] = useState<number>(STEP.PIN);
+  const [currentStep, setCurrentStep] = useState<number>(STEP.DETAILS);
 
   const methods = useForm<
     LoanApplicationPayload,
@@ -77,7 +77,7 @@ const NewLoanApplication = ({
     defaultValues: {
       businessId,
       userId,
-      amount: '',
+      amount: "",
       excludeWeekends: false,
       interestRate: 0,
       loanTenure: 0,
@@ -111,36 +111,52 @@ const NewLoanApplication = ({
   const formValues = watch();
 
   const lastStepIndex = LOAN_APPLICATION_STEPS.length - 1;
-  const isFirstStep = currentStep === STEP.PIN;
-  const isLastStep = currentStep === lastStepIndex;
   const isPinStep = currentStep === STEP.PIN;
+  const isLastStep = currentStep === lastStepIndex;
+  // Review has its own "Edit" and "Re-verify" actions, so no "Previous" there:
+  // an accidental click would throw away both verifications.
+  const canGoBack = currentStep > STEP.DETAILS && !isLastStep;
 
   const clearTokens = () => {
     setValue("pinVerificationToken.customer", "");
     setValue("pinVerificationToken.agent", "");
   };
 
-  /** Jump to a step. Re-entering the PIN step wipes stale tokens. */
+  /**
+   * Jump to a step. Going to the PIN step or anything before it wipes the
+   * tokens, so the PINs always authorize the details that get submitted.
+   */
   const goToStep = (step: number) => {
-    if (step === STEP.PIN) clearTokens();
+    if (step <= STEP.PIN) clearTokens();
     setCurrentStep(step);
   };
 
   const goNext = async () => {
-    const fields = STEP_FIELDS[currentStep];
-
-    const isValid = await trigger(fields, { shouldFocus: true });
-    // if (!isValid) return;
+    const isValid = await trigger(STEP_FIELDS[currentStep], {
+      shouldFocus: true,
+    });
+    if (!isValid) return;
 
     setCurrentStep((prev) => Math.min(prev + 1, lastStepIndex));
   };
 
   const goBack = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 0));
+    goToStep(Math.max(currentStep - 1, STEP.DETAILS));
   };
 
   const submitApplication = async (data: LoanApplicationPayload) => {
     await onSubmit(data);
+  };
+
+  /** If final validation fails, take the user to the first step with an error. */
+  const handleInvalidSubmit = (
+    formErrors: FieldErrors<LoanApplicationPayload>,
+  ) => {
+    const invalidStep = [STEP.DETAILS, STEP.GUARANTORS, STEP.PIN].find((step) =>
+      STEP_FIELDS[step].some((field) => field.split(".")[0] in formErrors),
+    );
+
+    if (invalidStep !== undefined) goToStep(invalidStep);
   };
 
   const handleFormSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -154,7 +170,7 @@ const NewLoanApplication = ({
       return;
     }
 
-    void handleSubmit(submitApplication)(event);
+    void handleSubmit(submitApplication, handleInvalidSubmit)(event);
   };
 
   const formatCurrency = (value: string | number) => {
@@ -245,27 +261,7 @@ const NewLoanApplication = ({
         </div>
 
         <form onSubmit={handleFormSubmit} className="space-y-6">
-          {/* STEP 0: PIN VERIFICATION */}
-          {currentStep === STEP.PIN && (
-            <PinVerification
-              userId={userId}
-              onCustomerVerified={(token) =>
-                setValue("pinVerificationToken.customer", token, {
-                  shouldValidate: true,
-                })
-              }
-              onAgentVerified={(token) => {
-                setValue("pinVerificationToken.agent", token, {
-                  shouldValidate: true,
-                });
-                // Advance only after BOTH PINs are verified.
-                setCurrentStep(STEP.DETAILS);
-              }}
-              onReset={clearTokens}
-            />
-          )}
-
-          {/* STEP 1: LOAN DETAILS */}
+          {/* STEP 0: LOAN DETAILS */}
           {currentStep === STEP.DETAILS && (
             <section className="rounded-xl border border-gray-200 bg-white p-6">
               <div className="mb-6">
@@ -288,39 +284,45 @@ const NewLoanApplication = ({
                   desc={errors.amount?.message}
                 />
 
-                <CustomSelect
-                  label="Loan Tenure"
-                  className="text-[#94A3B8] border"
-                  wrapperClass="h-11"
-                  {...register("loanTenure", {
-                    valueAsNumber: true,
-                  })}
-                  options={[
-                    { value: 1, label: "1 month" },
-                    { value: 2, label: "2 months" },
-                    { value: 3, label: "3 months" },
-                    { value: 4, label: "4 months" },
-                    { value: 6, label: "6 months" },
-                    { value: 12, label: "12 months" },
-                  ]}
-                />
+                <div>
+                  <CustomSelect
+                    label="Loan Tenure"
+                    className="text-[#94A3B8] border"
+                    wrapperClass="h-11"
+                    {...register("loanTenure", {
+                      valueAsNumber: true,
+                    })}
+                    options={[
+                      { value: 1, label: "1 month" },
+                      { value: 2, label: "2 months" },
+                      { value: 3, label: "3 months" },
+                      { value: 4, label: "4 months" },
+                      { value: 6, label: "6 months" },
+                      { value: 12, label: "12 months" },
+                    ]}
+                  />
+                  <FieldError message={errors.loanTenure?.message} />
+                </div>
 
-                <CustomSelect
-                  label="Repayment Frequency"
-                  className="text-[#94A3B8] border"
-                  wrapperClass="h-11"
-                  {...register("repaymentFrequency", {
-                    valueAsNumber: true,
-                  })}
-                  options={[
-                    { value: 1, label: "Daily" },
-                    { value: 2, label: "Two days" },
-                    { value: 3, label: "Three days" },
-                    { value: 7, label: "Weekly" },
-                    { value: 14, label: "Every 14 Days" },
-                    { value: 30, label: "Monthly" },
-                  ]}
-                />
+                <div>
+                  <CustomSelect
+                    label="Repayment Frequency"
+                    className="text-[#94A3B8] border"
+                    wrapperClass="h-11"
+                    {...register("repaymentFrequency", {
+                      valueAsNumber: true,
+                    })}
+                    options={[
+                      { value: 1, label: "Daily" },
+                      { value: 2, label: "Two days" },
+                      { value: 3, label: "Three days" },
+                      { value: 7, label: "Weekly" },
+                      { value: 14, label: "Every 14 Days" },
+                      { value: 30, label: "Monthly" },
+                    ]}
+                  />
+                  <FieldError message={errors.repaymentFrequency?.message} />
+                </div>
 
                 <TextField
                   label="Loan Purpose"
@@ -366,11 +368,31 @@ const NewLoanApplication = ({
             </section>
           )}
 
-          {/* STEP 2: GUARANTORS */}
+          {/* STEP 1: GUARANTORS */}
           {currentStep === STEP.GUARANTORS && (
             <section className="rounded-xl border border-gray-200 bg-white p-6">
               <GuarantorFields />
             </section>
+          )}
+
+          {/* STEP 2: PIN VERIFICATION */}
+          {currentStep === STEP.PIN && (
+            <PinVerification
+              userId={userId}
+              onCustomerVerified={(token) =>
+                setValue("pinVerificationToken.customer", token, {
+                  shouldValidate: true,
+                })
+              }
+              onAgentVerified={(token) => {
+                setValue("pinVerificationToken.agent", token, {
+                  shouldValidate: true,
+                });
+                // Advance only after BOTH PINs are verified.
+                setCurrentStep(STEP.REVIEW);
+              }}
+              onReset={clearTokens}
+            />
           )}
 
           {/* STEP 3: REVIEW APPLICATION */}
@@ -391,7 +413,8 @@ const NewLoanApplication = ({
                   <button
                     type="button"
                     onClick={() => goToStep(STEP.DETAILS)}
-                    className="text-sm font-medium text-primary"
+                    disabled={isSubmitting}
+                    className="text-sm font-medium text-primary disabled:opacity-50"
                   >
                     Edit
                   </button>
@@ -453,7 +476,8 @@ const NewLoanApplication = ({
                   <button
                     type="button"
                     onClick={() => goToStep(STEP.GUARANTORS)}
-                    className="text-sm font-medium text-primary"
+                    disabled={isSubmitting}
+                    className="text-sm font-medium text-primary disabled:opacity-50"
                   >
                     Edit
                   </button>
@@ -513,7 +537,8 @@ const NewLoanApplication = ({
                   <button
                     type="button"
                     onClick={() => goToStep(STEP.PIN)}
-                    className="text-sm font-medium text-primary"
+                    disabled={isSubmitting}
+                    className="text-sm font-medium text-primary disabled:opacity-50"
                   >
                     Re-verify
                   </button>
@@ -521,13 +546,13 @@ const NewLoanApplication = ({
 
                 <div className="space-y-3">
                   <VerificationStatus
-                    label="Agent PIN Verification"
-                    verified={!!formValues.pinVerificationToken?.agent}
+                    label="Customer PIN Verification"
+                    verified={!!formValues.pinVerificationToken?.customer}
                   />
 
                   <VerificationStatus
-                    label="Customer PIN Verification"
-                    verified={!!formValues.pinVerificationToken?.customer}
+                    label="Agent PIN Verification"
+                    verified={!!formValues.pinVerificationToken?.agent}
                   />
                 </div>
               </div>
@@ -539,66 +564,67 @@ const NewLoanApplication = ({
                 <p className="mt-1 text-xs leading-5 text-amber-700">
                   Please ensure that all information provided is accurate.
                   Submitting this application will send the loan request for
-                  processing.
+                  processing. Editing any details will require both PINs to be
+                  verified again.
                 </p>
               </div>
             </section>
           )}
 
-          {/* Navigation Buttons (hidden on the PIN step, which advances itself) */}
-          {!isPinStep && (
-            <div className="flex flex-col-reverse justify-between gap-3 sm:flex-row">
-              <div>
-                {/* Going back from Details to the PIN step is not allowed:
-                    tokens are single-use, so re-verification is explicit. */}
-                {currentStep > STEP.DETAILS && !isFirstStep && (
-                  <Button
-                    key="previous"
-                    type="button"
-                    variant="outline"
-                    onClick={goBack}
-                    disabled={isSubmitting}
-                    className="w-full sm:w-auto"
-                  >
-                    Previous
-                  </Button>
-                )}
-              </div>
-
-              <div>
-                {/* Distinct keys stop React from reusing the same DOM button
-                    and letting the "Continue" click fire a submit. */}
-                {!isLastStep ? (
-                  <Button
-                    key="continue"
-                    type="button"
-                    variant="primary"
-                    onClick={goNext}
-                    className="w-full sm:w-auto"
-                  >
-                    Continue
-                  </Button>
-                ) : (
-                  <Button
-                    key="submit"
-                    type="submit"
-                    variant="primary"
-                    disabled={isSubmitting}
-                    className="w-full sm:w-auto"
-                  >
-                    {isSubmitting
-                      ? "Submitting Application..."
-                      : "Submit Loan Application"}
-                  </Button>
-                )}
-              </div>
+          {/* Navigation Buttons */}
+          <div className="flex flex-col-reverse justify-between gap-3 sm:flex-row">
+            <div>
+              {canGoBack && (
+                <Button
+                  key="previous"
+                  type="button"
+                  variant="outline"
+                  onClick={goBack}
+                  disabled={isSubmitting}
+                  className="w-full sm:w-auto"
+                >
+                  Previous
+                </Button>
+              )}
             </div>
-          )}
+
+            <div>
+              {/* No right-hand button on the PIN step: it advances itself.
+                  Distinct keys stop React from reusing the same DOM button
+                  and letting the "Continue" click fire a submit. */}
+              {isLastStep ? (
+                <Button
+                  key="submit"
+                  type="submit"
+                  variant="primary"
+                  disabled={isSubmitting}
+                  className="w-full sm:w-auto"
+                >
+                  {isSubmitting
+                    ? "Submitting Application..."
+                    : "Submit Loan Application"}
+                </Button>
+              ) : !isPinStep ? (
+                <Button
+                  key="continue"
+                  type="button"
+                  variant="primary"
+                  onClick={goNext}
+                  className="w-full sm:w-auto"
+                >
+                  Continue
+                </Button>
+              ) : null}
+            </div>
+          </div>
         </form>
       </div>
     </FormProvider>
   );
 };
+
+const FieldError = ({ message }: { message?: string }) =>
+  message ? <p className="mt-1.5 text-xs text-red-500">{message}</p> : null;
 
 const ReviewItem = ({
   label,

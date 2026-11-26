@@ -1,6 +1,6 @@
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Grid } from '@/components/ui/ui-layout';
-import { getAllcommission } from '@/lib/api.agent';
+import { getAllcommission, getCommissionDist } from '@/lib/api.agent';
 import { Commission } from '@/types/domains/commission.type';
 
 
@@ -64,8 +64,9 @@ function SummaryCard({
 
 const AgentCommission = async () => {
   const res = (await getAllcommission()) as any;
+  const res2 = await getCommissionDist()
 
-  console.info('res:', res);
+  // console.info('res:', res2);
 
   // Adjust this line if your API wraps the array one level deeper.
   const commissions: Commission[] = Array.isArray(res?.data)

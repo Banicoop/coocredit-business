@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -63,6 +63,16 @@ const PinVerification = ({
 
   const isBusy = isPending;
 
+  // The user can leave this step while a request is still in flight. Ignore the
+  // response then, so a late token can't be stored or move the parent forward.
+  const isMounted = useRef(true);
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
   // STEP 1: Verify customer PIN
   const verifyCustomerPin = async () => {
     if (!userId || isBusy) return;
@@ -79,7 +89,7 @@ const PinVerification = ({
       });
 
       const token = extractToken(res);
-      if (!token) return; // no token => don't advance
+      if (!token || !isMounted.current) return; // don't advance
 
       onCustomerVerified(token);
       setCustomerVerified(true);
@@ -104,7 +114,7 @@ const PinVerification = ({
       });
 
       const token = extractToken(res);
-      if (!token) return;
+      if (!token || !isMounted.current) return;
 
       resetField("agentPin");
       onAgentVerified(token); // parent stores the token and advances
@@ -148,8 +158,8 @@ const PinVerification = ({
             PIN Verification
           </h2>
           <p className="mt-1 text-sm leading-5 text-gray-500">
-            Verify the customer and agent PINs to proceed with the loan
-            application.
+            Verify the customer and agent PINs before reviewing and submitting
+            the loan application.
           </p>
         </div>
       </div>

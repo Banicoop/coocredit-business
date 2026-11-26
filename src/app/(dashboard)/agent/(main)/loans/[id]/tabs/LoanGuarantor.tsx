@@ -126,7 +126,7 @@ const LoanGuarantor = ({
     }
   };
 
-  console.log('guarantor:', guarantors);
+  // console.log('guarantor:', guarantors);
 
   return (
     <>
