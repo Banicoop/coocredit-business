@@ -108,13 +108,13 @@ const LoanApplicationTable = ({data, error, pagination}: {data: any, error: stri
   return (
     <BasicTable 
         columns={columns} 
-        data={data ?? []} 
+        data={data} 
         title={<Title/>} 
         error={error}
         emptyMessage='No Available Loan'
         pagination
         paginationMeta={pagination}
-        />
+    />
   )
 }
 

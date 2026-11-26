@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { BackButton } from "@/components/primitives/buttons/BackButton";
 import { FlexCol } from "@/components/ui/ui-layout";
-// import { newLoanAction } from "@/lib/actions/agent.actions";
 import { LoanApplicationPayload } from "@/schema/loan.schema";
 import NewLoanApplication from "../_sections/NewLoanApplication";
 import { CardSkeleton } from "@/helpers/skeleton";
